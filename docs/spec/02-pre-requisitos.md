@@ -35,6 +35,8 @@ Instalar com `winget` num terminal PowerShell. Após instalar, abrir um terminal
 | 14 | Claude Code | Atual | Extensão do VS Code ou CLI | `claude --version` |
 | 15 | Azure CLI (só cloud opcional) | Atual | `winget install Microsoft.AzureCLI` | `az version` |
 | 16 | mkcert (HTTPS local) | Atual | `winget install FiloSottile.mkcert` | `mkcert -help` |
+| 17 | PowerShell 7 (hooks de git e scripts) | 7.x | `winget install Microsoft.PowerShell` | `pwsh --version` |
+| 18 | Node.js LTS (MCP do Playwright) | LTS | `winget install OpenJS.NodeJS.LTS` | `node --version` |
 
 ### Extensões do VS Code
 
