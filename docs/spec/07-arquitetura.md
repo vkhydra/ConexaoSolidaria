@@ -96,7 +96,7 @@ sequenceDiagram
 **Pontos de consistência:**
 - O passo 5 é atômico: ou a doação foi aceita e o evento será publicado, ou nada aconteceu.
 - O passo 8 é atômico: idempotência, total e próximo evento na mesma transação.
-- O passo 9 (MongoDB) é idempotente por `doacaoId`; se falhar, a mensagem é reprocessada e o passo 8 é ignorado pela idempotência, mas o 9 é refeito. Para isso, o Worker verifica no MongoDB antes de concluir.
+- O passo 9 (MongoDB) fica fora da transação. Se falhar, a mensagem é reentregue: o passo 8 detecta a duplicata e não soma de novo, mas o Worker **sempre** executa os passos 9 e 10, que são idempotentes (upsert por `doacaoId` e remoção de chave). Assim o livro de doações fica completo mesmo após falhas.
 - O passo 10 é "melhor esforço": se falhar, o cache expira sozinho em 30 s.
 
 ## 7.5 Fluxo da campanha (indexação)
