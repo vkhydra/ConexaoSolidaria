@@ -54,7 +54,7 @@ Legenda de status: **Obrigatório** (enunciado), **Aplicado** (escolha do projet
 | | Compose | Stack completa | Aplicado | 10 | `conceitos/docker-compose` |
 | | Segurança de imagens | Não root, Trivy | Aplicado | 10, 14 | `conceitos/seguranca-de-imagens-docker` |
 | Kubernetes | Deployments, Services, ConfigMaps | Manifestos `.yaml` | Obrigatório | 11 | `disciplinas/kubernetes` |
-| | Secrets | Gerados por script | Aplicado | 11 | `conceitos/secrets-kubernetes` |
+| | Secrets | Gerados por script | Aplicado | 11 | `conceitos/configmap` |
 | | Probes | live, ready, startup | Aplicado | 11 | `conceitos/probes-kubernetes` |
 | | HPA | APIs | Aplicado | 11 | `conceitos/hpa` |
 | | Volumes | PVC nos StatefulSets | Aplicado | 11 | `conceitos/persistent-volume-e-pvc` |
