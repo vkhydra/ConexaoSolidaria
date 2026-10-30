@@ -43,7 +43,7 @@ Obrigatório (teste antes do código, ciclo vermelho → verde → refatorar) em
 | `Campanha` | Criar válida; data fim passada; meta 0 e negativa; editar não ativa; concluir; cancelar; transições inválidas; `PodeReceberDoacao` (antes do início, no período, depois do fim, encerrada); `RegistrarDoacaoProcessada`; `PercentualAtingido` |
 | `Usuario` | Cadastro sem consentimento; anonimizar; anonimizar duas vezes; senha após anonimizar |
 
-Os commits mostram o ciclo: `✅ test(campanhas): ...` (falhando só na branch local, nunca commitado quebrado) → na prática, para manter "todo commit compila e passa", teste e implementação mínima vão **no mesmo commit**; a refatoração vem em commit separado (`♻️ refactor`).
+Como todo commit precisa compilar e passar nos testes, o teste e a implementação mínima que o faz passar vão **no mesmo commit** (`✨ feat`). A refatoração do ciclo vai em commit separado (`♻️ refactor`). O teste falhando existe só na máquina de quem desenvolve, nunca no histórico.
 
 ## 15.4 Testes de integração obrigatórios
 
