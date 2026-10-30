@@ -81,7 +81,7 @@ O quadro do Miro é exportado para `docs/ddd/event-storming-*.png` na Etapa 2.
 | `RegistrarDoacaoProcessada(valor)` | `valor > 0` | Soma ao total (aceita mesmo se encerrada depois do aceite) | `doacao.valor_invalido` |
 | `PercentualAtingido` | — | `Total / Meta × 100`, 2 casas | — |
 
-Na prática, o Worker soma o total com `UPDATE` atômico no banco ([09 — Dados](10-dados.md)) por desempenho e para evitar conflito de concorrência; o método `RegistrarDoacaoProcessada` documenta e testa a regra, e o `UPDATE` reproduz a mesma regra.
+Na prática, o Worker soma o total com `UPDATE` atômico no banco ([10 — Dados](10-dados.md)) por desempenho e para evitar conflito de concorrência; o método `RegistrarDoacaoProcessada` documenta e testa a regra, e o `UPDATE` reproduz a mesma regra.
 
 Erros de domínio são retornados como `Result` (sem exceções para fluxo de negócio) e convertidos em 422 na API.
 
