@@ -26,7 +26,7 @@ O MVP digitaliza a gestão de campanhas e doações com foco em **escalabilidade
 - **CI/CD:** GitHub Actions faz build, testes e a imagem Docker a cada push na `main`.
 - **Frontend:** Blazor.
 
-Detalhes, diagrama e decisões: [docs/SPEC.md](docs/SPEC.md).
+Detalhes, diagramas e decisões: [docs/spec/07-arquitetura.md](docs/spec/07-arquitetura.md) e [docs/spec/08-decisoes-arquiteturais.md](docs/spec/08-decisoes-arquiteturais.md).
 
 ## Estrutura do repositório
 
@@ -41,7 +41,7 @@ Detalhes, diagrama e decisões: [docs/SPEC.md](docs/SPEC.md).
 
 ## Como executar localmente
 
-Pré-requisitos e passo a passo completos estão nas etapas 0 e 11 da [especificação](docs/SPEC.md). Esta seção receberá os comandos finais na etapa de conclusão.
+Pré-requisitos em [docs/spec/02-pre-requisitos.md](docs/spec/02-pre-requisitos.md). O passo a passo de subida está em [docs/spec/13-infraestrutura.md](docs/spec/13-infraestrutura.md) e receberá os comandos finais na Etapa 17 do [plano de execução](docs/spec/20-plano-de-execucao.md).
 
 ## Convenção de commits
 
@@ -51,11 +51,11 @@ Commits semânticos ([Conventional Commits](https://www.conventionalcommits.org/
 <gitmoji> <tipo>(<escopo opcional>): <descrição no imperativo>
 ```
 
-Exemplo: `✨ feat(campanhas): adiciona criação de campanha`. Todo commit deve compilar e passar nos testes. As regras completas estão na seção 5 da [especificação](docs/SPEC.md).
+Exemplo: `✨ feat(campanhas): adiciona criação de campanha`. Todo commit deve compilar e passar nos testes. As regras completas estão em [docs/spec/17-git-e-commits.md](docs/spec/17-git-e-commits.md).
 
 ## Documentação
 
-- [Especificação do projeto](docs/SPEC.md): dos pré-requisitos à conclusão
+- [Especificação do projeto](docs/SPEC.md): índice dos 21 arquivos, dos pré-requisitos à conclusão
 - [Roteiro do vídeo](docs/ROTEIRO-VIDEO.md): apresentação de até 15 minutos
 
 ## Equipe
