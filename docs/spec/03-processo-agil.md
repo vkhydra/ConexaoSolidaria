@@ -20,7 +20,7 @@ Em grupo pequeno, PO e Scrum Master acumulam papel de Developer.
 
 ## 3.3 Sprints
 
-Ajustar as datas ao prazo de entrega da FIAP. A sprint só termina com o incremento cumprindo a [Definition of Done](#36-definition-of-done-dod).
+Ajustar as datas ao prazo de entrega da FIAP. A sprint só termina com o incremento cumprindo a [Definition of Done](#37-definition-of-done-dod).
 
 | Sprint | Meta da sprint | Etapas do plano |
 |---|---|---|
