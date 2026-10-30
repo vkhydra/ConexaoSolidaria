@@ -1,0 +1,96 @@
+# =============================================================
+# Conexão Solidária — .gitignore
+# Stack: .NET 10, Docker, Kubernetes, Azure Functions, Bicep
+# =============================================================
+
+# ---------- .NET / build ----------
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+[Ll]og/
+[Ll]ogs/
+artifacts/
+publish/
+*.nupkg
+*.snupkg
+project.lock.json
+project.fragment.lock.json
+*.dll.config
+.dotnet/
+
+# ---------- Testes e cobertura ----------
+[Tt]est[Rr]esult*/
+*.trx
+coverage/
+coveragereport/
+*.coverage
+*.coveragexml
+coverage*.json
+coverage*.xml
+coverage*.info
+# Saídas de teste de carga (k6)
+tests/load/results/
+
+# ---------- IDEs ----------
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.rsuser
+.idea/
+*.swp
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+
+# ---------- Sistema operacional ----------
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+
+# ---------- Segredos e configuração local (Zero Hardcoded Credentials) ----------
+.env
+.env.*
+!.env.example
+*.local.json
+appsettings.*.local.json
+secrets.json
+*.pfx
+*.p12
+*.pem
+*.key
+*.crt
+# Secrets do Kubernetes reais (versionar somente os *.example.yaml)
+deploy/k8s/**/secret*.yaml
+!deploy/k8s/**/*.example.yaml
+# kubeconfig nunca é versionado
+kubeconfig
+*.kubeconfig
+.kube/
+
+# ---------- Azure Functions ----------
+local.settings.json
+__azurite_db*__.json
+__blobstorage__/
+__queuestorage__/
+.azurite/
+
+# ---------- Bicep / Azure CLI ----------
+*.parameters.local.json
+.azure/
+
+# ---------- Docker ----------
+docker-compose.override.yml
+!deploy/docker-compose.override.example.yml
+
+# ---------- Logs ----------
+*.log
+
+# ---------- Claude Code (configuração pessoal) ----------
+.claude/settings.local.json
