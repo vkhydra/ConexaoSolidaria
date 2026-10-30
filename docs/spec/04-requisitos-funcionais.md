@@ -277,7 +277,7 @@ Funcionalidade: Busca de campanhas
 
 ### Regras
 1. Disparado por `DoacaoProcessadaEvent`.
-2. Busca os dados do doador? **Não.** O recibo usa só os dados do evento (IDs, valor, total, data), respeitando a minimização. O texto se refere ao doador pelo ID.
+2. A função **não** consulta dados pessoais do doador. O recibo usa só os dados do evento (IDs, valor, total, data), respeitando a minimização, e se refere ao doador pelo ID.
 3. "Envio" simulado: log estruturado `Information` com `ReciboEmitido`, `doacaoId`, `campanhaId`, `valor`.
 4. Idempotente por `doacaoId` (reprocessar não gera recibo duplicado no log de negócio).
 5. Escala a zero quando a fila está vazia (KEDA).
