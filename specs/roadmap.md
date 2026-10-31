@@ -99,7 +99,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Commit: `📝 docs(agil): adiciona definition of done`
 - [X] **R009** · Exportar o Event Storming do fluxo de doação (Miro) para `docs/ddd/`
   Commit: `📝 docs(ddd): adiciona event storming do fluxo de doação`
-- [ ] **R010** · Exportar o Event Storming do fluxo de campanha (Miro) para `docs/ddd/`
+- [X] **R010** · Exportar o Event Storming do fluxo de campanha (Miro) para `docs/ddd/`
   Commit: `📝 docs(ddd): adiciona event storming do fluxo de campanha`
 - [ ] **R011** · Exportar o Domain Storytelling da doação para `docs/ddd/`
   Commit: `📝 docs(ddd): adiciona domain storytelling da doação`
