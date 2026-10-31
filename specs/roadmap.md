@@ -388,7 +388,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Depende de: R114 (`005/T005`)
 - [X] **R116** · `005/T007` [H07] Projeto `Arrecadacao.Worker` com MassTransit, `ServiceDefaults`, health e `/metrics` na porta 9090 — `Arrecadacao.Worker/*`
   Commit: `🎉 chore(worker): configura worker com masstransit e health checks`
-- [ ] **R117** · `005/T008` [H07] `ProcessarDoacao` com `RegistroArrecadacaoSql` (transação: idempotência + `UPDATE` + Outbox), com testes — `Campanhas.Application/Arrecadacao/*`, `Campanhas.Infrastructure/Arrecadacao/RegistroArrecadacaoSql.cs`
+- [X] **R117** · `005/T008` [H07] `ProcessarDoacao` com `RegistroArrecadacaoSql` (transação: idempotência + `UPDATE` + Outbox), com testes — `Campanhas.Application/Arrecadacao/*`, `Campanhas.Infrastructure/Arrecadacao/RegistroArrecadacaoSql.cs`
   Commit: `✨ feat(worker): soma doação ao total com idempotência`
   Depende de: R111 (`005/T002`), R113 (`005/T004`), R116 (`005/T007`)
 - [ ] **R118** · `005/T009` [H07] `LivroDoacoesMongo` com upsert e índice, executado também na reentrega — `Campanhas.Infrastructure/Arrecadacao/LivroDoacoesMongo.cs`
