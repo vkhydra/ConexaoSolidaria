@@ -48,6 +48,96 @@ public sealed class AutenticacaoSteps(AmbienteIdentity ambiente)
     }
 
     /// <summary>
+    /// Faz login com as credenciais do último doador cadastrado.
+    /// </summary>
+    /// <returns>Tarefa do passo.</returns>
+    [When("ele faz login com essas credenciais")]
+    public async Task QuandoEleFazLoginComEssasCredenciais()
+    {
+        await ambiente.LoginAsync(ambiente.UltimoEmail!, ambiente.UltimaSenha!);
+    }
+
+    /// <summary>
+    /// Faz login com outro e-mail (por exemplo, em outra caixa) e a senha correta.
+    /// </summary>
+    /// <param name="email">E-mail digitado.</param>
+    /// <returns>Tarefa do passo.</returns>
+    [When("ele faz login com o e-mail {string} e a senha correta")]
+    public async Task QuandoEleFazLoginComEmailESenhaCorreta(string email)
+    {
+        await ambiente.LoginAsync(email, ambiente.UltimaSenha!);
+    }
+
+    /// <summary>
+    /// Faz login com o e-mail do último doador e a senha informada.
+    /// </summary>
+    /// <param name="senha">Senha digitada.</param>
+    /// <returns>Tarefa do passo.</returns>
+    [When("ele faz login com a senha {string}")]
+    public async Task QuandoEleFazLoginComASenha(string senha)
+    {
+        await ambiente.LoginAsync(ambiente.UltimoEmail!, senha);
+    }
+
+    /// <summary>
+    /// Faz o número de tentativas informado com senha incorreta para o e-mail. Como só existe senha incorreta para quem
+    /// tem cadastro, o doador é cadastrado antes com a senha padrão, a mesma usada depois como "senha correta".
+    /// </summary>
+    /// <param name="quantidade">Quantidade de tentativas.</param>
+    /// <param name="email">E-mail que sofre as tentativas.</param>
+    /// <returns>Tarefa do passo.</returns>
+    [Given("{int} tentativas de login com senha incorreta para {string} em 15 minutos")]
+    public async Task DadoTentativasComSenhaIncorreta(int quantidade, string email)
+    {
+        if (ambiente.UltimoEmail != email)
+        {
+            await ambiente.CadastrarAsync("Maria Silva", email, "529.982.247-25", _senhaPadrao, aceite: true);
+            ambiente.UltimoEmail = email;
+            ambiente.UltimaSenha = _senhaPadrao;
+        }
+
+        for (var i = 0; i < quantidade; i++)
+        {
+            await ambiente.LoginAsync(email, "senha-errada");
+        }
+    }
+
+    /// <summary>
+    /// Tenta entrar com a senha correta do último doador.
+    /// </summary>
+    /// <returns>Tarefa do passo.</returns>
+    [When("ele tenta entrar novamente com a senha correta")]
+    public async Task QuandoEleTentaEntrarNovamenteComASenhaCorreta()
+    {
+        await ambiente.LoginAsync(ambiente.UltimoEmail!, ambiente.UltimaSenha!);
+    }
+
+    /// <summary>
+    /// Confere a claim de papel do token devolvido.
+    /// </summary>
+    /// <param name="role">Papel esperado.</param>
+    /// <returns>Tarefa do passo.</returns>
+    [Then("o token contém a role {string}")]
+    public async Task EntaoOTokenContemARole(string role)
+    {
+        (await ambiente.LerPayloadDoTokenAsync()).ShouldContain($"\"role\":\"{role}\"");
+    }
+
+    /// <summary>
+    /// Confere que o token não carrega nome, e-mail nem CPF.
+    /// </summary>
+    /// <returns>Tarefa do passo.</returns>
+    [Then("o token não contém nome, e-mail nem CPF")]
+    public async Task EntaoOTokenNaoContemDadosPessoais()
+    {
+        var payload = await ambiente.LerPayloadDoTokenAsync();
+
+        payload.ShouldNotContain("Maria");
+        payload.ShouldNotContain("exemplo.com");
+        payload.ShouldNotContain("52998224725");
+    }
+
+    /// <summary>
     /// Confere o status HTTP da última resposta.
     /// </summary>
     /// <param name="status">Status esperado.</param>

@@ -8,6 +8,8 @@ using Identity.Infrastructure.Persistencia;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.JsonWebTokens;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ConexaoSolidaria.Bdd.Suporte;
 
@@ -33,6 +35,11 @@ public sealed class AmbienteIdentity : IDisposable
     private string? _conexao;
 
     /// <summary>
+    /// Cliente da instância principal da API, criado sob demanda.
+    /// </summary>
+    private HttpClient? _cliente;
+
+    /// <summary>
     /// Obtém ou define o e-mail do gestor inicial; nulo desliga o seed.
     /// </summary>
     public string? SeedEmail { get; set; }
@@ -46,6 +53,16 @@ public sealed class AmbienteIdentity : IDisposable
     /// Obtém a última resposta HTTP recebida pelo cenário.
     /// </summary>
     public HttpResponseMessage? Resposta { get; private set; }
+
+    /// <summary>
+    /// Obtém ou define o e-mail do último doador cadastrado pelo cenário.
+    /// </summary>
+    public string? UltimoEmail { get; set; }
+
+    /// <summary>
+    /// Obtém ou define a senha do último doador cadastrado pelo cenário.
+    /// </summary>
+    public string? UltimaSenha { get; set; }
 
     /// <summary>
     /// Inicia uma instância da Identity.Api ligada ao banco do cenário, criando o banco e aplicando as migrations na primeira vez.
@@ -73,8 +90,69 @@ public sealed class AmbienteIdentity : IDisposable
     /// <returns>Tarefa que termina com a resposta guardada.</returns>
     public async Task LoginAsync(string email, string senha)
     {
-        using var cliente = await IniciarApiAsync();
+        var cliente = await ObterClienteAsync();
         Resposta = await cliente.PostAsJsonAsync("/api/v1/auth/login", new { email, senha });
+    }
+
+    /// <summary>
+    /// Envia um cadastro de doador e guarda a resposta.
+    /// </summary>
+    /// <param name="nome">Nome completo.</param>
+    /// <param name="email">E-mail.</param>
+    /// <param name="cpf">CPF, com ou sem máscara.</param>
+    /// <param name="senha">Senha.</param>
+    /// <param name="aceite">Se a política de privacidade foi aceita.</param>
+    /// <returns>Tarefa que termina com a resposta guardada.</returns>
+    public async Task CadastrarAsync(string nome, string email, string cpf, string senha, bool aceite)
+    {
+        var cliente = await ObterClienteAsync();
+        Resposta = await cliente.PostAsJsonAsync(
+            "/api/v1/doadores",
+            new { nomeCompleto = nome, email, cpf, senha, aceitePoliticaPrivacidade = aceite });
+    }
+
+    /// <summary>
+    /// Lê um campo de texto do JSON da última resposta.
+    /// </summary>
+    /// <param name="campo">Nome do campo em camelCase.</param>
+    /// <returns>O valor do campo, ou nulo se ele não existe.</returns>
+    public async Task<string?> LerCampoAsync(string campo)
+    {
+        var texto = await Resposta!.Content.ReadAsStringAsync();
+        using var documento = JsonDocument.Parse(texto);
+        return documento.RootElement.TryGetProperty(campo, out var valor) ? valor.GetString() : null;
+    }
+
+    /// <summary>
+    /// Lê o payload do <c>accessToken</c> da última resposta de login, já decodificado em JSON.
+    /// </summary>
+    /// <returns>O texto JSON do payload do token.</returns>
+    public async Task<string> LerPayloadDoTokenAsync()
+    {
+        var token = await LerCampoAsync("accessToken");
+        var jwt = new JsonWebTokenHandler().ReadJsonWebToken(token);
+        return Base64UrlEncoder.Decode(jwt.EncodedPayload);
+    }
+
+    /// <summary>
+    /// Lê, direto do banco, o e-mail e o hash de senha de um usuário.
+    /// </summary>
+    /// <param name="email">E-mail normalizado.</param>
+    /// <returns>O e-mail gravado e o hash da senha.</returns>
+    public async Task<(string Email, string? SenhaHash)> LerUsuarioGravadoAsync(string email)
+    {
+        await using var contexto = CriarContexto();
+        var usuario = await contexto.Usuarios.SingleAsync(u => u.Email == Identity.Domain.Usuarios.Email.Criar(email).Valor);
+        return (usuario.Email.Valor, usuario.SenhaHash);
+    }
+
+    /// <summary>
+    /// Obtém o cliente HTTP da primeira instância da API, criando-a na primeira chamada.
+    /// </summary>
+    /// <returns>O cliente da instância compartilhada pelo cenário.</returns>
+    private async Task<HttpClient> ObterClienteAsync()
+    {
+        return _cliente ??= await IniciarApiAsync();
     }
 
     /// <summary>
@@ -107,6 +185,7 @@ public sealed class AmbienteIdentity : IDisposable
     /// </summary>
     public void Dispose()
     {
+        _cliente?.Dispose();
         foreach (var api in _apis)
         {
             api.Dispose();
