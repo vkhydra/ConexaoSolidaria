@@ -35,6 +35,11 @@ public sealed class ProcessarDoacaoTests
     private readonly ICachePainel _cache = Substitute.For<ICachePainel>();
 
     /// <summary>
+    /// Métricas falsas.
+    /// </summary>
+    private readonly IMetricasArrecadacao _metricas = Substitute.For<IMetricasArrecadacao>();
+
+    /// <summary>
     /// Relógio falso fixo em <see cref="_agora"/>.
     /// </summary>
     private readonly IRelogio _relogio = Substitute.For<IRelogio>();
@@ -67,6 +72,8 @@ public sealed class ProcessarDoacaoTests
             new LancamentoDoacao(doacao.DoacaoId, doacao.CampanhaId, doacao.DoadorId, 150m, 1150m, doacao.OcorridoEm, _agora),
             Arg.Any<CancellationToken>());
         await _cache.Received(1).RemoverAsync(Arg.Any<CancellationToken>());
+        _metricas.Received(1).RegistrarProcessada(ResultadoProcessamento.Sucesso);
+        _metricas.Received(1).RegistrarSoma(150m, TimeSpan.FromSeconds(1));
     }
 
     /// <summary>
@@ -106,6 +113,8 @@ public sealed class ProcessarDoacaoTests
             Arg.Is<LancamentoDoacao>(l => l.DoacaoId == doacao.DoacaoId && l.ProcessadaEm == primeira && l.TotalAposLancamento == 1150m),
             Arg.Any<CancellationToken>());
         await _cache.Received(1).RemoverAsync(Arg.Any<CancellationToken>());
+        _metricas.Received(1).RegistrarProcessada(ResultadoProcessamento.Duplicada);
+        _metricas.DidNotReceive().RegistrarSoma(Arg.Any<decimal>(), Arg.Any<TimeSpan>());
     }
 
     /// <summary>
@@ -136,6 +145,7 @@ public sealed class ProcessarDoacaoTests
         var resultado = await Criar().ExecutarAsync(doacao, CancellationToken.None);
 
         resultado.Erro.Codigo.ShouldBe(ErrosDeCampanha.CodigoNaoEncontrada);
+        _metricas.Received(1).RegistrarProcessada(ResultadoProcessamento.Falha);
         await _livro.DidNotReceive().RegistrarAsync(Arg.Any<LancamentoDoacao>(), Arg.Any<CancellationToken>());
         await _cache.DidNotReceive().RemoverAsync(Arg.Any<CancellationToken>());
     }
@@ -153,6 +163,7 @@ public sealed class ProcessarDoacaoTests
         var resultado = await Criar().ExecutarAsync(NovaDoacao(valor), CancellationToken.None);
 
         resultado.Erro.Codigo.ShouldBe(Campanha.CodigoDoacaoValorInvalido);
+        _metricas.Received(1).RegistrarProcessada(ResultadoProcessamento.Falha);
         await _registro.DidNotReceive().RegistrarAsync(Arg.Any<DoacaoRecebidaEvent>(), Arg.Any<DateTimeOffset>(), Arg.Any<CancellationToken>());
     }
 
@@ -185,7 +196,7 @@ public sealed class ProcessarDoacaoTests
     /// <returns>O caso de uso.</returns>
     private ProcessarDoacao Criar()
     {
-        return new ProcessarDoacao(_registro, _livro, new InvalidadorDoPainel(_cache, NullLogger<InvalidadorDoPainel>.Instance), _relogio, NullLogger<ProcessarDoacao>.Instance);
+        return new ProcessarDoacao(_registro, _livro, new InvalidadorDoPainel(_cache, NullLogger<InvalidadorDoPainel>.Instance), _metricas, _relogio, NullLogger<ProcessarDoacao>.Instance);
     }
 
     /// <summary>

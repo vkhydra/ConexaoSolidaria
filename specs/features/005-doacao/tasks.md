@@ -34,7 +34,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
   Commit: `⚡️ feat(worker): invalida cache do painel após processar doação`
 - [X] T011 [H07] `DoacaoRecebidaConsumer` com retentativas (3 imediatas + 5 s, 30 s, 2 min) e fila de erro — `Arrecadacao.Worker/Consumidores/DoacaoRecebidaConsumer.cs`
   Commit: `🥅 feat(worker): configura consumidor com retentativas e fila de erro`
-- [ ] T012 [P] [H07] Métricas de doação na API e no Worker — `Campanhas.Application/Doacoes/*`, `Campanhas.Application/Arrecadacao/*`
+- [X] T012 [P] [H07] Métricas de doação na API e no Worker — `Campanhas.Application/Doacoes/*`, `Campanhas.Application/Arrecadacao/*`
   Commit: `📈 feat(worker): adiciona métricas de doações recebidas e processadas`
 
 ## Fase 4 — Testes de integração e aceitação

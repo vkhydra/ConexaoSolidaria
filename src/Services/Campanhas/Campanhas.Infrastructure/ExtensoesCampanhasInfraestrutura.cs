@@ -61,6 +61,7 @@ public static class ExtensoesCampanhasInfraestrutura
         servicos.AddSingleton<IMongoClient>(new MongoClient(mongo));
         servicos.AddSingleton(provedor => provedor.GetRequiredService<IMongoClient>().GetDatabase(LivroDoacoesMongo.NomeBanco));
         servicos.AddSingleton<ILivroDoacoes, LivroDoacoesMongo>();
+        servicos.AddSingleton<IMetricasArrecadacao, MetricasDoacoesPrometheus>();
         servicos.AddScoped<IRegistroArrecadacao, RegistroArrecadacaoSql>();
         return servicos;
     }
@@ -85,6 +86,7 @@ public static class ExtensoesCampanhasInfraestrutura
         servicos.AddHostedService<LimpezaChavesIdempotenciaHostedService>();
         servicos.AddSingleton<ICampanhaLeitura, CampanhaLeituraDapper>();
         servicos.AddSingleton<IMetricasCampanhas, MetricasCampanhasPrometheus>();
+        servicos.AddSingleton<IMetricasDoacoes, MetricasDoacoesPrometheus>();
         servicos.AddCampanhasCache(configuracao);
         servicos.AddCampanhasMensageria(configuracao);
 

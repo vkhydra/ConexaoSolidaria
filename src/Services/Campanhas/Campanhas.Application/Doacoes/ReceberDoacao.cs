@@ -21,6 +21,7 @@ namespace Campanhas.Application.Doacoes;
 /// <param name="chaves">Consulta das chaves de idempotência.</param>
 /// <param name="validador">Validador do pedido.</param>
 /// <param name="relogio">Relógio no fuso de São Paulo.</param>
+/// <param name="metricas">Métricas de doações recebidas e recusadas.</param>
 /// <param name="log">Logger do caso de uso.</param>
 public sealed partial class ReceberDoacao(
     ICampanhaRepositorio campanhas,
@@ -28,6 +29,7 @@ public sealed partial class ReceberDoacao(
     IChavesIdempotencia chaves,
     IValidator<DoacaoRequest> validador,
     IRelogio relogio,
+    IMetricasDoacoes metricas,
     ILogger<ReceberDoacao> log)
 {
     /// <summary>
@@ -58,11 +60,13 @@ public sealed partial class ReceberDoacao(
         var validacao = await validador.ValidateAsync(request, cancelamento);
         if (!validacao.IsValid)
         {
+            metricas.RegistrarRecusada(MotivoRecusa.Validacao);
             return Result.Falha<DoacaoAceitaResponse>(ErrosDeValidacao.Converter(validacao));
         }
 
         if (chaveIdempotencia is not null && (string.IsNullOrWhiteSpace(chaveIdempotencia) || chaveIdempotencia.Length > ChaveTamanhoMaximo))
         {
+            metricas.RegistrarRecusada(MotivoRecusa.Validacao);
             return Result.Falha<DoacaoAceitaResponse>(ChaveInvalida());
         }
 
@@ -82,12 +86,14 @@ public sealed partial class ReceberDoacao(
         var campanha = await campanhas.ObterPorIdAsync(campanhaId, cancelamento);
         if (campanha is null)
         {
+            metricas.RegistrarRecusada(MotivoRecusa.CampanhaNaoEncontrada);
             return Result.Falha<DoacaoAceitaResponse>(ErrosDeCampanha.NaoEncontrada);
         }
 
         if (!campanha.PodeReceberDoacao(relogio.Hoje()))
         {
             LogRecusada(log, campanhaId);
+            metricas.RegistrarRecusada(MotivoRecusa.CampanhaNaoAtiva);
             return Result.Falha<DoacaoAceitaResponse>(ErrosDeDoacao.CampanhaNaoAtiva);
         }
 
@@ -107,6 +113,7 @@ public sealed partial class ReceberDoacao(
             return Reaproveitar(vencedora, chave);
         }
 
+        metricas.RegistrarRecebida();
         LogAceita(log, doacaoId, campanhaId);
         return Result.Sucesso(Aceite(doacaoId));
     }
@@ -155,6 +162,7 @@ public sealed partial class ReceberDoacao(
         if (!CryptographicOperations.FixedTimeEquals(existente.HashCorpo, atual.HashCorpo))
         {
             LogChaveConflitante(log, existente.DoacaoId);
+            metricas.RegistrarRecusada(MotivoRecusa.ChaveConflitante);
             return Result.Falha<DoacaoAceitaResponse>(ErrosDeDoacao.ChaveConflitante);
         }
 

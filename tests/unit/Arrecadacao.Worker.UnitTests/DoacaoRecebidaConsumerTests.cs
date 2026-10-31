@@ -100,6 +100,7 @@ public sealed class DoacaoRecebidaConsumerTests
             .AddSingleton(_livro)
             .AddSingleton(Substitute.For<ICachePainel>())
             .AddSingleton(relogio)
+            .AddSingleton(Substitute.For<IMetricasArrecadacao>())
             .AddSingleton<InvalidadorDoPainel>()
             .AddScoped<ProcessarDoacao>()
             .AddMassTransitTestHarness(registro => registro.AddConsumer<DoacaoRecebidaConsumer>())

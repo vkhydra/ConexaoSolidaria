@@ -50,6 +50,11 @@ public sealed class ReceberDoacaoTests
     private readonly IChavesIdempotencia _chaves = Substitute.For<IChavesIdempotencia>();
 
     /// <summary>
+    /// Métricas falsas.
+    /// </summary>
+    private readonly IMetricasDoacoes _metricas = Substitute.For<IMetricasDoacoes>();
+
+    /// <summary>
     /// Relógio falso fixo em <see cref="_agora"/>.
     /// </summary>
     private readonly IRelogio _relogio = Substitute.For<IRelogio>();
@@ -92,6 +97,8 @@ public sealed class ReceberDoacaoTests
         campanha.TotalArrecadado.ShouldBe(Dinheiro.Zero);
         await _campanhas.DidNotReceive().SalvarAsync(Arg.Any<Campanha>(), Arg.Any<CancellationToken>());
         await _chaves.DidNotReceive().ObterAsync(Arg.Any<string>(), Arg.Any<Guid>(), Arg.Any<CancellationToken>());
+        _metricas.Received(1).RegistrarRecebida();
+        _metricas.DidNotReceive().RegistrarRecusada(Arg.Any<MotivoRecusa>());
     }
 
     /// <summary>
@@ -132,6 +139,7 @@ public sealed class ReceberDoacaoTests
         resultado.Erro.Campos!.Keys.ShouldBe([campo]);
         await _campanhas.DidNotReceive().ObterPorIdAsync(Arg.Any<CampanhaId>(), Arg.Any<CancellationToken>());
         await NadaPublicadoAsync();
+        _metricas.Received(1).RegistrarRecusada(MotivoRecusa.Validacao);
     }
 
     /// <summary>
@@ -158,6 +166,7 @@ public sealed class ReceberDoacaoTests
 
         resultado.Erro.Codigo.ShouldBe(ErrosDeCampanha.CodigoNaoEncontrada);
         await NadaPublicadoAsync();
+        _metricas.Received(1).RegistrarRecusada(MotivoRecusa.CampanhaNaoEncontrada);
     }
 
     /// <summary>
@@ -196,6 +205,7 @@ public sealed class ReceberDoacaoTests
 
         resultado.Erro.Codigo.ShouldBe(ErrosDeDoacao.CodigoCampanhaNaoAtiva);
         await NadaPublicadoAsync();
+        _metricas.Received(1).RegistrarRecusada(MotivoRecusa.CampanhaNaoAtiva);
     }
 
     /// <summary>
@@ -246,6 +256,7 @@ public sealed class ReceberDoacaoTests
         resultado.Valor.DoacaoId.ShouldBe(existente);
         resultado.Valor.Status.ShouldBe("Recebida");
         await NadaPublicadoAsync();
+        _metricas.DidNotReceive().RegistrarRecebida();
     }
 
     /// <summary>
@@ -263,6 +274,7 @@ public sealed class ReceberDoacaoTests
 
         resultado.Erro.Codigo.ShouldBe(ErrosDeDoacao.CodigoChaveConflitante);
         await NadaPublicadoAsync();
+        _metricas.Received(1).RegistrarRecusada(MotivoRecusa.ChaveConflitante);
     }
 
     /// <summary>
@@ -304,6 +316,7 @@ public sealed class ReceberDoacaoTests
         resultado.Erro.Campos!.Keys.ShouldBe(["Idempotency-Key"]);
         await _chaves.DidNotReceive().ObterAsync(Arg.Any<string>(), Arg.Any<Guid>(), Arg.Any<CancellationToken>());
         await NadaPublicadoAsync();
+        _metricas.Received(1).RegistrarRecusada(MotivoRecusa.Validacao);
     }
 
     /// <summary>
@@ -332,7 +345,7 @@ public sealed class ReceberDoacaoTests
     /// <returns>O caso de uso.</returns>
     private ReceberDoacao Criar()
     {
-        return new ReceberDoacao(_campanhas, _publicador, _chaves, new DoacaoRequestValidator(), _relogio, NullLogger<ReceberDoacao>.Instance);
+        return new ReceberDoacao(_campanhas, _publicador, _chaves, new DoacaoRequestValidator(), _relogio, _metricas, NullLogger<ReceberDoacao>.Instance);
     }
 
     /// <summary>

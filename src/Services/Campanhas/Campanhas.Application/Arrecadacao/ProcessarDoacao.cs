@@ -23,9 +23,10 @@ public sealed record DoacaoProcessadaResultado(bool JaProcessada, DateTimeOffset
 /// <param name="registro">Porta que soma a doação ao total.</param>
 /// <param name="livro">Livro de doações, gravado também na reentrega para completar um processamento interrompido.</param>
 /// <param name="painel">Invalidador do cache do painel de transparência, para o novo total aparecer sem esperar a validade.</param>
+/// <param name="metricas">Métricas de doações processadas.</param>
 /// <param name="relogio">Relógio no fuso de São Paulo.</param>
 /// <param name="log">Logger do caso de uso.</param>
-public sealed partial class ProcessarDoacao(IRegistroArrecadacao registro, ILivroDoacoes livro, InvalidadorDoPainel painel, IRelogio relogio, ILogger<ProcessarDoacao> log)
+public sealed partial class ProcessarDoacao(IRegistroArrecadacao registro, ILivroDoacoes livro, InvalidadorDoPainel painel, IMetricasArrecadacao metricas, IRelogio relogio, ILogger<ProcessarDoacao> log)
 {
     /// <summary>
     /// Executa o processamento.
@@ -40,6 +41,7 @@ public sealed partial class ProcessarDoacao(IRegistroArrecadacao registro, ILivr
         if (doacao.Valor <= 0m)
         {
             LogValorInvalido(log, doacao.DoacaoId);
+            metricas.RegistrarProcessada(ResultadoProcessamento.Falha);
             return Result.Falha<DoacaoProcessadaResultado>(new Erro(Campanha.CodigoDoacaoValorInvalido, "O valor da doação deve ser maior que zero."));
         }
 
@@ -48,12 +50,16 @@ public sealed partial class ProcessarDoacao(IRegistroArrecadacao registro, ILivr
         {
             case SituacaoRegistro.CampanhaInexistente:
                 LogCampanhaInexistente(log, doacao.DoacaoId, doacao.CampanhaId);
+                metricas.RegistrarProcessada(ResultadoProcessamento.Falha);
                 return Result.Falha<DoacaoProcessadaResultado>(ErrosDeCampanha.NaoEncontrada);
             case SituacaoRegistro.JaProcessada:
                 LogJaProcessada(log, doacao.DoacaoId);
+                metricas.RegistrarProcessada(ResultadoProcessamento.Duplicada);
                 break;
             default:
                 LogProcessada(log, doacao.DoacaoId, doacao.CampanhaId);
+                metricas.RegistrarProcessada(ResultadoProcessamento.Sucesso);
+                metricas.RegistrarSoma(doacao.Valor, registrada.ProcessadaEm!.Value - doacao.OcorridoEm);
                 break;
         }
 

@@ -400,7 +400,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R120** · `005/T011` [H07] `DoacaoRecebidaConsumer` com retentativas (3 imediatas + 5 s, 30 s, 2 min) e fila de erro — `Arrecadacao.Worker/Consumidores/DoacaoRecebidaConsumer.cs`
   Commit: `🥅 feat(worker): configura consumidor com retentativas e fila de erro`
   Depende de: R119 (`005/T010`)
-- [ ] **R121** · `005/T012` [H07] Métricas de doação na API e no Worker — `Campanhas.Application/Doacoes/*`, `Campanhas.Application/Arrecadacao/*`
+- [X] **R121** · `005/T012` [H07] Métricas de doação na API e no Worker — `Campanhas.Application/Doacoes/*`, `Campanhas.Application/Arrecadacao/*`
   Commit: `📈 feat(worker): adiciona métricas de doações recebidas e processadas`
 - [ ] **R122** · `005/T013` [H06] Testes de integração da API: 202 grava Outbox, 400, 403, 404, 422 sem Outbox, `Idempotency-Key` — `tests/integration/Campanhas.IntegrationTests/DoacoesTests.cs`
   Commit: `✅ test(campanhas): adiciona testes de integração da doação`
