@@ -338,7 +338,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Commit: `✅ test(bdd): adiciona cenários de gestão de campanhas`
   Depende de: R098 (`002/T015`)
 - [X] **R100** · `002/T018` `/code-review` e `/simplify`; cobertura ≥ 90%; `git rebase --exec` antes do PR
-- [ ] **R101** · `004/T001` [H05] `PainelItemResponse`, `ICampanhaLeitura`, `ICachePainel` e caso de uso `ObterPainelTransparencia` com testes (percentual, lista vazia, falha do cache) — `Campanhas.Application/Transparencia/*`
+- [X] **R101** · `004/T001` [H05] `PainelItemResponse`, `ICampanhaLeitura`, `ICachePainel` e caso de uso `ObterPainelTransparencia` com testes (percentual, lista vazia, falha do cache) — `Campanhas.Application/Transparencia/*`
   Commit: `✨ feat(campanhas): adiciona caso de uso do painel de transparência`
 - [ ] **R102** · `004/T002` [H05] `CampanhaLeituraDapper` com a consulta do painel e teste de integração (filtros de status e período) — `Campanhas.Infrastructure/Leitura/CampanhaLeituraDapper.cs`
   Commit: `✨ feat(campanhas): adiciona consulta do painel com dapper`

@@ -6,7 +6,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 ## Fase 1 — Aplicação (TDD)
 
-- [ ] T001 [H05] `PainelItemResponse`, `ICampanhaLeitura`, `ICachePainel` e caso de uso `ObterPainelTransparencia` com testes (percentual, lista vazia, falha do cache) — `Campanhas.Application/Transparencia/*`
+- [X] T001 [H05] `PainelItemResponse`, `ICampanhaLeitura`, `ICachePainel` e caso de uso `ObterPainelTransparencia` com testes (percentual, lista vazia, falha do cache) — `Campanhas.Application/Transparencia/*`
   Commit: `✨ feat(campanhas): adiciona caso de uso do painel de transparência`
 
 ## Fase 2 — Infraestrutura
