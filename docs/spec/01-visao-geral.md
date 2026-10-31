@@ -74,7 +74,7 @@ Fonte: `wiki:fontes/tech-challenge/05-hackathon-fase-5-conexao-solidaria`.
 
 ## 1.5 Premissas
 
-- O grupo tem uma máquina Windows 11 com 16 GB de RAM ou mais para rodar o cluster local.
+- Cada integrante usa Windows, macOS ou Linux, com 16 GB de RAM ou mais para rodar o cluster local ([02 — Pré-requisitos](02-pre-requisitos.md)).
 - O repositório será **público** no GitHub.
 - A doação é considerada paga no momento do envio (o enunciado não pede gateway de pagamento).
 - O fuso horário de referência para regras de data é `America/Sao_Paulo`.
