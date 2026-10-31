@@ -240,7 +240,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R064** · `001/T018` Conferir cobertura ≥ 90% (`verificar-cobertura`) e `git rebase --exec` antes do PR
 - [X] **R065** · `003/T001` [H01] VO `Cpf` com dígitos verificadores, sequências repetidas e `Mascarado()`, com testes — `Identity.Domain/Usuarios/Cpf.cs`
   Commit: `✨ feat(identity): adiciona value object Cpf com validação de dígitos`
-- [ ] **R066** · `003/T002` [H01] VO `Senha` com a política de segurança, com testes — `Identity.Domain/Usuarios/Senha.cs`
+- [X] **R066** · `003/T002` [H01] VO `Senha` com a política de segurança, com testes — `Identity.Domain/Usuarios/Senha.cs`
   Commit: `✨ feat(identity): adiciona value object Senha com política de segurança`
 - [ ] **R067** · `003/T003` [H01] VO `Consentimento`, com testes — `Identity.Domain/Usuarios/Consentimento.cs`
   Commit: `✨ feat(identity): adiciona value object Consentimento`
