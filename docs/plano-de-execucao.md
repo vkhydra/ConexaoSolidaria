@@ -45,12 +45,12 @@ As funcionalidades (Etapas 4 a 8) seguem o fluxo de Spec-Driven Development: as 
 1. ✅ `git init`, branch `main`.
 2. ✅ `.gitignore`, `README.md`, `CLAUDE.md`, `.mcp.json`, `.claude/` (settings, comandos, agentes, skills), `.vscode/`.
 3. ✅ `specs/` (constituição, produto, 8 features), `docs/` (ADRs, runbooks, glossário, guias, manuais, roteiro do vídeo), guias de `tests/` e `scripts/`.
-4. Criar o repositório público: `gh repo create <owner>/conexao-solidaria --public --source . --push`.
+4. ✅ Repositório criado e enviado: `https://github.com/Kulessa/Trabalho` (o enunciado não exige que seja público).
 5. Adicionar os integrantes como colaboradores.
 6. Ligar secret scanning e push protection (Settings → Code security).
 
 **Commits:** já feitos (um por arquivo).
-**Pronto quando:** repositório público no GitHub com a spec visível.
+**Pronto quando:** repositório no GitHub com a spec visível para o grupo.
 **Apoio:** MCP GitHub ou `gh`.
 
 ## Etapa 2 — Planejamento ágil e DDD
@@ -179,7 +179,7 @@ O assistente de IA (bônus) recebe só título e tópicos digitados pelo gestor 
 **Apoio:** `/run`, `wiki:disciplinas/docker`.
 
 ## Etapa 11 — Kubernetes local
-**Objetivo:** tudo rodando no Minikube com os `.yaml` exigidos.
+**Objetivo:** tudo rodando no Minikube com os manifestos `.yaml` (conteúdo da Fase 2).
 **Tarefas:** estrutura Kustomize; namespaces; infra (StatefulSets, PVC, Services); apps (Deployments, Services, ConfigMaps, HPA, PDB, Jobs de migration, NetworkPolicies, ServiceAccounts); modelos de Secret; `scripts/k8s-secrets.ps1`; `scripts/up.ps1`.
 **Commits (exemplos):**
 ```text
