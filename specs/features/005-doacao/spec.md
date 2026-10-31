@@ -6,9 +6,9 @@
 |---|---|
 | Branch | `feat/005-doacao` |
 | Status | Especificada |
-| Origem | Enunciado, requisito 5 (RF05) e requisito técnico de mensageria |
+| Origem | Requisito do domínio da API (RF05) com mensageria (Fase 2); testado conforme a [feature 009](../009-ci-testes-cobertura/spec.md) |
 | Histórias | H06, H07 |
-| Prioridade | P1 (núcleo do Hackathon) |
+| Prioridade | P1 (núcleo do domínio) |
 | Serviços | `Campanhas.Api` (recebe) e `Arrecadacao.Worker` (processa) |
 | Acesso | `Doador` |
 | Depende de | [001](../001-autenticacao/spec.md), [002](../002-gestao-campanhas/spec.md), [003](../003-cadastro-doador/spec.md), [004](../004-painel-transparencia/spec.md) |
@@ -125,4 +125,4 @@ Pagamento real (cartão, Pix), estorno, doação recorrente e doação anônima 
 ## Esclarecimentos
 
 ### Sessão 2026-10-30
-- **P:** A doação é considerada paga no envio? → **R:** Sim. O enunciado não pede gateway de pagamento ([visão geral](../../product/overview.md)).
+- **P:** A doação é considerada paga no envio? → **R:** Sim. Pagamento está fora do escopo ([visão geral](../../product/overview.md)).
