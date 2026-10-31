@@ -80,7 +80,7 @@ ENTRYPOINT ["dotnet", "Campanhas.Api.dll"]
 ### Cluster
 ```powershell
 minikube start --cpus=6 --memory=12g --addons=metrics-server
-minikube image load <imagem>:<tag>     # ou pull do GHCR (repositório público)
+minikube image load <imagem>:<tag>     # ou pull do GHCR (pacote privado exige imagePullSecret)
 minikube tunnel                         # expõe o LoadBalancer do Kong
 ```
 
@@ -143,7 +143,7 @@ spec:
             labelSelector: { matchLabels: { app.kubernetes.io/name: campanhas-api } } }
       containers:
         - name: campanhas-api
-          image: ghcr.io/<owner>/conexao-solidaria/campanhas-api:sha-<commit>
+          image: ghcr.io/kulessa/trabalho/campanhas-api:sha-<commit>
           ports: [{ name: http, containerPort: 8080 }]
           envFrom:
             - configMapRef: { name: campanhas-api-config }
