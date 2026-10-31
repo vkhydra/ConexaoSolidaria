@@ -227,7 +227,7 @@ Fim de linha: o `.gitattributes` do repositório (Etapa 3) define LF para todo o
 | Conta | Uso | Observação |
 |---|---|---|
 | GitHub | Repositório público, Actions, GHCR, Projects | Todos os integrantes como colaboradores |
-| Discord | Comunicação do grupo | Usernames entram no relatório |
+| Discord | Comunicação do grupo | Opcional |
 | Miro | Event Storming e Domain Storytelling | Plano gratuito basta |
 | YouTube ou Google Drive | Publicação do vídeo | Link não listado ou acesso por link |
 | Azure (opcional) | Etapa de cloud | Azure for Students; criar **alerta de orçamento** antes de qualquer recurso |
@@ -238,7 +238,8 @@ Leitura mínima antes de começar, na LLMWiki (somente leitura; no Windows em `C
 
 | Tema | Páginas |
 |---|---|
-| Enunciado | `fontes/tech-challenge/05-hackathon-fase-5-conexao-solidaria`, `disciplinas/tech-challenge` |
+| Enunciado | `fontes/tech-challenge/06-trabalho-substitutivo-fase-3-testes-e-cobertura-ci` (PDF original em `fiap-pdfs/Trabalho Substitutivo/fase 3.pdf`) |
+| Testes e CI | `conceitos/teste-de-unidade`, `conceitos/cobertura-de-codigo`, `conceitos/frameworks-de-teste-dotnet`, `conceitos/github-actions` |
 | Visão das fases | `fases/fase-1-*` a `fases/fase-5-*` |
 | Boas práticas | `boas-praticas/*` (uma página por disciplina) |
 | Conceitos centrais | `conceitos/microsservicos`, `conceitos/rabbitmq`, `conceitos/jwt`, `conceitos/kubernetes`, `conceitos/grafana`, `conceitos/consistencia-eventual` |
