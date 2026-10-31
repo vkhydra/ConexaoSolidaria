@@ -259,7 +259,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Depende de: R069 (`003/T005`), R070 (`003/T006`), R071 (`003/T007`)
 - [X] **R073** · `003/T009` [H01] Métrica `doadores_cadastrados_total` — `Identity.Application/Doadores/CadastrarDoador.cs`
   Commit: `📈 feat(identity): adiciona métrica de doadores cadastrados`
-- [ ] **R074** · `003/T010` [H01] Testes de integração: 201, 400 (cada regra), 409 e-mail, 409 CPF, CPF cifrado no banco, log sem dados pessoais — `tests/integration/Identity.IntegrationTests/CadastroDoadorTests.cs`
+- [X] **R074** · `003/T010` [H01] Testes de integração: 201, 400 (cada regra), 409 e-mail, 409 CPF, CPF cifrado no banco, log sem dados pessoais — `tests/integration/Identity.IntegrationTests/CadastroDoadorTests.cs`
   Commit: `✅ test(identity): adiciona testes de integração do cadastro de doador`
   Depende de: R072 (`003/T008`)
 - [ ] **R075** · `003/T011` [H01] Cenários Gherkin automatizados — `tests/e2e/ConexaoSolidaria.Bdd/Features/003-cadastro-doador.feature`

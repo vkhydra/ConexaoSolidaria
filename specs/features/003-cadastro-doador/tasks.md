@@ -36,7 +36,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 ## Fase 5 — Testes de integração e aceitação
 
-- [ ] T010 [H01] Testes de integração: 201, 400 (cada regra), 409 e-mail, 409 CPF, CPF cifrado no banco, log sem dados pessoais — `tests/integration/Identity.IntegrationTests/CadastroDoadorTests.cs`
+- [X] T010 [H01] Testes de integração: 201, 400 (cada regra), 409 e-mail, 409 CPF, CPF cifrado no banco, log sem dados pessoais — `tests/integration/Identity.IntegrationTests/CadastroDoadorTests.cs`
   Commit: `✅ test(identity): adiciona testes de integração do cadastro de doador`
 - [ ] T011 [H01] Cenários Gherkin automatizados — `tests/e2e/ConexaoSolidaria.Bdd/Features/003-cadastro-doador.feature`
   Commit: `✅ test(bdd): adiciona cenários de cadastro de doador`

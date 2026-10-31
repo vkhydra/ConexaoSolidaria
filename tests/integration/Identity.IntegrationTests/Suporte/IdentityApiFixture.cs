@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog.Core;
+using Serilog.Events;
 
 namespace Identity.IntegrationTests.Suporte;
 
@@ -22,6 +24,16 @@ public sealed class IdentityApiFixture : WebApplicationFactory<Program>, IAsyncL
     /// Par de chaves RSA do JWT, gerado só para os testes.
     /// </summary>
     private readonly RSA _rsa = RSA.Create(2048);
+
+    /// <summary>
+    /// Sink que guarda os eventos de log para os testes conferirem que não há dado pessoal.
+    /// </summary>
+    private readonly SinkDeTeste _logs = new();
+
+    /// <summary>
+    /// Obtém os textos de todos os logs emitidos pela API, já renderizados com as propriedades.
+    /// </summary>
+    public IReadOnlyList<string> TextosDeLog => _logs.Textos();
 
     /// <summary>
     /// Obtém a chave pública em PEM, para validar os tokens emitidos.
@@ -50,6 +62,18 @@ public sealed class IdentityApiFixture : WebApplicationFactory<Program>, IAsyncL
         var gestor = Usuario.CriarGestor(Email.Criar(email).Valor, hash, DateTimeOffset.UtcNow).Valor;
         await escopo.ServiceProvider.GetRequiredService<IUsuarioRepositorio>().AdicionarAsync(gestor, CancellationToken.None);
         return email;
+    }
+
+    /// <summary>
+    /// Lê, direto do banco, o CPF cifrado de um usuário.
+    /// </summary>
+    /// <param name="email">E-mail normalizado do usuário.</param>
+    /// <returns>Os bytes da coluna <c>cpf_cifrado</c>.</returns>
+    public async Task<byte[]?> LerCpfCifradoAsync(string email)
+    {
+        await using var contexto = _banco.CriarContexto();
+        var usuario = await contexto.Usuarios.SingleAsync(u => u.Email == Email.Criar(email).Valor);
+        return contexto.Entry(usuario).Property<byte[]?>("CpfCifrado").CurrentValue;
     }
 
     /// <summary>
@@ -86,5 +110,38 @@ public sealed class IdentityApiFixture : WebApplicationFactory<Program>, IAsyncL
         builder.UseSetting("Cpf:ChaveHash", Convert.ToBase64String(RandomNumberGenerator.GetBytes(32)));
         builder.UseSetting("Jwt:ChavePrivadaPem", _rsa.ExportRSAPrivateKeyPem());
         builder.UseSetting("Jwt:ChavePublicaPem", ChavePublicaPem);
+        builder.ConfigureServices(servicos => servicos.AddSingleton<ILogEventSink>(_logs));
+    }
+
+    /// <summary>
+    /// Sink do Serilog que guarda os eventos em memória.
+    /// </summary>
+    private sealed class SinkDeTeste : ILogEventSink
+    {
+        /// <summary>
+        /// Eventos recebidos, protegidos por trava porque a API escreve de várias threads.
+        /// </summary>
+        private readonly List<LogEvent> _eventos = [];
+
+        /// <inheritdoc/>
+        public void Emit(LogEvent logEvent)
+        {
+            lock (_eventos)
+            {
+                _eventos.Add(logEvent);
+            }
+        }
+
+        /// <summary>
+        /// Renderiza cada evento com mensagem, propriedades e exceção.
+        /// </summary>
+        /// <returns>Um texto por evento.</returns>
+        public List<string> Textos()
+        {
+            lock (_eventos)
+            {
+                return [.. _eventos.Select(e => e.RenderMessage() + " " + string.Join(' ', e.Properties.Select(p => p.Value.ToString())) + " " + e.Exception)];
+            }
+        }
     }
 }
