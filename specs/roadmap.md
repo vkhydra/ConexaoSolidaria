@@ -302,7 +302,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R086** · `002/T003` [H03] Agregado `Campanha` com `Criar` e eventos de domínio, com testes — `Campanhas.Domain/Campanhas/*`
   Commit: `✨ feat(campanhas): adiciona agregado Campanha com regras de criação`
   Depende de: R085 (`002/T002`)
-- [ ] **R087** · `002/T004` [H04] `Atualizar`, `Concluir` e `Cancelar` com testes das transições — `Campanhas.Domain/Campanhas/Campanha.cs`
+- [X] **R087** · `002/T004` [H04] `Atualizar`, `Concluir` e `Cancelar` com testes das transições — `Campanhas.Domain/Campanhas/Campanha.cs`
   Commit: `✨ feat(campanhas): adiciona edição e transições de status da campanha`
   Depende de: R086 (`002/T003`)
 - [ ] **R088** · `002/T005` [H03] `CampanhaAlteradaEvent` v1 e teste de snapshot JSON — `ConexaoSolidaria.Contracts/V1/CampanhaAlteradaEvent.cs`, `tests/contract/ConexaoSolidaria.ContractTests/*`

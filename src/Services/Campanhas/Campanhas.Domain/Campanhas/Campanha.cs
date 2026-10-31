@@ -29,6 +29,16 @@ public sealed class Campanha
     public const string CodigoMetaInvalida = "campanha.meta_invalida";
 
     /// <summary>
+    /// Código do erro de edição de campanha que não está ativa.
+    /// </summary>
+    public const string CodigoNaoEditavel = "campanha.nao_editavel";
+
+    /// <summary>
+    /// Código do erro de mudança de status que o fluxo não permite.
+    /// </summary>
+    public const string CodigoTransicaoInvalida = "campanha.transicao_invalida";
+
+    /// <summary>
     /// Tamanho mínimo do título.
     /// </summary>
     public const int TituloTamanhoMinimo = 3;
@@ -169,11 +179,99 @@ public sealed class Campanha
     }
 
     /// <summary>
+    /// Altera título, descrição, período e meta de uma campanha ativa, com as mesmas regras da criação,
+    /// e registra o evento <see cref="CampanhaAtualizada"/>. O total arrecadado não muda.
+    /// </summary>
+    /// <param name="titulo">Novo título.</param>
+    /// <param name="descricao">Nova descrição.</param>
+    /// <param name="periodo">Novo período.</param>
+    /// <param name="meta">Nova meta financeira.</param>
+    /// <param name="hoje">Data de hoje em São Paulo.</param>
+    /// <param name="agora">Instante da alteração.</param>
+    /// <returns>Sucesso, <c>campanha.nao_editavel</c> se a campanha não está ativa, ou o primeiro erro de regra.</returns>
+    public Result Atualizar(string? titulo, string? descricao, Periodo periodo, Dinheiro meta, DateOnly hoje, DateTimeOffset agora)
+    {
+        ArgumentNullException.ThrowIfNull(periodo);
+        ArgumentNullException.ThrowIfNull(meta);
+
+        if (Status != StatusCampanha.Ativa)
+        {
+            return Result.Falha(new Erro(CodigoNaoEditavel, "Só campanhas ativas podem ser editadas."));
+        }
+
+        var erro = ValidarDados(titulo, descricao, periodo, meta, hoje);
+        if (erro is not null)
+        {
+            return Result.Falha(erro);
+        }
+
+        Titulo = titulo!;
+        Descricao = descricao!;
+        Periodo = periodo;
+        MetaFinanceira = meta;
+        AtualizadoEm = agora;
+        _eventos.Add(new CampanhaAtualizada(Id, agora));
+        return Result.Ok();
+    }
+
+    /// <summary>
+    /// Conclui uma campanha ativa e registra o evento <see cref="CampanhaConcluida"/>.
+    /// </summary>
+    /// <param name="agora">Instante da conclusão.</param>
+    /// <returns>Sucesso ou <c>campanha.transicao_invalida</c> se a campanha não está ativa.</returns>
+    public Result Concluir(DateTimeOffset agora)
+    {
+        var erro = MudarStatus(StatusCampanha.Concluida, agora);
+        if (erro is null)
+        {
+            _eventos.Add(new CampanhaConcluida(Id, agora));
+            return Result.Ok();
+        }
+
+        return Result.Falha(erro);
+    }
+
+    /// <summary>
+    /// Cancela uma campanha ativa e registra o evento <see cref="CampanhaCancelada"/>.
+    /// </summary>
+    /// <param name="agora">Instante do cancelamento.</param>
+    /// <returns>Sucesso ou <c>campanha.transicao_invalida</c> se a campanha não está ativa.</returns>
+    public Result Cancelar(DateTimeOffset agora)
+    {
+        var erro = MudarStatus(StatusCampanha.Cancelada, agora);
+        if (erro is null)
+        {
+            _eventos.Add(new CampanhaCancelada(Id, agora));
+            return Result.Ok();
+        }
+
+        return Result.Falha(erro);
+    }
+
+    /// <summary>
     /// Esvazia a lista de eventos de domínio, depois que foram publicados.
     /// </summary>
     public void LimparEventos()
     {
         _eventos.Clear();
+    }
+
+    /// <summary>
+    /// Troca o status se a campanha está ativa; as únicas transições permitidas partem de <see cref="StatusCampanha.Ativa"/>.
+    /// </summary>
+    /// <param name="novo">Status de destino.</param>
+    /// <param name="agora">Instante da mudança.</param>
+    /// <returns>Nulo se a mudança foi feita, ou o erro <c>campanha.transicao_invalida</c>.</returns>
+    private Erro? MudarStatus(StatusCampanha novo, DateTimeOffset agora)
+    {
+        if (Status != StatusCampanha.Ativa)
+        {
+            return new Erro(CodigoTransicaoInvalida, $"Uma campanha {Status} não pode passar a {novo}.");
+        }
+
+        Status = novo;
+        AtualizadoEm = agora;
+        return null;
     }
 
     /// <summary>
