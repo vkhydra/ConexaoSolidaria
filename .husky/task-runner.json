@@ -12,7 +12,7 @@
       "name": "build",
       "group": "pre-commit",
       "command": "dotnet",
-      "args": ["build", "ConexaoSolidaria.slnx", "-c", "Release", "-warnaserror"],
+      "args": ["build", "ConexaoSolidaria.slnx", "-c", "Release", "-warnaserror", "-m:2"],
       "include": ["**/*.cs", "**/*.razor", "**/*.csproj", "**/*.props", "**/*.targets", "**/*.slnx", "global.json", ".editorconfig", ".globalconfig", "stylecop.json", "**/packages.lock.json"],
       "filteringRule": "staged"
     },

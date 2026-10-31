@@ -65,7 +65,8 @@ if ($ExecutarTestes) {
     # Compila uma vez antes de testar: o dotnet test na solução compila vários projetos em paralelo,
     # e projetos que compartilham dependências podem disputar os mesmos arquivos intermediários.
     Write-Host 'Compilando a solução...' -ForegroundColor Cyan
-    dotnet build ConexaoSolidaria.slnx -c Release -warnaserror | Out-Host
+    # -m:2 limita o paralelismo: em máquinas com pouca memória os nós do MSBuild morrem (MSB4166).
+    dotnet build ConexaoSolidaria.slnx -c Release -warnaserror -m:2 | Out-Host
     if ($LASTEXITCODE -ne 0) { throw 'A compilação falhou; a cobertura não foi conferida.' }
 
     $argumentos = @(
