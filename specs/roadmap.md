@@ -152,7 +152,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R030** · `009/T002` [H11] Teste de arquitetura das camadas (passa com as dependências permitidas e acusa dependência proibida) — `tests/unit/*/ArquiteturaTests.cs`
   Commit: `✅ test: adiciona teste de arquitetura das camadas`
   Depende de: R028 (`009/T001`)
-- [ ] **R031** · `ServiceDefaults`: logs estruturados com Serilog, com testes de sucesso e de erro
+- [X] **R031** · `ServiceDefaults`: logs estruturados com Serilog, com testes de sucesso e de erro
   Commit: `🔊 feat(defaults): adiciona logs estruturados com serilog`
 - [ ] **R032** · `ServiceDefaults`: OpenTelemetry e `/metrics`, com testes
   Commit: `📈 feat(defaults): adiciona tracing com opentelemetry e endpoint de métricas`
