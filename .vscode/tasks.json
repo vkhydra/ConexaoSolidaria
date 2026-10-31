@@ -1,0 +1,103 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build",
+      "detail": "Compila a solução com avisos como erro",
+      "type": "process",
+      "command": "dotnet",
+      "args": ["build", "ConexaoSolidaria.slnx", "-c", "Debug", "-warnaserror", "/property:GenerateFullPaths=true", "/consoleloggerparameters:NoSummary"],
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "formatar",
+      "detail": "Aplica o .editorconfig em toda a solução",
+      "type": "process",
+      "command": "dotnet",
+      "args": ["format", "ConexaoSolidaria.slnx"],
+      "problemMatcher": []
+    },
+    {
+      "label": "testes de unidade",
+      "detail": "Roda só os testes de unidade (rápidos, sem Docker)",
+      "type": "process",
+      "command": "dotnet",
+      "args": ["test", "ConexaoSolidaria.slnx", "--filter", "Category=Unit"],
+      "group": { "kind": "test", "isDefault": true },
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "testes completos",
+      "detail": "Unidade, contrato, integração e aceitação (exige Docker)",
+      "type": "process",
+      "command": "dotnet",
+      "args": ["test", "ConexaoSolidaria.slnx"],
+      "group": "test",
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "cobertura (mínimo 90%)",
+      "detail": "Roda os testes com cobertura e falha abaixo de 90%",
+      "type": "process",
+      "command": "pwsh",
+      "args": ["-NoProfile", "-File", "scripts/verificar-cobertura.ps1", "-Minimo", "90", "-ExecutarTestes"],
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "verificar pré-requisitos",
+      "type": "process",
+      "command": "pwsh",
+      "args": ["-NoProfile", "-File", "scripts/verificar-pre-requisitos.ps1"],
+      "problemMatcher": []
+    },
+    {
+      "label": "docker compose: subir",
+      "type": "process",
+      "command": "docker",
+      "args": ["compose", "-f", "deploy/docker-compose.yml", "--env-file", "deploy/.env", "up", "-d", "--build"],
+      "problemMatcher": []
+    },
+    {
+      "label": "docker compose: parar",
+      "type": "process",
+      "command": "docker",
+      "args": ["compose", "-f", "deploy/docker-compose.yml", "stop"],
+      "problemMatcher": []
+    },
+    {
+      "label": "infra local (compose)",
+      "detail": "Sobe só bancos, RabbitMQ e Jaeger para depurar os serviços no VS Code",
+      "type": "process",
+      "command": "docker",
+      "args": ["compose", "-f", "deploy/docker-compose.yml", "--env-file", "deploy/.env", "up", "-d", "postgres", "mongodb", "redis", "rabbitmq", "elasticsearch", "jaeger"],
+      "problemMatcher": []
+    },
+    {
+      "label": "kubernetes local: subir",
+      "detail": "Executa scripts/up.ps1 (Minikube, Helm, manifestos e seed)",
+      "type": "process",
+      "command": "pwsh",
+      "args": ["-NoProfile", "-File", "scripts/up.ps1"],
+      "problemMatcher": []
+    },
+    {
+      "label": "validar manifestos k8s",
+      "type": "process",
+      "command": "kubectl",
+      "args": ["apply", "-k", "deploy/k8s/overlays/local", "--dry-run=server"],
+      "problemMatcher": []
+    },
+    {
+      "label": "func: host start",
+      "detail": "Roda a Notificacoes.Function localmente",
+      "type": "func",
+      "command": "host start",
+      "options": { "cwd": "${workspaceFolder}/src/Functions/Notificacoes.Function/bin/Debug/net10.0" },
+      "dependsOn": "build",
+      "isBackground": true,
+      "problemMatcher": "$func-dotnet-watch"
+    }
+  ]
+}
