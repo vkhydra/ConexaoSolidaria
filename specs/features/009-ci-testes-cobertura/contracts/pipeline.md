@@ -16,15 +16,17 @@ Contrato do workflow `.github/workflows/ci.yml` com quem o usa (avaliador, PR e 
 
 | Job (check) | Depende de | Falha quando | Saída |
 |---|---|---|---|
-| `testes-unitarios` | — | Build com erro ou aviso; teste unitário falhando | Resumo de cobertura; artefatos `cobertura-testes-unitarios` e `resultados-testes-unitarios` |
-| `testes-integracao` | `testes-unitarios` | Teste falhando; cobertura total ou de algum projeto < 90% | Artefatos `cobertura-total` e `resultados-testes` |
+| `testes-unitarios` | — | Código fora do `.editorconfig`; build com erro ou aviso; teste unitário falhando | Resumo de cobertura; artefatos `cobertura-testes-unitarios` e `resultados-testes-unitarios` |
+| `testes-integracao` | `testes-unitarios` | Pacote com vulnerabilidade alta ou crítica; teste falhando; cobertura total ou de algum projeto < 90% | Artefatos `cobertura-total` e `resultados-testes` |
 
 Os demais jobs do CI (varredura de segredos, imagens Docker, CodeQL) estão em [CI/CD](../../../product/ci-cd.md).
 
 ## Comandos do job `testes-unitarios`
 
 ```bash
+dotnet tool restore
 dotnet restore --locked-mode
+dotnet format --verify-no-changes --no-restore
 dotnet build -c Release --no-restore -warnaserror
 dotnet test -c Release --no-build --filter Category=Unit \
   --settings coverlet.runsettings --collect "XPlat Code Coverage" \
