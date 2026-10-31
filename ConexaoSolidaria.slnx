@@ -25,6 +25,18 @@
     <Project Path="src/Web/ConexaoSolidaria.Web/ConexaoSolidaria.Web.csproj" />
   </Folder>
   <Folder Name="/tests/" />
+  <Folder Name="/tests/contract/">
+    <Project Path="tests/contract/ConexaoSolidaria.ContractTests/ConexaoSolidaria.ContractTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/e2e/">
+    <Project Path="tests/e2e/ConexaoSolidaria.Bdd/ConexaoSolidaria.Bdd.csproj" />
+    <Project Path="tests/e2e/ConexaoSolidaria.E2ETests/ConexaoSolidaria.E2ETests.csproj" />
+  </Folder>
+  <Folder Name="/tests/integration/">
+    <Project Path="tests/integration/Arrecadacao.Worker.IntegrationTests/Arrecadacao.Worker.IntegrationTests.csproj" />
+    <Project Path="tests/integration/Campanhas.IntegrationTests/Campanhas.IntegrationTests.csproj" />
+    <Project Path="tests/integration/Identity.IntegrationTests/Identity.IntegrationTests.csproj" />
+  </Folder>
   <Folder Name="/tests/unit/">
     <Project Path="tests/unit/Arrecadacao.Worker.UnitTests/Arrecadacao.Worker.UnitTests.csproj" />
     <Project Path="tests/unit/Campanhas.UnitTests/Campanhas.UnitTests.csproj" />
