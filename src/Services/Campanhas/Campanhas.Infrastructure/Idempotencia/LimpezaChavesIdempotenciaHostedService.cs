@@ -30,8 +30,10 @@ public sealed partial class LimpezaChavesIdempotenciaHostedService(IServiceScope
         using var temporizador = new PeriodicTimer(Intervalo, relogio);
         try
         {
-            while (await temporizador.WaitForNextTickAsync(stoppingToken))
+            while (true)
             {
+                // Só devolve falso se o temporizador for descartado, o que aqui acontece depois do laço; a parada do host é por cancelamento.
+                await temporizador.WaitForNextTickAsync(stoppingToken);
                 await LimparAsync(stoppingToken);
             }
         }

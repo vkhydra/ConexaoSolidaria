@@ -91,6 +91,7 @@ public sealed class LimpezaChavesIdempotenciaTests
         using var servico = Criar();
 
         await servico.StartAsync(TestContext.Current.CancellationToken);
+        await Task.Delay(100, TestContext.Current.CancellationToken);
         await servico.StopAsync(TestContext.Current.CancellationToken);
 
         await _chaves.DidNotReceive().RemoverExpiradasAsync(Arg.Any<DateTimeOffset>(), Arg.Any<CancellationToken>());

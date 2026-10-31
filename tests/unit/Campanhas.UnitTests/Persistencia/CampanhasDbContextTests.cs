@@ -106,6 +106,17 @@ public sealed class CampanhasDbContextTests
     }
 
     /// <summary>
+    /// Dado o contexto, quando os conjuntos de doação são consultados, então ambos existem e são consultáveis.
+    /// </summary>
+    [Fact]
+    public void Conjuntos_DoacoesEChaves_EstaoDisponiveis()
+    {
+        _contexto.DoacoesProcessadas.ShouldNotBeNull();
+        _contexto.ChavesIdempotencia.ShouldNotBeNull();
+        _contexto.Campanhas.ShouldNotBeNull();
+    }
+
+    /// <summary>
     /// Dados valores do domínio, quando convertidos para o banco e de volta, então identificador, dinheiro e instantes não mudam.
     /// </summary>
     [Fact]

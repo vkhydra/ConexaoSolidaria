@@ -1,3 +1,4 @@
+using Campanhas.Application.Arrecadacao;
 using Campanhas.Domain.Campanhas;
 using Campanhas.Domain.Comum;
 using Campanhas.Infrastructure;
@@ -63,6 +64,36 @@ public sealed class InfraestruturaTests
         evento.DataFim.ShouldBe(new DateOnly(2026, 12, 24));
         evento.Versao.ShouldBe(agora.UtcTicks);
         Should.Throw<ArgumentNullException>(() => EventosDeIntegracao.ParaAlterada(null!));
+    }
+
+    /// <summary>
+    /// Dada a conexão do MongoDB ausente ou argumentos nulos, quando o registro da arrecadação é feito, então a aplicação não sobe.
+    /// </summary>
+    [Fact]
+    public void AddCampanhasArrecadacao_ConfiguracaoInvalida_LancaExcecao()
+    {
+        var semMongo = new ConfigurationBuilder().Build();
+
+        Should.Throw<InvalidOperationException>(() => new ServiceCollection().AddCampanhasArrecadacao(semMongo));
+        Should.Throw<ArgumentNullException>(() => ExtensoesCampanhasInfraestrutura.AddCampanhasArrecadacao(null!, semMongo));
+        Should.Throw<ArgumentNullException>(() => new ServiceCollection().AddCampanhasArrecadacao(null!));
+    }
+
+    /// <summary>
+    /// Dada a conexão do MongoDB, quando o registro da arrecadação é feito, então o livro e o registro entram no contêiner.
+    /// </summary>
+    [Fact]
+    public void AddCampanhasArrecadacao_ComMongo_RegistraLivroERegistro()
+    {
+        var configuracao = new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?> { ["ConnectionStrings:Mongo"] = "mongodb://mongo.invalido.local:27017" }).Build();
+        var servicos = new ServiceCollection();
+
+        var retorno = servicos.AddCampanhasArrecadacao(configuracao);
+
+        retorno.ShouldBeSameAs(servicos);
+        servicos.ShouldContain(d => d.ServiceType == typeof(ILivroDoacoes));
+        servicos.ShouldContain(d => d.ServiceType == typeof(IRegistroArrecadacao));
+        servicos.ShouldContain(d => d.ServiceType == typeof(IMetricasArrecadacao));
     }
 
     /// <summary>

@@ -44,6 +44,33 @@ public sealed class LivroDoacoesTests(MongoFixture mongo) : IClassFixture<MongoF
     }
 
     /// <summary>
+    /// Dado um lançamento gravado dentro de uma atividade de trace, quando lido, então o traceId do documento é o da atividade;
+    /// sem atividade, o campo é nulo.
+    /// </summary>
+    /// <returns>Tarefa do teste.</returns>
+    [Fact]
+    public async Task Registrar_ComESemAtividade_GravaOTraceIdOuNulo()
+    {
+        var livro = new LivroDoacoesMongo(mongo.Banco);
+        var semTrace = NovoLancamento(5.00m, 5.00m);
+        var comTrace = NovoLancamento(6.00m, 11.00m);
+        await livro.RegistrarAsync(semTrace, TestContext.Current.CancellationToken);
+        using var fonte = new System.Diagnostics.ActivitySource("teste.livro");
+        using var ouvinte = new System.Diagnostics.ActivityListener
+        {
+            ShouldListenTo = origem => origem.Name == "teste.livro",
+            Sample = (ref System.Diagnostics.ActivityCreationOptions<System.Diagnostics.ActivityContext> _) => System.Diagnostics.ActivitySamplingResult.AllData,
+        };
+        System.Diagnostics.ActivitySource.AddActivityListener(ouvinte);
+        using var atividade = fonte.StartActivity("gravar");
+
+        await livro.RegistrarAsync(comTrace, TestContext.Current.CancellationToken);
+
+        (await mongo.LerLancamentoAsync(semTrace.DoacaoId, LivroDoacoesMongo.NomeColecao))!["traceId"].IsBsonNull.ShouldBeTrue();
+        (await mongo.LerLancamentoAsync(comTrace.DoacaoId, LivroDoacoesMongo.NomeColecao))!["traceId"].AsString.ShouldBe(atividade!.TraceId.ToString());
+    }
+
+    /// <summary>
     /// Dado um lançamento já gravado, quando o mesmo é registrado de novo com outro total, então o documento original não muda
     /// e continua havendo um só.
     /// </summary>
