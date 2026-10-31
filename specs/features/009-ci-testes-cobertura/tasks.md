@@ -14,7 +14,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md). Est
   Commit: `🔧 chore: adiciona configuração de cobertura com coverlet`
 - [X] T004 [H12] ReportGenerator no manifesto de ferramentas — `.config/dotnet-tools.json`
   Commit: `🔧 chore: adiciona reportgenerator ao manifesto de ferramentas`
-- [ ] T005 [H12] Script de verificação da cobertura mínima (`-Minimo`, `-ExecutarTestes`) — `scripts/verificar-cobertura.ps1`
+- [X] T005 [H12] Script de verificação da cobertura mínima (`-Minimo`, `-ExecutarTestes`) — `scripts/verificar-cobertura.ps1`
   Commit: `🔧 chore: adiciona script de verificação da cobertura mínima de 90%`
 
 ## Fase 2 — Pipeline

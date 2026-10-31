@@ -166,7 +166,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Commit: `🔧 chore: adiciona reportgenerator ao manifesto de ferramentas`
 - [X] **R037** · `009/T003` [H12] `coverlet.runsettings` com filtros e exclusões — `coverlet.runsettings`
   Commit: `🔧 chore: adiciona configuração de cobertura com coverlet`
-- [ ] **R038** · `009/T005` [H12] Script de verificação da cobertura mínima (`-Minimo`, `-ExecutarTestes`) — `scripts/verificar-cobertura.ps1`
+- [X] **R038** · `009/T005` [H12] Script de verificação da cobertura mínima (`-Minimo`, `-ExecutarTestes`) — `scripts/verificar-cobertura.ps1`
   Commit: `🔧 chore: adiciona script de verificação da cobertura mínima de 90%`
   Depende de: R037 (`009/T003`), R036 (`009/T004`)
 - [ ] **R039** · Script `scripts/validar-mensagem-commit.ps1` (regex do guia de commits e lista de gitmojis)
