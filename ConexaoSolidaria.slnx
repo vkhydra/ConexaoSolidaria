@@ -5,6 +5,13 @@
     <Project Path="src/BuildingBlocks/ConexaoSolidaria.ServiceDefaults/ConexaoSolidaria.ServiceDefaults.csproj" />
   </Folder>
   <Folder Name="/src/Services/" />
+  <Folder Name="/src/Services/Campanhas/">
+    <Project Path="src/Services/Campanhas/Arrecadacao.Worker/Arrecadacao.Worker.csproj" />
+    <Project Path="src/Services/Campanhas/Campanhas.Api/Campanhas.Api.csproj" />
+    <Project Path="src/Services/Campanhas/Campanhas.Application/Campanhas.Application.csproj" />
+    <Project Path="src/Services/Campanhas/Campanhas.Domain/Campanhas.Domain.csproj" />
+    <Project Path="src/Services/Campanhas/Campanhas.Infrastructure/Campanhas.Infrastructure.csproj" />
+  </Folder>
   <Folder Name="/src/Services/Identity/">
     <Project Path="src/Services/Identity/Identity.Api/Identity.Api.csproj" />
     <Project Path="src/Services/Identity/Identity.Application/Identity.Application.csproj" />

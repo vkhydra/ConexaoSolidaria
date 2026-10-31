@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\Campanhas.Domain\Campanhas.Domain.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\ConexaoSolidaria.Contracts\ConexaoSolidaria.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>
