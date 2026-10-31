@@ -28,7 +28,7 @@ Formato: `- [ ] Tnnn [P] [história] descrição — arquivo(s)`, seguido do com
   Commit: `🛂 feat(identity): adiciona hash de senha com bcrypt`
 - [X] T008 [P] [H02] `EmissorJwtRs256` com testes do payload (sem dados pessoais) — `Identity.Infrastructure/Seguranca/EmissorJwtRs256.cs`
   Commit: `🛂 feat(identity): emite jwt rs256 no login`
-- [ ] T009 [H02] Repositórios EF Core com testes de integração (Testcontainers) — `Identity.Infrastructure/Persistencia/Repositorios/*`
+- [X] T009 [H02] Repositórios EF Core com testes de integração (Testcontainers) — `Identity.Infrastructure/Persistencia/Repositorios/*`
   Commit: `🗃️ feat(identity): adiciona repositórios de usuário e tentativas`
 
 ## Fase 4 — Validação do token em todos os serviços

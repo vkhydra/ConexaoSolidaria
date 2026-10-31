@@ -218,7 +218,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Commit: `🛂 feat(identity): adiciona hash de senha com bcrypt`
 - [X] **R055** · `001/T008` [H02] `EmissorJwtRs256` com testes do payload (sem dados pessoais) — `Identity.Infrastructure/Seguranca/EmissorJwtRs256.cs`
   Commit: `🛂 feat(identity): emite jwt rs256 no login`
-- [ ] **R056** · `001/T009` [H02] Repositórios EF Core com testes de integração (Testcontainers) — `Identity.Infrastructure/Persistencia/Repositorios/*`
+- [X] **R056** · `001/T009` [H02] Repositórios EF Core com testes de integração (Testcontainers) — `Identity.Infrastructure/Persistencia/Repositorios/*`
   Commit: `🗃️ feat(identity): adiciona repositórios de usuário e tentativas`
   Depende de: R053 (`001/T006`)
 - [ ] **R057** · `001/T010` [H02] `AddAutenticacaoJwt()` com policies `GestorONG`, `Doador` e `FallbackPolicy`, com testes — `ConexaoSolidaria.ServiceDefaults/Autenticacao/*`
