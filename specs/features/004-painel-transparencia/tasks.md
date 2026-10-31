@@ -22,7 +22,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 - [X] T005 [H05] Endpoint `GET /transparencia/campanhas` com `AllowAnonymous` e `Cache-Control` — `Campanhas.Api/Endpoints/TransparenciaEndpoints.cs`
   Commit: `✨ feat(campanhas): adiciona endpoint do painel de transparência`
-- [ ] T006 [P] [H05] Métrica `painel_cache_total{resultado}` — `Campanhas.Infrastructure/Cache/CachePainelHybrid.cs`
+- [X] T006 [P] [H05] Métrica `painel_cache_total{resultado}` — `Campanhas.Infrastructure/Cache/CachePainelHybrid.cs`
   Commit: `📈 feat(campanhas): adiciona métrica de cache do painel`
 
 ## Fase 4 — Testes de integração, aceitação e carga

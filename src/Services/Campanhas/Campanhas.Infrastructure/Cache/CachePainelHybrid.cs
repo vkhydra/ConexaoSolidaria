@@ -8,7 +8,8 @@ namespace Campanhas.Infrastructure.Cache;
 /// de consultas ao banco quando a chave expira. A chave é versionada para que uma mudança de formato não leia dados antigos.
 /// </summary>
 /// <param name="cache">Cache híbrido do .NET.</param>
-public sealed class CachePainelHybrid(HybridCache cache) : ICachePainel
+/// <param name="metricas">Métrica de consultas ao cache.</param>
+public sealed class CachePainelHybrid(HybridCache cache, IMetricasPainel metricas) : ICachePainel
 {
     /// <summary>
     /// Chave do painel no cache; o sufixo <c>v1</c> muda quando o formato de <see cref="PainelItemResponse"/> muda.
@@ -36,11 +37,36 @@ public sealed class CachePainelHybrid(HybridCache cache) : ICachePainel
     {
         ArgumentNullException.ThrowIfNull(fabrica);
 
-        return await cache.GetOrCreateAsync<PainelItemResponse[]>(
-            Chave,
-            async ct => [.. await fabrica(ct)],
-            _opcoes,
-            cancellationToken: cancelamento);
+        var consultouOBanco = false;
+        var bancoFalhou = false;
+        try
+        {
+            var painel = await cache.GetOrCreateAsync<PainelItemResponse[]>(
+                Chave,
+                async ct =>
+                {
+                    consultouOBanco = true;
+                    try
+                    {
+                        return [.. await fabrica(ct)];
+                    }
+                    catch (Exception)
+                    {
+                        bancoFalhou = true;
+                        throw;
+                    }
+                },
+                _opcoes,
+                cancellationToken: cancelamento);
+
+            metricas.Registrar(consultouOBanco ? ResultadoCache.Falta : ResultadoCache.Acerto);
+            return painel;
+        }
+        catch (Exception excecao) when (excecao is not OperationCanceledException && !bancoFalhou)
+        {
+            metricas.Registrar(ResultadoCache.Erro);
+            throw;
+        }
     }
 
     /// <inheritdoc/>

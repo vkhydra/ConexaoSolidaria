@@ -17,6 +17,11 @@ public sealed class CachePainelHybridTests : IAsyncLifetime
     private readonly RedisContainer _redis = new RedisBuilder("redis:7-alpine").Build();
 
     /// <summary>
+    /// Métrica de teste que guarda os resultados registrados, no lugar da métrica global do Prometheus.
+    /// </summary>
+    private readonly IMetricasPainel _metricas = Substitute.For<IMetricasPainel>();
+
+    /// <summary>
     /// Sobe o Redis.
     /// </summary>
     /// <returns>Tarefa que termina com o Redis pronto.</returns>
@@ -60,6 +65,8 @@ public sealed class CachePainelHybridTests : IAsyncLifetime
         segunda.ShouldHaveSingleItem().Titulo.ShouldBe("chamada 1");
         terceira.ShouldHaveSingleItem().Titulo.ShouldBe("chamada 2");
         chamadas.ShouldBe(2);
+        _metricas.Received(2).Registrar(ResultadoCache.Falta);
+        _metricas.Received(1).Registrar(ResultadoCache.Acerto);
     }
 
     /// <summary>
@@ -107,7 +114,7 @@ public sealed class CachePainelHybridTests : IAsyncLifetime
         var configuracao = new ConfigurationBuilder()
             .AddInMemoryCollection(new Dictionary<string, string?> { ["ConnectionStrings:Redis"] = _redis.GetConnectionString() })
             .Build();
-        return new ServiceCollection().AddLogging().AddCampanhasCache(configuracao).BuildServiceProvider();
+        return new ServiceCollection().AddLogging().AddCampanhasCache(configuracao).AddSingleton<IMetricasPainel>(_metricas).BuildServiceProvider();
     }
 
     /// <summary>

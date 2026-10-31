@@ -65,6 +65,7 @@ public static class ExtensoesCampanhasInfraestrutura
             opcoes.InstanceName = "campanhas:";
         });
         servicos.AddHybridCache();
+        servicos.AddSingleton<IMetricasPainel, MetricasPainelPrometheus>();
         servicos.AddSingleton<ICachePainel, CachePainelHybrid>();
         return servicos;
     }
