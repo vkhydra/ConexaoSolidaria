@@ -354,7 +354,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Depende de: R102 (`004/T002`), R103 (`004/T003`)
 - [X] **R106** · `004/T006` [H05] Métrica `painel_cache_total{resultado}` — `Campanhas.Infrastructure/Cache/CachePainelHybrid.cs`
   Commit: `📈 feat(campanhas): adiciona métrica de cache do painel`
-- [ ] **R107** · `004/T007` [H05] Testes de integração: só ativas no período, ordenação, percentual, Redis parado, cabeçalho de cache — `tests/integration/Campanhas.IntegrationTests/TransparenciaTests.cs`
+- [X] **R107** · `004/T007` [H05] Testes de integração: só ativas no período, ordenação, percentual, Redis parado, cabeçalho de cache — `tests/integration/Campanhas.IntegrationTests/TransparenciaTests.cs`
   Commit: `✅ test(campanhas): adiciona testes de integração do painel`
   Depende de: R105 (`004/T005`)
 - [ ] **R108** · `004/T008` [H05] Cenários Gherkin (exceto "após doação", entregue com a feature 005) — `tests/e2e/ConexaoSolidaria.Bdd/Features/004-painel-transparencia.feature`

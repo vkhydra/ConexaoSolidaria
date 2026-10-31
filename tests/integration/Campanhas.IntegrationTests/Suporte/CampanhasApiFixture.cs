@@ -1,4 +1,5 @@
 using System.Security.Cryptography;
+using Campanhas.Application.Transparencia;
 using Campanhas.Infrastructure.Persistencia;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -44,6 +45,34 @@ public sealed class CampanhasApiFixture : WebApplicationFactory<Program>, IAsync
         using var cliente = CreateClient();
         await using var escopo = Services.CreateAsyncScope();
         await escopo.ServiceProvider.GetRequiredService<CampanhasDbContext>().Database.MigrateAsync();
+    }
+
+    /// <summary>
+    /// Executa um comando SQL direto no banco, para simular o que o Arrecadacao.Worker faz (total) ou para criar datas que a API não aceita.
+    /// </summary>
+    /// <param name="sql">Comando SQL com parâmetros nomeados.</param>
+    /// <param name="parametros">Parâmetros do comando.</param>
+    /// <returns>Tarefa que termina com o comando executado.</returns>
+    public async Task ExecutarSqlAsync(string sql, params (string Nome, object Valor)[] parametros)
+    {
+        await using var conexao = new NpgsqlConnection(_container.GetConnectionString());
+        await conexao.OpenAsync();
+        await using var comando = new NpgsqlCommand(sql, conexao);
+        foreach (var (nome, valor) in parametros)
+        {
+            comando.Parameters.AddWithValue(nome, valor);
+        }
+
+        await comando.ExecuteNonQueryAsync();
+    }
+
+    /// <summary>
+    /// Remove o painel do cache, para que a próxima consulta leia o banco.
+    /// </summary>
+    /// <returns>Tarefa que termina com o cache limpo.</returns>
+    public async Task LimparCachePainelAsync()
+    {
+        await Services.GetRequiredService<ICachePainel>().RemoverAsync(CancellationToken.None);
     }
 
     /// <summary>
