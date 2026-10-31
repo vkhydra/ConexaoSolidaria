@@ -1,6 +1,6 @@
 # 16 — Padrões de código
 
-[← README](../README.md) · Anterior: [15 — Testes](testes.md) · Próximo: [17 — Git e commits](git-e-commits.md)
+[← README](../README.md)
 
 Referências: `wiki:disciplinas/solid`, `wiki:boas-praticas/solid`, `wiki:boas-praticas/api-dotnet`, `wiki:boas-praticas/efcore`, `wiki:boas-praticas/microsservicos`.
 

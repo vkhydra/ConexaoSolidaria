@@ -1,6 +1,6 @@
 # 01 — Visão geral e escopo
 
-[← README](../../README.md) · Próximo: [02 — Pré-requisitos](../../docs/pre-requisitos.md)
+[← README](../../README.md)
 
 ## 1.1 Contexto
 

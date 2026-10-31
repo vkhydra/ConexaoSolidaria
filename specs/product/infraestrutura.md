@@ -1,6 +1,6 @@
 # 13 — Infraestrutura
 
-[← README](../../README.md) · Anterior: [12 — Observabilidade](observabilidade.md) · Próximo: [14 — CI/CD](ci-cd.md)
+[← README](../../README.md)
 
 Referências: `wiki:disciplinas/docker`, `wiki:disciplinas/kubernetes`, `wiki:disciplinas/orquestracao-k8s`, `wiki:disciplinas/api-gateway`, `wiki:disciplinas/serverless-apps`, `wiki:boas-praticas/docker`, `wiki:boas-praticas/kubernetes`.
 

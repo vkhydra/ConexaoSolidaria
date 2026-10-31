@@ -1,6 +1,6 @@
 # 07 — Arquitetura
 
-[← README](../../README.md) · Anterior: [06 — Modelo de domínio](dominio.md) · Próximo: [08 — Decisões arquiteturais](../../docs/spec/08-decisoes-arquiteturais.md)
+[← README](../../README.md)
 
 ## 7.1 Visão de contexto
 

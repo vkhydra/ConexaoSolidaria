@@ -1,6 +1,6 @@
 # 18 — Cobertura das 5 fases
 
-[← README](../README.md) · Anterior: [17 — Git e commits](git-e-commits.md) · Próximo: [19 — Skills e MCP](claude-code.md)
+[← README](../README.md)
 
 Onde cada disciplina do curso é aplicada. Coluna **Etapa** aponta para o [plano de execução](plano-de-execucao.md); **Wiki** aponta para `C:\Victor\Fiap\LLMWiki\wiki`.
 

@@ -1,6 +1,6 @@
 # 03 — Processo ágil
 
-[← README](../README.md) · Anterior: [02 — Pré-requisitos](pre-requisitos.md) · Próximo: [04 — Requisitos funcionais](spec/04-requisitos-funcionais.md)
+[← README](../README.md)
 
 Como o grupo organiza o trabalho. Aplica Scrum, Kanban, XP e Lean da Fase 5 (`wiki:disciplinas/metodologias-ageis`).
 

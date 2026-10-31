@@ -1,6 +1,6 @@
 # 23 — Manual do usuário
 
-[← README](../README.md) · Anterior: [22 — Manual de implementação](manual-de-implementacao.md)
+[← README](../README.md)
 
 Como usar a plataforma **Conexão Solidária** pelo navegador. Público: visitantes, doadores e gestores da ONG Esperança Solidária. Para instalar e colocar no ar, ver [22 — Manual de implementação](manual-de-implementacao.md).
 
