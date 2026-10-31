@@ -349,7 +349,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R104** · `004/T004` [H05] Invalidação do cache ao criar ou alterar campanha — `Campanhas.Application/Campanhas/*`
   Commit: `⚡️ feat(campanhas): invalida cache do painel ao alterar campanha`
   Depende de: R103 (`004/T003`)
-- [ ] **R105** · `004/T005` [H05] Endpoint `GET /transparencia/campanhas` com `AllowAnonymous` e `Cache-Control` — `Campanhas.Api/Endpoints/TransparenciaEndpoints.cs`
+- [X] **R105** · `004/T005` [H05] Endpoint `GET /transparencia/campanhas` com `AllowAnonymous` e `Cache-Control` — `Campanhas.Api/Endpoints/TransparenciaEndpoints.cs`
   Commit: `✨ feat(campanhas): adiciona endpoint do painel de transparência`
   Depende de: R102 (`004/T002`), R103 (`004/T003`)
 - [ ] **R106** · `004/T006` [H05] Métrica `painel_cache_total{resultado}` — `Campanhas.Infrastructure/Cache/CachePainelHybrid.cs`

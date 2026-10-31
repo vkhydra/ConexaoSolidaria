@@ -30,6 +30,7 @@ builder.Services.AddScoped<AtualizarCampanha>();
 builder.Services.AddScoped<AlterarStatusCampanha>();
 builder.Services.AddScoped<ListarCampanhas>();
 builder.Services.AddScoped<ObterCampanha>();
+builder.Services.AddScoped<ObterPainelTransparencia>();
 
 var app = builder.Build();
 
@@ -40,6 +41,7 @@ app.UseAuthorization();
 app.MapearSaude();
 app.MapearMetricas();
 app.MapearCampanhas();
+app.MapearTransparencia();
 
 app.Run();
 
