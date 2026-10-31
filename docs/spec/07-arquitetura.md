@@ -118,6 +118,7 @@ sequenceDiagram
 ├── deploy/
 │   ├── docker-compose.yml
 │   ├── .env.example
+│   ├── helm/                        # values dos charts (kong, keda, kube-prometheus-stack, jaeger)
 │   ├── rabbitmq/definitions.json    # filas e bindings da função
 │   ├── k8s/
 │   │   ├── base/                    # namespaces, infra, apps, kong, keda
