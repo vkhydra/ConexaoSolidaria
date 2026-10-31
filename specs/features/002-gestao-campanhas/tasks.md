@@ -51,7 +51,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 - [X] T015 [H03] [H04] Testes de integração: 201, 400, 401, 403, 404, 409, 412, 422 e evento no Outbox — `tests/integration/Campanhas.IntegrationTests/CampanhasEndpointsTests.cs`
   Commit: `✅ test(campanhas): adiciona testes de integração da gestão de campanhas`
-- [ ] T016 [H03] [H04] Cenários Gherkin automatizados — `tests/e2e/ConexaoSolidaria.Bdd/Features/002-gestao-campanhas.feature`
+- [X] T016 [H03] [H04] Cenários Gherkin automatizados — `tests/e2e/ConexaoSolidaria.Bdd/Features/002-gestao-campanhas.feature`
   Commit: `✅ test(bdd): adiciona cenários de gestão de campanhas`
 
 ## Fase 7 — Interface

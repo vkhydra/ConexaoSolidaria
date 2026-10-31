@@ -32,14 +32,10 @@ Funcionalidade: Login e controle de acesso
     Quando ele tenta entrar novamente com a senha correta
     Então recebe status 429
 
-  # Depende das rotas de gestão de campanhas (feature 002); liberado em R099.
-  @ignore
   Cenário: Rota protegida sem token
     Quando alguém lista as campanhas da gestão sem token
     Então recebe status 401
 
-  # Depende do cadastro de doador (003) e das rotas de campanhas (002); liberado em R099.
-  @ignore
   Cenário: Doador tenta acessar gestão de campanhas
     Dado um doador autenticado
     Quando ele lista as campanhas da gestão

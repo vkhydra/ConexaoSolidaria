@@ -1,0 +1,217 @@
+using System.Globalization;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
+using System.Text.Json;
+using Campanhas.Infrastructure.Persistencia;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Time.Testing;
+
+namespace ConexaoSolidaria.Bdd.Suporte;
+
+/// <summary>
+/// Ambiente de um cenário para a Campanhas.Api real em memória, com banco PostgreSQL exclusivo, a data de "hoje" controlada
+/// e a validação do JWT emitido pela Identity do mesmo cenário.
+/// </summary>
+/// <param name="identidade">Ambiente da Identity, que emite os tokens.</param>
+/// <param name="respostaDoCenario">Guarda a última resposta do cenário, compartilhada com a Identity.</param>
+public sealed class AmbienteCampanhas(AmbienteIdentity identidade, RespostaDoCenario respostaDoCenario) : IDisposable
+{
+    /// <summary>
+    /// Relógio do cenário, fixado em "hoje" e usado pela API.
+    /// </summary>
+    private readonly FakeTimeProvider _relogio = new(new DateTimeOffset(2026, 11, 10, 15, 0, 0, TimeSpan.Zero));
+
+    /// <summary>
+    /// Versões (ETag) guardadas pelo cenário, por rótulo ("1", "2").
+    /// </summary>
+    private readonly Dictionary<string, string> _versoes = [];
+
+    /// <summary>
+    /// API iniciada pelo cenário, descartada no fim.
+    /// </summary>
+    private WebApplicationFactory<Program>? _api;
+
+    /// <summary>
+    /// Cliente HTTP da API.
+    /// </summary>
+    private HttpClient? _cliente;
+
+    /// <summary>
+    /// Obtém o identificador da última campanha criada pelo cenário.
+    /// </summary>
+    public Guid? UltimaCampanhaId { get; private set; }
+
+    /// <summary>
+    /// Fixa a data de "hoje" em São Paulo (ao meio-dia) para a API do cenário.
+    /// </summary>
+    /// <param name="hoje">Data de hoje no formato <c>aaaa-MM-dd</c>.</param>
+    public void DefinirHoje(string hoje)
+    {
+        var data = DateOnly.ParseExact(hoje, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+        _relogio.SetUtcNow(new DateTimeOffset(data.Year, data.Month, data.Day, 15, 0, 0, TimeSpan.Zero));
+    }
+
+    /// <summary>
+    /// Passa a enviar o token informado em todas as chamadas; nulo remove a autenticação.
+    /// </summary>
+    /// <param name="token">JWT, ou nulo para chamar sem token.</param>
+    /// <returns>Tarefa que termina com o cabeçalho ajustado.</returns>
+    public async Task UsarTokenAsync(string? token)
+    {
+        var cliente = await ObterClienteAsync();
+        cliente.DefaultRequestHeaders.Authorization = token is null ? null : new AuthenticationHeaderValue("Bearer", token);
+    }
+
+    /// <summary>
+    /// Cria uma campanha e guarda a resposta; se der certo, guarda o identificador e a versão "1".
+    /// </summary>
+    /// <param name="titulo">Título.</param>
+    /// <param name="inicio">Data início (<c>aaaa-MM-dd</c>).</param>
+    /// <param name="fim">Data fim (<c>aaaa-MM-dd</c>).</param>
+    /// <param name="meta">Meta em reais, com ponto decimal.</param>
+    /// <returns>Tarefa que termina com a resposta guardada.</returns>
+    public async Task CriarAsync(string titulo, string inicio, string fim, string meta)
+    {
+        var cliente = await ObterClienteAsync();
+        respostaDoCenario.Resposta = await cliente.PostAsJsonAsync("/api/v1/campanhas", Corpo(titulo, inicio, fim, meta));
+        if (respostaDoCenario.Resposta.IsSuccessStatusCode)
+        {
+            var corpo = JsonDocument.Parse(await respostaDoCenario.Resposta.Content.ReadAsStringAsync()).RootElement;
+            UltimaCampanhaId = corpo.GetProperty("id").GetGuid();
+            _versoes["1"] = respostaDoCenario.Resposta.Headers.ETag!.Tag;
+        }
+    }
+
+    /// <summary>
+    /// Altera a meta da última campanha informando a versão (rótulo) que o gestor viu, e guarda a resposta.
+    /// Se der certo, guarda o novo ETag como a versão seguinte ("2").
+    /// </summary>
+    /// <param name="meta">Nova meta, com ponto decimal.</param>
+    /// <param name="rotuloDaVersao">Rótulo da versão enviada no If-Match.</param>
+    /// <returns>Tarefa que termina com a resposta guardada.</returns>
+    public async Task AlterarMetaAsync(string meta, string rotuloDaVersao)
+    {
+        var cliente = await ObterClienteAsync();
+        var atual = await cliente.GetFromJsonAsync<JsonElement>($"/api/v1/campanhas/{UltimaCampanhaId}");
+        using var requisicao = new HttpRequestMessage(HttpMethod.Put, $"/api/v1/campanhas/{UltimaCampanhaId}")
+        {
+            Content = JsonContent.Create(Corpo(
+                atual.GetProperty("titulo").GetString()!,
+                atual.GetProperty("dataInicio").GetString()!,
+                atual.GetProperty("dataFim").GetString()!,
+                meta)),
+        };
+        requisicao.Headers.TryAddWithoutValidation("If-Match", _versoes[rotuloDaVersao]);
+        respostaDoCenario.Resposta = await cliente.SendAsync(requisicao);
+        if (respostaDoCenario.Resposta.IsSuccessStatusCode)
+        {
+            _versoes["2"] = respostaDoCenario.Resposta.Headers.ETag!.Tag;
+        }
+    }
+
+    /// <summary>
+    /// Muda o status da última campanha e guarda a resposta.
+    /// </summary>
+    /// <param name="status">Status de destino.</param>
+    /// <returns>Tarefa que termina com a resposta guardada.</returns>
+    public async Task AlterarStatusAsync(string status)
+    {
+        var cliente = await ObterClienteAsync();
+        respostaDoCenario.Resposta = await cliente.PatchAsJsonAsync($"/api/v1/campanhas/{UltimaCampanhaId}/status", new { status });
+    }
+
+    /// <summary>
+    /// Lista as campanhas da gestão com o token em uso e guarda a resposta.
+    /// </summary>
+    /// <returns>Tarefa que termina com a resposta guardada.</returns>
+    public async Task ListarAsync()
+    {
+        respostaDoCenario.Resposta = await (await ObterClienteAsync()).GetAsync("/api/v1/campanhas");
+    }
+
+    /// <summary>
+    /// Lê um campo de texto do JSON da última resposta, convertendo números para texto com ponto decimal.
+    /// </summary>
+    /// <param name="campo">Nome do campo em camelCase.</param>
+    /// <returns>O valor em texto, ou nulo se o campo não existe.</returns>
+    public async Task<string?> LerCampoAsync(string campo)
+    {
+        var texto = await respostaDoCenario.Resposta!.Content.ReadAsStringAsync();
+        using var documento = JsonDocument.Parse(texto);
+        return documento.RootElement.TryGetProperty(campo, out var valor)
+            ? (valor.ValueKind == JsonValueKind.Number ? valor.GetDecimal().ToString("F2", CultureInfo.InvariantCulture) : valor.GetString())
+            : null;
+    }
+
+    /// <summary>
+    /// Libera a API e o cliente.
+    /// </summary>
+    public void Dispose()
+    {
+        _cliente?.Dispose();
+        _api?.Dispose();
+    }
+
+    /// <summary>
+    /// Monta o corpo de uma campanha.
+    /// </summary>
+    /// <param name="titulo">Título.</param>
+    /// <param name="inicio">Data início.</param>
+    /// <param name="fim">Data fim.</param>
+    /// <param name="meta">Meta em reais, com ponto decimal.</param>
+    /// <returns>O corpo da requisição.</returns>
+    private static object Corpo(string titulo, string inicio, string fim, string meta)
+    {
+        return new
+        {
+            titulo,
+            descricao = "Campanha de teste.",
+            dataInicio = inicio,
+            dataFim = fim,
+            metaFinanceira = decimal.Parse(meta, CultureInfo.InvariantCulture),
+        };
+    }
+
+    /// <summary>
+    /// Obtém o cliente da API, iniciando-a na primeira chamada.
+    /// </summary>
+    /// <returns>O cliente HTTP da API de Campanhas.</returns>
+    private async Task<HttpClient> ObterClienteAsync()
+    {
+        if (_cliente is not null)
+        {
+            return _cliente;
+        }
+
+        var conexao = await ServidorPostgres.CriarBancoAsync();
+        var opcoes = new DbContextOptionsBuilder<CampanhasDbContext>();
+        CampanhasDbContext.Configurar(opcoes, conexao);
+        await using (var contexto = new CampanhasDbContext(opcoes.Options))
+        {
+            await contexto.Database.MigrateAsync();
+        }
+
+        _api = new WebApplicationFactory<Program>().WithWebHostBuilder(builder =>
+        {
+            builder.UseEnvironment("Development");
+            builder.UseSetting("ConnectionStrings:Campanhas", conexao);
+            builder.UseSetting("RabbitMq:Host", "rabbitmq.invalido.local");
+            builder.UseSetting("Jwt:ChavePublicaPem", identidade.ChavePublicaPem);
+            builder.ConfigureServices(servicos =>
+            {
+                foreach (var descritor in servicos.Where(d => d.ServiceType == typeof(IHostedService) && (d.ImplementationType?.FullName?.Contains("MassTransit", StringComparison.Ordinal) ?? false)).ToList())
+                {
+                    servicos.Remove(descritor);
+                }
+
+                servicos.AddSingleton<TimeProvider>(_relogio);
+            });
+        });
+        _cliente = _api.CreateClient();
+        return _cliente;
+    }
+}

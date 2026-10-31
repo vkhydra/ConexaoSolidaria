@@ -17,7 +17,8 @@ namespace ConexaoSolidaria.Bdd.Suporte;
 /// Ambiente de um cenário: Identity.Api real em memória, banco PostgreSQL exclusivo e chaves JWT geradas na hora.
 /// Os passos dos cenários usam este objeto sem conhecer detalhes de HTTP.
 /// </summary>
-public sealed class AmbienteIdentity : IDisposable
+/// <param name="respostaDoCenario">Guarda a última resposta do cenário, compartilhada com os outros serviços.</param>
+public sealed class AmbienteIdentity(RespostaDoCenario respostaDoCenario) : IDisposable
 {
     /// <summary>
     /// Par de chaves RSA do JWT, só para o cenário.
@@ -52,7 +53,51 @@ public sealed class AmbienteIdentity : IDisposable
     /// <summary>
     /// Obtém a última resposta HTTP recebida pelo cenário.
     /// </summary>
-    public HttpResponseMessage? Resposta { get; private set; }
+    public HttpResponseMessage? Resposta
+    {
+        get => respostaDoCenario.Resposta;
+        private set => respostaDoCenario.Resposta = value;
+    }
+
+    /// <summary>
+    /// Obtém a chave pública do JWT em PEM, com a qual os outros serviços do cenário validam os tokens da Identity.
+    /// </summary>
+    public string ChavePublicaPem => _rsa.ExportSubjectPublicKeyInfoPem();
+
+    /// <summary>
+    /// Entra com o e-mail e a senha informados, sem mexer no cabeçalho de autorização, e devolve o token.
+    /// </summary>
+    /// <param name="email">E-mail do usuário.</param>
+    /// <param name="senha">Senha do usuário.</param>
+    /// <returns>O <c>accessToken</c> devolvido pelo login.</returns>
+    public async Task<string> ObterTokenAsync(string email, string senha)
+    {
+        await LoginAsync(email, senha);
+        return (await LerCampoAsync("accessToken"))!;
+    }
+
+    /// <summary>
+    /// Cria o gestor inicial (seed) se preciso e devolve o token dele.
+    /// </summary>
+    /// <returns>O token do gestor.</returns>
+    public async Task<string> ObterTokenDoGestorAsync()
+    {
+        SeedEmail ??= "gestor.bdd@exemplo.com";
+        SeedSenha ??= "SenhaGestor@2026";
+        return await ObterTokenAsync(SeedEmail, SeedSenha);
+    }
+
+    /// <summary>
+    /// Cadastra um doador novo e devolve o token dele.
+    /// </summary>
+    /// <returns>O token do doador.</returns>
+    public async Task<string> ObterTokenDeDoadorAsync()
+    {
+        const string email = "doador.bdd@exemplo.com";
+        const string senha = "Senha@123";
+        await CadastrarAsync("Maria Silva", email, "529.982.247-25", senha, aceite: true);
+        return await ObterTokenAsync(email, senha);
+    }
 
     /// <summary>
     /// Obtém ou define o e-mail do último doador cadastrado pelo cenário.

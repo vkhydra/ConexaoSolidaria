@@ -334,7 +334,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R098** · `002/T015` [H03] [H04] Testes de integração: 201, 400, 401, 403, 404, 409, 412, 422 e evento no Outbox — `tests/integration/Campanhas.IntegrationTests/CampanhasEndpointsTests.cs`
   Commit: `✅ test(campanhas): adiciona testes de integração da gestão de campanhas`
   Depende de: R096 (`002/T013`)
-- [ ] **R099** · `002/T016` [H03] [H04] Cenários Gherkin automatizados — `tests/e2e/ConexaoSolidaria.Bdd/Features/002-gestao-campanhas.feature`
+- [X] **R099** · `002/T016` [H03] [H04] Cenários Gherkin automatizados — `tests/e2e/ConexaoSolidaria.Bdd/Features/002-gestao-campanhas.feature`
   Commit: `✅ test(bdd): adiciona cenários de gestão de campanhas`
   Depende de: R098 (`002/T015`)
 - [ ] **R100** · `002/T018` `/code-review` e `/simplify`; cobertura ≥ 90%; `git rebase --exec` antes do PR
