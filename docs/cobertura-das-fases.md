@@ -4,17 +4,26 @@
 
 Onde cada disciplina do curso é aplicada. Coluna **Etapa** aponta para o [plano de execução](plano-de-execucao.md) (Etapas 4 a 8 = features de [`specs/features/`](../specs/features/)); **Wiki** aponta para `C:\Victor\Fiap\LLMWiki\wiki`.
 
-Legenda de status: **Obrigatório** (enunciado), **Aplicado** (escolha do projeto para cobrir a fase), **Bônus** (se houver tempo), **Alternativa** (registrada em ADR, não implementada).
+Legenda de status: **Obrigatório** (exigido pelo enunciado do trabalho substitutivo, [ADR 0018](adr/0018-escopo-trabalho-substitutivo.md)), **Aplicado** (escolha do projeto para cobrir a fase), **Bônus** (se houver tempo), **Alternativa** (registrada em ADR, não implementada).
+
+## Trabalho substitutivo (requisitos avaliados)
+
+| Exigência | Aplicação no projeto | Status | Etapa | Wiki |
+|---|---|---|---|---|
+| API .NET com funcionalidades testáveis | Conexão Solidária (features 001–008) | **Obrigatório** | 4–8 | `disciplinas/api-dotnet` |
+| Testes unitários (MSTest, NUnit ou xUnit) com sucesso e erro | xUnit; regra "sucesso e erro" em todo `tasks.md` | **Obrigatório** | 3–8 | `conceitos/teste-de-unidade` |
+| Pipeline de CI que roda os testes e retorna a cobertura | GitHub Actions + artefato de cobertura ([feature 009](../specs/features/009-ci-testes-cobertura/spec.md)) | **Obrigatório** | 3 | `fontes/tech-challenge/06-trabalho-substitutivo-fase-3-testes-e-cobertura-ci` |
+| Vídeo demonstrando os passos | [Roteiro do vídeo](ROTEIRO-VIDEO.md) | **Obrigatório** | 18 | — |
 
 ## Fase 1 — Arquitetura e Qualidade de Software
 
 | Disciplina | Conteúdo | Aplicação no projeto | Status | Etapa | Wiki |
 |---|---|---|---|---|---|
-| APIs .NET | API REST, verbos e status | Endpoints dos contratos em [specs/features](../specs/features/) | Obrigatório | 4, 5 | `disciplinas/api-dotnet` |
+| APIs .NET | API REST, verbos e status | Endpoints dos contratos em [specs/features](../specs/features/) | Aplicado | 4, 5 | `disciplinas/api-dotnet` |
 | | Middlewares e DI | `IExceptionHandler`, correlação, DI por construtor | Aplicado | 3–5 | `conceitos/middleware-aspnet-core` |
 | | Logs | Serilog estruturado | Aplicado | 3 | `conceitos/logging-dotnet` |
 | | Serialização | `System.Text.Json`, enums como texto, contratos de evento | Aplicado | 4–6 | `conceitos/serializacao-de-dados` |
-| | Autenticação e autorização | JWT RS256, policies por role | Obrigatório | 4 | `conceitos/jwt` |
+| | Autenticação e autorização | JWT RS256, policies por role | Aplicado | 4 | `conceitos/jwt` |
 | | Dapper | Consulta do painel | Aplicado | 5 | `conceitos/dapper` |
 | | Documentação | OpenAPI + Swagger UI | Aplicado | 4, 5 | `conceitos/openapi-swagger` |
 | | Cache | `HybridCache` + Redis | Aplicado | 5 | `conceitos/cache-de-api` |
@@ -27,14 +36,17 @@ Legenda de status: **Obrigatório** (enunciado), **Aplicado** (escolha do projet
 | | Event Storming | Fluxos "criar campanha" e "doar" no Miro | Aplicado | 2 | `conceitos/event-storming` |
 | | Domain Storytelling | História da doação | Aplicado | 2 | `conceitos/domain-storytelling` |
 | | Linguagem ubíqua | [Glossário](glossary.md) | Aplicado | 2 | `conceitos/linguagem-ubiqua` |
-| | Requisitos, DoR, DoD | [Seção 03](processo-agil.md) | Aplicado | 2 | `conceitos/definition-of-ready` |
+| | Requisitos, DoR, DoD | [Processo ágil](processo-agil.md) | Aplicado | 2 | `conceitos/definition-of-ready` |
 | EF Core | Code First, Fluent API | `IEntityTypeConfiguration<T>` | Aplicado | 4, 5 | `conceitos/code-first` |
 | | Migrations | Migration bundle em Job | Aplicado | 4, 5, 11 | `conceitos/migrations` |
 | | Performance | `AsNoTracking`, projeção, índices | Aplicado | 5 | `conceitos/otimizacao-de-performance-ef-core` |
 | | Concorrência | `xmin` + `If-Match` | Aplicado | 5 | `boas-praticas/efcore` |
-| Princípios de qualidade | Pirâmide de testes | [Seção 15](testes.md) | Aplicado | 4–9 | `conceitos/piramide-de-testes` |
+| Princípios de qualidade | Pirâmide de testes | [Testes](testes.md) | Aplicado | 4–9 | `conceitos/piramide-de-testes` |
 | | Testes de UI | bUnit; Playwright | Aplicado / Bônus | 8 | `conceitos/automacao-de-testes-ui` |
-| Qualidade de software | Testes de unidade | xUnit | Bônus do enunciado | 4–6 | `conceitos/teste-de-unidade` |
+| Qualidade de software | Testes de unidade | xUnit; casos de sucesso e de erro em todas as features ([feature 009](../specs/features/009-ci-testes-cobertura/spec.md)) | **Obrigatório** | 3–8 | `conceitos/teste-de-unidade` |
+| | Frameworks de teste | xUnit v3 (MSTest e NUnit como alternativas aceitas) | **Obrigatório** | 3 | `conceitos/frameworks-de-teste-dotnet` |
+| | Cobertura de código | coverlet + ReportGenerator; relatório como artefato na pipeline | **Obrigatório** | 3 | `conceitos/cobertura-de-codigo` |
+| | AAA e dublês | Arrange–Act–Assert; NSubstitute | Aplicado | 3–8 | `conceitos/padrao-arrange-act-assert`, `conceitos/mock-e-stub` |
 | | TDD | Domínio | Aplicado | 4, 5 | `conceitos/tdd` |
 | | BDD | Reqnroll + Gherkin | Aplicado | 5, 9 | `conceitos/bdd` |
 | | Integração | Testcontainers | Aplicado | 4–6 | `conceitos/teste-de-integracao` |
@@ -44,22 +56,22 @@ Legenda de status: **Obrigatório** (enunciado), **Aplicado** (escolha do projet
 
 | Disciplina | Conteúdo | Aplicação no projeto | Status | Etapa | Wiki |
 |---|---|---|---|---|---|
-| Microsserviços | Decomposição | 4 componentes de backend por contexto | Obrigatório | 3 | `disciplinas/microsservicos` |
+| Microsserviços | Decomposição | 4 componentes de backend por contexto | Aplicado | 3 | `disciplinas/microsservicos` |
 | | Banco por serviço | Bancos por contexto, usuários separados | Aplicado | 4, 5 | `conceitos/banco-de-dados-por-servico` |
-| | Comunicação assíncrona | Eventos via RabbitMQ | Obrigatório | 6 | `conceitos/comunicacao-sincrona-e-assincrona` |
+| | Comunicação assíncrona | Eventos via RabbitMQ | Aplicado | 6 | `conceitos/comunicacao-sincrona-e-assincrona` |
 | | Resiliência | Circuit breaker, retry, bulkhead (prefetch) | Aplicado | 6, 8 | `conceitos/circuit-breaker` |
 | | Saga | Não necessária (um passo de negócio); registrado em ADR | Alternativa | 2 | `conceitos/saga` |
 | | Segurança | JWT validado em cada serviço; NetworkPolicy | Aplicado | 4, 11 | `conceitos/seguranca-em-microsservicos` |
 | Docker | Dockerfile multi-stage | Um por serviço | Aplicado | 10 | `conceitos/dockerfile` |
 | | Compose | Stack completa | Aplicado | 10 | `conceitos/docker-compose` |
 | | Segurança de imagens | Não root, Trivy | Aplicado | 10, 14 | `conceitos/seguranca-de-imagens-docker` |
-| Kubernetes | Deployments, Services, ConfigMaps | Manifestos `.yaml` | Obrigatório | 11 | `disciplinas/kubernetes` |
+| Kubernetes | Deployments, Services, ConfigMaps | Manifestos `.yaml` | Aplicado | 11 | `disciplinas/kubernetes` |
 | | Secrets | Gerados por script | Aplicado | 11 | `conceitos/configmap` |
 | | Probes | live, ready, startup | Aplicado | 11 | `conceitos/probes-kubernetes` |
 | | HPA | APIs | Aplicado | 11 | `conceitos/hpa` |
 | | Volumes | PVC nos StatefulSets | Aplicado | 11 | `conceitos/persistent-volume-e-pvc` |
 | Orquestração (AKS) | AKS e CI/CD com AKS | Etapa opcional | Aplicado (opcional) | 15 | `disciplinas/orquestracao-k8s` |
-| Mensageria | RabbitMQ, exchanges | Fanout por evento | Obrigatório | 6 | `conceitos/rabbitmq` |
+| Mensageria | RabbitMQ, exchanges | Fanout por evento | Aplicado | 6 | `conceitos/rabbitmq` |
 | | MassTransit | Outbox, retry, DLQ | Aplicado | 5, 6 | `conceitos/masstransit` |
 | | Garantias e idempotência | At-least-once + idempotência | Aplicado | 6 | `conceitos/garantias-de-entrega` |
 | | Kafka / CDC | Kafka e Debezium não usados | Alternativa | — | `conceitos/apache-kafka` |
@@ -70,33 +82,36 @@ Legenda de status: **Obrigatório** (enunciado), **Aplicado** (escolha do projet
 |---|---|---|---|---|---|
 | Serverless | FaaS orientado a evento | `Notificacoes.Function` + KEDA | Aplicado | 7 | `conceitos/azure-functions` |
 | | AWS Lambda / Step Functions | Não usados (Azure escolhida) | Alternativa | — | `conceitos/aws-lambda` |
-| API Gateway | Kong | Rotas, rate limiting, CORS, métricas | Bônus do enunciado | 12 | `conceitos/kong-gateway` |
+| API Gateway | Kong | Rotas, rate limiting, CORS, métricas | Aplicado | 12 | `conceitos/kong-gateway` |
 | | Azure APIM | Não usado (pago) | Alternativa | — | `conceitos/azure-api-management` |
-| Monitoramento | Prometheus | Coleta de `/metrics` | Obrigatório | 13 | `conceitos/prometheus` |
-| | Grafana | Dashboard como código | Obrigatório | 13 | `conceitos/grafana` |
+| Monitoramento | Prometheus | Coleta de `/metrics` | Aplicado | 13 | `conceitos/prometheus` |
+| | Grafana | Dashboard como código | Aplicado | 13 | `conceitos/grafana` |
 | | Zabbix | Cenário web em `/health/ready` | Bônus | 13 | `conceitos/zabbix` |
 | | Alertmanager | Alertas de [observabilidade](../specs/product/observabilidade.md) com [runbooks](runbooks/README.md) | Aplicado | 13 | `conceitos/alertmanager` |
 | Monitoramento avançado | Tracing distribuído | OpenTelemetry + Jaeger | Aplicado | 3, 13 | `conceitos/distributed-tracing` |
 | | Golden metrics, SLO | Dashboard e [requisitos não funcionais](../specs/product/requisitos-nao-funcionais.md) | Aplicado | 13 | `conceitos/golden-metrics` |
 | | Logs e severidade | Serilog | Aplicado | 3 | `conceitos/logs-e-severidade` |
 | | Datadog / New Relic | Não usados (SaaS) | Alternativa | — | `conceitos/apm` |
-| Arquitetura (TC Fase 3) | Event sourcing ou audit log | Livro de doações no MongoDB | Aplicado | 6 | `conceitos/event-sourcing` |
+| Arquitetura orientada a eventos | Event sourcing ou audit log | Livro de doações no MongoDB | Aplicado | 6 | `conceitos/event-sourcing` |
 
 ## Fase 4 — Cloud, DevOps e Elasticsearch
 
 | Disciplina | Conteúdo | Aplicação no projeto | Status | Etapa | Wiki |
 |---|---|---|---|---|---|
-| GitHub Actions | Workflows, jobs, matriz | `ci.yml` | Obrigatório | 14 | `disciplinas/github-actions` |
-| | Build e publicação de imagens | GHCR com tag por SHA | Obrigatório | 14 | `conceitos/workflow-github-actions` |
+| GitHub Actions | Pipeline de CI com testes unitários e cobertura | `ci.yml`, jobs `testes-unitarios` e `testes-integracao` | **Obrigatório** | 3 | `disciplinas/github-actions` |
+| | Workflows, jobs, matriz | Demais jobs do `ci.yml` (segredos, imagens, CodeQL) | Aplicado | 14 | `conceitos/workflow-github-actions` |
+| | Build e publicação de imagens | GHCR com tag por SHA | Aplicado | 14 | `conceitos/ci-cd` |
+| | Integração contínua | Pipeline em todo push e PR; `main` protegida | **Obrigatório** | 3 | `conceitos/integracao-continua` |
+| SonarQube | Cobertura e qualidade no Sonar | Substituído pelo artefato de cobertura (aceito pelo enunciado) | Alternativa | — | `conceitos/sonarqube` |
 | | Segurança do pipeline | Permissões mínimas, SHA, OIDC | Aplicado | 14 | `conceitos/melhores-praticas-github-actions` |
-| Azure DevOps | Boards e Pipelines | Substituídos por GitHub Projects e Actions | Alternativa | — | `disciplinas/azure-devops` |
+| Azure DevOps | Boards e Pipelines | Aceitos pelo enunciado; substituídos por GitHub Projects e Actions ([ADR 0018](adr/0018-escopo-trabalho-substitutivo.md)) | Alternativa | — | `disciplinas/azure-devops`, `conceitos/azure-pipelines` |
 | Azure (cloud) | ACR, AKS, Key Vault | Etapa opcional | Aplicado (opcional) | 15 | `conceitos/aks` |
 | AWS | IAM, VPC, ECR, EKS | Não usados | Alternativa | — | `disciplinas/aws` |
 | NoSQL | MongoDB | Livro de doações | Aplicado | 6 | `conceitos/mongodb` |
 | | Redis | Cache do painel | Aplicado | 5 | `conceitos/redis` |
 | | DynamoDB | Não usado | Alternativa | — | `conceitos/dynamodb` |
 | Elasticsearch | Índice, analyzer, Query DSL, fuzzy, relevância | Busca de campanhas | Aplicado | 5 | `disciplinas/elasticsearch` |
-| TC Fase 4 | Zero credenciais no código | Secrets e Key Vault | Aplicado | 11, 15 | `conceitos/cofre-de-segredos` |
+| Segurança na cloud | Zero credenciais no código | Secrets e Key Vault | Aplicado | 11, 15 | `conceitos/cofre-de-segredos` |
 
 ## Fase 5 — Agilidade, Segurança e IA
 
@@ -107,9 +122,8 @@ Legenda de status: **Obrigatório** (enunciado), **Aplicado** (escolha do projet
 | | XP | TDD, pareamento, CI, refatoração | Aplicado | Todas | `conceitos/extreme-programming` |
 | | Lean | Fatiamento vertical, eliminar desperdício (YAGNI) | Aplicado | Todas | `conceitos/pensamento-lean` |
 | | Histórias, INVEST, critérios | Backlog e Gherkin | Aplicado | 2 | `conceitos/historias-de-usuario` |
-| SOLID | Cinco princípios | [Seção 16](padroes-de-codigo.md) | Aplicado | 4–8 | `disciplinas/solid` |
-| LGPD | Bases legais, direitos, anonimização, criptografia | [Seção 11](../specs/product/seguranca-e-lgpd.md), RF08 | Aplicado | 4, 16 | `disciplinas/lgpd` |
+| SOLID | Cinco princípios | [Padrões de código](padroes-de-codigo.md) | Aplicado | 4–8 | `disciplinas/solid` |
+| LGPD | Bases legais, direitos, anonimização, criptografia | [Segurança e LGPD](../specs/product/seguranca-e-lgpd.md), RF08 | Aplicado | 4, 16 | `disciplinas/lgpd` |
 | Blazor e Razor | Componentes, render modes, formulários, autenticação | `ConexaoSolidaria.Web` | Aplicado | 8 | `disciplinas/blazor-razor` |
 | Engenharia com IA | Spec-Driven Development, agentes e skills do Claude Code | `specs/`, `.claude/` ([ADR 0017](adr/0017-spec-driven-development.md)) | Aplicado | Todas | `conceitos/etica-e-explicabilidade-em-ia` |
 | IA em .NET (introdução) | Semantic Kernel, IA local | Assistente de descrição de campanha | Bônus | 8 | `conceitos/etica-e-explicabilidade-em-ia` |
-| Hackathon | Requisitos do enunciado | Todo o projeto | Obrigatório | Todas | `fontes/tech-challenge/05-hackathon-fase-5-conexao-solidaria` |
