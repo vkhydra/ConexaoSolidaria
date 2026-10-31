@@ -48,7 +48,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 ## Fase 7 — Fechamento
 
-- [ ] T013 `/security-review` e `/code-review`; cobertura ≥ 90%; `git rebase --exec` antes do PR
+- [X] T013 `/security-review` e `/code-review`; cobertura ≥ 90%; `git rebase --exec` antes do PR
 
 ## Dependências
 

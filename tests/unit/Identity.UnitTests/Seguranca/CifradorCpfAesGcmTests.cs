@@ -138,6 +138,17 @@ public sealed class CifradorCpfAesGcmTests
     }
 
     /// <summary>
+    /// Dada uma chave nula na configuração, quando o cifrador é criado, então a configuração é recusada.
+    /// </summary>
+    [Fact]
+    public void Construtor_ChaveNula_LancaExcecao()
+    {
+        var opcoes = new CpfOpcoes { ChaveCifra = null!, ChaveHash = null! };
+
+        Should.Throw<ArgumentException>(() => new CifradorCpfAesGcm(opcoes));
+    }
+
+    /// <summary>
     /// Dado uma chave de hash inválida com cifra válida, quando o cifrador é criado, então recusa.
     /// </summary>
     [Fact]

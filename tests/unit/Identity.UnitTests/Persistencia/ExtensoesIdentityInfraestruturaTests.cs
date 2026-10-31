@@ -111,6 +111,7 @@ public sealed class ExtensoesIdentityInfraestruturaTests
                 ["Autenticacao:ChaveHashEmail"] = chave,
                 ["Cpf:ChaveCifra"] = _chaveCpf,
                 ["Cpf:ChaveHash"] = _chaveCpf,
+                ["Cpf:VersaoChave"] = "2",
                 ["Jwt:Issuer"] = emissor,
                 ["Jwt:Audience"] = audiencia,
             })

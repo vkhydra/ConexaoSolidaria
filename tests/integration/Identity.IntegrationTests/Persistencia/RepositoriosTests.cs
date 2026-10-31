@@ -172,6 +172,24 @@ public sealed class RepositoriosTests(BancoIdentityFixture banco) : IClassFixtur
     }
 
     /// <summary>
+    /// Dada uma violação de restrição que não é de e-mail nem de CPF (chave primária), quando o usuário é gravado de novo, então a exceção original do banco sobe.
+    /// </summary>
+    /// <returns>Tarefa do teste.</returns>
+    [Fact]
+    public async Task Usuario_ChavePrimariaDuplicada_RelancaExcecaoDoBanco()
+    {
+        var gestor = NovoGestor();
+        await using (var a = banco.CriarContexto())
+        {
+            await new UsuarioRepositorio(a, banco.Cifrador).AdicionarAsync(gestor, CancellationToken.None);
+        }
+
+        await using var b = banco.CriarContexto();
+
+        await Should.ThrowAsync<DbUpdateException>(() => new UsuarioRepositorio(b, banco.Cifrador).AdicionarAsync(gestor, CancellationToken.None));
+    }
+
+    /// <summary>
     /// Dado um e-mail sem falhas, quando o controle é salvo e relido, então o estado persiste e uma nova falha atualiza a mesma linha.
     /// </summary>
     /// <returns>Tarefa do teste.</returns>

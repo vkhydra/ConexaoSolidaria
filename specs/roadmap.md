@@ -265,7 +265,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R075** · `003/T011` [H01] Cenários Gherkin automatizados — `tests/e2e/ConexaoSolidaria.Bdd/Features/003-cadastro-doador.feature`
   Commit: `✅ test(bdd): adiciona cenários de cadastro de doador`
   Depende de: R074 (`003/T010`)
-- [ ] **R076** · `003/T013` `/security-review` e `/code-review`; cobertura ≥ 90%; `git rebase --exec` antes do PR
+- [X] **R076** · `003/T013` `/security-review` e `/code-review`; cobertura ≥ 90%; `git rebase --exec` antes do PR
 - [ ] **R077** · `008/T001` [H10] `Usuario.Anonimizar` idempotente, com testes (anonimizar, repetir, senha após anonimizar) — `Identity.Domain/Usuarios/Usuario.cs`
   Commit: `✨ feat(identity): adiciona anonimização do usuário`
 - [ ] **R078** · `008/T002` [H10] Casos de uso `ObterMeusDados` e `AnonimizarMeusDados` com testes — `Identity.Application/Titular/*`

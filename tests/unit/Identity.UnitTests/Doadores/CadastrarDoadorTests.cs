@@ -218,6 +218,35 @@ public sealed class CadastrarDoadorTests
     }
 
     /// <summary>
+    /// Dado um gerador de hash que devolve vazio, quando o visitante se cadastra, então o erro do hash é devolvido e nada é gravado.
+    /// </summary>
+    /// <returns>Tarefa do teste.</returns>
+    [Fact]
+    public async Task ExecutarAsync_HashDeSenhaVazio_DevolveErroDoAgregado()
+    {
+        _hasher.Hash("Senha@123").Returns(" ");
+
+        var resultado = await _cadastrar.ExecutarAsync(Pedido(), CancellationToken.None);
+
+        resultado.Erro.Codigo.ShouldBe(Usuario.CodigoSenhaHashInvalido);
+        await _usuarios.DidNotReceive().AdicionarAsync(Arg.Any<Usuario>(), Arg.Any<CancellationToken>());
+    }
+
+    /// <summary>
+    /// Dado um nome com mais de 150 caracteres, quando o visitante se cadastra, então o campo nomeCompleto é recusado.
+    /// </summary>
+    /// <returns>Tarefa do teste.</returns>
+    [Fact]
+    public async Task ExecutarAsync_NomeGrandeDemais_DevolveValidacao()
+    {
+        var request = new CadastrarDoadorRequest("Maria " + new string('a', Usuario.NomeTamanhoMaximo), "m@exemplo.com", _cpf, "Senha@123", true);
+
+        var resultado = await _cadastrar.ExecutarAsync(request, CancellationToken.None);
+
+        resultado.Erro.Campos!.Keys.ShouldBe(["nomeCompleto"]);
+    }
+
+    /// <summary>
     /// Dado um pedido nulo, quando enviado, então a chamada é recusada.
     /// </summary>
     /// <returns>Tarefa do teste.</returns>
