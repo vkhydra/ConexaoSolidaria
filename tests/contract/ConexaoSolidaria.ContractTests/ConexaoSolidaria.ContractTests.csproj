@@ -1,6 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <None Include="Snapshots\**\*.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\src\BuildingBlocks\ConexaoSolidaria.Contracts\ConexaoSolidaria.Contracts.csproj" />
   </ItemGroup>
 

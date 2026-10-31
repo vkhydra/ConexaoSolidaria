@@ -305,7 +305,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R087** · `002/T004` [H04] `Atualizar`, `Concluir` e `Cancelar` com testes das transições — `Campanhas.Domain/Campanhas/Campanha.cs`
   Commit: `✨ feat(campanhas): adiciona edição e transições de status da campanha`
   Depende de: R086 (`002/T003`)
-- [ ] **R088** · `002/T005` [H03] `CampanhaAlteradaEvent` v1 e teste de snapshot JSON — `ConexaoSolidaria.Contracts/V1/CampanhaAlteradaEvent.cs`, `tests/contract/ConexaoSolidaria.ContractTests/*`
+- [X] **R088** · `002/T005` [H03] `CampanhaAlteradaEvent` v1 e teste de snapshot JSON — `ConexaoSolidaria.Contracts/V1/CampanhaAlteradaEvent.cs`, `tests/contract/ConexaoSolidaria.ContractTests/*`
   Commit: `🏷️ feat(contracts): adiciona CampanhaAlteradaEvent v1`
   Depende de: R086 (`002/T003`)
 - [ ] **R089** · `002/T006` [H03] `IRelogio` (hoje em São Paulo) e `ICampanhaRepositorio` — `Campanhas.Application/Abstracoes/*`
