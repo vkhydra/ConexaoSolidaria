@@ -47,7 +47,7 @@ public static class AutenticacaoEndpoints
         if (erro.Codigo == Autenticar.CodigoValidacao)
         {
             return TypedResults.ValidationProblem(
-                erro.Campos?.ToDictionary(c => c.Key, c => c.Value) ?? [],
+                erro.Campos!.ToDictionary(c => c.Key, c => c.Value),
                 title: CatalogoDeErros.TituloPara(StatusCodes.Status400BadRequest));
         }
 

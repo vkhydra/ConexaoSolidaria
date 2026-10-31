@@ -112,4 +112,31 @@ public sealed class UsuarioTests
 
         Should.Throw<ArgumentNullException>(() => gestor.VerificarSenha("senha", null!));
     }
+
+    /// <summary>
+    /// Dado um usuário anonimizado ou sem hash de senha, quando a senha é conferida, então nunca autentica nem consulta o hasher.
+    /// </summary>
+    /// <param name="anonimizado">Se o cadastro foi anonimizado.</param>
+    /// <param name="semHash">Se o hash da senha foi apagado.</param>
+    [Theory]
+    [InlineData(true, false)]
+    [InlineData(false, true)]
+    public void VerificarSenha_AnonimizadoOuSemHash_DevolveFalso(bool anonimizado, bool semHash)
+    {
+        var gestor = Usuario.CriarGestor(Email.Criar("gestor@ong.org").Valor, "hash-bcrypt", _agora).Valor;
+        var hasher = Substitute.For<IHasherSenha>();
+        hasher.Verificar(Arg.Any<string>(), Arg.Any<string>()).Returns(true);
+        if (anonimizado)
+        {
+            typeof(Usuario).GetProperty(nameof(Usuario.AnonimizadoEm))!.SetValue(gestor, _agora);
+        }
+
+        if (semHash)
+        {
+            typeof(Usuario).GetProperty(nameof(Usuario.SenhaHash))!.SetValue(gestor, null);
+        }
+
+        gestor.VerificarSenha("qualquer", hasher).ShouldBeFalse();
+        hasher.DidNotReceive().Verificar(Arg.Any<string>(), Arg.Any<string>());
+    }
 }

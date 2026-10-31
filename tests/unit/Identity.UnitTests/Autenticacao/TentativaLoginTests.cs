@@ -141,4 +141,41 @@ public sealed class TentativaLoginTests
         tentativa.JanelaInicio.ShouldBe(depois);
         tentativa.EstaBloqueado(depois).ShouldBeFalse();
     }
+
+    /// <summary>
+    /// Dado um bloqueio que termina no mesmo instante em que a janela fecha, quando nova falha acontece, então a contagem recomeça.
+    /// </summary>
+    [Fact]
+    public void RegistrarFalha_NoFimExatoDoBloqueio_ReiniciaContagem()
+    {
+        var tentativa = TentativaLogin.Nova(_hash, _inicio);
+        for (var i = 0; i < TentativaLogin.LimiteDeFalhas; i++)
+        {
+            tentativa.RegistrarFalha(_inicio);
+        }
+
+        var fim = _inicio + TentativaLogin.Bloqueio;
+        tentativa.RegistrarFalha(fim);
+
+        tentativa.Falhas.ShouldBe(1);
+        tentativa.BloqueadoAte.ShouldBeNull();
+    }
+
+    /// <summary>
+    /// Dado um e-mail ainda bloqueado, quando nova falha acontece, então o bloqueio continua e a contagem segue.
+    /// </summary>
+    [Fact]
+    public void RegistrarFalha_EnquantoBloqueado_MantemBloqueio()
+    {
+        var tentativa = TentativaLogin.Nova(_hash, _inicio);
+        for (var i = 0; i < TentativaLogin.LimiteDeFalhas; i++)
+        {
+            tentativa.RegistrarFalha(_inicio);
+        }
+
+        tentativa.RegistrarFalha(_inicio.AddMinutes(5));
+
+        tentativa.Falhas.ShouldBe(TentativaLogin.LimiteDeFalhas + 1);
+        tentativa.EstaBloqueado(_inicio.AddMinutes(5)).ShouldBeTrue();
+    }
 }
