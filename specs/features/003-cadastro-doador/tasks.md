@@ -6,7 +6,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 ## Fase 1 — Domínio (TDD)
 
-- [ ] T001 [H01] VO `Cpf` com dígitos verificadores, sequências repetidas e `Mascarado()`, com testes — `Identity.Domain/Usuarios/Cpf.cs`
+- [X] T001 [H01] VO `Cpf` com dígitos verificadores, sequências repetidas e `Mascarado()`, com testes — `Identity.Domain/Usuarios/Cpf.cs`
   Commit: `✨ feat(identity): adiciona value object Cpf com validação de dígitos`
 - [ ] T002 [P] [H01] VO `Senha` com a política de segurança, com testes — `Identity.Domain/Usuarios/Senha.cs`
   Commit: `✨ feat(identity): adiciona value object Senha com política de segurança`
