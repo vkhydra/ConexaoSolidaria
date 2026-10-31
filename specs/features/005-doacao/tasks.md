@@ -43,7 +43,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
   Commit: `✅ test(campanhas): adiciona testes de integração da doação`
 - [X] T014 [H07] Testes do Worker: soma, duplicata, livro na reentrega, falha transitória, falha permanente → `_error`, soma do livro = total — `tests/integration/Arrecadacao.Worker.IntegrationTests/*`
   Commit: `✅ test(worker): adiciona testes de reentrega e falha permanente`
-- [ ] T015 [H06] [H07] Cenários Gherkin + cenário "total após doação" da feature 004 — `tests/e2e/ConexaoSolidaria.Bdd/Features/005-doacao.feature`
+- [X] T015 [H06] [H07] Cenários Gherkin + cenário "total após doação" da feature 004 — `tests/e2e/ConexaoSolidaria.Bdd/Features/005-doacao.feature`
   Commit: `✅ test(bdd): adiciona cenários de doação e painel atualizado`
 - [ ] T016 [P] [H06] Script k6 com 20 VUs e threshold p95 < 500 ms — `tests/e2e/load/doacao.js`
   Commit: `✅ test(load): adiciona teste de carga da doação com k6`

@@ -11,8 +11,6 @@ Funcionalidade: Direitos do titular
     E vê o CPF como "***.982.247-**"
     E vê a versão e a data do aceite da política de privacidade
 
-  # Depende da doação (feature 005): o total da campanha só existe depois dela; liberado em R124.
-  @ignore
   Cenário: Anonimizar cadastro
     Dado um doador autenticado que já doou 100.00
     Quando ele solicita a exclusão dos seus dados

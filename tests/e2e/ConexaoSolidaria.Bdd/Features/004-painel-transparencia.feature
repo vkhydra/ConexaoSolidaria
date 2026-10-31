@@ -26,8 +26,6 @@ Funcionalidade: Painel de transparência
     Quando um visitante consulta o painel
     Então o percentual atingido de "A" é 1.50
 
-  # Depende da doação processada pelo Worker (feature 005); liberado em R124.
-  @ignore
   Cenário: Total após doação processada
     Dado a campanha "A" com total arrecadado 0.00
     Quando uma doação de 150.00 para "A" é processada pelo Worker

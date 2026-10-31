@@ -7,9 +7,11 @@ namespace ConexaoSolidaria.Bdd.Steps;
 /// <summary>
 /// Passos dos cenários da feature 008 (direitos do titular): ver os próprios dados e anonimizar o cadastro.
 /// </summary>
-/// <param name="ambiente">Ambiente do cenário, injetado pelo Reqnroll.</param>
+/// <param name="ambiente">Ambiente da Identity, injetado pelo Reqnroll.</param>
+/// <param name="campanhas">Ambiente da Campanhas.Api, para o doador que já doou.</param>
+/// <param name="worker">Ambiente do Worker, que soma a doação ao total.</param>
 [Binding]
-public sealed class DireitosDoTitularSteps(AmbienteIdentity ambiente)
+public sealed class DireitosDoTitularSteps(AmbienteIdentity ambiente, AmbienteCampanhas campanhas, AmbienteWorker worker)
 {
     /// <summary>
     /// Senha padrão dos doadores dos cenários.
@@ -30,6 +32,22 @@ public sealed class DireitosDoTitularSteps(AmbienteIdentity ambiente)
     public async Task DadoUmDoadorAutenticadoComCpf(string cpf)
     {
         await CadastrarEEntrarAsync(_emailPadrao, cpf);
+    }
+
+    /// <summary>
+    /// Cadastra um doador, entra e doa para uma campanha; o Worker soma a doação ao total antes de o passo terminar.
+    /// </summary>
+    /// <param name="valor">Valor da doação, com ponto decimal.</param>
+    /// <returns>Tarefa do passo.</returns>
+    [Given("um doador autenticado que já doou (\\d+\\.\\d\\d)")]
+    public async Task DadoUmDoadorAutenticadoQueJaDoou(string valor)
+    {
+        await CadastrarEEntrarAsync(_emailPadrao, "529.982.247-25");
+        await campanhas.UsarTokenAsync(await ambiente.ObterTokenAsync(_emailPadrao, _senhaPadrao));
+        await campanhas.InserirCampanhaAsync("Campanha do titular", "Ativa", "2026-11-01", "2026-12-31", "10000.00", "0.00");
+        await campanhas.DoarAsync(valor);
+        campanhas.UltimaDoacaoId.ShouldNotBeNull();
+        await worker.EntregarPendentesAsync();
     }
 
     /// <summary>

@@ -3,6 +3,7 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
 using Campanhas.Infrastructure.Persistencia;
+using ConexaoSolidaria.Contracts.V1;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
@@ -60,6 +61,112 @@ public sealed class AmbienteCampanhas(AmbienteIdentity identidade, RespostaDoCen
     /// Obtém o identificador da última campanha criada pelo cenário.
     /// </summary>
     public Guid? UltimaCampanhaId { get; private set; }
+
+    /// <summary>
+    /// Obtém o identificador da última doação aceita (202) pela API no cenário.
+    /// </summary>
+    public Guid? UltimaDoacaoId { get; private set; }
+
+    /// <summary>
+    /// Obtém a string de conexão do banco do cenário; só vale depois de <see cref="GarantirIniciadaAsync"/>.
+    /// </summary>
+    public string Conexao => _conexao ?? throw new InvalidOperationException("A API do cenário ainda não foi iniciada.");
+
+    /// <summary>
+    /// Inicia a API e o banco do cenário, se ainda não foram iniciados.
+    /// </summary>
+    /// <returns>Tarefa que termina com a API iniciada.</returns>
+    public async Task GarantirIniciadaAsync()
+    {
+        await ObterClienteAsync();
+    }
+
+    /// <summary>
+    /// Obtém o identificador de uma campanha do cenário pelo título.
+    /// </summary>
+    /// <param name="titulo">Título da campanha.</param>
+    /// <returns>O identificador da campanha.</returns>
+    public Guid IdDaCampanha(string titulo)
+    {
+        return _idsPorTitulo[titulo];
+    }
+
+    /// <summary>
+    /// Doa para a última campanha do cenário com o token em uso e guarda a resposta; se for aceita, guarda o identificador da doação.
+    /// </summary>
+    /// <param name="valor">Valor da doação, com ponto decimal.</param>
+    /// <param name="chaveDeIdempotencia">Valor do cabeçalho <c>Idempotency-Key</c>, ou nulo para não enviar.</param>
+    /// <returns>Tarefa que termina com a resposta guardada.</returns>
+    public async Task DoarAsync(string valor, string? chaveDeIdempotencia = null)
+    {
+        await DoarParaAsync(UltimaCampanhaId!.Value, valor, chaveDeIdempotencia);
+    }
+
+    /// <summary>
+    /// Doa para a campanha informada com o token em uso e guarda a resposta; se for aceita, guarda o identificador da doação.
+    /// </summary>
+    /// <param name="campanhaId">Campanha da doação.</param>
+    /// <param name="valor">Valor da doação, com ponto decimal.</param>
+    /// <param name="chaveDeIdempotencia">Valor do cabeçalho <c>Idempotency-Key</c>, ou nulo para não enviar.</param>
+    /// <returns>Tarefa que termina com a resposta guardada.</returns>
+    public async Task DoarParaAsync(Guid campanhaId, string valor, string? chaveDeIdempotencia = null)
+    {
+        var cliente = await ObterClienteAsync();
+        using var requisicao = new HttpRequestMessage(HttpMethod.Post, "/api/v1/doacoes")
+        {
+            Content = JsonContent.Create(new { idCampanha = campanhaId, valorDoacao = decimal.Parse(valor, CultureInfo.InvariantCulture) }),
+        };
+        if (chaveDeIdempotencia is not null)
+        {
+            requisicao.Headers.Add("Idempotency-Key", chaveDeIdempotencia);
+        }
+
+        respostaDoCenario.Resposta = await cliente.SendAsync(requisicao);
+        if (respostaDoCenario.Resposta.StatusCode == System.Net.HttpStatusCode.Accepted)
+        {
+            var corpo = JsonDocument.Parse(await respostaDoCenario.Resposta.Content.ReadAsStringAsync()).RootElement;
+            UltimaDoacaoId = corpo.GetProperty("doacaoId").GetGuid();
+        }
+    }
+
+    /// <summary>
+    /// Lê as doações recebidas que a API gravou no Outbox, na ordem de gravação.
+    /// </summary>
+    /// <returns>Os eventos <c>DoacaoRecebidaEvent</c> gravados.</returns>
+    public async Task<IReadOnlyList<DoacaoRecebidaEvent>> LerDoacoesDoOutboxAsync()
+    {
+        await ObterClienteAsync();
+        await using var conexao = new NpgsqlConnection(_conexao);
+        await conexao.OpenAsync();
+        await using var comando = new NpgsqlCommand("SELECT body FROM outbox_message WHERE body LIKE '%doacaoId%' ORDER BY sequence_number", conexao);
+        await using var leitor = await comando.ExecuteReaderAsync();
+        var doacoes = new List<DoacaoRecebidaEvent>();
+        while (await leitor.ReadAsync())
+        {
+            var doacao = AmbienteWorker.LerDoacao(leitor.GetString(0));
+            if (doacao is not null)
+            {
+                doacoes.Add(doacao);
+            }
+        }
+
+        return doacoes;
+    }
+
+    /// <summary>
+    /// Lê o total arrecadado de uma campanha direto do banco.
+    /// </summary>
+    /// <param name="campanhaId">Identificador da campanha.</param>
+    /// <returns>O total arrecadado.</returns>
+    public async Task<decimal> LerTotalAsync(Guid campanhaId)
+    {
+        await ObterClienteAsync();
+        await using var conexao = new NpgsqlConnection(_conexao);
+        await conexao.OpenAsync();
+        await using var comando = new NpgsqlCommand("SELECT total_arrecadado FROM campanhas WHERE id = @id", conexao);
+        comando.Parameters.AddWithValue("id", campanhaId);
+        return (decimal)(await comando.ExecuteScalarAsync())!;
+    }
 
     /// <summary>
     /// Fixa a data de "hoje" em São Paulo (ao meio-dia) para a API do cenário.
@@ -196,6 +303,7 @@ public sealed class AmbienteCampanhas(AmbienteIdentity identidade, RespostaDoCen
         comando.Parameters.AddWithValue("status", status);
         await comando.ExecuteNonQueryAsync();
         _idsPorTitulo[titulo] = id;
+        UltimaCampanhaId = id;
         if (!RedisForaDoAr)
         {
             await _api!.Services.GetRequiredService<Campanhas.Application.Transparencia.ICachePainel>().RemoverAsync(CancellationToken.None);

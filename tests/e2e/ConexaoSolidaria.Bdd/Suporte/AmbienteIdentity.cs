@@ -95,6 +95,11 @@ public sealed class AmbienteIdentity(RespostaDoCenario respostaDoCenario) : IDis
     {
         const string email = "doador.bdd@exemplo.com";
         const string senha = "Senha@123";
+
+        // O gestor do seed só existe se as variáveis estiverem definidas antes de a API subir; um cenário que começa pelo
+        // doador e depois usa o gestor (por exemplo, "gestor não doa") precisa dele.
+        SeedEmail ??= "gestor.bdd@exemplo.com";
+        SeedSenha ??= "SenhaGestor@2026";
         await CadastrarAsync("Maria Silva", email, "529.982.247-25", senha, aceite: true);
         return await ObterTokenAsync(email, senha);
     }

@@ -4,6 +4,7 @@
     <PackageReference Include="Reqnroll.xunit.v3" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
     <PackageReference Include="Microsoft.Extensions.TimeProvider.Testing" />
+    <PackageReference Include="Testcontainers.MongoDb" />
     <PackageReference Include="Testcontainers.PostgreSql" />
     <PackageReference Include="Testcontainers.Redis" />
     <PackageReference Include="SSH.NET" />
@@ -12,13 +13,17 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Services\Identity\Identity.Api\Identity.Api.csproj" />
     <ProjectReference Include="..\..\..\src\Services\Campanhas\Campanhas.Api\Campanhas.Api.csproj" />
+    <ProjectReference Include="..\..\..\src\Services\Campanhas\Arrecadacao.Worker\Arrecadacao.Worker.csproj" />
   </ItemGroup>
 
-  <!-- As duas APIs têm uma classe Program global; o apelido separa a da Identity (extern alias IdentityApi). -->
+  <!-- Identity.Api, Campanhas.Api e Arrecadacao.Worker têm uma classe Program global; os apelidos separam a da Identity (extern alias IdentityApi) e a do Worker (extern alias WorkerApp). -->
   <Target Name="ApelidarIdentityApi" AfterTargets="FindReferenceAssembliesForReferences" BeforeTargets="CoreCompile">
     <ItemGroup>
       <ReferencePathWithRefAssemblies Condition="'%(FileName)' == 'Identity.Api'">
         <Aliases>IdentityApi</Aliases>
+      </ReferencePathWithRefAssemblies>
+      <ReferencePathWithRefAssemblies Condition="'%(FileName)' == 'Arrecadacao.Worker'">
+        <Aliases>WorkerApp</Aliases>
       </ReferencePathWithRefAssemblies>
     </ItemGroup>
   </Target>
