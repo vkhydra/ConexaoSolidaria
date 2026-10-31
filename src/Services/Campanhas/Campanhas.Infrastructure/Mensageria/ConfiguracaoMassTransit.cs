@@ -1,3 +1,4 @@
+using System.Data;
 using Campanhas.Infrastructure.Persistencia;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
@@ -25,6 +26,10 @@ public static class ConfiguracaoMassTransit
         {
             outbox.UsePostgres();
             outbox.UseBusOutbox();
+
+            // Com o isolamento estrito padrão, várias doações simultâneas da mesma campanha disputam a mesma linha e o PostgreSQL
+            // responde 40001 (falha de serialização). Em READ COMMITTED o UPDATE do total apenas espera a outra transação.
+            outbox.IsolationLevel = IsolationLevel.ReadCommitted;
         });
     }
 

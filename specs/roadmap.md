@@ -405,7 +405,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R122** · `005/T013` [H06] Testes de integração da API: 202 grava Outbox, 400, 403, 404, 422 sem Outbox, `Idempotency-Key` — `tests/integration/Campanhas.IntegrationTests/DoacoesTests.cs`
   Commit: `✅ test(campanhas): adiciona testes de integração da doação`
   Depende de: R114 (`005/T005`)
-- [ ] **R123** · `005/T014` [H07] Testes do Worker: soma, duplicata, livro na reentrega, falha transitória, falha permanente → `_error`, soma do livro = total — `tests/integration/Arrecadacao.Worker.IntegrationTests/*`
+- [X] **R123** · `005/T014` [H07] Testes do Worker: soma, duplicata, livro na reentrega, falha transitória, falha permanente → `_error`, soma do livro = total — `tests/integration/Arrecadacao.Worker.IntegrationTests/*`
   Commit: `✅ test(worker): adiciona testes de reentrega e falha permanente`
   Depende de: R120 (`005/T011`)
 - [ ] **R124** · `005/T015` [H06] [H07] Cenários Gherkin + cenário "total após doação" da feature 004 — `tests/e2e/ConexaoSolidaria.Bdd/Features/005-doacao.feature`
