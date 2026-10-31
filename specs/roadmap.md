@@ -131,7 +131,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Commit: `🔧 chore: adiciona Directory.Packages.props com gestão central de pacotes`
 - [X] **R020** · StyleCop com as regras de documentação (`stylecop.json`) e severidades no `.editorconfig`
   Commit: `🔧 chore: adiciona stylecop para exigir documentação xml`
-- [ ] **R021** · Criar a solução `ConexaoSolidaria.slnx`
+- [X] **R021** · Criar a solução `ConexaoSolidaria.slnx`
   Commit: `🎉 chore: cria solução ConexaoSolidaria`
 - [ ] **R022** · Projeto `ConexaoSolidaria.Contracts`, já na solução
   Commit: `🎉 chore(contracts): cria projeto ConexaoSolidaria.Contracts`
