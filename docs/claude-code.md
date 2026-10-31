@@ -98,7 +98,7 @@ Skills do próprio Claude Code também usadas:
 | `/run` | Subir a stack e conferir o fluxo de doação de ponta a ponta |
 | `/loop` | Acompanhar a execução do CI até terminar |
 | `/fewer-permission-prompts` | Depois de algumas sessões, para liberar leituras recorrentes |
-| `pdf` | Gerar o PDF da justificativa dos bancos e o relatório de entrega |
+| `pdf` | Gerar PDF de documentos, se o grupo quiser (não é exigido na entrega) |
 
 ## Servidores MCP (`.mcp.json`)
 
