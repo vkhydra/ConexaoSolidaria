@@ -128,7 +128,7 @@ Funcionalidade: Gestão de campanhas
 
 ### Regras
 1. Senha armazenada só como hash **BCrypt** (work factor 12).
-2. CPF armazenado cifrado (AES-256-GCM) e com hash HMAC-SHA256 para unicidade ([11 — Segurança e LGPD](11-seguranca-e-lgpd.md)).
+2. CPF armazenado cifrado (AES-256-GCM) e com hash HMAC-SHA256 para unicidade ([11 — Segurança e LGPD](../../specs/product/seguranca-e-lgpd.md)).
 3. Registra a versão da política aceita e a data do aceite.
 4. Role sempre `Doador`; não é possível se cadastrar como `GestorONG`.
 5. Resposta 201 sem senha e com CPF mascarado (`***.456.789-**`).

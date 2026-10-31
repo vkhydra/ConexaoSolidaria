@@ -47,7 +47,7 @@ Metas medidas no ambiente local (Minikube) com os recursos da [seção 13](../..
 | RNF22 | Nenhuma vulnerabilidade `CRITICAL` corrigível nas imagens (Trivy) |
 | RNF23 | Nenhum segredo no histórico do git (gitleaks) |
 
-Detalhes: [11 — Segurança e LGPD](../../docs/spec/11-seguranca-e-lgpd.md).
+Detalhes: [11 — Segurança e LGPD](seguranca-e-lgpd.md).
 
 ## 5.5 Privacidade (LGPD)
 

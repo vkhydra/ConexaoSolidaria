@@ -108,7 +108,7 @@ Legenda de status: **Obrigatório** (enunciado), **Aplicado** (escolha do projet
 | | Lean | Fatiamento vertical, eliminar desperdício (YAGNI) | Aplicado | Todas | `conceitos/pensamento-lean` |
 | | Histórias, INVEST, critérios | Backlog e Gherkin | Aplicado | 2 | `conceitos/historias-de-usuario` |
 | SOLID | Cinco princípios | [Seção 16](16-padroes-de-codigo.md) | Aplicado | 4–8 | `disciplinas/solid` |
-| LGPD | Bases legais, direitos, anonimização, criptografia | [Seção 11](11-seguranca-e-lgpd.md), RF08 | Aplicado | 4, 16 | `disciplinas/lgpd` |
+| LGPD | Bases legais, direitos, anonimização, criptografia | [Seção 11](../../specs/product/seguranca-e-lgpd.md), RF08 | Aplicado | 4, 16 | `disciplinas/lgpd` |
 | Blazor e Razor | Componentes, render modes, formulários, autenticação | `ConexaoSolidaria.Web` | Aplicado | 8 | `disciplinas/blazor-razor` |
 | IA em .NET (introdução) | Semantic Kernel, IA local | Assistente de descrição de campanha | Bônus | 8 | `conceitos/etica-e-explicabilidade-em-ia` |
 | Hackathon | Requisitos do enunciado | Todo o projeto | Obrigatório | Todas | `fontes/tech-challenge/05-hackathon-fase-5-conexao-solidaria` |

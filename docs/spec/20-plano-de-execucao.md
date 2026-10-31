@@ -363,7 +363,7 @@ Validação de cada manifesto antes do commit: `kubectl apply -k deploy/k8s/over
 
 ## Etapa 16 — Revisão de segurança e LGPD
 **Objetivo:** nenhuma pendência crítica.
-**Tarefas:** `/security-review` completo; checklist OWASP da [seção 11.7](11-seguranca-e-lgpd.md#117-checklist-owasp-top-10-revisão-na-etapa-16); registro de tratamento; política de privacidade; conferir logs reais em busca de dados pessoais.
+**Tarefas:** `/security-review` completo; checklist OWASP da [seção 11.7](../../specs/product/seguranca-e-lgpd.md#117-checklist-owasp-top-10-revisão-na-etapa-16); registro de tratamento; política de privacidade; conferir logs reais em busca de dados pessoais.
 **Commits (exemplos):**
 ```text
 📝 docs(lgpd): adiciona registro das operações de tratamento

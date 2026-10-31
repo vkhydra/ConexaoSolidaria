@@ -1,6 +1,6 @@
 # 12 — Observabilidade
 
-[← README](../../README.md) · Anterior: [11 — Segurança e LGPD](11-seguranca-e-lgpd.md) · Próximo: [13 — Infraestrutura](13-infraestrutura.md)
+[← README](../../README.md) · Anterior: [11 — Segurança e LGPD](../../specs/product/seguranca-e-lgpd.md) · Próximo: [13 — Infraestrutura](13-infraestrutura.md)
 
 Atende ao requisito "Observabilidade (Zabbix e Grafana)" do enunciado e ao conteúdo da Fase 3. Referências: `wiki:disciplinas/monitoramento-acesso`, `wiki:disciplinas/monitoramento-acesso-avancado`, `wiki:conceitos/golden-metrics`, `wiki:conceitos/prometheus-net`, `wiki:conceitos/promql`.
 
