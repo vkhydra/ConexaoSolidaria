@@ -105,7 +105,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Commit: `📝 docs(ddd): adiciona domain storytelling da doação`
 - [X] **R012** · Escrever o mapa de contextos em `docs/ddd/context-map.md`
   Commit: `📝 docs(ddd): adiciona mapa de contextos`
-- [ ] **R013** · Criar o modelo de issue de história em `.github/ISSUE_TEMPLATE/historia.md`
+- [X] **R013** · Criar o modelo de issue de história em `.github/ISSUE_TEMPLATE/historia.md`
   Commit: `📝 docs: adiciona modelo de issue de história`
 - [ ] **R014** · Criar o modelo de pull request em `.github/pull_request_template.md`
   Commit: `📝 docs: adiciona modelo de pull request`
