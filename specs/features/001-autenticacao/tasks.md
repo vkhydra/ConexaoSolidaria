@@ -24,7 +24,7 @@ Formato: `- [ ] Tnnn [P] [história] descrição — arquivo(s)`, seguido do com
 
 - [X] T006 [H02] `IdentityDbContext`, configurações de `usuarios` e `tentativas_login` e migration inicial — `Identity.Infrastructure/Persistencia/*`
   Commit: `🗃️ feat(identity): adiciona IdentityDbContext e migration inicial`
-- [ ] T007 [P] [H02] `HasherSenhaBcrypt` (work factor 12) com testes — `Identity.Infrastructure/Seguranca/HasherSenhaBcrypt.cs`
+- [X] T007 [P] [H02] `HasherSenhaBcrypt` (work factor 12) com testes — `Identity.Infrastructure/Seguranca/HasherSenhaBcrypt.cs`
   Commit: `🛂 feat(identity): adiciona hash de senha com bcrypt`
 - [ ] T008 [P] [H02] `EmissorJwtRs256` com testes do payload (sem dados pessoais) — `Identity.Infrastructure/Seguranca/EmissorJwtRs256.cs`
   Commit: `🛂 feat(identity): emite jwt rs256 no login`

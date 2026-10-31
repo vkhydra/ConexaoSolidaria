@@ -214,7 +214,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Depende de: R049 (`001/T002`), R050 (`001/T003`), R051 (`001/T004`)
 - [X] **R053** · `001/T006` [H02] `IdentityDbContext`, configurações de `usuarios` e `tentativas_login` e migration inicial — `Identity.Infrastructure/Persistencia/*`
   Commit: `🗃️ feat(identity): adiciona IdentityDbContext e migration inicial`
-- [ ] **R054** · `001/T007` [H02] `HasherSenhaBcrypt` (work factor 12) com testes — `Identity.Infrastructure/Seguranca/HasherSenhaBcrypt.cs`
+- [X] **R054** · `001/T007` [H02] `HasherSenhaBcrypt` (work factor 12) com testes — `Identity.Infrastructure/Seguranca/HasherSenhaBcrypt.cs`
   Commit: `🛂 feat(identity): adiciona hash de senha com bcrypt`
 - [ ] **R055** · `001/T008` [H02] `EmissorJwtRs256` com testes do payload (sem dados pessoais) — `Identity.Infrastructure/Seguranca/EmissorJwtRs256.cs`
   Commit: `🛂 feat(identity): emite jwt rs256 no login`
