@@ -250,7 +250,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R069** · `003/T005` [H01] `ICifradorCpf` e caso de uso `CadastrarDoador` com validador e testes (sucesso, 400, 409 e-mail, 409 CPF) — `Identity.Application/Doadores/*`
   Commit: `✨ feat(identity): adiciona caso de uso de cadastro de doador`
   Depende de: R068 (`003/T004`)
-- [ ] **R070** · `003/T006` [H01] `CifradorCpfAesGcm` (cifra, decifra, hash, versão da chave), com testes — `Identity.Infrastructure/Seguranca/CifradorCpfAesGcm.cs`
+- [X] **R070** · `003/T006` [H01] `CifradorCpfAesGcm` (cifra, decifra, hash, versão da chave), com testes — `Identity.Infrastructure/Seguranca/CifradorCpfAesGcm.cs`
   Commit: `🔒️ feat(identity): adiciona cifragem e hash do cpf`
 - [ ] **R071** · `003/T007` [H01] Configuração EF das colunas de cadastro e migration — `Identity.Infrastructure/Persistencia/*`
   Commit: `🗃️ feat(identity): adiciona colunas de cadastro de doador`

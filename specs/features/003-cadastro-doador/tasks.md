@@ -22,7 +22,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 ## Fase 3 — Infraestrutura
 
-- [ ] T006 [H01] `CifradorCpfAesGcm` (cifra, decifra, hash, versão da chave), com testes — `Identity.Infrastructure/Seguranca/CifradorCpfAesGcm.cs`
+- [X] T006 [H01] `CifradorCpfAesGcm` (cifra, decifra, hash, versão da chave), com testes — `Identity.Infrastructure/Seguranca/CifradorCpfAesGcm.cs`
   Commit: `🔒️ feat(identity): adiciona cifragem e hash do cpf`
 - [ ] T007 [H01] Configuração EF das colunas de cadastro e migration — `Identity.Infrastructure/Persistencia/*`
   Commit: `🗃️ feat(identity): adiciona colunas de cadastro de doador`
