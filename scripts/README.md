@@ -6,7 +6,7 @@ Automação do ambiente em **PowerShell 7** (`pwsh`), que roda igual em Windows,
 |---|---|---|
 | `verificar-pre-requisitos.ps1` | Confere as ferramentas da máquina e mostra o comando de instalação do sistema detectado | Etapa 3 |
 | `validar-mensagem-commit.ps1` | Valida a mensagem de commit (hook `commit-msg` do Husky.Net) | Etapa 3 |
-| `verificar-cobertura.ps1` | Roda os testes com cobertura (`-ExecutarTestes`) e falha abaixo do mínimo (`-Minimo 90`) | Etapa 3 |
+| `verificar-cobertura.ps1` | Roda os testes com cobertura (`-ExecutarTestes`), lê o relatório (`-Relatorio`, padrão `coverage/Summary.json`) e falha abaixo do mínimo (`-Minimo 90`) | Etapa 3 |
 | `seed-demo.ps1` | Cria dados de demonstração pela API (`-IdentityUrl`, `-CampanhasUrl`) | Etapa 10 |
 | `k8s-secrets.ps1` | Cria os Secrets do Kubernetes a partir do `deploy/.env` (`-EnvFile`) | Etapa 11 |
 | `up.ps1` | Sobe o ambiente Kubernetes local completo | Etapa 11 |
