@@ -308,7 +308,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R088** · `002/T005` [H03] `CampanhaAlteradaEvent` v1 e teste de snapshot JSON — `ConexaoSolidaria.Contracts/V1/CampanhaAlteradaEvent.cs`, `tests/contract/ConexaoSolidaria.ContractTests/*`
   Commit: `🏷️ feat(contracts): adiciona CampanhaAlteradaEvent v1`
   Depende de: R086 (`002/T003`)
-- [ ] **R089** · `002/T006` [H03] `IRelogio` (hoje em São Paulo) e `ICampanhaRepositorio` — `Campanhas.Application/Abstracoes/*`
+- [X] **R089** · `002/T006` [H03] `IRelogio` (hoje em São Paulo) e `ICampanhaRepositorio` — `Campanhas.Application/Abstracoes/*`
   Commit: `🏷️ feat(campanhas): adiciona abstrações de relógio e repositório`
 - [ ] **R090** · `002/T007` [H03] `CriarCampanha` com validador e testes — `Campanhas.Application/Campanhas/CriarCampanha.cs`
   Commit: `✨ feat(campanhas): adiciona caso de uso de criação de campanha`
