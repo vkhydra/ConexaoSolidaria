@@ -29,8 +29,10 @@ coveragereport/
 coverage*.json
 coverage*.xml
 coverage*.info
-# Saídas de teste de carga (k6)
-tests/load/results/
+# Saídas de teste de carga (k6) e E2E (Playwright)
+tests/e2e/load/results/
+playwright-report/
+test-results/
 
 # ---------- IDEs ----------
 .vs/
@@ -92,5 +94,12 @@ docker-compose.override.yml
 # ---------- Logs ----------
 *.log
 
+# ---------- Node (ferramentas como MCP do Playwright) ----------
+node_modules/
+
 # ---------- Claude Code (configuração pessoal) ----------
+# Versionados: CLAUDE.md, .mcp.json, .claude/settings.json, commands/, agents/ e skills/
 .claude/settings.local.json
+.claude/worktrees/
+CLAUDE.local.md
+.playwright-mcp/
