@@ -313,7 +313,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R090** · `002/T007` [H03] `CriarCampanha` com validador e testes — `Campanhas.Application/Campanhas/CriarCampanha.cs`
   Commit: `✨ feat(campanhas): adiciona caso de uso de criação de campanha`
   Depende de: R089 (`002/T006`)
-- [ ] **R091** · `002/T008` [H04] `AtualizarCampanha` e `AlterarStatusCampanha` com testes — `Campanhas.Application/Campanhas/*`
+- [X] **R091** · `002/T008` [H04] `AtualizarCampanha` e `AlterarStatusCampanha` com testes — `Campanhas.Application/Campanhas/*`
   Commit: `✨ feat(campanhas): adiciona casos de uso de edição e status`
   Depende de: R087 (`002/T004`), R090 (`002/T007`)
 - [ ] **R092** · `002/T009` [H04] `ListarCampanhas` (paginação e filtro) e `ObterCampanha`, com testes — `Campanhas.Application/Campanhas/*`
