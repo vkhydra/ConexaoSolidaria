@@ -57,7 +57,7 @@ As funcionalidades (Etapas 4 a 8) seguem o fluxo de Spec-Driven Development: as 
 **Objetivo:** backlog ligado às features, domínio modelado e specs validadas pelo grupo.
 **Tarefas:**
 1. GitHub Project com colunas, campos e labels do [processo ágil](processo-agil.md).
-2. Uma issue por feature (H01–H10 agrupadas como em [visão geral](../specs/product/overview.md#catálogo-de-features)) e por tarefa técnica (T01–T04), com link para a `spec.md`; estimar com Planning Poker.
+2. Uma issue por feature (H01–H12 agrupadas como em [visão geral](../specs/product/overview.md#catálogo-de-features)) e por tarefa técnica (T01–T04), com link para a `spec.md`; estimar com Planning Poker.
 3. Revisar cada spec em grupo; ajustes com `/clarify` e `/analyze`.
 4. `docs/agil/definition-of-ready.md` e `docs/agil/definition-of-done.md`.
 5. Event Storming no Miro (fluxos "criar campanha" e "doar"); exportar PNGs.
@@ -76,7 +76,7 @@ As funcionalidades (Etapas 4 a 8) seguem o fluxo de Spec-Driven Development: as 
 📝 docs: adiciona modelo de issue de história
 📝 docs: adiciona modelo de pull request
 ```
-**Pronto quando:** Sprint 1 planejada com as features 001, 002 e 003 na coluna "Pronto (DoR)" e `/analyze` sem achados críticos.
+**Pronto quando:** feature 009 pronta para a Etapa 3 e Sprint 1 planejada com as features 001, 002 e 003 na coluna "Pronto (DoR)" e `/analyze` sem achados críticos.
 **Apoio:** `/clarify`, `/analyze`, MCP GitHub; `wiki:disciplinas/ddd`, `wiki:disciplinas/metodologias-ageis`.
 
 ## Etapa 3 — Esqueleto da solução e qualidade automática
