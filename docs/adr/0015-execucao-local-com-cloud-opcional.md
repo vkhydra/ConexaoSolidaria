@@ -3,10 +3,11 @@
 - **Status:** Aceito
 - **Data:** 2026-10-30
 - **Decisores:** equipe do projeto
+- **Errata (2026-10-30):** contexto corrigido para o escopo do trabalho substitutivo ([ADR 0018](0018-escopo-trabalho-substitutivo.md)); a decisão não mudou.
 
 ## Contexto
 
-O Hackathon pede Kubernetes local. As Fases 3 e 4 trabalharam com cloud, que gera custo.
+A Fase 2 ensina Kubernetes, e as Fases 3 e 4 trabalham com cloud, que gera custo.
 
 ## Decisão
 
