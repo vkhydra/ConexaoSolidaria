@@ -61,15 +61,24 @@ Resumo prático:
 ## Comandos
 
 ```bash
-dotnet tool restore                                   # dotnet-ef, husky, reportgenerator
-dotnet build -c Release -warnaserror                  # build (avisos são erro)
-dotnet format --verify-no-changes                     # formato
-dotnet test -c Release --filter Category=Unit         # testes de unidade
-dotnet test -c Release                                # todos os testes (exige Docker)
-pwsh ./scripts/verificar-cobertura.ps1 -Minimo 90 -ExecutarTestes
+dotnet tool restore                                                   # dotnet-ef, husky, reportgenerator
+dotnet restore ConexaoSolidaria.slnx --locked-mode                    # pacotes travados (packages.lock.json)
+dotnet format ConexaoSolidaria.slnx --verify-no-changes               # formato (.editorconfig)
+dotnet build ConexaoSolidaria.slnx -c Release -warnaserror            # build; avisos e falta de <summary> são erro
+dotnet test ConexaoSolidaria.slnx -c Release --no-build --filter Category=Unit   # testes de unidade
+dotnet test ConexaoSolidaria.slnx -c Release --no-build               # todos os testes (integração exige Docker)
+pwsh ./scripts/verificar-cobertura.ps1 -Minimo 90 -ExecutarTestes     # cobertura ≥ 90% (linhas e ramos, por projeto)
 docker compose -f deploy/docker-compose.yml --env-file deploy/.env up -d --build
 kubectl apply -k deploy/k8s/overlays/local --dry-run=server
 ```
+
+Detalhes que já valem na solução:
+
+- **Testes:** xUnit v3 pelo pacote `xunit.v3.mtp-off` (mantém o `dotnet test` clássico, necessário para o coverlet no .NET 10). Pacotes comuns de teste e `using`s globais em `tests/Directory.Build.props`. Todo teste leva `[Trait("Category", "Unit")]` (ou `Integration`, `Contract`).
+- **Analisadores:** `Directory.Build.props` (avisos como erro), `.editorconfig` (estilo e documentação SA16xx como erro) e `.globalconfig` (StyleCop: só as regras de documentação ficam ligadas).
+- **Pacotes:** versões só em `Directory.Packages.props`; cada projeto tem `packages.lock.json` (commitar junto).
+- **Hooks (Husky.Net):** `pre-commit` roda formato, build e testes de unidade quando há código em staging; `commit-msg` valida a mensagem; `pre-push` confere a cobertura. Instalar com `dotnet tool restore && dotnet husky install`.
+- **Windows:** `rm -rf` é bloqueado em `.claude/settings.json`; para limpar `TestResults/` e `coverage/` use o script de cobertura (`-ExecutarTestes`).
 
 ## Fluxo com o Claude Code
 

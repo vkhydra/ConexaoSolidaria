@@ -182,7 +182,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R043** · `009/T008` [H11] Badge do status da pipeline e seção "Testes e cobertura" no README — `README.md`
   Commit: `📝 docs: adiciona status da pipeline e cobertura no readme`
   Depende de: R042 (`009/T007`)
-- [ ] **R044** · Atualizar o `CLAUDE.md` com os comandos reais da solução
+- [X] **R044** · Atualizar o `CLAUDE.md` com os comandos reais da solução
   Commit: `📝 docs: atualiza CLAUDE.md com os comandos reais da solução`
 - [ ] **R045** · Script `scripts/verificar-pre-requisitos.ps1`
   Commit: `🔧 chore: adiciona script de verificação de pré-requisitos`
