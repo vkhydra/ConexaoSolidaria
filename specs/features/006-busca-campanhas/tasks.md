@@ -8,7 +8,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 - [X] T001 [H08] `IBuscaCampanhas`, `IIndiceCampanhas`, `BuscaResponse` e caso de uso `BuscarCampanhas` com testes (validação de `q`, paginação, indisponível) — `Campanhas.Application/Busca/*`
   Commit: `✨ feat(campanhas): adiciona caso de uso de busca de campanhas`
-- [ ] T002 [P] [H08] Mapeamento `CampanhaAlteradaEvent` → documento, com testes — `Campanhas.Application/Busca/*`
+- [X] T002 [P] [H08] Mapeamento `CampanhaAlteradaEvent` → documento, com testes — `Campanhas.Application/Busca/*`
   Commit: `✨ feat(campanhas): adiciona mapeamento de campanha para o índice`
 
 ## Fase 2 — Infraestrutura

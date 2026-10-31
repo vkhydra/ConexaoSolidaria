@@ -424,7 +424,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 
 - [X] **R126** · `006/T001` [H08] `IBuscaCampanhas`, `IIndiceCampanhas`, `BuscaResponse` e caso de uso `BuscarCampanhas` com testes (validação de `q`, paginação, indisponível) — `Campanhas.Application/Busca/*`
   Commit: `✨ feat(campanhas): adiciona caso de uso de busca de campanhas`
-- [ ] **R127** · `006/T002` [H08] Mapeamento `CampanhaAlteradaEvent` → documento, com testes — `Campanhas.Application/Busca/*`
+- [X] **R127** · `006/T002` [H08] Mapeamento `CampanhaAlteradaEvent` → documento, com testes — `Campanhas.Application/Busca/*`
   Commit: `✨ feat(campanhas): adiciona mapeamento de campanha para o índice`
 - [ ] **R128** · `006/T003` [H08] Criação do índice `campanhas-v1` com analyzer `pt_br` e alias `campanhas` — `Campanhas.Infrastructure/Busca/MapeamentoIndice.cs`
   Commit: `🗃️ feat(campanhas): adiciona índice de campanhas no elasticsearch`
