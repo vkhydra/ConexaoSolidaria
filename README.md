@@ -1,12 +1,21 @@
 # Conexão Solidária
 
-Plataforma de doações para a **ONG Esperança Solidária**, desenvolvida como **Hackathon da Fase 5** da PósTech FIAP — Arquitetura de Sistemas .NET.
+**Atividade Substitutiva da Fase 3** da PósTech FIAP — Arquitetura de Sistemas .NET com Azure: assegurar a qualidade de software de uma API .NET com **testes unitários** (casos de sucesso e de erro) e uma **pipeline de CI que executa os testes e retorna a cobertura** ([feature 009](specs/features/009-ci-testes-cobertura/spec.md)).
 
-O MVP digitaliza a gestão de campanhas e doações com foco em **escalabilidade, observabilidade e automação**, aplicando o conteúdo das 5 fases do curso.
+A API escolhida é a **Conexão Solidária**, plataforma de doações para a ONG Esperança Solidária, que aplica o conteúdo das 5 fases do curso.
 
 > **Status:** especificação concluída; implementação feature a feature conforme o [plano de execução](docs/plano-de-execucao.md).
 
-## Funcionalidades
+## Testes e cobertura (requisito avaliado)
+
+| Item | Onde |
+|---|---|
+| Testes unitários (xUnit), sucesso e erro | [`tests/unit/`](tests/unit/README.md) |
+| Pipeline de CI (GitHub Actions) | `.github/workflows/ci.yml` — job `testes-unitarios` |
+| Cobertura | Resumo na página de cada execução e artefato `cobertura-testes-unitarios` para download ([contrato da pipeline](specs/features/009-ci-testes-cobertura/contracts/pipeline.md)) |
+| Rodar localmente | `dotnet test --filter Category=Unit` e skill/script `verificar-cobertura` |
+
+## Funcionalidades da API
 
 | # | Feature | Acesso |
 |---|---|---|
@@ -85,17 +94,17 @@ Exemplo: `✨ feat(campanhas): adiciona criação de campanha`. Todo commit deve
 | [Visão geral do produto](specs/product/overview.md) | Contexto, objetivos, personas, escopo e catálogo de features |
 | [Constituição](specs/constitution.md) | Princípios do projeto |
 | [Features](specs/features/) | Spec, pesquisa, plano, modelo de dados, contratos e tarefas de cada funcionalidade |
-| [Decisões de arquitetura](docs/adr/README.md) | ADRs 0001–0017 |
+| [Decisões de arquitetura](docs/adr/README.md) | ADRs 0001–0018 |
 | [Runbooks](docs/runbooks/README.md) | Resposta a alertas e operações |
 | [Glossário](docs/glossary.md) | Linguagem ubíqua |
 | [Plano de execução](docs/plano-de-execucao.md) | Etapas do início à entrega |
 | [Processo ágil](docs/processo-agil.md) | Scrum, Kanban, DoR, DoD e backlog |
 | [Claude Code no projeto](docs/claude-code.md) | Comandos, agentes, skills e MCP |
-| [Entrega e riscos](docs/entrega-e-riscos.md) | Checklist do enunciado, relatório e riscos |
-| [Roteiro do vídeo](docs/ROTEIRO-VIDEO.md) | Apresentação de até 15 minutos |
+| [Entrega e riscos](docs/entrega-e-riscos.md) | Checklist do enunciado do substitutivo e riscos |
+| [Roteiro do vídeo](docs/ROTEIRO-VIDEO.md) | Vídeo de entrega: API, testes, pipeline e cobertura |
 
 ## Equipe
 
-| Nome | Discord | GitHub |
-|---|---|---|
-| _a preencher_ | | |
+| Nome | GitHub |
+|---|---|
+| _a preencher_ | |
