@@ -1,3 +1,6 @@
+using System.Globalization;
+using System.Security.Cryptography;
+using System.Text;
 using Campanhas.Application.Abstracoes;
 using Campanhas.Application.Campanhas;
 using Campanhas.Application.Comum;
@@ -10,7 +13,8 @@ using Microsoft.Extensions.Logging.Abstractions;
 namespace Campanhas.UnitTests.Doacoes;
 
 /// <summary>
-/// Testes do caso de uso <see cref="ReceberDoacao"/>: aceite com publicação do evento, validação e recusas de negócio.
+/// Testes do caso de uso <see cref="ReceberDoacao"/>: aceite com publicação do evento, validação, recusas de negócio e
+/// chave de idempotência.
 /// </summary>
 [Trait("Category", "Unit")]
 public sealed class ReceberDoacaoTests
@@ -41,6 +45,11 @@ public sealed class ReceberDoacaoTests
     private readonly IPublicadorDeDoacoes _publicador = Substitute.For<IPublicadorDeDoacoes>();
 
     /// <summary>
+    /// Porta das chaves de idempotência falsa.
+    /// </summary>
+    private readonly IChavesIdempotencia _chaves = Substitute.For<IChavesIdempotencia>();
+
+    /// <summary>
     /// Relógio falso fixo em <see cref="_agora"/>.
     /// </summary>
     private readonly IRelogio _relogio = Substitute.For<IRelogio>();
@@ -65,7 +74,7 @@ public sealed class ReceberDoacaoTests
         var campanha = NovaCampanha();
         _campanhas.ObterPorIdAsync(campanha.Id, Arg.Any<CancellationToken>()).Returns(campanha);
 
-        var resultado = await Criar().ExecutarAsync(_doador, new DoacaoRequest(campanha.Id.Valor, 150.00m), CancellationToken.None);
+        var resultado = await Criar().ExecutarAsync(_doador, new DoacaoRequest(campanha.Id.Valor, 150.00m), null, CancellationToken.None);
 
         resultado.EhSucesso.ShouldBeTrue();
         resultado.Valor.Status.ShouldBe("Recebida");
@@ -78,9 +87,11 @@ public sealed class ReceberDoacaoTests
                 && e.DoadorId == _doador
                 && e.Valor == 150.00m
                 && e.OcorridoEm == _agora),
+            null,
             Arg.Any<CancellationToken>());
         campanha.TotalArrecadado.ShouldBe(Dinheiro.Zero);
         await _campanhas.DidNotReceive().SalvarAsync(Arg.Any<Campanha>(), Arg.Any<CancellationToken>());
+        await _chaves.DidNotReceive().ObterAsync(Arg.Any<string>(), Arg.Any<Guid>(), Arg.Any<CancellationToken>());
     }
 
     /// <summary>
@@ -93,7 +104,7 @@ public sealed class ReceberDoacaoTests
         var campanha = NovaCampanha();
         _campanhas.ObterPorIdAsync(campanha.Id, Arg.Any<CancellationToken>()).Returns(campanha);
 
-        var resultado = await Criar().ExecutarAsync(_doador, new DoacaoRequest(campanha.Id.Valor, 1_000_000.00m), CancellationToken.None);
+        var resultado = await Criar().ExecutarAsync(_doador, new DoacaoRequest(campanha.Id.Valor, 1_000_000.00m), null, CancellationToken.None);
 
         resultado.EhSucesso.ShouldBeTrue();
     }
@@ -115,12 +126,12 @@ public sealed class ReceberDoacaoTests
     {
         var id = idCampanha.Length == 0 ? Guid.Empty : Guid.Parse(idCampanha);
 
-        var resultado = await Criar().ExecutarAsync(_doador, new DoacaoRequest(id, (decimal)valor), CancellationToken.None);
+        var resultado = await Criar().ExecutarAsync(_doador, new DoacaoRequest(id, (decimal)valor), null, CancellationToken.None);
 
         resultado.Erro.Codigo.ShouldBe(ErrosDeValidacao.CodigoValidacao);
         resultado.Erro.Campos!.Keys.ShouldBe([campo]);
         await _campanhas.DidNotReceive().ObterPorIdAsync(Arg.Any<CampanhaId>(), Arg.Any<CancellationToken>());
-        await _publicador.DidNotReceive().PublicarRecebidaAsync(Arg.Any<DoacaoRecebidaEvent>(), Arg.Any<CancellationToken>());
+        await NadaPublicadoAsync();
     }
 
     /// <summary>
@@ -130,7 +141,7 @@ public sealed class ReceberDoacaoTests
     [Fact]
     public async Task Receber_CamposAusentes_DevolveValidacaoNosDoisCampos()
     {
-        var resultado = await Criar().ExecutarAsync(_doador, new DoacaoRequest(null, null), CancellationToken.None);
+        var resultado = await Criar().ExecutarAsync(_doador, new DoacaoRequest(null, null), null, CancellationToken.None);
 
         resultado.Erro.Codigo.ShouldBe(ErrosDeValidacao.CodigoValidacao);
         resultado.Erro.Campos!.Keys.ShouldBe(["idCampanha", "valorDoacao"], ignoreOrder: true);
@@ -143,10 +154,10 @@ public sealed class ReceberDoacaoTests
     [Fact]
     public async Task Receber_CampanhaInexistente_DevolveNaoEncontrada()
     {
-        var resultado = await Criar().ExecutarAsync(_doador, new DoacaoRequest(Guid.NewGuid(), 10m), CancellationToken.None);
+        var resultado = await Criar().ExecutarAsync(_doador, new DoacaoRequest(Guid.NewGuid(), 10m), null, CancellationToken.None);
 
         resultado.Erro.Codigo.ShouldBe(ErrosDeCampanha.CodigoNaoEncontrada);
-        await _publicador.DidNotReceive().PublicarRecebidaAsync(Arg.Any<DoacaoRecebidaEvent>(), Arg.Any<CancellationToken>());
+        await NadaPublicadoAsync();
     }
 
     /// <summary>
@@ -181,10 +192,10 @@ public sealed class ReceberDoacaoTests
 
         _campanhas.ObterPorIdAsync(campanha.Id, Arg.Any<CancellationToken>()).Returns(campanha);
 
-        var resultado = await Criar().ExecutarAsync(_doador, new DoacaoRequest(campanha.Id.Valor, 10m), CancellationToken.None);
+        var resultado = await Criar().ExecutarAsync(_doador, new DoacaoRequest(campanha.Id.Valor, 10m), null, CancellationToken.None);
 
         resultado.Erro.Codigo.ShouldBe(ErrosDeDoacao.CodigoCampanhaNaoAtiva);
-        await _publicador.DidNotReceive().PublicarRecebidaAsync(Arg.Any<DoacaoRecebidaEvent>(), Arg.Any<CancellationToken>());
+        await NadaPublicadoAsync();
     }
 
     /// <summary>
@@ -194,7 +205,125 @@ public sealed class ReceberDoacaoTests
     [Fact]
     public async Task Receber_PedidoNulo_LancaExcecao()
     {
-        await Should.ThrowAsync<ArgumentNullException>(() => Criar().ExecutarAsync(_doador, null!, CancellationToken.None));
+        await Should.ThrowAsync<ArgumentNullException>(() => Criar().ExecutarAsync(_doador, null!, null, CancellationToken.None));
+    }
+
+    /// <summary>
+    /// Dada uma chave de idempotência nova, quando a doação é recebida, então o publicador recebe a chave com o hash do corpo.
+    /// </summary>
+    /// <returns>Tarefa do teste.</returns>
+    [Fact]
+    public async Task Receber_ChaveNova_PublicaComAChave()
+    {
+        var campanha = NovaCampanha();
+        _campanhas.ObterPorIdAsync(campanha.Id, Arg.Any<CancellationToken>()).Returns(campanha);
+
+        var resultado = await Criar().ExecutarAsync(_doador, new DoacaoRequest(campanha.Id.Valor, 150m), "chave-1", CancellationToken.None);
+
+        resultado.EhSucesso.ShouldBeTrue();
+        await _publicador.Received(1).PublicarRecebidaAsync(
+            Arg.Any<DoacaoRecebidaEvent>(),
+            Arg.Is<ChaveParaRegistrar?>(c => c != null && c.Chave == "chave-1" && c.HashCorpo.SequenceEqual(Hash(campanha.Id.Valor, 150m))),
+            Arg.Any<CancellationToken>());
+    }
+
+    /// <summary>
+    /// Dada uma chave já usada com o mesmo corpo, quando a doação é repetida, então devolve o mesmo aceite e não publica de novo,
+    /// mesmo que a campanha tenha encerrado nesse meio-tempo.
+    /// </summary>
+    /// <returns>Tarefa do teste.</returns>
+    [Fact]
+    public async Task Receber_ChaveRepetidaComMesmoCorpo_DevolveAMesmaDoacao()
+    {
+        var campanha = NovaCampanha();
+        campanha.Cancelar(_agora);
+        _campanhas.ObterPorIdAsync(campanha.Id, Arg.Any<CancellationToken>()).Returns(campanha);
+        var existente = Guid.NewGuid();
+        _chaves.ObterAsync("chave-1", _doador, Arg.Any<CancellationToken>()).Returns(new ChaveRegistrada(existente, Hash(campanha.Id.Valor, 150m)));
+
+        var resultado = await Criar().ExecutarAsync(_doador, new DoacaoRequest(campanha.Id.Valor, 150m), "chave-1", CancellationToken.None);
+
+        resultado.Valor.DoacaoId.ShouldBe(existente);
+        resultado.Valor.Status.ShouldBe("Recebida");
+        await NadaPublicadoAsync();
+    }
+
+    /// <summary>
+    /// Dada uma chave já usada com outro corpo, quando a doação é repetida, então devolve doacao.chave_idempotencia_conflitante.
+    /// </summary>
+    /// <returns>Tarefa do teste.</returns>
+    [Fact]
+    public async Task Receber_ChaveRepetidaComOutroCorpo_DevolveConflito()
+    {
+        var campanha = NovaCampanha();
+        _campanhas.ObterPorIdAsync(campanha.Id, Arg.Any<CancellationToken>()).Returns(campanha);
+        _chaves.ObterAsync("chave-1", _doador, Arg.Any<CancellationToken>()).Returns(new ChaveRegistrada(Guid.NewGuid(), Hash(campanha.Id.Valor, 99m)));
+
+        var resultado = await Criar().ExecutarAsync(_doador, new DoacaoRequest(campanha.Id.Valor, 150m), "chave-1", CancellationToken.None);
+
+        resultado.Erro.Codigo.ShouldBe(ErrosDeDoacao.CodigoChaveConflitante);
+        await NadaPublicadoAsync();
+    }
+
+    /// <summary>
+    /// Dado que outra requisição registrou a mesma chave no mesmo instante, quando a publicação falha por duplicidade,
+    /// então o caso de uso relê a chave e devolve a doação da outra requisição.
+    /// </summary>
+    /// <returns>Tarefa do teste.</returns>
+    [Fact]
+    public async Task Receber_ChaveGravadaEmParalelo_DevolveADoacaoVencedora()
+    {
+        var campanha = NovaCampanha();
+        _campanhas.ObterPorIdAsync(campanha.Id, Arg.Any<CancellationToken>()).Returns(campanha);
+        var vencedora = Guid.NewGuid();
+        _chaves.ObterAsync("chave-1", _doador, Arg.Any<CancellationToken>())
+            .Returns(null, new ChaveRegistrada(vencedora, Hash(campanha.Id.Valor, 150m)));
+        _publicador.PublicarRecebidaAsync(Arg.Any<DoacaoRecebidaEvent>(), Arg.Any<ChaveParaRegistrar?>(), Arg.Any<CancellationToken>())
+            .Returns(Task.FromException(new ChaveJaRegistradaException()));
+
+        var resultado = await Criar().ExecutarAsync(_doador, new DoacaoRequest(campanha.Id.Valor, 150m), "chave-1", CancellationToken.None);
+
+        resultado.Valor.DoacaoId.ShouldBe(vencedora);
+    }
+
+    /// <summary>
+    /// Dada uma chave vazia, só com espaços ou com mais de 100 caracteres, quando a doação é recebida, então devolve validacao
+    /// no cabeçalho Idempotency-Key e nada é consultado nem publicado.
+    /// </summary>
+    /// <param name="chave">Chave enviada.</param>
+    /// <returns>Tarefa do teste.</returns>
+    [Theory]
+    [InlineData("")]
+    [InlineData("   ")]
+    [InlineData("ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc")]
+    public async Task Receber_ChaveInvalida_DevolveValidacao(string chave)
+    {
+        var resultado = await Criar().ExecutarAsync(_doador, new DoacaoRequest(Guid.NewGuid(), 10m), chave, CancellationToken.None);
+
+        resultado.Erro.Codigo.ShouldBe(ErrosDeValidacao.CodigoValidacao);
+        resultado.Erro.Campos!.Keys.ShouldBe(["Idempotency-Key"]);
+        await _chaves.DidNotReceive().ObterAsync(Arg.Any<string>(), Arg.Any<Guid>(), Arg.Any<CancellationToken>());
+        await NadaPublicadoAsync();
+    }
+
+    /// <summary>
+    /// Confere que nenhum evento de doação foi publicado.
+    /// </summary>
+    /// <returns>Tarefa que termina com a conferência feita.</returns>
+    private async Task NadaPublicadoAsync()
+    {
+        await _publicador.DidNotReceive().PublicarRecebidaAsync(Arg.Any<DoacaoRecebidaEvent>(), Arg.Any<ChaveParaRegistrar?>(), Arg.Any<CancellationToken>());
+    }
+
+    /// <summary>
+    /// Calcula o hash do corpo da mesma forma que o caso de uso, para montar chaves já registradas.
+    /// </summary>
+    /// <param name="campanhaId">Campanha do pedido.</param>
+    /// <param name="valor">Valor do pedido.</param>
+    /// <returns>O SHA-256 do corpo canônico.</returns>
+    private static byte[] Hash(Guid campanhaId, decimal valor)
+    {
+        return SHA256.HashData(Encoding.UTF8.GetBytes(string.Create(CultureInfo.InvariantCulture, $"{campanhaId:D}|{valor:F2}")));
     }
 
     /// <summary>
@@ -203,7 +332,7 @@ public sealed class ReceberDoacaoTests
     /// <returns>O caso de uso.</returns>
     private ReceberDoacao Criar()
     {
-        return new ReceberDoacao(_campanhas, _publicador, new DoacaoRequestValidator(), _relogio, NullLogger<ReceberDoacao>.Instance);
+        return new ReceberDoacao(_campanhas, _publicador, _chaves, new DoacaoRequestValidator(), _relogio, NullLogger<ReceberDoacao>.Instance);
     }
 
     /// <summary>

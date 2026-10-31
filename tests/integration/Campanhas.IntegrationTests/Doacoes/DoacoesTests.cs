@@ -2,7 +2,10 @@ using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
+using Campanhas.Application.Doacoes;
 using Campanhas.IntegrationTests.Suporte;
+using ConexaoSolidaria.Contracts.V1;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Campanhas.IntegrationTests.Doacoes;
 
@@ -51,6 +54,159 @@ public sealed class DoacoesTests(CampanhasApiFixture api) : IClassFixture<Campan
         using var gestor = Cliente("GestorONG");
         var campanha = await gestor.GetFromJsonAsync<JsonElement>($"/api/v1/campanhas/{campanhaId}", TestContext.Current.CancellationToken);
         campanha.GetProperty("totalArrecadado").GetDecimal().ShouldBe(0m);
+    }
+
+    /// <summary>
+    /// Dada a mesma Idempotency-Key com o mesmo corpo, quando o doador repete o pedido, então recebe o mesmo doacaoId
+    /// e só um evento fica no Outbox.
+    /// </summary>
+    /// <returns>Tarefa do teste.</returns>
+    [Fact]
+    public async Task Receber_ChaveRepetidaComMesmoCorpo_DevolveAMesmaDoacaoSemNovoEvento()
+    {
+        var campanhaId = await CriarCampanhaAsync();
+        using var doador = Cliente("Doador");
+        var chave = Guid.NewGuid().ToString();
+
+        var primeira = await Doar(doador, campanhaId, 150.00m, chave);
+        var segunda = await Doar(doador, campanhaId, 150.00m, chave);
+
+        primeira.StatusCode.ShouldBe(HttpStatusCode.Accepted);
+        segunda.StatusCode.ShouldBe(HttpStatusCode.Accepted);
+        var idPrimeira = (await primeira.Content.ReadFromJsonAsync<JsonElement>(TestContext.Current.CancellationToken)).GetProperty("doacaoId").GetGuid();
+        var idSegunda = (await segunda.Content.ReadFromJsonAsync<JsonElement>(TestContext.Current.CancellationToken)).GetProperty("doacaoId").GetGuid();
+        idSegunda.ShouldBe(idPrimeira);
+        (await api.LerOutboxAsync(campanhaId)).Count(m => m.Contains("doacaoId", StringComparison.Ordinal)).ShouldBe(1);
+    }
+
+    /// <summary>
+    /// Dada a mesma Idempotency-Key com outro valor, quando o doador envia, então recebe 422 doacao.chave_idempotencia_conflitante.
+    /// </summary>
+    /// <returns>Tarefa do teste.</returns>
+    [Fact]
+    public async Task Receber_ChaveRepetidaComOutroCorpo_Devolve422()
+    {
+        var campanhaId = await CriarCampanhaAsync();
+        using var doador = Cliente("Doador");
+        var chave = Guid.NewGuid().ToString();
+        (await Doar(doador, campanhaId, 150.00m, chave)).StatusCode.ShouldBe(HttpStatusCode.Accepted);
+
+        var resposta = await Doar(doador, campanhaId, 151.00m, chave);
+
+        resposta.StatusCode.ShouldBe(HttpStatusCode.UnprocessableEntity);
+        (await resposta.Content.ReadFromJsonAsync<JsonElement>(TestContext.Current.CancellationToken)).GetProperty("code").GetString().ShouldBe("doacao.chave_idempotencia_conflitante");
+    }
+
+    /// <summary>
+    /// Dada a mesma Idempotency-Key usada por dois doadores diferentes, quando ambos doam, então cada um recebe a sua doação.
+    /// </summary>
+    /// <returns>Tarefa do teste.</returns>
+    [Fact]
+    public async Task Receber_MesmaChaveDeDoadoresDiferentes_NaoSeMisturam()
+    {
+        var campanhaId = await CriarCampanhaAsync();
+        using var ana = Cliente("Doador");
+        using var bia = Cliente("Doador");
+        var chave = Guid.NewGuid().ToString();
+
+        var daAna = await (await Doar(ana, campanhaId, 10m, chave)).Content.ReadFromJsonAsync<JsonElement>(TestContext.Current.CancellationToken);
+        var daBia = await (await Doar(bia, campanhaId, 10m, chave)).Content.ReadFromJsonAsync<JsonElement>(TestContext.Current.CancellationToken);
+
+        daBia.GetProperty("doacaoId").GetGuid().ShouldNotBe(daAna.GetProperty("doacaoId").GetGuid());
+    }
+
+    /// <summary>
+    /// Dada uma Idempotency-Key com mais de 100 caracteres, quando o doador envia, então recebe 400 validacao.
+    /// </summary>
+    /// <returns>Tarefa do teste.</returns>
+    [Fact]
+    public async Task Receber_ChaveLongaDemais_Devolve400()
+    {
+        var campanhaId = await CriarCampanhaAsync();
+        using var doador = Cliente("Doador");
+
+        var resposta = await Doar(doador, campanhaId, 10m, new string('c', 101));
+
+        resposta.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+        (await resposta.Content.ReadFromJsonAsync<JsonElement>(TestContext.Current.CancellationToken)).GetProperty("errors").EnumerateObject().Select(p => p.Name).ShouldBe(["Idempotency-Key"]);
+    }
+
+    /// <summary>
+    /// Dadas duas gravações da mesma chave, quando a segunda chega ao banco, então o publicador lança
+    /// <see cref="ChaveJaRegistradaException"/> e nenhum evento novo é gravado.
+    /// </summary>
+    /// <returns>Tarefa do teste.</returns>
+    [Fact]
+    public async Task Publicador_ChaveDuplicadaNoBanco_LancaChaveJaRegistrada()
+    {
+        var campanhaId = await CriarCampanhaAsync();
+        var doadorId = Guid.NewGuid();
+        var chave = new ChaveParaRegistrar(Guid.NewGuid().ToString(), new byte[32]);
+        var evento = new DoacaoRecebidaEvent(Guid.NewGuid(), campanhaId, doadorId, 10m, DateTimeOffset.UtcNow);
+        await PublicarEmNovoEscopoAsync(evento, chave);
+        var repetido = evento with { DoacaoId = Guid.NewGuid() };
+
+        await Should.ThrowAsync<ChaveJaRegistradaException>(() => PublicarEmNovoEscopoAsync(repetido, chave));
+
+        (await api.LerOutboxAsync(campanhaId)).Count(m => m.Contains(repetido.DoacaoId.ToString(), StringComparison.Ordinal)).ShouldBe(0);
+    }
+
+    /// <summary>
+    /// Dadas chaves de 25 horas, de 23 horas e de agora, quando a limpeza roda, então só a de 25 horas é removida.
+    /// </summary>
+    /// <returns>Tarefa do teste.</returns>
+    [Fact]
+    public async Task Limpeza_RemoveSoChavesExpiradas()
+    {
+        var doadorId = Guid.NewGuid();
+        var agora = DateTimeOffset.UtcNow;
+        foreach (var (chave, idade) in new[] { ("velha", 25), ("meia", 23), ("nova", 0) })
+        {
+            await api.ExecutarSqlAsync(
+                "INSERT INTO chaves_idempotencia (chave, doador_id, doacao_id, hash_corpo, criada_em) VALUES (@chave, @doador, @doacao, @hash, @criada)",
+                ("chave", $"{doadorId}-{chave}"),
+                ("doador", doadorId),
+                ("doacao", Guid.NewGuid()),
+                ("hash", new byte[32]),
+                ("criada", agora.AddHours(-idade)));
+        }
+
+        await using var escopo = api.Services.CreateAsyncScope();
+        var chaves = escopo.ServiceProvider.GetRequiredService<IChavesIdempotencia>();
+
+        var removidas = await chaves.RemoverExpiradasAsync(agora.AddHours(-24), TestContext.Current.CancellationToken);
+
+        removidas.ShouldBeGreaterThanOrEqualTo(1);
+        (await chaves.ObterAsync($"{doadorId}-velha", doadorId, TestContext.Current.CancellationToken)).ShouldBeNull();
+        (await chaves.ObterAsync($"{doadorId}-meia", doadorId, TestContext.Current.CancellationToken)).ShouldNotBeNull();
+        (await chaves.ObterAsync($"{doadorId}-nova", doadorId, TestContext.Current.CancellationToken)).ShouldNotBeNull();
+    }
+
+    /// <summary>
+    /// Envia uma doação com a chave de idempotência informada.
+    /// </summary>
+    /// <param name="cliente">Cliente autenticado como doador.</param>
+    /// <param name="campanhaId">Campanha da doação.</param>
+    /// <param name="valor">Valor da doação.</param>
+    /// <param name="chave">Valor do cabeçalho <c>Idempotency-Key</c>.</param>
+    /// <returns>A resposta HTTP.</returns>
+    private static async Task<HttpResponseMessage> Doar(HttpClient cliente, Guid campanhaId, decimal valor, string chave)
+    {
+        using var pedido = new HttpRequestMessage(HttpMethod.Post, _rota) { Content = JsonContent.Create(new { idCampanha = campanhaId, valorDoacao = valor }) };
+        pedido.Headers.Add("Idempotency-Key", chave);
+        return await cliente.SendAsync(pedido, TestContext.Current.CancellationToken);
+    }
+
+    /// <summary>
+    /// Publica um evento por um publicador resolvido em um escopo novo, como cada requisição faz.
+    /// </summary>
+    /// <param name="evento">Evento da doação.</param>
+    /// <param name="chave">Chave de idempotência.</param>
+    /// <returns>Tarefa que termina com o evento gravado.</returns>
+    private async Task PublicarEmNovoEscopoAsync(DoacaoRecebidaEvent evento, ChaveParaRegistrar chave)
+    {
+        await using var escopo = api.Services.CreateAsyncScope();
+        await escopo.ServiceProvider.GetRequiredService<IPublicadorDeDoacoes>().PublicarRecebidaAsync(evento, chave, TestContext.Current.CancellationToken);
     }
 
     /// <summary>

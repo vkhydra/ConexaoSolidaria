@@ -24,21 +24,24 @@ public static class DoacoesEndpoints
     }
 
     /// <summary>
-    /// Recebe a doação: 202 com o identificador, ou 400, 404 ou 422. O total da campanha muda depois, quando o Worker processa.
+    /// Recebe a doação: 202 com o identificador (o mesmo, se a <c>Idempotency-Key</c> se repetir com o mesmo corpo), ou 400, 404 ou 422. O total da campanha muda depois, quando o Worker processa.
     /// </summary>
     /// <param name="request">Corpo do pedido.</param>
+    /// <param name="requisicao">Requisição HTTP, para ler o cabeçalho opcional <c>Idempotency-Key</c>.</param>
     /// <param name="usuario">Doador autenticado, de onde vem o identificador (<c>sub</c>).</param>
     /// <param name="receber">Caso de uso de recebimento.</param>
     /// <param name="cancelamento">Token de cancelamento da requisição.</param>
     /// <returns>A resposta HTTP correspondente ao resultado.</returns>
-    private static async Task<IResult> ReceberAsync(DoacaoRequest request, ClaimsPrincipal usuario, ReceberDoacao receber, CancellationToken cancelamento)
+    private static async Task<IResult> ReceberAsync(DoacaoRequest request, HttpRequest requisicao, ClaimsPrincipal usuario, ReceberDoacao receber, CancellationToken cancelamento)
     {
         if (!Guid.TryParse(usuario.FindFirstValue("sub"), out var doadorId))
         {
             return TypedResults.Unauthorized();
         }
 
-        var resultado = await receber.ExecutarAsync(doadorId, request, cancelamento);
+        var cabecalho = requisicao.Headers[ReceberDoacao.CabecalhoChave];
+        var chave = cabecalho.Count == 0 ? null : cabecalho.ToString();
+        var resultado = await receber.ExecutarAsync(doadorId, request, chave, cancelamento);
         return resultado.EhSucesso ? TypedResults.Accepted((string?)null, resultado.Valor) : ProblemasHttp.Para(resultado.Erro);
     }
 }

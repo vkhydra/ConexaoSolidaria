@@ -383,7 +383,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R114** · `005/T005` [H06] Endpoint `POST /doacoes` com policy `Doador` e Outbox — `Campanhas.Api/Endpoints/DoacoesEndpoints.cs`
   Commit: `✨ feat(campanhas): adiciona recebimento de doação com outbox`
   Depende de: R111 (`005/T002`), R112 (`005/T003`), R113 (`005/T004`)
-- [ ] **R115** · `005/T006` [H06] `Idempotency-Key` com hash do corpo e limpeza após 24 h — `Campanhas.Application/Doacoes/ReceberDoacao.cs`, `Campanhas.Infrastructure/Idempotencia/*`
+- [X] **R115** · `005/T006` [H06] `Idempotency-Key` com hash do corpo e limpeza após 24 h — `Campanhas.Application/Doacoes/ReceberDoacao.cs`, `Campanhas.Infrastructure/Idempotencia/*`
   Commit: `✨ feat(campanhas): adiciona chave de idempotência na doação`
   Depende de: R114 (`005/T005`)
 - [ ] **R116** · `005/T007` [H07] Projeto `Arrecadacao.Worker` com MassTransit, `ServiceDefaults`, health e `/metrics` na porta 9090 — `Arrecadacao.Worker/*`
