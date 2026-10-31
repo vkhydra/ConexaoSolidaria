@@ -1,8 +1,8 @@
-# 07 — Arquitetura
+# Arquitetura
 
 [← README](../../README.md)
 
-## 7.1 Visão de contexto
+## Visão de contexto
 
 ```mermaid
 flowchart LR
@@ -14,7 +14,7 @@ flowchart LR
   github[(GitHub Actions + GHCR)] -- imagens --> sistema
 ```
 
-## 7.2 Visão de containers
+## Visão de containers
 
 ```mermaid
 flowchart LR
@@ -46,7 +46,7 @@ flowchart LR
 
 O PNG exportado deste diagrama (`docs/arquitetura/arquitetura.png`) é entregável do Hackathon.
 
-## 7.3 Componentes
+## Componentes
 
 | Componente | Tecnologia | Responsabilidade | Expõe | Depende de |
 |---|---|---|---|---|
@@ -57,7 +57,7 @@ O PNG exportado deste diagrama (`docs/arquitetura/arquitetura.png`) é entregáv
 | `ConexaoSolidaria.Web` | Blazor Web App | Interface | HTTP 8080 | Kong |
 | Kong | Kong Ingress Controller (DB-less) | Entrada única da API | HTTPS 443 | APIs |
 
-## 7.4 Fluxo da doação (sequência)
+## Fluxo da doação (sequência)
 
 ```mermaid
 sequenceDiagram
@@ -99,14 +99,14 @@ sequenceDiagram
 - O passo 9 (MongoDB) fica fora da transação. Se falhar, a mensagem é reentregue: o passo 8 detecta a duplicata e não soma de novo, mas o Worker **sempre** executa os passos 9 e 10, que são idempotentes (upsert por `doacaoId` e remoção de chave). Assim o livro de doações fica completo mesmo após falhas.
 - O passo 10 é "melhor esforço": se falhar, o cache expira sozinho em 30 s.
 
-## 7.5 Fluxo da campanha (indexação)
+## Fluxo da campanha (indexação)
 
 1. Gestor cria ou altera a campanha (`Campanhas.Api`).
 2. Na mesma transação: grava a campanha e o `CampanhaAlteradaEvent` no Outbox.
 3. O consumidor `IndexarCampanhaConsumer` (na própria `Campanhas.Api`) faz upsert no índice `campanhas` do Elasticsearch.
 4. Falha no Elasticsearch: retry com backoff; depois, DLQ. Reindexação completa disponível por endpoint administrativo `POST /admin/reindexar` (`GestorONG`).
 
-## 7.6 Estrutura de pastas
+## Estrutura de pastas
 
 ```text
 .
@@ -154,7 +154,7 @@ sequenceDiagram
 └── README.md
 ```
 
-## 7.7 Camadas e dependências
+## Camadas e dependências
 
 ```mermaid
 flowchart TB
@@ -177,7 +177,7 @@ flowchart TB
 
 A regra é verificada por um teste de arquitetura (NetArchTest) em cada `*.UnitTests`.
 
-## 7.8 Visão de implantação (Kubernetes local)
+## Visão de implantação (Kubernetes local)
 
 | Namespace | Conteúdo |
 |---|---|
@@ -189,7 +189,7 @@ A regra é verificada por um teste de arquitetura (NetArchTest) em cada `*.UnitT
 
 Detalhes de recursos, probes e manifestos: [13 — Infraestrutura](infraestrutura.md).
 
-## 7.9 Configuração
+## Configuração
 
 Toda configuração vem de variáveis de ambiente (seção `__` do .NET, ex.: `ConnectionStrings__Campanhas`).
 

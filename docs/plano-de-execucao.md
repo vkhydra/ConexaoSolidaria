@@ -1,8 +1,8 @@
-# 20 — Plano de execução
+# Plano de execução
 
 [← README](../README.md)
 
-Do ambiente pronto até a entrega. Cada etapa traz: **objetivo**, **tarefas**, **commits** (na ordem, um por arquivo ou pelo menor conjunto que compila — [seção 17.3](git-e-commits.md#173-granularidade)), **pronto quando** e **apoio** (skills, MCP, wiki).
+Do ambiente pronto até a entrega. Cada etapa traz: **objetivo**, **tarefas**, **commits** (na ordem, um por arquivo ou pelo menor conjunto que compila — [seção 17.3](git-e-commits.md#granularidade)), **pronto quando** e **apoio** (skills, MCP, wiki).
 
 Toda etapa termina com: `/code-review` → `git rebase --exec` (todo commit compila) → PR → CI verde → merge na `main` → item "Concluído" no Project.
 
@@ -363,7 +363,7 @@ Validação de cada manifesto antes do commit: `kubectl apply -k deploy/k8s/over
 
 ## Etapa 16 — Revisão de segurança e LGPD
 **Objetivo:** nenhuma pendência crítica.
-**Tarefas:** `/security-review` completo; checklist OWASP da [seção 11.7](../specs/product/seguranca-e-lgpd.md#117-checklist-owasp-top-10-revisão-na-etapa-16); registro de tratamento; política de privacidade; conferir logs reais em busca de dados pessoais.
+**Tarefas:** `/security-review` completo; checklist OWASP da [seção 11.7](../specs/product/seguranca-e-lgpd.md#checklist-owasp-top-10-revisão-na-etapa-16); registro de tratamento; política de privacidade; conferir logs reais em busca de dados pessoais.
 **Commits (exemplos):**
 ```text
 📝 docs(lgpd): adiciona registro das operações de tratamento

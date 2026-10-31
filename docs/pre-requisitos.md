@@ -1,10 +1,10 @@
-# 02 — Pré-requisitos
+# Pré-requisitos
 
 [← README](../README.md)
 
 Tudo o que precisa estar pronto antes da primeira linha de código, em **Windows, macOS ou Linux**. Corresponde à **Etapa 0** do [plano de execução](plano-de-execucao.md).
 
-## 2.1 Sistemas operacionais suportados
+## Sistemas operacionais suportados
 
 | Sistema | Versão mínima | Gerenciador de pacotes | Docker | Terminal recomendado |
 |---|---|---|---|---|
@@ -14,7 +14,7 @@ Tudo o que precisa estar pronto antes da primeira linha de código, em **Windows
 
 Os scripts do projeto (`scripts/*.ps1` e hooks de git) são escritos em **PowerShell 7**, que roda nos três sistemas. Assim existe um script só para cada tarefa.
 
-## 2.2 Hardware
+## Hardware
 
 | Recurso | Mínimo | Recomendado | Motivo |
 |---|---|---|---|
@@ -24,7 +24,7 @@ Os scripts do projeto (`scripts/*.ps1` e hooks de git) são escritos em **PowerS
 | Virtualização | Habilitada na BIOS/UEFI | — | Exigida pelo WSL 2 (Windows) e pelo Docker Desktop (Windows e macOS) |
 | Arquitetura | x64 ou ARM64 | — | Todas as imagens usadas têm versão `amd64` e `arm64` (Apple Silicon funciona sem emulação) |
 
-## 2.3 Software necessário
+## Software necessário
 
 Mesmas ferramentas e versões em todos os sistemas. Os comandos de instalação de cada sistema estão nas seções 2.4 a 2.6.
 
@@ -48,7 +48,7 @@ Mesmas ferramentas e versões em todos os sistemas. Os comandos de instalação 
 | 16 | Claude Code | Atual | Assistente com skills e MCP | `claude --version` |
 | 17 | Azure CLI | Atual | Só para a cloud opcional | `az version` |
 
-## 2.4 Instalação no Windows
+## Instalação no Windows
 
 Num terminal PowerShell **como administrador**. Depois de instalar, abrir um terminal novo para atualizar o `PATH`.
 
@@ -87,7 +87,7 @@ winget install Microsoft.AzureCLI   # opcional (cloud)
 Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 ```
 
-## 2.5 Instalação no macOS
+## Instalação no macOS
 
 1. Ferramentas de linha de comando da Apple: `xcode-select --install`.
 2. Homebrew: seguir o comando de instalação de [brew.sh](https://brew.sh) e, no Apple Silicon, adicionar `/opt/homebrew/bin` ao `PATH` como o instalador indica.
@@ -102,7 +102,7 @@ Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 
 O `azure-cli` é opcional (só para a cloud).
 
-## 2.6 Instalação no Linux (Ubuntu 24.04)
+## Instalação no Linux (Ubuntu 24.04)
 
 1. Pacotes base e .NET SDK 10:
    ```bash
@@ -142,7 +142,7 @@ O `azure-cli` é opcional (só para a cloud).
 
 No Linux não há VM do Docker: os 12 GB do Minikube saem direto da memória da máquina.
 
-## 2.7 Configuração comum (todos os sistemas)
+## Configuração comum (todos os sistemas)
 
 Os comandos abaixo são iguais em PowerShell, `zsh` e `bash`.
 
@@ -210,7 +210,7 @@ Fim de linha: o `.gitattributes` do repositório (Etapa 3) define LF para todo o
 | Windows | `git config --global core.autocrlf true` |
 | macOS e Linux | `git config --global core.autocrlf input` |
 
-## 2.8 Diferenças entre os sistemas
+## Diferenças entre os sistemas
 
 | Item | Windows | macOS | Linux |
 |---|---|---|---|
@@ -222,7 +222,7 @@ Fim de linha: o `.gitattributes` do repositório (Etapa 3) define LF para todo o
 | Rodar scripts do projeto | `pwsh ./scripts/<nome>.ps1` | `pwsh ./scripts/<nome>.ps1` | `pwsh ./scripts/<nome>.ps1` |
 | Separador de caminho nos exemplos | `\` funciona, mas a spec usa `/` (aceito pelo PowerShell) | `/` | `/` |
 
-## 2.9 Contas
+## Contas
 
 | Conta | Uso | Observação |
 |---|---|---|
@@ -232,7 +232,7 @@ Fim de linha: o `.gitattributes` do repositório (Etapa 3) define LF para todo o
 | YouTube ou Google Drive | Publicação do vídeo | Link não listado ou acesso por link |
 | Azure (opcional) | Etapa de cloud | Azure for Students; criar **alerta de orçamento** antes de qualquer recurso |
 
-## 2.10 Conhecimento prévio (LLMWiki)
+## Conhecimento prévio (LLMWiki)
 
 Leitura mínima antes de começar, na LLMWiki (somente leitura; no Windows em `C:\Victor\Fiap\LLMWiki\wiki`):
 
@@ -243,7 +243,7 @@ Leitura mínima antes de começar, na LLMWiki (somente leitura; no Windows em `C
 | Boas práticas | `boas-praticas/*` (uma página por disciplina) |
 | Conceitos centrais | `conceitos/microsservicos`, `conceitos/rabbitmq`, `conceitos/jwt`, `conceitos/kubernetes`, `conceitos/grafana`, `conceitos/consistencia-eventual` |
 
-## 2.11 Verificação final
+## Verificação final
 
 Script `scripts/verificar-pre-requisitos.ps1` (criado na Etapa 3) detecta o sistema (`$IsWindows`, `$IsMacOS`, `$IsLinux`), executa todas as verificações da seção 2.3 e mostra o que falta com o comando de instalação do sistema detectado. Até lá, rodar manualmente em `pwsh`:
 

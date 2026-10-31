@@ -1,10 +1,10 @@
-# 10 — Dados
+# Dados
 
 [← README](../../README.md)
 
 Esta seção é a base do **PDF de justificativa dos bancos** exigido pelo enunciado (Etapa 17). Referências: `wiki:disciplinas/efcore`, `wiki:disciplinas/nosql`, `wiki:disciplinas/elasticsearch`, `wiki:conceitos/persistencia-poliglota`.
 
-## 10.1 Visão geral
+## Visão geral
 
 | Banco | Versão | Dono | Papel | Modelo de consistência |
 |---|---|---|---|---|
@@ -16,7 +16,7 @@ Esta seção é a base do **PDF de justificativa dos bancos** exigido pelo enunc
 
 Local: uma instância PostgreSQL com dois bancos e usuários separados (`identity_app`, `campanhas_app`), cada um sem acesso ao banco do outro.
 
-## 10.2 Justificativa (resumo do PDF)
+## Justificativa (resumo do PDF)
 
 | Necessidade | Por que esse banco | Por que não os outros |
 |---|---|---|
@@ -25,7 +25,7 @@ Local: uma instância PostgreSQL com dois bancos e usuários separados (`identit
 | Painel público muito lido | Redis: leitura em memória (< 1 ms), TTL, remoção pontual pelo Worker | Consultar o banco a cada acesso aumenta latência e carga |
 | Busca com erro de digitação e relevância | Elasticsearch: índice invertido, analyzer em português, fuzzy, `_score` | `LIKE`/`ILIKE` não tem tolerância a erro nem relevância |
 
-## 10.3 PostgreSQL — `identity_db`
+## PostgreSQL — `identity_db`
 
 Tabela `usuarios`:
 
@@ -45,7 +45,7 @@ Tabela `usuarios`:
 
 Tabela `tentativas_login` (bloqueio por força bruta): `email_hash` (PK), `falhas`, `bloqueado_ate`.
 
-## 10.4 PostgreSQL — `campanhas_db`
+## PostgreSQL — `campanhas_db`
 
 Tabela `campanhas`:
 
@@ -105,7 +105,7 @@ SELECT id, titulo, meta_financeira AS MetaFinanceira, total_arrecadado AS TotalA
 3. Aplicadas por **migration bundle** (`dotnet ef migrations bundle`) executado num `Job` do Kubernetes antes do rollout. As APIs não migram o banco no startup.
 4. Migration nunca é editada depois de ir para a `main`; correções viram nova migration.
 
-## 10.5 MongoDB — livro de doações
+## MongoDB — livro de doações
 
 Banco `arrecadacao`, coleção `lancamentos_doacao`:
 
@@ -132,7 +132,7 @@ Banco `arrecadacao`, coleção `lancamentos_doacao`:
 | Driver | `MongoDB.Driver` oficial, cliente singleton |
 | Uso | Auditoria e conferência (`SUM` por campanha deve bater com `total_arrecadado`) |
 
-## 10.6 Redis — cache
+## Redis — cache
 
 | Chave | Conteúdo | Expiração | Quem remove |
 |---|---|---|---|
@@ -142,7 +142,7 @@ Banco `arrecadacao`, coleção `lancamentos_doacao`:
 - Cache-aside: se o Redis falhar, a API consulta o banco e registra `Warning` (o cache é descartável).
 - `maxmemory-policy allkeys-lru`, sem persistência em disco (dados reconstruíveis).
 
-## 10.7 Elasticsearch — busca
+## Elasticsearch — busca
 
 Índice `campanhas-v1` com alias `campanhas` (reindexação sem indisponibilidade).
 
@@ -206,7 +206,7 @@ Consulta:
 | Segurança | Autenticação por API key; não exposto pelo Kong |
 | Local | Single-node, heap 512 MB, segurança básica ligada |
 
-## 10.8 Backup e retenção (local e cloud opcional)
+## Backup e retenção (local e cloud opcional)
 
 | Dado | Retenção | Backup |
 |---|---|---|
@@ -216,6 +216,6 @@ Consulta:
 | Elasticsearch | Reconstruível | Reindexação a partir do PostgreSQL |
 | Logs | 7 dias (local) | Nenhum |
 
-## 10.9 Dados de demonstração
+## Dados de demonstração
 
 Script `scripts/seed-demo.ps1` (via API, não SQL direto) cria: 1 gestor (seed), 3 campanhas ativas, 1 concluída e 1 cancelada, 2 doadores fictícios com CPFs válidos de teste. Nunca usar dados pessoais reais.

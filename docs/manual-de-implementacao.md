@@ -1,4 +1,4 @@
-# 22 — Manual de implementação
+# Manual de implementação
 
 [← README](../README.md)
 
@@ -6,7 +6,7 @@ Passo a passo para colocar o Conexão Solidária no ar a partir de um clone do r
 
 Todos os comandos rodam em **PowerShell 7 (`pwsh`)**, igual nos três sistemas. Quando um passo muda por sistema, a diferença aparece numa tabela.
 
-## 22.1 Modos de implantação
+## Modos de implantação
 
 | Modo | Para quê | Tempo aproximado | Seção |
 |---|---|---|---|
@@ -14,14 +14,14 @@ Todos os comandos rodam em **PowerShell 7 (`pwsh`)**, igual nos três sistemas. 
 | B — Kubernetes local (Minikube) | Ambiente exigido pelo Hackathon: Kong, HPA, KEDA, Prometheus, Grafana | 30 min | 22.6 |
 | C — Azure (opcional) | Demonstração na nuvem | 45 min | 22.10 |
 
-## 22.2 Antes de começar
+## Antes de começar
 
 - [ ] Pré-requisitos instalados e verificados ([02 — Pré-requisitos](pre-requisitos.md)).
 - [ ] Docker em execução (`docker version` mostra `Server`).
 - [ ] Pelo menos 14 GB de memória livre para o modo B.
 - [ ] Portas livres no modo A: 5432, 6379, 5672, 15672, 9200, 27017, 16686, 8080, 8081, 8082, 9090.
 
-## 22.3 Obter o código
+## Obter o código
 
 ```powershell
 gh repo clone <owner>/conexao-solidaria
@@ -32,7 +32,7 @@ pwsh ./scripts/verificar-pre-requisitos.ps1  # deve terminar sem pendências
 
 O primeiro `dotnet restore` (ou `build`) instala os hooks de git do Husky.Net automaticamente.
 
-## 22.4 Configurar segredos e variáveis
+## Configurar segredos e variáveis
 
 1. Copiar o modelo:
    ```powershell
@@ -60,7 +60,7 @@ O primeiro `dotnet restore` (ou `build`) instala os hooks de git do Husky.Net au
    No `.env`, as chaves PEM vão numa linha só, com `\n` no lugar das quebras de linha.
 3. Conferir que nada sensível ficou fora do `.gitignore`: `git status` não deve listar `deploy/.env` nem `*.pem`.
 
-## 22.5 Modo A — docker-compose
+## Modo A — docker-compose
 
 1. Compilar e testar (opcional, mas recomendado):
    ```powershell
@@ -92,7 +92,7 @@ O primeiro `dotnet restore` (ou `build`) instala os hooks de git do Husky.Net au
 
 No modo A não há Kong, Prometheus nem Grafana; para eles, usar o modo B.
 
-## 22.6 Modo B — Kubernetes local (Minikube)
+## Modo B — Kubernetes local (Minikube)
 
 O script `scripts/up.ps1` executa os passos 1 a 9 em sequência. Abaixo, os mesmos passos manuais, para entender ou depurar.
 
@@ -189,7 +189,7 @@ $b64 = kubectl get secret -n observability kube-prometheus-stack-grafana -o json
 
 Os arquivos `deploy/helm/*-values.yaml` são criados nas Etapas 11 a 13 do plano.
 
-## 22.7 Verificação da implantação (smoke test)
+## Verificação da implantação (smoke test)
 
 Executar em ordem; cada linha depende da anterior.
 
@@ -236,7 +236,7 @@ Start-Sleep -Seconds 5
 
 Se o CPF de teste já estiver cadastrado (409), usar outro CPF fictício válido.
 
-## 22.8 Testes automatizados e de carga
+## Testes automatizados e de carga
 
 ```powershell
 dotnet test -c Release --settings coverlet.runsettings --collect "XPlat Code Coverage" --results-directory TestResults
@@ -249,7 +249,7 @@ k6 run -e BASE_URL=https://api.conexao.local tests/load/busca.js
 ```
 Os testes de integração precisam do Docker ligado (Testcontainers). Detalhes em [15 — Testes](testes.md).
 
-## 22.9 Atualizar uma versão (Rolling Update)
+## Atualizar uma versão (Rolling Update)
 
 ```powershell
 cd deploy/k8s/overlays/local
@@ -262,9 +262,9 @@ Se `kustomize` não estiver instalado, usar `kubectl kustomize` para conferir o 
 
 Desfazer: `kubectl rollout undo deploy/campanhas-api -n conexao`. Migrations novas rodam antes, pelos Jobs `migrate-*` (apagar o Job antigo antes de aplicar de novo: `kubectl delete job migrate-campanhas -n conexao`).
 
-## 22.10 Modo C — Azure (opcional)
+## Modo C — Azure (opcional)
 
-Só se o grupo decidir demonstrar na nuvem ([13.6](../specs/product/infraestrutura.md#136-cloud-opcional-azure)). Custo real: **apagar tudo** logo depois da gravação.
+Só se o grupo decidir demonstrar na nuvem ([13.6](../specs/product/infraestrutura.md#cloud-opcional-azure)). Custo real: **apagar tudo** logo depois da gravação.
 
 ```powershell
 az login
@@ -273,11 +273,11 @@ az group create -n rg-conexao-solidaria -l brazilsouth
 az deployment group create -g rg-conexao-solidaria -f deploy/azure/main.bicep
 az aks get-credentials -g rg-conexao-solidaria -n <nome-do-aks>
 ```
-Depois, repetir os passos 3 a 9 do modo B usando o overlay `azure` (segredos vêm do Key Vault). O deploy contínuo fica no `cd.yml` ([14.6](../specs/product/ci-cd.md#146-cd-opcional-aks)).
+Depois, repetir os passos 3 a 9 do modo B usando o overlay `azure` (segredos vêm do Key Vault). O deploy contínuo fica no `cd.yml` ([14.6](../specs/product/ci-cd.md#cd-opcional-aks)).
 
 Remoção: `az group delete -n rg-conexao-solidaria --yes --no-wait`.
 
-## 22.11 Desligar e limpar
+## Desligar e limpar
 
 | Objetivo | Comando |
 |---|---|
@@ -288,7 +288,7 @@ Remoção: `az group delete -n rg-conexao-solidaria --yes --no-wait`.
 | Remover os nomes locais | Apagar a linha `api.conexao.local app.conexao.local` do `hosts` |
 | Remover a nuvem | `az group delete -n rg-conexao-solidaria --yes` |
 
-## 22.12 Solução de problemas
+## Solução de problemas
 
 | Sintoma | Causa provável | Como resolver |
 |---|---|---|

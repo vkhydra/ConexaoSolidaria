@@ -1,8 +1,8 @@
-# 01 — Visão geral e escopo
+# Visão geral e escopo
 
 [← README](../../README.md)
 
-## 1.1 Contexto
+## Contexto
 
 A **ONG Esperança Solidária** acolhe crianças em situação de vulnerabilidade há mais de 10 anos. Hoje ela controla doadores e campanhas em planilhas e mensagens, o que causa:
 
@@ -14,7 +14,7 @@ A plataforma **Conexão Solidária** é o MVP que resolve esses problemas. O enu
 
 Fonte: `wiki:fontes/tech-challenge/05-hackathon-fase-5-conexao-solidaria`.
 
-## 1.2 Objetivos
+## Objetivos
 
 | # | Objetivo | Como é medido |
 |---|---|---|
@@ -24,7 +24,7 @@ Fonte: `wiki:fontes/tech-challenge/05-hackathon-fase-5-conexao-solidaria`.
 | O4 | Manter todo commit compilável e no padrão | Hooks locais e CI verdes ([17 — Git e commits](../../docs/git-e-commits.md)) |
 | O5 | Comprovar a arquitetura em até 15 minutos de vídeo | [Roteiro do vídeo](../../docs/ROTEIRO-VIDEO.md) |
 
-## 1.3 Personas
+## Personas
 
 | Persona | Quem é | O que precisa |
 |---|---|---|
@@ -33,7 +33,7 @@ Fonte: `wiki:fontes/tech-challenge/05-hackathon-fase-5-conexao-solidaria`.
 | **Visitante** | Qualquer pessoa, sem login | Ver campanhas ativas, quanto foi arrecadado e buscar campanhas |
 | **Operador da plataforma** | Equipe técnica (o grupo) | Implantar, monitorar e diagnosticar a plataforma |
 
-## 1.4 Escopo
+## Escopo
 
 ### Dentro do escopo (obrigatório pelo enunciado)
 
@@ -72,7 +72,7 @@ Fonte: `wiki:fontes/tech-challenge/05-hackathon-fase-5-conexao-solidaria`.
 - Ambiente de produção permanente na cloud.
 - Aplicativo mobile.
 
-## 1.5 Premissas
+## Premissas
 
 - Cada integrante usa Windows, macOS ou Linux, com 16 GB de RAM ou mais para rodar o cluster local ([02 — Pré-requisitos](../../docs/pre-requisitos.md)).
 - O repositório será **público** no GitHub.
@@ -80,7 +80,7 @@ Fonte: `wiki:fontes/tech-challenge/05-hackathon-fase-5-conexao-solidaria`.
 - O fuso horário de referência para regras de data é `America/Sao_Paulo`.
 - Valores monetários em reais (BRL), com 2 casas decimais.
 
-## 1.6 Linguagem ubíqua (glossário)
+## Linguagem ubíqua (glossário)
 
 Os termos abaixo são usados igualmente no código, na API, nos testes e na documentação (`wiki:conceitos/linguagem-ubiqua`).
 

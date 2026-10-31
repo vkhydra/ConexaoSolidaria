@@ -1,10 +1,10 @@
-# 12 — Observabilidade
+# Observabilidade
 
 [← README](../../README.md)
 
 Atende ao requisito "Observabilidade (Zabbix e Grafana)" do enunciado e ao conteúdo da Fase 3. Referências: `wiki:disciplinas/monitoramento-acesso`, `wiki:disciplinas/monitoramento-acesso-avancado`, `wiki:conceitos/golden-metrics`, `wiki:conceitos/prometheus-net`, `wiki:conceitos/promql`.
 
-## 12.1 Visão geral
+## Visão geral
 
 ```mermaid
 flowchart LR
@@ -31,7 +31,7 @@ flowchart LR
 | Alertas | Prometheus + Alertmanager | `PrometheusRule` versionado |
 | Disponibilidade externa (opcional) | Zabbix | Cenário web em `/health/ready` |
 
-## 12.2 Health checks
+## Health checks
 
 | Rota | Verifica | Usada por |
 |---|---|---|
@@ -40,7 +40,7 @@ flowchart LR
 
 Pacotes `AspNetCore.HealthChecks.*` (NpgSql, Rabbitmq, Redis, MongoDb, Elasticsearch). Resposta JSON com status por dependência. O Elasticsearch é marcado como `Degraded` (não derruba a prontidão), porque só a busca depende dele.
 
-## 12.3 Métricas
+## Métricas
 
 ### Técnicas (automáticas)
 | Métrica | Origem |
@@ -66,7 +66,7 @@ Pacotes `AspNetCore.HealthChecks.*` (NpgSql, Rabbitmq, Redis, MongoDb, Elasticse
 
 Regra: labels de **baixa cardinalidade** (nunca `campanhaId`, `doadorId` ou URL completa).
 
-## 12.4 Dashboard Grafana "Conexão Solidária"
+## Dashboard Grafana "Conexão Solidária"
 
 Arquivo `deploy/observability/dashboards/conexao-solidaria.json`, carregado por ConfigMap com o label `grafana_dashboard: "1"` (sidecar do kube-prometheus-stack). Variáveis: `namespace`, `servico`.
 
@@ -88,7 +88,7 @@ Arquivo `deploy/observability/dashboards/conexao-solidaria.json`, carregado por 
 
 Boas práticas: unidades corretas (s, %, bytes, R$), descrição em cada painel dizendo o que fazer quando o valor estiver ruim, dashboard em pasta própria, admin padrão do Grafana desativado (senha em Secret).
 
-## 12.5 Alertas (`deploy/observability/alerts/prometheus-rules.yaml`)
+## Alertas (`deploy/observability/alerts/prometheus-rules.yaml`)
 
 | Alerta | Expressão (resumo) | Duração | Severidade | Ação (runbook) |
 |---|---|---|---|---|
@@ -101,7 +101,7 @@ Boas práticas: unidades corretas (s, %, bytes, R$), descrição em cada painel 
 
 Runbooks em `docs/runbooks/<alerta>.md`. No ambiente local, o Alertmanager só registra (sem integração externa); opcionalmente, webhook para um canal do Discord.
 
-## 12.6 Traces
+## Traces
 
 | Item | Definição |
 |---|---|
@@ -115,7 +115,7 @@ Runbooks em `docs/runbooks/<alerta>.md`. No ambiente local, o Alertmanager só r
 
 Resultado esperado no vídeo: um único trace com spans do Kong/API → publicação → consumo no Worker → consumo na Função.
 
-## 12.7 Logs
+## Logs
 
 | Item | Definição |
 |---|---|
@@ -128,7 +128,7 @@ Resultado esperado no vídeo: um único trace com spans do Kong/API → publica�
 | Ruído | Requisições a `/health` e `/metrics` não são logadas |
 | Request logging | `UseSerilogRequestLogging` com método, rota, status e duração |
 
-## 12.8 Zabbix (opcional)
+## Zabbix (opcional)
 
 O título do enunciado cita Zabbix; o critério verificável é o Grafana. Opcionalmente:
 

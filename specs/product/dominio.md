@@ -1,10 +1,10 @@
-# 06 — Modelo de domínio (DDD)
+# Modelo de domínio (DDD)
 
 [← README](../../README.md)
 
 Aplica o design estratégico e tático da Fase 1 (`wiki:disciplinas/ddd`, `wiki:boas-praticas/ddd`).
 
-## 6.1 Subdomínios
+## Subdomínios
 
 | Subdomínio | Tipo | Justificativa |
 |---|---|---|
@@ -15,7 +15,7 @@ Aplica o design estratégico e tático da Fase 1 (`wiki:disciplinas/ddd`, `wiki:
 
 O esforço de modelagem tática (agregados, value objects, eventos) vai para **Arrecadação**. Identidade usa um modelo simples.
 
-## 6.2 Bounded contexts
+## Bounded contexts
 
 | Contexto | Componentes | Dono dos dados |
 |---|---|---|
@@ -23,7 +23,7 @@ O esforço de modelagem tática (agregados, value objects, eventos) vai para **A
 | **Campanhas** (Arrecadação + Transparência) | `Campanhas.Api`, `Arrecadacao.Worker` | `campanhas_db`, MongoDB, Redis, Elasticsearch |
 | **Notificações** | `Notificacoes.Function` | Nenhum (sem estado) |
 
-## 6.3 Mapa de contextos
+## Mapa de contextos
 
 ```mermaid
 flowchart LR
@@ -38,7 +38,7 @@ flowchart LR
 
 Não há chamadas síncronas entre serviços: Campanhas não consulta Identidade em tempo de execução.
 
-## 6.4 Event Storming (resultado esperado)
+## Event Storming (resultado esperado)
 
 Fluxo "Doar" em notação de Event Storming (laranja = evento, azul = comando, amarelo = ator, lilás = política, rosa = sistema externo):
 
@@ -54,7 +54,7 @@ Fluxo "Doar" em notação de Event Storming (laranja = evento, azul = comando, a
 
 O quadro do Miro é exportado para `docs/ddd/event-storming-*.png` na Etapa 2.
 
-## 6.5 Agregado `Campanha`
+## Agregado `Campanha`
 
 **Raiz:** `Campanha`. Contexto: Campanhas.
 
@@ -85,7 +85,7 @@ Na prática, o Worker soma o total com `UPDATE` atômico no banco ([10 — Dados
 
 Erros de domínio são retornados como `Result` (sem exceções para fluxo de negócio) e convertidos em 422 na API.
 
-## 6.6 Agregado `Usuario`
+## Agregado `Usuario`
 
 **Raiz:** `Usuario`. Contexto: Identidade.
 
@@ -107,7 +107,7 @@ Erros de domínio são retornados como `Result` (sem exceções para fluxo de ne
 | `VerificarSenha(senha, hasher)` | Falso se anonimizado |
 | `Anonimizar(agora)` | Substitui dados pessoais e marca `AnonimizadoEm`; idempotente |
 
-## 6.7 Value objects
+## Value objects
 
 | VO | Regra | Igualdade |
 |---|---|---|
@@ -120,7 +120,7 @@ Erros de domínio são retornados como `Result` (sem exceções para fluxo de ne
 
 Implementados como `record` imutáveis com construtor privado e fábrica `Criar(...)` que retorna `Result<T>`.
 
-## 6.8 Eventos de domínio e de integração
+## Eventos de domínio e de integração
 
 | Evento | Tipo | Onde nasce | Quem consome |
 |---|---|---|---|
@@ -130,7 +130,7 @@ Implementados como `record` imutáveis com construtor privado e fábrica `Criar(
 
 Eventos de domínio ficam dentro do contexto. Só eventos de integração (contratos em `BuildingBlocks.Contracts`) cruzam fronteiras.
 
-## 6.9 Serviços de domínio e casos de uso
+## Serviços de domínio e casos de uso
 
 | Caso de uso (Application) | Contexto | Entrada | Saída |
 |---|---|---|---|
@@ -146,7 +146,7 @@ Eventos de domínio ficam dentro do contexto. Só eventos de integração (contr
 
 Cada caso de uso é uma classe com um método `ExecutarAsync` (SRP), recebe dependências por construtor e não conhece HTTP.
 
-## 6.10 Domain Storytelling
+## Domain Storytelling
 
 História "Maria doa para o Natal Solidário" (pictográfica no Miro, exportada para `docs/ddd/domain-storytelling-doacao.png`):
 

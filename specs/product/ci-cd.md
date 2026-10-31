@@ -1,10 +1,10 @@
-# 14 — CI/CD (GitHub Actions)
+# CI/CD (GitHub Actions)
 
 [← README](../../README.md)
 
 Atende ao requisito obrigatório "pipeline acionada a cada push na branch principal que faz .NET build e gera a imagem Docker" e ao bônus "testes de unidade dentro do CI". Referências: `wiki:disciplinas/github-actions`, `wiki:boas-praticas/github-actions`, `wiki:conceitos/ci-cd`.
 
-## 14.1 Workflows
+## Workflows
 
 | Arquivo | Gatilho | Objetivo |
 |---|---|---|
@@ -13,7 +13,7 @@ Atende ao requisito obrigatório "pipeline acionada a cada push na branch princi
 | `.github/workflows/cd.yml` | `workflow_run` do CI concluído com sucesso na `main` + `workflow_dispatch` | **Opcional**: deploy no AKS |
 | `.github/dependabot.yml` | Semanal | Atualizar NuGet, GitHub Actions e imagens Docker |
 
-## 14.2 Pipeline de CI
+## Pipeline de CI
 
 ```mermaid
 flowchart LR
@@ -109,7 +109,7 @@ jobs:
 
 `<sha>` = SHA completo do commit da versão da action (fixação por SHA, com a versão em comentário).
 
-## 14.3 Regras de segurança do pipeline
+## Regras de segurança do pipeline
 
 - `permissions: contents: read` no topo; permissões extras só no job que precisa.
 - Actions de terceiros fixadas por SHA; Dependabot mantém atualizadas.
@@ -118,7 +118,7 @@ jobs:
 - `concurrency` cancela execuções obsoletas da mesma branch.
 - `timeout-minutes` em todo job.
 
-## 14.4 Proteção da `main`
+## Proteção da `main`
 
 Configurada na Etapa 14 (`gh api` ou interface do GitHub):
 
@@ -129,7 +129,7 @@ Configurada na Etapa 14 (`gh api` ou interface do GitHub):
 - Merge por **rebase** (preserva os commits atômicos, cada um já validado; ver [17 — Git e commits](../../docs/git-e-commits.md)).
 - Secret scanning e push protection ligados.
 
-## 14.5 Releases
+## Releases
 
 1. Ao fim da Etapa 19: `git tag -a v1.0.0 -m "🔖 versão 1.0.0"` e `git push origin v1.0.0`.
 2. O CI publica as imagens `1.0.0`.
@@ -137,7 +137,7 @@ Configurada na Etapa 14 (`gh api` ou interface do GitHub):
 
 Versionamento semântico: `MAJOR` para contrato incompatível (API ou evento), `MINOR` para funcionalidade, `PATCH` para correção.
 
-## 14.6 CD opcional (AKS)
+## CD opcional (AKS)
 
 | Passo | Definição |
 |---|---|
@@ -151,7 +151,7 @@ Versionamento semântico: `MAJOR` para contrato incompatível (API ou evento), `
 | Smoke test | `curl -f https://<ip>/api/v1/transparencia/campanhas` |
 | Rollback | Em falha: `kubectl rollout undo deploy/<nome>` |
 
-## 14.7 Demonstração no vídeo
+## Demonstração no vídeo
 
 1. Alterar um texto pequeno, commit no padrão (`📝 docs: ...`) e push na `main`.
 2. Mostrar o workflow rodando: jobs, testes, resumo de cobertura.

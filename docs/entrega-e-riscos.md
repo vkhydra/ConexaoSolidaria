@@ -1,8 +1,8 @@
-# 21 — Entrega e riscos
+# Entrega e riscos
 
 [← README](../README.md)
 
-## 21.1 Checklist do enunciado (com evidência)
+## Checklist do enunciado (com evidência)
 
 | # | Exigência do enunciado | Evidência | Onde mostrar no vídeo |
 |---|---|---|---|
@@ -26,7 +26,7 @@
 | 18 | Vídeo até 15 min | Link no README e no relatório | — |
 | 19 | Relatório com grupo, Discord e links | PDF na plataforma | — |
 
-## 21.2 Checklist de qualidade
+## Checklist de qualidade
 
 - [ ] Todos os commits no padrão da [seção 17](git-e-commits.md) e compilando (`git rebase --exec` na `main` inteira sem falha).
 - [ ] CI verde na `main`.
@@ -39,7 +39,7 @@
 - [ ] README testado numa máquina limpa (ou num clone novo).
 - [ ] Recursos de cloud apagados (se usados).
 
-## 21.3 Modelo do relatório de entrega
+## Modelo do relatório de entrega
 
 ```text
 Hackathon — Fase 5 — PósTech Arquitetura de Sistemas .NET
@@ -59,14 +59,14 @@ Links:
   - Event Storming (Miro): <link>
 ```
 
-## 21.4 Riscos
+## Riscos
 
 | # | Risco | Probabilidade | Impacto | Mitigação | Plano de contingência |
 |---|---|---|---|---|---|
 | R1 | Memória insuficiente para toda a stack no Minikube | Média | Alto | Heap do Elasticsearch em 512 MB; limites definidos; Zabbix opcional | Desligar Jaeger e Zabbix na gravação; Elasticsearch fora do cluster (docker-compose) |
 | R2 | Runtime do Azure Functions sem suporte a .NET 10 | Média | Médio | Spike na Etapa 7 | Função em .NET 8 isolated (ADR 0010) |
 | R3 | Gatilho RabbitMQ da função não lê o envelope do MassTransit | Baixa | Médio | Spike na Etapa 7; fila declarada por `definitions.json` | Configurar o MassTransit para publicar JSON "cru" nesse evento |
-| R4 | Licença comercial em bibliotecas | Baixa | Médio | Versões fixadas; lista de pacotes proibidos (ADR 0013) | Trocar pela alternativa da [seção 16.2](padroes-de-codigo.md#162-pacotes-aprovados) |
+| R4 | Licença comercial em bibliotecas | Baixa | Médio | Versões fixadas; lista de pacotes proibidos (ADR 0013) | Trocar pela alternativa da [seção 16.2](padroes-de-codigo.md#pacotes-aprovados) |
 | R5 | Custo na Azure | Baixa | Alto | Cloud opcional; alerta de orçamento; exclusão após gravação | Pular a Etapa 15 |
 | R6 | Total exibido desatualizado na demonstração | Média | Baixo | Consistência eventual explicada; atraso < 5 s | Repetir o `GET` após alguns segundos (Plano B do roteiro) |
 | R7 | Vídeo acima de 15 min | Média | Alto | Roteiro cronometrado e ensaio | Cortar blocos 9 e 10 para versões curtas |
@@ -76,7 +76,7 @@ Links:
 | R11 | Mudança de versão de ferramenta quebra o ambiente | Baixa | Médio | Versões fixadas (`global.json`, lock files, tags de imagem) | Voltar para a versão anterior registrada |
 | R12 | Atraso no cronograma | Média | Alto | Sprints com metas claras; bônus por último | Cortar bônus (GraphQL, gRPC, IA, Zabbix, Azure) sem afetar o obrigatório |
 
-## 21.5 Ordem de corte (se faltar tempo)
+## Ordem de corte (se faltar tempo)
 
 Cortar de cima para baixo, sem tocar nos itens obrigatórios:
 

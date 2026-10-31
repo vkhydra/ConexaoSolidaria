@@ -1,14 +1,14 @@
-# 03 — Processo ágil
+# Processo ágil
 
 [← README](../README.md)
 
 Como o grupo organiza o trabalho. Aplica Scrum, Kanban, XP e Lean da Fase 5 (`wiki:disciplinas/metodologias-ageis`).
 
-## 3.1 Framework
+## Framework
 
 **Scrum** com sprints de 1 semana para cadência e metas, e **Kanban** no quadro para controlar o fluxo (WIP). Práticas de engenharia do **XP**: TDD, integração contínua, programação em par, refatoração e design simples.
 
-## 3.2 Papéis
+## Papéis
 
 | Papel | Responsabilidade no projeto | Integrante |
 |---|---|---|
@@ -18,9 +18,9 @@ Como o grupo organiza o trabalho. Aplica Scrum, Kanban, XP e Lean da Fase 5 (`wi
 
 Em grupo pequeno, PO e Scrum Master acumulam papel de Developer.
 
-## 3.3 Sprints
+## Sprints
 
-Ajustar as datas ao prazo de entrega da FIAP. A sprint só termina com o incremento cumprindo a [Definition of Done](#37-definition-of-done-dod).
+Ajustar as datas ao prazo de entrega da FIAP. A sprint só termina com o incremento cumprindo a [Definition of Done](#definition-of-done-dod).
 
 | Sprint | Meta da sprint | Etapas do plano |
 |---|---|---|
@@ -30,7 +30,7 @@ Ajustar as datas ao prazo de entrega da FIAP. A sprint só termina com o increme
 | 3 | Tudo rodando no Kubernetes com gateway, observabilidade e CI/CD | 10, 11, 12, 13, 14 |
 | 4 | Revisões, documentação, vídeo e entrega | 15, 16, 17, 18, 19 |
 
-## 3.4 Cerimônias (sprint de 1 semana)
+## Cerimônias (sprint de 1 semana)
 
 | Cerimônia | Quando | Time-box | Saída |
 |---|---|---|---|
@@ -40,7 +40,7 @@ Ajustar as datas ao prazo de entrega da FIAP. A sprint só termina com o increme
 | Sprint Review | Fim da sprint | 1 h | Demonstração do incremento rodando |
 | Retrospectiva | Após a Review | 45 min | 1 a 3 ações com responsável, revisadas na sprint seguinte |
 
-## 3.5 Quadro Kanban (GitHub Projects)
+## Quadro Kanban (GitHub Projects)
 
 | Coluna | Entra quando | Limite de WIP |
 |---|---|---|
@@ -56,7 +56,7 @@ Ajustar as datas ao prazo de entrega da FIAP. A sprint só termina com o increme
 
 **Rastreabilidade:** cada PR cita a issue (`Refs #12` ou `Closes #12`) e cada commit relevante cita a issue no rodapé.
 
-## 3.6 Definition of Ready (DoR)
+## Definition of Ready (DoR)
 
 Um item entra em "Pronto" quando:
 
@@ -66,7 +66,7 @@ Um item entra em "Pronto" quando:
 - [ ] Está estimado e cabe em até 3 dias de trabalho.
 - [ ] Dependências identificadas.
 
-## 3.7 Definition of Done (DoD)
+## Definition of Done (DoD)
 
 Um item só vai para "Concluído" quando:
 
@@ -82,12 +82,12 @@ Um item só vai para "Concluído" quando:
 - [ ] Documentação atualizada (README, spec, ADR quando houver decisão).
 - [ ] Demonstrado rodando localmente.
 
-## 3.8 Estimativa
+## Estimativa
 
 - **Planning Poker** com Fibonacci (1, 2, 3, 5, 8, 13). Item de 13 pontos é dividido.
 - **Spike** com time-box (máx. 1 dia) para incertezas técnicas. Candidatos: gatilho RabbitMQ no Azure Functions com envelope do MassTransit; recursos do Minikube com toda a stack.
 
-## 3.9 Histórias de usuário (backlog inicial)
+## Histórias de usuário (backlog inicial)
 
 | ID | História | RF | Pontos (sugestão) |
 |---|---|---|---|
@@ -106,7 +106,7 @@ Um item só vai para "Concluído" quando:
 | T03 | Pipeline de CI com imagem Docker | — | 5 |
 | T04 | API Gateway Kong | — | 5 |
 
-## 3.10 Métricas do time
+## Métricas do time
 
 | Métrica | Onde | Uso |
 |---|---|---|
@@ -115,7 +115,7 @@ Um item só vai para "Concluído" quando:
 | Vazão (itens concluídos por sprint) | GitHub Projects | Planejar a próxima sprint |
 | CI quebrado na `main` | GitHub Actions | Deve ser zero; corrigir com prioridade |
 
-## 3.11 Práticas XP
+## Práticas XP
 
 | Prática | Aplicação |
 |---|---|

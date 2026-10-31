@@ -1,10 +1,10 @@
-# 15 — Testes
+# Testes
 
 [← README](../README.md)
 
 Referências: `wiki:disciplinas/qualidade-software`, `wiki:disciplinas/principios-qualidade`, `wiki:conceitos/piramide-de-testes`, `wiki:conceitos/tdd`, `wiki:conceitos/bdd`, `wiki:conceitos/teste-de-carga`.
 
-## 15.1 Estratégia (pirâmide)
+## Estratégia (pirâmide)
 
 | Nível | Quantidade | Ferramentas | O que cobre | Roda em |
 |---|---|---|---|---|
@@ -19,7 +19,7 @@ Referências: `wiki:disciplinas/qualidade-software`, `wiki:disciplinas/principio
 
 Um framework de teste para toda a solução: **xUnit v3**.
 
-## 15.2 Convenções
+## Convenções
 
 - Nome: `Metodo_Cenario_ResultadoEsperado` (ex.: `Criar_DataFimNoPassado_RetornaErroDataFimPassada`).
 - Padrão **Arrange–Act–Assert**, uma ação por teste.
@@ -29,7 +29,7 @@ Um framework de teste para toda a solução: **xUnit v3**.
 - Sem `Thread.Sleep`; esperas com timeout e polling (ex.: aguardar o Worker).
 - Mocks só para dependências externas ou lentas; nunca para o domínio.
 
-## 15.3 TDD
+## TDD
 
 Obrigatório (teste antes do código, ciclo vermelho → verde → refatorar) em:
 
@@ -45,7 +45,7 @@ Obrigatório (teste antes do código, ciclo vermelho → verde → refatorar) em
 
 Como todo commit precisa compilar e passar nos testes, o teste e a implementação mínima que o faz passar vão **no mesmo commit** (`✨ feat`). A refatoração do ciclo vai em commit separado (`♻️ refactor`). O teste falhando existe só na máquina de quem desenvolve, nunca no histórico.
 
-## 15.4 Testes de integração obrigatórios
+## Testes de integração obrigatórios
 
 | Serviço | Cenário |
 |---|---|
@@ -57,7 +57,7 @@ Como todo commit precisa compilar e passar nos testes, o teste e a implementaç�
 | Notificacoes.Function | Lê o envelope do MassTransit e registra o recibo sem dados pessoais |
 | Ponta a ponta (BDD) | Doação → Worker → painel com total atualizado em até 5 s |
 
-## 15.5 BDD (Reqnroll)
+## BDD (Reqnroll)
 
 - Projeto `tests/ConexaoSolidaria.Bdd` com `Features/*.feature` em português (`# language: pt`).
 - Um arquivo por RF, com os cenários de `spec.md` de cada feature em [specs/features/](../specs/features/).
@@ -65,7 +65,7 @@ Como todo commit precisa compilar e passar nos testes, o teste e a implementaç�
 - Steps chamam as APIs reais em memória (`WebApplicationFactory`) com infraestrutura em Testcontainers.
 - Relatório de execução publicado como artefato do CI.
 
-## 15.6 Testes de carga (k6)
+## Testes de carga (k6)
 
 Pasta `tests/load/`, execução contra o Kong local:
 
@@ -79,7 +79,7 @@ Pasta `tests/load/`, execução contra o Kong local:
 - Resultado salvo em `tests/load/results/` (ignorado pelo git) e resumo no README.
 - Durante a carga, observar no Grafana a subida de réplicas (HPA/KEDA): bom material para o vídeo.
 
-## 15.7 Cobertura (mínimo obrigatório de 90%)
+## Cobertura (mínimo obrigatório de 90%)
 
 | Item | Definição |
 |---|---|
@@ -135,6 +135,6 @@ Relatório navegável em `coverage/index.html` (pasta ignorada pelo git).
 
 Ramos (`if`, `switch`, `?:`, `??`) contam: cada regra de validação e cada caminho de erro precisa de um teste.
 
-## 15.8 Testes de regressão
+## Testes de regressão
 
 Todo bug corrigido ganha um teste que o reproduz, no mesmo commit da correção (`🐛 fix(...)`).

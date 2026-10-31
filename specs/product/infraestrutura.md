@@ -1,10 +1,10 @@
-# 13 — Infraestrutura
+# Infraestrutura
 
 [← README](../../README.md)
 
 Referências: `wiki:disciplinas/docker`, `wiki:disciplinas/kubernetes`, `wiki:disciplinas/orquestracao-k8s`, `wiki:disciplinas/api-gateway`, `wiki:disciplinas/serverless-apps`, `wiki:boas-praticas/docker`, `wiki:boas-praticas/kubernetes`.
 
-## 13.1 Imagens Docker
+## Imagens Docker
 
 Um Dockerfile multi-stage por componente (`src/**/Dockerfile`), contexto de build na raiz do repositório.
 
@@ -51,7 +51,7 @@ ENTRYPOINT ["dotnet", "Campanhas.Api.dll"]
 
 `.dockerignore` na raiz: `**/bin`, `**/obj`, `.git`, `.vs`, `.vscode`, `**/TestResults`, `.env*`, `deploy/`, `docs/`, `tests/`.
 
-## 13.2 docker-compose (desenvolvimento)
+## docker-compose (desenvolvimento)
 
 `deploy/docker-compose.yml` sobe toda a stack sem Kubernetes (Etapa 10).
 
@@ -75,7 +75,7 @@ ENTRYPOINT ["dotnet", "Campanhas.Api.dll"]
 - Profile `zabbix` opcional.
 - Versões com tag fixa (major.minor) definidas no momento da implementação.
 
-## 13.3 Kubernetes local
+## Kubernetes local
 
 ### Cluster
 ```powershell
@@ -175,7 +175,7 @@ spec:
 | `Job` | `migrate-identity`, `migrate-campanhas` (migration bundle), executados antes do rollout |
 | `NetworkPolicy` | Negar tudo por padrão em `infra`; liberar só de `conexao` nas portas dos bancos |
 | `ServiceMonitor` | Coleta de `/metrics` (label `release` igual ao nome do release Helm do kube-prometheus-stack) |
-| `PrometheusRule` | Alertas da [seção 12.5](observabilidade.md#125-alertas-deployobservabilityalertsprometheus-rulesyaml) |
+| `PrometheusRule` | Alertas da [seção 12.5](observabilidade.md#alertas-deployobservabilityalertsprometheus-rulesyaml) |
 
 ### Ordem de subida (`scripts/up.ps1`)
 1. `minikube start` e `minikube tunnel` (outro terminal).
@@ -187,7 +187,7 @@ spec:
 7. `scripts/seed-demo.ps1`.
 8. `kubectl get pods -A` com tudo `Running`/`Completed`.
 
-## 13.4 API Gateway (Kong)
+## API Gateway (Kong)
 
 | Item | Definição |
 |---|---|
@@ -207,7 +207,7 @@ Rotas (`Ingress` com `ingressClassName: kong`, sem `strip-path`):
 
 Plugins globais (`KongClusterPlugin`): `correlation-id` (`X-Correlation-ID`, ecoa na resposta), `prometheus`, `request-size-limiting` (1 MB), `cors` (origem `https://app.conexao.local`), `response-transformer` com cabeçalhos de segurança.
 
-## 13.5 Serverless com KEDA
+## Serverless com KEDA
 
 | Item | Definição |
 |---|---|
@@ -218,7 +218,7 @@ Plugins globais (`KongClusterPlugin`): `correlation-id` (`X-Correlation-ID`, eco
 | Worker | `ScaledObject` com `minReplicaCount: 1`, `maxReplicaCount: 4`, fila `doacao-recebida` |
 | Demonstração | Fila vazia → 0 pods; doação → pod da função sobe, processa e volta a 0 após `cooldownPeriod` (60 s) |
 
-## 13.6 Cloud opcional (Azure)
+## Cloud opcional (Azure)
 
 Só se o grupo decidir demonstrar na nuvem (Etapa 15). Tudo apagado após a gravação.
 

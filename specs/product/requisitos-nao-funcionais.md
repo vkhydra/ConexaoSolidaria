@@ -1,10 +1,10 @@
-# 05 — Requisitos não funcionais
+# Requisitos não funcionais
 
 [← README](../../README.md)
 
 Metas medidas no ambiente local (Minikube) com os recursos da [seção 13](infraestrutura.md). Os números são de referência para um MVP e são verificados pelo teste de carga (k6) e pelo dashboard.
 
-## 5.1 Desempenho
+## Desempenho
 
 | ID | Requisito | Meta | Como verificar |
 |---|---|---|---|
@@ -13,7 +13,7 @@ Metas medidas no ambiente local (Minikube) com os recursos da [seção 13](infra
 | RNF03 | Tempo até o total aparecer no painel | < 5 s em 95% das doações | Cenário BDD do RF04 e painel "Atraso de processamento" |
 | RNF04 | Busca fuzzy | p95 < 400 ms | k6 `busca.js` |
 
-## 5.2 Escalabilidade
+## Escalabilidade
 
 | ID | Requisito | Mecanismo |
 |---|---|---|
@@ -22,7 +22,7 @@ Metas medidas no ambiente local (Minikube) com os recursos da [seção 13](infra
 | RNF07 | Função de notificação escala a zero | KEDA, 0 a 3 réplicas |
 | RNF08 | Pico de doações não derruba a API | A API só grava no Outbox; o processamento pesado fica no Worker |
 
-## 5.3 Disponibilidade e resiliência
+## Disponibilidade e resiliência
 
 | ID | Requisito | Mecanismo |
 |---|---|---|
@@ -34,7 +34,7 @@ Metas medidas no ambiente local (Minikube) com os recursos da [seção 13](infra
 | RNF14 | Chamadas HTTP com timeout, retry e circuit breaker | `Microsoft.Extensions.Http.Resilience` no Blazor |
 | RNF15 | Pod com falha é reiniciado sozinho | Liveness probe |
 
-## 5.4 Segurança
+## Segurança
 
 | ID | Requisito |
 |---|---|
@@ -49,7 +49,7 @@ Metas medidas no ambiente local (Minikube) com os recursos da [seção 13](infra
 
 Detalhes: [11 — Segurança e LGPD](seguranca-e-lgpd.md).
 
-## 5.5 Privacidade (LGPD)
+## Privacidade (LGPD)
 
 | ID | Requisito |
 |---|---|
@@ -58,7 +58,7 @@ Detalhes: [11 — Segurança e LGPD](seguranca-e-lgpd.md).
 | RNF26 | Direitos de acesso e eliminação atendidos pela API (RF08) |
 | RNF27 | Base legal documentada para cada finalidade |
 
-## 5.6 Observabilidade
+## Observabilidade
 
 | ID | Requisito |
 |---|---|
@@ -70,7 +70,7 @@ Detalhes: [11 — Segurança e LGPD](seguranca-e-lgpd.md).
 
 Detalhes: [12 — Observabilidade](observabilidade.md).
 
-## 5.7 SLOs (indicativos)
+## SLOs (indicativos)
 
 | SLI | SLO | Janela |
 |---|---|---|
@@ -80,7 +80,7 @@ Detalhes: [12 — Observabilidade](observabilidade.md).
 
 Orçamento de erro do painel: 0,5% das requisições. Ver `wiki:conceitos/sli-slo-sla` e `wiki:conceitos/error-budget`.
 
-## 5.8 Manutenibilidade
+## Manutenibilidade
 
 | ID | Requisito |
 |---|---|
@@ -90,7 +90,7 @@ Orçamento de erro do painel: 0,5% das requisições. Ver `wiki:conceitos/sli-sl
 | RNF36 | Toda decisão arquitetural registrada em ADR |
 | RNF37 | Todo commit compila e passa nos testes |
 
-## 5.9 Portabilidade e operação
+## Portabilidade e operação
 
 | ID | Requisito |
 |---|---|

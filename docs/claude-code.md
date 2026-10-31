@@ -1,10 +1,10 @@
-# 19 — Skills e MCP do Claude Code
+# Skills e MCP do Claude Code
 
 [← README](../README.md)
 
 Como o Claude Code apoia cada etapa. **Skills** são comandos com instruções prontas (`/nome`). **MCP** (Model Context Protocol) conecta o Claude Code a ferramentas externas.
 
-## 19.1 Regras de uso
+## Regras de uso
 
 1. O Claude Code segue o `CLAUDE.md` do repositório (criado na Etapa 3), que aponta para esta spec e para a LLMWiki.
 2. A LLMWiki (`C:\Victor\Fiap\LLMWiki\wiki`) é **somente leitura**: consultar, nunca alterar.
@@ -12,7 +12,7 @@ Como o Claude Code apoia cada etapa. **Skills** são comandos com instruções p
 4. Comandos destrutivos (apagar recursos da Azure, `kubectl delete`, `git push --force`) só com confirmação explícita de um integrante.
 5. Nenhum segredo é colado em prompts.
 
-## 19.2 Skills
+## Skills
 
 | Skill | Etapas | Quando usar | Exemplo de pedido |
 |---|---|---|---|
@@ -27,7 +27,7 @@ Como o Claude Code apoia cada etapa. **Skills** são comandos com instruções p
 | `dataviz` | 13 (opcional) | Revisar cores, unidades e legibilidade do dashboard Grafana | "revise os painéis do dashboard conexao-solidaria.json" |
 | `artifact-diagramming` (opcional) | 2, 17 | Diagramas explicativos para o vídeo | "desenhe o fluxo da doação com Outbox" |
 
-## 19.3 MCP
+## MCP
 
 | Servidor | Etapas | Uso | Configuração |
 |---|---|---|---|
@@ -39,7 +39,7 @@ Como o Claude Code apoia cada etapa. **Skills** são comandos com instruções p
 
 Verificação: `/mcp` lista os servidores conectados e o status de cada um.
 
-## 19.4 Uso por etapa (resumo)
+## Uso por etapa (resumo)
 
 | Etapa | Skills | MCP |
 |---|---|---|

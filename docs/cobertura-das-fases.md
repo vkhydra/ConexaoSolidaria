@@ -1,4 +1,4 @@
-# 18 — Cobertura das 5 fases
+# Cobertura das 5 fases
 
 [← README](../README.md)
 

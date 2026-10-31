@@ -1,10 +1,10 @@
-# 16 — Padrões de código
+# Padrões de código
 
 [← README](../README.md)
 
 Referências: `wiki:disciplinas/solid`, `wiki:boas-praticas/solid`, `wiki:boas-praticas/api-dotnet`, `wiki:boas-praticas/efcore`, `wiki:boas-praticas/microsservicos`.
 
-## 16.1 Arquivos de configuração da solução (Etapa 3)
+## Arquivos de configuração da solução (Etapa 3)
 
 | Arquivo | Conteúdo |
 |---|---|
@@ -14,10 +14,10 @@ Referências: `wiki:disciplinas/solid`, `wiki:boas-praticas/solid`, `wiki:boas-p
 | `.editorconfig` | Estilo C# (namespaces por arquivo, `var` quando o tipo é evidente, chaves sempre, nomes `_camelCase` para campos privados), severidades dos analisadores |
 | `.gitattributes` | `* text=auto eol=lf`; `*.ps1 eol=crlf`; binários marcados |
 | `coverlet.runsettings` | Filtros e exclusões da cobertura ([15.7](testes.md)) |
-| `stylecop.json` | Regras de documentação XML do StyleCop ([16.7](#167-documentação-xml-summary)) |
+| `stylecop.json` | Regras de documentação XML do StyleCop ([16.7](#documentação-xml-summary)) |
 | `.config/dotnet-tools.json` | `dotnet-ef`, `husky`, `dotnet-reportgenerator-globaltool` |
 
-## 16.2 Pacotes aprovados
+## Pacotes aprovados
 
 | Finalidade | Pacote |
 |---|---|
@@ -36,7 +36,7 @@ Referências: `wiki:disciplinas/solid`, `wiki:boas-praticas/solid`, `wiki:boas-p
 
 **Não usar:** MediatR, AutoMapper, FluentAssertions (licenças comerciais), MassTransit 9+, NEST (descontinuado), Moq. Novo pacote exige justificativa no PR (`➕ build: ...`).
 
-## 16.3 SOLID na prática
+## SOLID na prática
 
 | Princípio | Regra no projeto | Exemplo |
 |---|---|---|
@@ -46,7 +46,7 @@ Referências: `wiki:disciplinas/solid`, `wiki:boas-praticas/solid`, `wiki:boas-p
 | ISP | Interfaces pequenas, por cliente | `ICampanhaLeitura` (painel, busca) separada de `ICampanhaRepositorio` (escrita) |
 | DIP | Domínio e aplicação definem interfaces; infraestrutura implementa | `IPublicadorEventos` em Application, implementado com MassTransit em Infrastructure |
 
-## 16.4 Regras de código
+## Regras de código
 
 ### Domínio
 - Entidades com construtor privado e fábricas estáticas; setters privados.
@@ -84,7 +84,7 @@ Referências: `wiki:disciplinas/solid`, `wiki:boas-praticas/solid`, `wiki:boas-p
 - Código em português para termos de domínio (linguagem ubíqua) e termos técnicos consagrados em inglês (`Repository`, `Handler`, `Endpoint`, `Consumer`).
 - Projetos `ConexaoSolidaria.*` para blocos compartilhados; `<Contexto>.<Camada>` para serviços.
 
-## 16.5 Blazor
+## Blazor
 
 - Componentes pequenos, parâmetros de entrada e `EventCallback` de saída.
 - Regras de negócio em serviços injetados, nunca no `.razor`.
@@ -94,7 +94,7 @@ Referências: `wiki:disciplinas/solid`, `wiki:boas-praticas/solid`, `wiki:boas-p
 - `HttpClient` tipado por API, com handler que anexa o JWT e política de resiliência.
 - Acessibilidade: rótulos em todos os campos, contraste adequado, foco visível.
 
-## 16.6 Revisão de código (checklist do PR)
+## Revisão de código (checklist do PR)
 
 - [ ] O PR tem até ~400 linhas alteradas e um objetivo só.
 - [ ] Descrição com o que mudou, por quê, como testar e link da issue.
@@ -108,7 +108,7 @@ Referências: `wiki:disciplinas/solid`, `wiki:boas-praticas/solid`, `wiki:boas-p
 - [ ] Documentação e ADR atualizados se houver decisão nova.
 - [ ] `/code-review` executado; apontamentos resolvidos ou justificados.
 
-## 16.7 Documentação XML (`<summary>`)
+## Documentação XML (`<summary>`)
 
 Todo código C# do repositório é documentado com comentários XML (`///`), em português.
 

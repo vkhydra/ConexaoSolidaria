@@ -1,10 +1,10 @@
-# 17 — Git e commits
+# Git e commits
 
 [← README](../README.md)
 
 Regras obrigatórias: **todo arquivo criado tem commit semântico com gitmoji** e **todo commit compila sem erro**. Referências: `wiki:conceitos/pull-request`, `wiki:conceitos/integracao-continua`.
 
-## 17.1 Formato da mensagem
+## Formato da mensagem
 
 ```text
 <gitmoji> <tipo>(<escopo opcional>)<! opcional>: <descrição>
@@ -23,7 +23,7 @@ Regras obrigatórias: **todo arquivo criado tem commit semântico com gitmoji** 
 | Descrição | Imperativo, em português, minúscula, sem ponto final, até 72 caracteres |
 | Rodapé | `Refs #12`, `Closes #12`, `BREAKING CHANGE: ...`. **Sem** linha de coautoria (`Co-Authored-By`) |
 
-## 17.2 Gitmojis permitidos
+## Gitmojis permitidos
 
 | Gitmoji | Tipo | Quando |
 |---|---|---|
@@ -81,14 +81,14 @@ Exemplos:
 🐛 fix(worker): evita soma duplicada em reentrega
 ```
 
-## 17.3 Granularidade
+## Granularidade
 
 1. **Um commit por arquivo criado** sempre que o arquivo compila e passa nos testes sozinho (documentação, configuração, manifestos, testes de classes já existentes).
 2. Quando um arquivo depende de outro para compilar (`.csproj` + `Program.cs`; interface + implementação + registro no DI; entidade + configuração EF + migration), o commit leva o **menor conjunto que compila e passa nos testes**, e a mensagem descreve a unidade lógica.
 3. Teste e implementação mínima que o faz passar vão juntos; refatoração em commit separado.
 4. Nunca misturar mudanças não relacionadas; nunca commitar código comentado ou arquivos gerados (`bin/`, `obj/`).
 
-## 17.4 Garantia de que todo commit compila
+## Garantia de que todo commit compila
 
 ### Camada 1 — Hooks locais (Husky.Net)
 
@@ -154,7 +154,7 @@ O CI roda em todo push e PR ([14 — CI/CD](../specs/product/ci-cd.md)). A `main
 - `git commit --no-verify` e `git push --no-verify`.
 - `git push --force` na `main`.
 
-## 17.5 Branches
+## Branches
 
 | Branch | Uso | Vida |
 |---|---|---|
@@ -165,7 +165,7 @@ O CI roda em todo push e PR ([14 — CI/CD](../specs/product/ci-cd.md)). A `main
 
 Fluxo *trunk-based*: branch curta a partir da `main` atualizada → commits atômicos → `git rebase origin/main` → PR → revisão + CI → merge por **rebase** → apagar a branch.
 
-## 17.6 Pull requests
+## Pull requests
 
 Modelo em `.github/pull_request_template.md`:
 ```markdown
@@ -181,6 +181,6 @@ Refs #
 - [ ] `/code-review` executado
 ```
 
-## 17.7 Histórico já existente
+## Histórico já existente
 
 Os commits de especificação (Etapa 1) seguem este padrão e só alteram documentação.

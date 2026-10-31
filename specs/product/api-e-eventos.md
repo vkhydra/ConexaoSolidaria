@@ -1,8 +1,8 @@
-# 09 — API e eventos
+# API e eventos
 
 [← README](../../README.md)
 
-## 9.1 Convenções da API
+## Convenções da API
 
 | Item | Regra |
 |---|---|
@@ -45,7 +45,7 @@
 }
 ```
 
-## 9.2 Identity.Api
+## Identity.Api
 
 ### `POST /doadores` — público
 ```json
@@ -83,7 +83,7 @@ Erros: 400, 401 `auth.credenciais_invalidas`, 429 `auth.bloqueado`.
 ### `DELETE /doadores/me` — Doador
 204. Erros: 401.
 
-## 9.3 Campanhas.Api
+## Campanhas.Api
 
 ### `POST /campanhas` — GestorONG
 ```json
@@ -163,7 +163,7 @@ Erros: 400, 401, 403, 404 `campanha.nao_encontrada`, 422 `doacao.campanha_nao_at
 ### `POST /admin/reindexar` — GestorONG
 202. Reindexa todas as campanhas no Elasticsearch.
 
-## 9.4 Endpoints técnicos (todos os serviços)
+## Endpoints técnicos (todos os serviços)
 
 | Rota | Conteúdo | Exposto no Kong |
 |---|---|---|
@@ -172,7 +172,7 @@ Erros: 400, 401, 403, 404 `campanha.nao_encontrada`, 422 `doacao.campanha_nao_at
 | `/metrics` | Formato Prometheus | Não (coletado dentro do cluster) |
 | `/swagger`, `/openapi/v1.json` | Documentação | Sim, só no overlay local |
 
-## 9.5 Eventos de integração (contratos v1)
+## Eventos de integração (contratos v1)
 
 Projeto `BuildingBlocks.Contracts`, namespace `ConexaoSolidaria.Contracts.V1`. Contratos são `record` imutáveis.
 
@@ -224,7 +224,7 @@ public sealed record CampanhaAlteradaEvent(
 }
 ```
 
-## 9.6 Coleção Postman
+## Coleção Postman
 
 `docs/postman/conexao-solidaria.postman_collection.json` + ambiente `local`:
 

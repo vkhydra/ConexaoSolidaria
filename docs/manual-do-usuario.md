@@ -1,10 +1,10 @@
-# 23 — Manual do usuário
+# Manual do usuário
 
 [← README](../README.md)
 
 Como usar a plataforma **Conexão Solidária** pelo navegador. Público: visitantes, doadores e gestores da ONG Esperança Solidária. Para instalar e colocar no ar, ver [22 — Manual de implementação](manual-de-implementacao.md).
 
-## 23.1 Perfis de acesso
+## Perfis de acesso
 
 | Perfil | Quem é | O que pode fazer |
 |---|---|---|
@@ -14,7 +14,7 @@ Como usar a plataforma **Conexão Solidária** pelo navegador. Público: visitan
 
 Não existe cadastro público de gestor: o primeiro gestor é criado na implantação.
 
-## 23.2 Acesso
+## Acesso
 
 | Ambiente | Endereço |
 |---|---|
@@ -25,7 +25,7 @@ Não existe cadastro público de gestor: o primeiro gestor é criado na implanta
 - Usuários de demonstração: o gestor e os doadores criados pelo script de demonstração estão listados no README do repositório.
 - A sessão dura **60 minutos**. Depois disso, a plataforma pede login de novo.
 
-## 23.3 Mapa das telas
+## Mapa das telas
 
 | Tela | Endereço | Perfil |
 |---|---|---|
@@ -42,7 +42,7 @@ Não existe cadastro público de gestor: o primeiro gestor é criado na implanta
 
 O menu do topo mostra só as opções do perfil de quem está logado.
 
-## 23.4 Visitante
+## Visitante
 
 ### Ver o painel de transparência
 1. Clicar em **Transparência** no menu.
@@ -80,7 +80,7 @@ O menu do topo mostra só as opções do perfil de quem está logado.
 3. Clicar em **Cadastrar**. A conta é criada como **Doador** e a tela de login abre em seguida.
 4. Depois do cadastro, o CPF aparece sempre mascarado (ex.: `***.982.247-**`).
 
-## 23.5 Doador
+## Doador
 
 ### Entrar e sair
 1. Clicar em **Entrar**, informar e-mail e senha.
@@ -115,7 +115,7 @@ O que acontece ao excluir (não pode ser desfeito):
 | Doações já feitas | Continuam somadas nas campanhas, para prestação de contas, sem nenhum dado que identifique a pessoa |
 | Nova conta | Pode ser criada depois com o mesmo e-mail e CPF |
 
-## 23.6 Gestor da ONG
+## Gestor da ONG
 
 ### Ver as campanhas
 1. Entrar com o usuário de gestor e clicar em **Gestão**.
@@ -149,7 +149,7 @@ O que acontece ao excluir (não pode ser desfeito):
 2. Confirmar. A mudança **não pode ser desfeita** e a campanha sai do painel e da busca.
 3. Doações aceitas antes da mudança ainda são somadas ao total.
 
-## 23.7 Mensagens comuns
+## Mensagens comuns
 
 | Mensagem | Motivo | O que fazer |
 |---|---|---|
@@ -170,7 +170,7 @@ O que acontece ao excluir (não pode ser desfeito):
 
 Toda mensagem de erro inesperado traz um **código de rastreio**. Informar esse código à equipe ajuda a encontrar o problema.
 
-## 23.8 Privacidade
+## Privacidade
 
 | Pergunta | Resposta |
 |---|---|
@@ -180,7 +180,7 @@ Toda mensagem de erro inesperado traz um **código de rastreio**. Informar esse 
 | Posso ver e apagar meus dados? | Sim, em **Meus dados** (23.5) |
 | Com quem falar? | Encarregado de dados indicado na política de privacidade |
 
-## 23.9 Perguntas frequentes
+## Perguntas frequentes
 
 | Pergunta | Resposta |
 |---|---|
@@ -191,6 +191,6 @@ Toda mensagem de erro inesperado traz um **código de rastreio**. Informar esse 
 | Por que a campanha sumiu do painel? | Foi concluída, cancelada ou passou da data de término |
 | A plataforma funciona no celular? | Sim, pelo navegador |
 
-## 23.10 Uso pela API
+## Uso pela API
 
 Integrações e testes podem usar a API REST direto em `https://api.conexao.local/api/v1`, com a documentação em `/swagger` (ambiente local) e a coleção Postman em `docs/postman/`. Endpoints, exemplos e códigos de erro: [09 — API e eventos](../specs/product/api-e-eventos.md).

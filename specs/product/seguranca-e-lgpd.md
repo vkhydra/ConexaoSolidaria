@@ -1,4 +1,4 @@
-# 11 — Segurança e LGPD
+# Segurança e LGPD
 
 [← README](../../README.md)
 
@@ -6,7 +6,7 @@ Referências: `wiki:disciplinas/lgpd`, `wiki:boas-praticas/lgpd`, `wiki:conceito
 
 > As decisões de LGPD aqui são técnicas e de projeto acadêmico; não são orientação jurídica.
 
-## 11.1 Autenticação
+## Autenticação
 
 | Item | Definição |
 |---|---|
@@ -19,7 +19,7 @@ Referências: `wiki:disciplinas/lgpd`, `wiki:boas-praticas/lgpd`, `wiki:conceito
 | Mensagens | Genéricas no login (não revela se o e-mail existe) |
 | Usuário anonimizado | Token rejeitado: Campanhas.Api não consulta Identity, então o bloqueio vale no login e no `/doadores/me`. Tokens já emitidos expiram em até 60 min (risco aceito e documentado) |
 
-## 11.2 Autorização
+## Autorização
 
 | Policy | Requisito | Endpoints |
 |---|---|---|
@@ -31,7 +31,7 @@ Referências: `wiki:disciplinas/lgpd`, `wiki:boas-praticas/lgpd`, `wiki:conceito
 - `FallbackPolicy` exige autenticação: endpoint novo nasce protegido; público só com `AllowAnonymous()` explícito.
 - No Blazor, `<AuthorizeView>` é só experiência de uso; a API valida sempre.
 
-## 11.3 Proteção de dados pessoais
+## Proteção de dados pessoais
 
 | Dado | Classificação | Armazenamento | Exibição | Logs/eventos |
 |---|---|---|---|---|
@@ -48,7 +48,7 @@ Referências: `wiki:disciplinas/lgpd`, `wiki:boas-praticas/lgpd`, `wiki:conceito
 - Chaves de 256 bits em Secret (`Cpf__ChaveCifra`, `Cpf__ChaveHash`), geradas por `scripts/k8s-secrets.ps1`.
 - Rotação: nova versão de chave; leitura aceita as versões antigas; reescrita gradual.
 
-## 11.4 LGPD
+## LGPD
 
 ### Papéis
 | Papel | Quem |
@@ -84,7 +84,7 @@ Referências: `wiki:disciplinas/lgpd`, `wiki:boas-praticas/lgpd`, `wiki:conceito
 - Modelo local (Ollama): nada sai da máquina.
 - A sugestão é sempre revisada e editada por uma pessoa antes de publicar; a UI informa que o texto foi gerado por IA.
 
-## 11.5 Segredos (Zero Hardcoded Credentials)
+## Segredos (Zero Hardcoded Credentials)
 
 | Onde | Como |
 |---|---|
@@ -95,7 +95,7 @@ Referências: `wiki:disciplinas/lgpd`, `wiki:boas-praticas/lgpd`, `wiki:conceito
 | CI | GitHub Secrets por environment; `GITHUB_TOKEN` com permissões mínimas; OIDC para a Azure |
 | Detecção | gitleaks no CI e GitHub secret scanning + push protection ligados no repositório |
 
-## 11.6 Segurança da plataforma
+## Segurança da plataforma
 
 | Camada | Medida |
 |---|---|
@@ -109,7 +109,7 @@ Referências: `wiki:disciplinas/lgpd`, `wiki:boas-praticas/lgpd`, `wiki:conceito
 | Código | CodeQL (C#) no GitHub; analisadores .NET com avisos como erro |
 | Admin | Admin API do Kong, painel do RabbitMQ, Grafana e Elasticsearch acessíveis só por `kubectl port-forward` |
 
-## 11.7 Checklist OWASP Top 10 (revisão na Etapa 16)
+## Checklist OWASP Top 10 (revisão na Etapa 16)
 
 | Risco | Mitigação no projeto |
 |---|---|
