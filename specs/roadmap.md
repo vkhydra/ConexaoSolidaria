@@ -223,7 +223,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Depende de: R053 (`001/T006`)
 - [X] **R057** · `001/T010` [H02] `AddAutenticacaoJwt()` com policies `GestorONG`, `Doador` e `FallbackPolicy`, com testes — `ConexaoSolidaria.ServiceDefaults/Autenticacao/*`
   Commit: `🛂 feat(defaults): adiciona validação de jwt e policies por role`
-- [ ] **R058** · `001/T011` [H02] Endpoint `POST /auth/login` com `TypedResults` e `ProblemDetails` — `Identity.Api/Endpoints/AutenticacaoEndpoints.cs`
+- [X] **R058** · `001/T011` [H02] Endpoint `POST /auth/login` com `TypedResults` e `ProblemDetails` — `Identity.Api/Endpoints/AutenticacaoEndpoints.cs`
   Commit: `✨ feat(identity): adiciona endpoint de login`
   Depende de: R052 (`001/T005`), R054 (`001/T007`), R055 (`001/T008`), R056 (`001/T009`)
 - [ ] **R059** · `001/T012` [H02] Seed do gestor por `Seed__GestorEmail`/`Seed__GestorSenha`, com teste de idempotência — `Identity.Infrastructure/Seed/SeedGestorHostedService.cs`

@@ -27,6 +27,11 @@ public sealed class BancoIdentityFixture : IAsyncLifetime
     }
 
     /// <summary>
+    /// Obtém a string de conexão do banco do container.
+    /// </summary>
+    public string StringConexao => _container.GetConnectionString();
+
+    /// <summary>
     /// Cria um contexto novo, com o próprio rastreamento de entidades, ligado ao banco do container.
     /// </summary>
     /// <returns>Contexto que o chamador deve descartar.</returns>

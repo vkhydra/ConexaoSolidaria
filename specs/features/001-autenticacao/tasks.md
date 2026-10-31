@@ -38,7 +38,7 @@ Formato: `- [ ] Tnnn [P] [história] descrição — arquivo(s)`, seguido do com
 
 ## Fase 5 — API
 
-- [ ] T011 [H02] Endpoint `POST /auth/login` com `TypedResults` e `ProblemDetails` — `Identity.Api/Endpoints/AutenticacaoEndpoints.cs`
+- [X] T011 [H02] Endpoint `POST /auth/login` com `TypedResults` e `ProblemDetails` — `Identity.Api/Endpoints/AutenticacaoEndpoints.cs`
   Commit: `✨ feat(identity): adiciona endpoint de login`
 - [ ] T012 [H02] Seed do gestor por `Seed__GestorEmail`/`Seed__GestorSenha`, com teste de idempotência — `Identity.Infrastructure/Seed/SeedGestorHostedService.cs`
   Commit: `🌱 chore(identity): adiciona seed do gestor por variáveis de ambiente`
