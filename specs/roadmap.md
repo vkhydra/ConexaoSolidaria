@@ -125,7 +125,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Commit: `🔧 chore: adiciona .editorconfig`
 - [X] **R017** · Fim de linha e arquivos binários em `.gitattributes`
   Commit: `🔧 chore: adiciona .gitattributes`
-- [ ] **R018** · `Directory.Build.props` com `TreatWarningsAsErrors`, nullable e documentação XML
+- [X] **R018** · `Directory.Build.props` com `TreatWarningsAsErrors`, nullable e documentação XML
   Commit: `🔧 chore: adiciona Directory.Build.props com avisos como erro`
 - [ ] **R019** · `Directory.Packages.props` com gestão central de versões
   Commit: `🔧 chore: adiciona Directory.Packages.props com gestão central de pacotes`
