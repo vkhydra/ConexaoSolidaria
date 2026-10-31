@@ -6,25 +6,27 @@ Ponto de partida da especificação: o problema, os objetivos, quem usa e o que 
 
 ## Contexto
 
-A **ONG Esperança Solidária** acolhe crianças em situação de vulnerabilidade há mais de 10 anos. Hoje ela controla doadores e campanhas em planilhas e mensagens, o que causa:
+Este repositório é a **Atividade Substitutiva da Fase 3** da PósTech FIAP (Arquitetura de Sistema .NET com Azure). O enunciado pede para **assegurar a qualidade de software de uma API .NET**: testes unitários das funcionalidades (sucesso e erro) e uma **pipeline de CI que execute os testes e retorne a cobertura**. O entregável é um vídeo ([ADR 0018](../../docs/adr/0018-escopo-trabalho-substitutivo.md)).
+
+A API escolhida é a **Conexão Solidária**, plataforma de doações da ONG fictícia **Esperança Solidária**, que acolhe crianças em situação de vulnerabilidade. Hoje a ONG controla doadores e campanhas em planilhas e mensagens, o que causa:
 
 - falta de transparência sobre quanto cada campanha arrecadou;
 - retrabalho para cadastrar doadores e conferir doações;
 - nenhuma visibilidade de uso, erros ou desempenho.
 
-A plataforma **Conexão Solidária** é o MVP que resolve esses problemas. O enunciado pede foco em **escalabilidade, observabilidade e automação**, e a nota considera a **arquitetura**, não só o funcionamento.
+O grupo também aplica na API o conteúdo das 5 fases do curso ([cobertura das fases](../../docs/cobertura-das-fases.md)).
 
-Fonte: `wiki:fontes/tech-challenge/05-hackathon-fase-5-conexao-solidaria`.
+Fontes: `C:\Victor\Fiapiap-pdfs\Trabalho Substitutivoase 3.pdf` e `wiki:fontes/tech-challenge/06-trabalho-substitutivo-fase-3-testes-e-cobertura-ci`.
 
 ## Objetivos
 
 | # | Objetivo | Como é medido |
 |---|---|---|
-| O1 | Atender todos os requisitos obrigatórios do Hackathon | Checklist em [Entrega e riscos](../../docs/entrega-e-riscos.md) 100% marcado |
-| O2 | Aplicar o conteúdo das 5 fases do curso | Matriz em [Cobertura das fases](../../docs/cobertura-das-fases.md) |
+| O1 | Atender todos os requisitos do trabalho substitutivo | [Feature 009](../features/009-ci-testes-cobertura/spec.md) e checklist em [entrega e riscos](../../docs/entrega-e-riscos.md) 100% marcados |
+| O2 | Aplicar o conteúdo das 5 fases do curso | Matriz em [cobertura das fases](../../docs/cobertura-das-fases.md) |
 | O3 | Seguir as boas práticas da LLMWiki | Checklists de `specs/product/` e `docs/` marcados |
-| O4 | Manter todo commit compilável e no padrão | Hooks locais e CI verdes ([Git e commits](../../docs/git-e-commits.md)) |
-| O5 | Comprovar a arquitetura em até 15 minutos de vídeo | [Roteiro do vídeo](../../docs/ROTEIRO-VIDEO.md) |
+| O4 | Manter todo commit compilável e no padrão | Hooks locais e CI verdes ([git e commits](../../docs/git-e-commits.md)) |
+| O5 | Demonstrar em vídeo os testes e a pipeline com cobertura | [Roteiro do vídeo](../../docs/ROTEIRO-VIDEO.md) |
 
 ## Personas
 
@@ -37,34 +39,37 @@ Fonte: `wiki:fontes/tech-challenge/05-hackathon-fase-5-conexao-solidaria`.
 
 ## Escopo
 
-### Dentro do escopo (obrigatório pelo enunciado)
+### Dentro do escopo (exigido pelo trabalho substitutivo)
 
-1. Autenticação JWT com as roles `GestorONG` e `Doador`.
-2. Gestão de campanhas restrita a `GestorONG`.
-3. Cadastro público de doador.
-4. Painel público de transparência com o total arrecadado.
-5. Doação por doador autenticado, processada de forma **assíncrona** por um Worker.
-6. No mínimo 2 microsserviços (entregues: 4 componentes de backend).
-7. Mensageria: a API publica `DoacaoRecebidaEvent`; o Worker atualiza o total.
-8. Kubernetes local com os `.yaml` (Deployments, Services, ConfigMaps).
-9. `/health` e `/metrics`; dashboard Grafana com métricas reais.
-10. CI a cada push na `main` com build .NET e imagem Docker.
+1. Uma API .NET com funcionalidades testáveis (métodos, serviços e controladores): a Conexão Solidária.
+2. Testes unitários com framework do .NET (xUnit) das funcionalidades da API.
+3. Casos de sucesso e cenários de erro em cada funcionalidade testada.
+4. Pipeline de CI no GitHub Actions que executa os testes unitários e retorna a cobertura (resumo e artefato para download).
+5. Vídeo demonstrando todos os passos funcionando.
 
-### Dentro do escopo (bônus do enunciado)
+Especificação: [feature 009](../features/009-ci-testes-cobertura/spec.md).
 
-11. Testes de unidade rodando no CI.
-12. API Gateway roteando para os microsserviços (Kong).
+### Dentro do escopo (funcionalidades da API testada)
 
-### Dentro do escopo (para cobrir as 5 fases)
+6. Autenticação JWT com as roles `GestorONG` e `Doador` (001).
+7. Gestão de campanhas restrita a `GestorONG` (002).
+8. Cadastro público de doador (003).
+9. Painel público de transparência com o total arrecadado (004).
+10. Doação por doador autenticado, processada de forma assíncrona por um Worker (005).
+11. Busca de campanhas tolerante a erros de digitação (006).
+12. Recibo de doação por função serverless (007).
+13. Direitos do titular — LGPD (008).
 
-13. Busca fuzzy de campanhas (Elasticsearch) — Fase 4.
-14. Recibo de doação por função serverless — Fase 3.
-15. Livro de doações como audit log (MongoDB) — Fases 3 e 4.
-16. Cache do painel (Redis) — Fases 1 e 4.
-17. Frontend Blazor — Fase 5.
-18. Direitos do titular (LGPD) — Fase 5.
+### Dentro do escopo (aplicação do conteúdo das 5 fases, por escolha do projeto)
+
+14. Microsserviços por bounded context e mensageria com RabbitMQ — Fases 1 e 2.
+15. Docker e Kubernetes local com os manifestos `.yaml` — Fase 2.
+16. API Gateway (Kong), função serverless com KEDA e observabilidade (Prometheus, Grafana, Jaeger) — Fase 3.
+17. Persistência poliglota (PostgreSQL, MongoDB, Redis, Elasticsearch) e CI/CD com imagens Docker — Fase 4.
+18. Frontend Blazor, LGPD, SOLID, processo ágil e assistente de IA opcional — Fase 5.
 19. Deploy opcional na Azure — Fases 2 e 4.
-20. Assistente de IA opcional para descrição de campanhas — introdução da Fase 5.
+
+Os itens 14 a 19 não são avaliados pelo enunciado; podem ser cortados sem afetar a entrega ([ordem de corte](../../docs/entrega-e-riscos.md)).
 
 ### Fora do escopo
 
@@ -78,7 +83,7 @@ Fonte: `wiki:fontes/tech-challenge/05-hackathon-fase-5-conexao-solidaria`.
 
 - Cada integrante usa Windows, macOS ou Linux, com 16 GB de RAM ou mais para rodar o cluster local ([Pré-requisitos](../../docs/pre-requisitos.md)).
 - O repositório será **público** no GitHub.
-- A doação é considerada paga no momento do envio (o enunciado não pede gateway de pagamento).
+- A doação é considerada paga no momento do envio (sem gateway de pagamento no escopo).
 - O fuso horário de referência para regras de data é `America/Sao_Paulo`.
 - Valores monetários em reais (BRL), com 2 casas decimais.
 
@@ -94,8 +99,9 @@ Fonte: `wiki:fontes/tech-challenge/05-hackathon-fase-5-conexao-solidaria`.
 | 006 | [Busca de campanhas](../features/006-busca-campanhas/spec.md) | RF06 (Fase 4) | H08 | Campanhas.Api | P2 |
 | 007 | [Recibo de doação](../features/007-recibo-doacao/spec.md) | RF07 (Fase 3) | H09 | Notificacoes.Function | P2 |
 | 008 | [Direitos do titular](../features/008-direitos-titular/spec.md) | RF08 (Fase 5) | H10 | Identity.Api | P2 |
+| 009 | [Testes unitários e cobertura no CI](../features/009-ci-testes-cobertura/spec.md) | Trabalho substitutivo | H11, H12 | Testes + GitHub Actions | **P0** |
 
-Ordem de implementação sugerida: 001 → 002 → 003 → 004 → 005 → 006 → 007 → 008 (cada feature lista as dependências na própria spec).
+Ordem de implementação sugerida: **009** (pipeline e base de testes, na Etapa 3) → 001 → 002 → 003 → 004 → 005 → 006 → 007 → 008. A 009 cresce a cada feature, que acrescenta seus testes (cada feature lista as dependências na própria spec).
 
 Convenções comuns a todas as features:
 - **400:** entrada mal formada (formato, campo obrigatório); **422:** entrada bem formada que viola regra de negócio.
