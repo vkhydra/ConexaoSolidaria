@@ -60,7 +60,7 @@ Como todo commit precisa compilar e passar nos testes, o teste e a implementaç�
 ## 15.5 BDD (Reqnroll)
 
 - Projeto `tests/ConexaoSolidaria.Bdd` com `Features/*.feature` em português (`# language: pt`).
-- Um arquivo por RF, com os cenários de [04 — Requisitos funcionais](spec/04-requisitos-funcionais.md).
+- Um arquivo por RF, com os cenários de `spec.md` de cada feature em [specs/features/](../specs/features/).
 - Steps declarativos ("o doador doa 150.00"), sem detalhes de HTTP no texto.
 - Steps chamam as APIs reais em memória (`WebApplicationFactory`) com infraestrutura em Testcontainers.
 - Relatório de execução publicado como artefato do CI.
