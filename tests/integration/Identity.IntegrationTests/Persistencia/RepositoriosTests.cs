@@ -39,11 +39,11 @@ public sealed class RepositoriosTests(BancoIdentityFixture banco) : IClassFixtur
         var gestor = NovoGestor();
         await using (var escrita = banco.CriarContexto())
         {
-            await new UsuarioRepositorio(escrita).AdicionarAsync(gestor, CancellationToken.None);
+            await new UsuarioRepositorio(escrita, banco.Cifrador).AdicionarAsync(gestor, CancellationToken.None);
         }
 
         await using var leitura = banco.CriarContexto();
-        var lido = await new UsuarioRepositorio(leitura).ObterPorEmailAsync(gestor.Email, CancellationToken.None);
+        var lido = await new UsuarioRepositorio(leitura, banco.Cifrador).ObterPorEmailAsync(gestor.Email, CancellationToken.None);
 
         lido.ShouldNotBeNull();
         lido.Id.ShouldBe(gestor.Id);
@@ -62,7 +62,7 @@ public sealed class RepositoriosTests(BancoIdentityFixture banco) : IClassFixtur
     {
         var gestor = NovoGestor();
         await using var contexto = banco.CriarContexto();
-        var repositorio = new UsuarioRepositorio(contexto);
+        var repositorio = new UsuarioRepositorio(contexto, banco.Cifrador);
         await repositorio.AdicionarAsync(gestor, CancellationToken.None);
 
         (await repositorio.ObterPorIdAsync(gestor.Id, CancellationToken.None)).ShouldNotBeNull();
@@ -78,7 +78,7 @@ public sealed class RepositoriosTests(BancoIdentityFixture banco) : IClassFixtur
     {
         await using var contexto = banco.CriarContexto();
 
-        var lido = await new UsuarioRepositorio(contexto)
+        var lido = await new UsuarioRepositorio(contexto, banco.Cifrador)
             .ObterPorEmailAsync(Email.Criar("ninguem@exemplo.com").Valor, CancellationToken.None);
 
         lido.ShouldBeNull();
@@ -92,10 +92,63 @@ public sealed class RepositoriosTests(BancoIdentityFixture banco) : IClassFixtur
     public async Task Usuario_ExisteGestor_ComGestorGravado_DevolveVerdadeiro()
     {
         await using var contexto = banco.CriarContexto();
-        var repositorio = new UsuarioRepositorio(contexto);
+        var repositorio = new UsuarioRepositorio(contexto, banco.Cifrador);
         await repositorio.AdicionarAsync(NovoGestor(), CancellationToken.None);
 
         (await repositorio.ExisteGestorAsync(CancellationToken.None)).ShouldBeTrue();
+    }
+
+    /// <summary>
+    /// Dado um doador gravado, quando o banco é consultado, então o CPF está cifrado (nunca em texto), o hash confere e o consentimento volta.
+    /// </summary>
+    /// <returns>Tarefa do teste.</returns>
+    [Fact]
+    public async Task Doador_AdicionarComCpf_GravaCpfCifradoEHashEConsentimento()
+    {
+        var cpf = Cpf.Criar("529.982.247-25").Valor;
+        var email = Email.Criar($"doador-{Guid.NewGuid():N}@exemplo.com").Valor;
+        var consentimento = Consentimento.Criar(true, "2026-10", _agora).Valor;
+        var doador = Usuario.CadastrarDoador("Maria Silva", email, cpf, "hash-bcrypt", consentimento, _agora).Valor;
+        await using (var escrita = banco.CriarContexto())
+        {
+            await new UsuarioRepositorio(escrita, banco.Cifrador).AdicionarAsync(doador, CancellationToken.None);
+        }
+
+        await using var leitura = banco.CriarContexto();
+        var repositorio = new UsuarioRepositorio(leitura, banco.Cifrador);
+        var lido = await repositorio.ObterPorIdAsync(doador.Id, CancellationToken.None);
+
+        lido!.Consentimento.ShouldBe(consentimento);
+        var cifrado = leitura.Entry(lido).Property<byte[]?>("CpfCifrado").CurrentValue;
+        cifrado.ShouldNotBeNull();
+        banco.Cifrador.Decifrar(cifrado).ShouldBe(cpf);
+        System.Text.Encoding.UTF8.GetString(cifrado).ShouldNotContain("52998224725");
+        (await repositorio.ExisteCpfAsync(banco.Cifrador.CalcularHash(cpf), CancellationToken.None)).ShouldBeTrue();
+        (await repositorio.ExisteEmailAsync(email, CancellationToken.None)).ShouldBeTrue();
+        (await repositorio.ExisteCpfAsync(banco.Cifrador.CalcularHash(Cpf.Criar("123.456.789-09").Valor), CancellationToken.None)).ShouldBeFalse();
+    }
+
+    /// <summary>
+    /// Dado um CPF já cadastrado, quando outro doador o usa, então o índice único parcial do banco recusa; o gestor, sem CPF, não conflita.
+    /// </summary>
+    /// <returns>Tarefa do teste.</returns>
+    [Fact]
+    public async Task Doador_CpfDuplicado_ViolaIndiceUnicoParcial()
+    {
+        var cpf = Cpf.Criar("111.444.777-35").Valor;
+        var consentimento = Consentimento.Criar(true, "2026-10", _agora).Valor;
+        Usuario Novo() => Usuario.CadastrarDoador("Joao Souza", Email.Criar($"d-{Guid.NewGuid():N}@exemplo.com").Valor, cpf, "hash", consentimento, _agora).Valor;
+        await using (var a = banco.CriarContexto())
+        {
+            await new UsuarioRepositorio(a, banco.Cifrador).AdicionarAsync(Novo(), CancellationToken.None);
+            await new UsuarioRepositorio(a, banco.Cifrador).AdicionarAsync(NovoGestor(), CancellationToken.None);
+            await new UsuarioRepositorio(a, banco.Cifrador).AdicionarAsync(NovoGestor(), CancellationToken.None);
+        }
+
+        await using var b = banco.CriarContexto();
+
+        var excecao = await Should.ThrowAsync<DbUpdateException>(() => new UsuarioRepositorio(b, banco.Cifrador).AdicionarAsync(Novo(), CancellationToken.None));
+        ((PostgresException)excecao.InnerException!).ConstraintName.ShouldBe("ux_usuarios_cpf_hash");
     }
 
     /// <summary>
@@ -109,12 +162,12 @@ public sealed class RepositoriosTests(BancoIdentityFixture banco) : IClassFixtur
         var segundo = Usuario.CriarGestor(primeiro.Email, "outro-hash", _agora).Valor;
         await using (var a = banco.CriarContexto())
         {
-            await new UsuarioRepositorio(a).AdicionarAsync(primeiro, CancellationToken.None);
+            await new UsuarioRepositorio(a, banco.Cifrador).AdicionarAsync(primeiro, CancellationToken.None);
         }
 
         await using var b = banco.CriarContexto();
 
-        var excecao = await Should.ThrowAsync<DbUpdateException>(() => new UsuarioRepositorio(b).AdicionarAsync(segundo, CancellationToken.None));
+        var excecao = await Should.ThrowAsync<DbUpdateException>(() => new UsuarioRepositorio(b, banco.Cifrador).AdicionarAsync(segundo, CancellationToken.None));
         ((PostgresException)excecao.InnerException!).SqlState.ShouldBe(PostgresErrorCodes.UniqueViolation);
     }
 
@@ -209,7 +262,7 @@ public sealed class RepositoriosTests(BancoIdentityFixture banco) : IClassFixtur
     public async Task Repositorios_ArgumentosNulos_LancaExcecao()
     {
         await using var contexto = banco.CriarContexto();
-        var usuarios = new UsuarioRepositorio(contexto);
+        var usuarios = new UsuarioRepositorio(contexto, banco.Cifrador);
         var tentativas = new TentativaLoginRepositorio(contexto);
 
         await Should.ThrowAsync<ArgumentNullException>(() => usuarios.ObterPorEmailAsync(null!, CancellationToken.None));

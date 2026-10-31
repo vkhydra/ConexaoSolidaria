@@ -14,6 +14,16 @@ public sealed class UsuarioConfiguracao : IEntityTypeConfiguration<Usuario>
     /// </summary>
     public const string RestricaoRole = "ck_usuarios_role";
 
+    /// <summary>
+    /// Nome da propriedade de sombra com o CPF cifrado (coluna <c>cpf_cifrado</c>).
+    /// </summary>
+    public const string NomeCpfCifrado = "CpfCifrado";
+
+    /// <summary>
+    /// Nome da propriedade de sombra com o hash do CPF (coluna <c>cpf_hash</c>).
+    /// </summary>
+    public const string NomeCpfHash = "CpfHash";
+
     /// <inheritdoc/>
     public void Configure(EntityTypeBuilder<Usuario> builder)
     {
@@ -43,8 +53,16 @@ public sealed class UsuarioConfiguracao : IEntityTypeConfiguration<Usuario>
 
         builder.Ignore(u => u.EstaAnonimizado);
 
-        // Mapeados na migration de cadastro de doador (CPF cifrado e consentimento); até lá ficam fora do modelo.
+        // O CPF não é uma coluna do agregado: o repositório grava o cifrado e o hash nestas colunas de sombra.
         builder.Ignore(u => u.Cpf);
-        builder.Ignore(u => u.Consentimento);
+        builder.Property<byte[]?>(NomeCpfCifrado).HasColumnName("cpf_cifrado");
+        builder.Property<byte[]?>(NomeCpfHash).HasColumnName("cpf_hash");
+        builder.HasIndex(NomeCpfHash).IsUnique().HasDatabaseName("ux_usuarios_cpf_hash").HasFilter("cpf_hash IS NOT NULL");
+
+        builder.ComplexProperty(u => u.Consentimento, consentimento =>
+        {
+            consentimento.Property(c => c.Versao).HasColumnName("consentimento_versao").HasMaxLength(Consentimento.TamanhoMaximoVersao);
+            consentimento.Property(c => c.Em).HasColumnName("consentimento_em");
+        });
     }
 }

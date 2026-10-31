@@ -252,7 +252,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Depende de: R068 (`003/T004`)
 - [X] **R070** · `003/T006` [H01] `CifradorCpfAesGcm` (cifra, decifra, hash, versão da chave), com testes — `Identity.Infrastructure/Seguranca/CifradorCpfAesGcm.cs`
   Commit: `🔒️ feat(identity): adiciona cifragem e hash do cpf`
-- [ ] **R071** · `003/T007` [H01] Configuração EF das colunas de cadastro e migration — `Identity.Infrastructure/Persistencia/*`
+- [X] **R071** · `003/T007` [H01] Configuração EF das colunas de cadastro e migration — `Identity.Infrastructure/Persistencia/*`
   Commit: `🗃️ feat(identity): adiciona colunas de cadastro de doador`
 - [ ] **R072** · `003/T008` [H01] Endpoint `POST /doadores` (`AllowAnonymous`), tratamento de `23505` como 409 — `Identity.Api/Endpoints/DoadoresEndpoints.cs`
   Commit: `✨ feat(identity): adiciona endpoint de cadastro de doador`

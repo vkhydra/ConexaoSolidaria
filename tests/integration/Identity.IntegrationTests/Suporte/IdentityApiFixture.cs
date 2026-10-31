@@ -82,6 +82,8 @@ public sealed class IdentityApiFixture : WebApplicationFactory<Program>, IAsyncL
         builder.UseEnvironment("Development");
         builder.UseSetting("ConnectionStrings:Identity", _banco.StringConexao);
         builder.UseSetting("Autenticacao:ChaveHashEmail", "chave-hash-email-de-teste");
+        builder.UseSetting("Cpf:ChaveCifra", Convert.ToBase64String(RandomNumberGenerator.GetBytes(32)));
+        builder.UseSetting("Cpf:ChaveHash", Convert.ToBase64String(RandomNumberGenerator.GetBytes(32)));
         builder.UseSetting("Jwt:ChavePrivadaPem", _rsa.ExportRSAPrivateKeyPem());
         builder.UseSetting("Jwt:ChavePublicaPem", ChavePublicaPem);
     }

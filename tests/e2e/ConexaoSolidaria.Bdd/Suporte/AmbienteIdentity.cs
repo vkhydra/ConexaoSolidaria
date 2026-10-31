@@ -134,6 +134,8 @@ public sealed class AmbienteIdentity : IDisposable
         builder.UseEnvironment("Development");
         builder.UseSetting("ConnectionStrings:Identity", _conexao);
         builder.UseSetting("Autenticacao:ChaveHashEmail", "chave-hash-email-do-bdd");
+        builder.UseSetting("Cpf:ChaveCifra", Convert.ToBase64String(RandomNumberGenerator.GetBytes(32)));
+        builder.UseSetting("Cpf:ChaveHash", Convert.ToBase64String(RandomNumberGenerator.GetBytes(32)));
         builder.UseSetting("Jwt:ChavePrivadaPem", _rsa.ExportRSAPrivateKeyPem());
         builder.UseSetting("Jwt:ChavePublicaPem", _rsa.ExportSubjectPublicKeyInfoPem());
         if (SeedEmail is not null)

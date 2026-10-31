@@ -44,14 +44,17 @@ public sealed class IdentityDbContextTests
         tipo.GetTableName().ShouldBe("usuarios");
         tipo.FindPrimaryKey()!.Properties.Single().Name.ShouldBe(nameof(Usuario.Id));
         tipo.GetProperties().Select(p => p.GetColumnName()).ShouldBe(
-            ["id", "nome_completo", "email", "senha_hash", "role", "criado_em", "anonimizado_em"],
+            ["id", "nome_completo", "email", "senha_hash", "role", "criado_em", "anonimizado_em", "cpf_cifrado", "cpf_hash"],
             ignoreOrder: true);
+        tipo.FindComplexProperty(nameof(Usuario.Consentimento))!.ComplexType.GetProperties().Select(p => p.GetColumnName())
+            .ShouldBe(["consentimento_versao", "consentimento_em"], ignoreOrder: true);
         tipo.FindProperty(nameof(Usuario.SenhaHash))!.IsNullable.ShouldBeTrue();
         tipo.FindProperty(nameof(Usuario.Email))!.GetMaxLength().ShouldBe(Email.TamanhoMaximo);
 
-        var indice = tipo.GetIndexes().Single();
-        indice.IsUnique.ShouldBeTrue();
-        indice.GetDatabaseName().ShouldBe("ux_usuarios_email");
+        var indices = tipo.GetIndexes().ToDictionary(i => i.GetDatabaseName()!);
+        indices.Keys.ShouldBe(["ux_usuarios_email", "ux_usuarios_cpf_hash"], ignoreOrder: true);
+        indices.Values.ShouldAllBe(i => i.IsUnique);
+        indices["ux_usuarios_cpf_hash"].GetFilter().ShouldBe("cpf_hash IS NOT NULL");
         tipo.GetCheckConstraints().Single().Name.ShouldBe(UsuarioConfiguracao.RestricaoRole);
     }
 

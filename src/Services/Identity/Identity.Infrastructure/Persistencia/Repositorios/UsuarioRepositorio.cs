@@ -1,5 +1,6 @@
 using Identity.Application.Abstracoes;
 using Identity.Domain.Usuarios;
+using Identity.Infrastructure.Persistencia.Configuracoes;
 using Microsoft.EntityFrameworkCore;
 
 namespace Identity.Infrastructure.Persistencia.Repositorios;
@@ -8,7 +9,8 @@ namespace Identity.Infrastructure.Persistencia.Repositorios;
 /// Repositório de usuários sobre o <see cref="IdentityDbContext"/>.
 /// </summary>
 /// <param name="contexto">Contexto do banco de identidade.</param>
-public sealed class UsuarioRepositorio(IdentityDbContext contexto) : IUsuarioRepositorio
+/// <param name="cifrador">Cifrador e hash do CPF, usados ao gravar e ao conferir unicidade.</param>
+public sealed class UsuarioRepositorio(IdentityDbContext contexto, ICifradorCpf cifrador) : IUsuarioRepositorio
 {
     /// <inheritdoc/>
     public Task<Usuario?> ObterPorEmailAsync(Email email, CancellationToken cancelamento)
@@ -41,7 +43,9 @@ public sealed class UsuarioRepositorio(IdentityDbContext contexto) : IUsuarioRep
     /// <inheritdoc/>
     public Task<bool> ExisteCpfAsync(byte[] cpfHash, CancellationToken cancelamento)
     {
-        throw new NotSupportedException("A coluna cpf_hash chega com a migration de cadastro de doador (R071).");
+        ArgumentNullException.ThrowIfNull(cpfHash);
+
+        return contexto.Usuarios.AnyAsync(u => EF.Property<byte[]?>(u, UsuarioConfiguracao.NomeCpfHash) == cpfHash, cancelamento);
     }
 
     /// <inheritdoc/>
@@ -49,7 +53,13 @@ public sealed class UsuarioRepositorio(IdentityDbContext contexto) : IUsuarioRep
     {
         ArgumentNullException.ThrowIfNull(usuario);
 
-        contexto.Usuarios.Add(usuario);
+        var entrada = contexto.Usuarios.Add(usuario);
+        if (usuario.Cpf is not null)
+        {
+            entrada.Property<byte[]?>(UsuarioConfiguracao.NomeCpfCifrado).CurrentValue = cifrador.Cifrar(usuario.Cpf);
+            entrada.Property<byte[]?>(UsuarioConfiguracao.NomeCpfHash).CurrentValue = cifrador.CalcularHash(usuario.Cpf);
+        }
+
         await contexto.SaveChangesAsync(cancelamento);
     }
 }

@@ -13,6 +13,11 @@ namespace Identity.UnitTests.Persistencia;
 public sealed class ExtensoesIdentityInfraestruturaTests
 {
     /// <summary>
+    /// Chave de 32 bytes em Base64 usada para as duas chaves do CPF.
+    /// </summary>
+    private static readonly string _chaveCpf = Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
+
+    /// <summary>
     /// Dada a configuração completa, quando os serviços são registrados, então os componentes principais são resolvidos.
     /// </summary>
     [Fact]
@@ -45,6 +50,8 @@ public sealed class ExtensoesIdentityInfraestruturaTests
         {
             ["ConnectionStrings:Identity"] = "Host=localhost;Database=identity_db",
             ["Autenticacao:ChaveHashEmail"] = "chave",
+            ["Cpf:ChaveCifra"] = _chaveCpf,
+            ["Cpf:ChaveHash"] = _chaveCpf,
             ["Jwt:ChavePrivadaPem"] = rsa.ExportRSAPrivateKeyPem(),
         };
         if (comEmissorEAudiencia)
@@ -102,6 +109,8 @@ public sealed class ExtensoesIdentityInfraestruturaTests
             {
                 ["ConnectionStrings:Identity"] = conexao,
                 ["Autenticacao:ChaveHashEmail"] = chave,
+                ["Cpf:ChaveCifra"] = _chaveCpf,
+                ["Cpf:ChaveHash"] = _chaveCpf,
                 ["Jwt:Issuer"] = emissor,
                 ["Jwt:Audience"] = audiencia,
             })

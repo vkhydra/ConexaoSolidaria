@@ -1,4 +1,7 @@
+using System.Security.Cryptography;
+using Identity.Application.Abstracoes;
 using Identity.Infrastructure.Persistencia;
+using Identity.Infrastructure.Seguranca;
 using Microsoft.EntityFrameworkCore;
 using Testcontainers.PostgreSql;
 
@@ -25,6 +28,15 @@ public sealed class BancoIdentityFixture : IAsyncLifetime
         await using var contexto = CriarContexto();
         await contexto.Database.MigrateAsync();
     }
+
+    /// <summary>
+    /// Obtém o cifrador de CPF com chaves aleatórias, só para os testes.
+    /// </summary>
+    public ICifradorCpf Cifrador { get; } = new CifradorCpfAesGcm(new CpfOpcoes
+    {
+        ChaveCifra = Convert.ToBase64String(RandomNumberGenerator.GetBytes(32)),
+        ChaveHash = Convert.ToBase64String(RandomNumberGenerator.GetBytes(32)),
+    });
 
     /// <summary>
     /// Obtém a string de conexão do banco do container.

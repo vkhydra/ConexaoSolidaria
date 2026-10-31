@@ -17,12 +17,13 @@ public static class ExtensoesIdentityInfraestrutura
 {
     /// <summary>
     /// Registra o <see cref="IdentityDbContext"/> (<c>ConnectionStrings:Identity</c>), os repositórios, o hash de senha,
-    /// o hash HMAC do e-mail (<c>Autenticacao:ChaveHashEmail</c>), o emissor de JWT (seção <c>Jwt</c>) e o seed do gestor inicial.
+    /// o hash HMAC do e-mail (<c>Autenticacao:ChaveHashEmail</c>), a proteção do CPF (seção <c>Cpf</c>), o emissor de JWT (seção <c>Jwt</c>) e o seed do gestor inicial.
     /// </summary>
     /// <param name="servicos">Coleção de serviços.</param>
     /// <param name="configuracao">Configuração da aplicação.</param>
     /// <returns>A própria coleção, para encadeamento.</returns>
     /// <exception cref="InvalidOperationException">A string de conexão ou a chave do HMAC não foi configurada.</exception>
+    /// <exception cref="ArgumentException">As chaves do CPF estão ausentes ou inválidas.</exception>
     public static IServiceCollection AddIdentityInfraestrutura(this IServiceCollection servicos, IConfiguration configuracao)
     {
         ArgumentNullException.ThrowIfNull(servicos);
@@ -39,6 +40,12 @@ public static class ExtensoesIdentityInfraestrutura
         servicos.AddSingleton<IHasherSenha, HasherSenhaBcrypt>();
         servicos.AddSingleton<IMetricasLogin, MetricasLoginPrometheus>();
         servicos.AddSingleton<IHasherEmail>(new HasherEmailHmac(chaveHashEmail));
+        servicos.AddSingleton<ICifradorCpf>(new CifradorCpfAesGcm(new CpfOpcoes
+        {
+            ChaveCifra = configuracao["Cpf:ChaveCifra"] ?? string.Empty,
+            ChaveHash = configuracao["Cpf:ChaveHash"] ?? string.Empty,
+            VersaoChave = byte.TryParse(configuracao["Cpf:VersaoChave"], out var versao) ? versao : (byte)1,
+        }));
 
         var jwt = new JwtOpcoes
         {
