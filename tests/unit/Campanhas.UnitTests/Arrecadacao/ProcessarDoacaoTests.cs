@@ -1,6 +1,7 @@
 using Campanhas.Application.Abstracoes;
 using Campanhas.Application.Arrecadacao;
 using Campanhas.Application.Campanhas;
+using Campanhas.Application.Transparencia;
 using Campanhas.Domain.Campanhas;
 using ConexaoSolidaria.Contracts.V1;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -27,6 +28,11 @@ public sealed class ProcessarDoacaoTests
     /// Livro de doações falso.
     /// </summary>
     private readonly ILivroDoacoes _livro = Substitute.For<ILivroDoacoes>();
+
+    /// <summary>
+    /// Cache do painel falso.
+    /// </summary>
+    private readonly ICachePainel _cache = Substitute.For<ICachePainel>();
 
     /// <summary>
     /// Relógio falso fixo em <see cref="_agora"/>.
@@ -60,6 +66,24 @@ public sealed class ProcessarDoacaoTests
         await _livro.Received(1).RegistrarAsync(
             new LancamentoDoacao(doacao.DoacaoId, doacao.CampanhaId, doacao.DoadorId, 150m, 1150m, doacao.OcorridoEm, _agora),
             Arg.Any<CancellationToken>());
+        await _cache.Received(1).RemoverAsync(Arg.Any<CancellationToken>());
+    }
+
+    /// <summary>
+    /// Dado que o cache está fora do ar, quando uma doação é processada, então o processamento termina com sucesso
+    /// (o painel expira sozinho em instantes).
+    /// </summary>
+    /// <returns>Tarefa do teste.</returns>
+    [Fact]
+    public async Task Processar_CacheForaDoAr_NaoFalha()
+    {
+        var doacao = NovaDoacao(150m);
+        _registro.RegistrarAsync(doacao, _agora, Arg.Any<CancellationToken>()).Returns(new ResultadoRegistro(SituacaoRegistro.Registrada, _agora, 150m));
+        _cache.RemoverAsync(Arg.Any<CancellationToken>()).Returns(Task.FromException(new TimeoutException()));
+
+        var resultado = await Criar().ExecutarAsync(doacao, CancellationToken.None);
+
+        resultado.EhSucesso.ShouldBeTrue();
     }
 
     /// <summary>
@@ -81,6 +105,7 @@ public sealed class ProcessarDoacaoTests
         await _livro.Received(1).RegistrarAsync(
             Arg.Is<LancamentoDoacao>(l => l.DoacaoId == doacao.DoacaoId && l.ProcessadaEm == primeira && l.TotalAposLancamento == 1150m),
             Arg.Any<CancellationToken>());
+        await _cache.Received(1).RemoverAsync(Arg.Any<CancellationToken>());
     }
 
     /// <summary>
@@ -112,6 +137,7 @@ public sealed class ProcessarDoacaoTests
 
         resultado.Erro.Codigo.ShouldBe(ErrosDeCampanha.CodigoNaoEncontrada);
         await _livro.DidNotReceive().RegistrarAsync(Arg.Any<LancamentoDoacao>(), Arg.Any<CancellationToken>());
+        await _cache.DidNotReceive().RemoverAsync(Arg.Any<CancellationToken>());
     }
 
     /// <summary>
@@ -159,7 +185,7 @@ public sealed class ProcessarDoacaoTests
     /// <returns>O caso de uso.</returns>
     private ProcessarDoacao Criar()
     {
-        return new ProcessarDoacao(_registro, _livro, _relogio, NullLogger<ProcessarDoacao>.Instance);
+        return new ProcessarDoacao(_registro, _livro, new InvalidadorDoPainel(_cache, NullLogger<InvalidadorDoPainel>.Instance), _relogio, NullLogger<ProcessarDoacao>.Instance);
     }
 
     /// <summary>

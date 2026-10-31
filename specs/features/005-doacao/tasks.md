@@ -30,7 +30,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
   Commit: `✨ feat(worker): soma doação ao total com idempotência`
 - [X] T009 [H07] `LivroDoacoesMongo` com upsert e índice, executado também na reentrega — `Campanhas.Infrastructure/Arrecadacao/LivroDoacoesMongo.cs`
   Commit: `✨ feat(worker): adiciona livro de doações no mongodb`
-- [ ] T010 [H07] Invalidação do cache do painel após processar — `Campanhas.Application/Arrecadacao/ProcessarDoacao.cs`
+- [X] T010 [H07] Invalidação do cache do painel após processar — `Campanhas.Application/Arrecadacao/ProcessarDoacao.cs`
   Commit: `⚡️ feat(worker): invalida cache do painel após processar doação`
 - [ ] T011 [H07] `DoacaoRecebidaConsumer` com retentativas (3 imediatas + 5 s, 30 s, 2 min) e fila de erro — `Arrecadacao.Worker/Consumidores/DoacaoRecebidaConsumer.cs`
   Commit: `🥅 feat(worker): configura consumidor com retentativas e fila de erro`

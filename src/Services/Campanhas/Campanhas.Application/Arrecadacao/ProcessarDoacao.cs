@@ -1,5 +1,6 @@
 using Campanhas.Application.Abstracoes;
 using Campanhas.Application.Campanhas;
+using Campanhas.Application.Transparencia;
 using Campanhas.Domain.Campanhas;
 using Campanhas.Domain.Comum;
 using ConexaoSolidaria.Contracts.V1;
@@ -21,9 +22,10 @@ public sealed record DoacaoProcessadaResultado(bool JaProcessada, DateTimeOffset
 /// </summary>
 /// <param name="registro">Porta que soma a doação ao total.</param>
 /// <param name="livro">Livro de doações, gravado também na reentrega para completar um processamento interrompido.</param>
+/// <param name="painel">Invalidador do cache do painel de transparência, para o novo total aparecer sem esperar a validade.</param>
 /// <param name="relogio">Relógio no fuso de São Paulo.</param>
 /// <param name="log">Logger do caso de uso.</param>
-public sealed partial class ProcessarDoacao(IRegistroArrecadacao registro, ILivroDoacoes livro, IRelogio relogio, ILogger<ProcessarDoacao> log)
+public sealed partial class ProcessarDoacao(IRegistroArrecadacao registro, ILivroDoacoes livro, InvalidadorDoPainel painel, IRelogio relogio, ILogger<ProcessarDoacao> log)
 {
     /// <summary>
     /// Executa o processamento.
@@ -60,6 +62,9 @@ public sealed partial class ProcessarDoacao(IRegistroArrecadacao registro, ILivr
         await livro.RegistrarAsync(
             new LancamentoDoacao(doacao.DoacaoId, doacao.CampanhaId, doacao.DoadorId, doacao.Valor, registrada.TotalArrecadado!.Value, doacao.OcorridoEm, registrada.ProcessadaEm!.Value),
             cancelamento);
+
+        // Também na reentrega: se a primeira tentativa caiu antes de invalidar, o painel ainda mostraria o total antigo.
+        await painel.InvalidarAsync(cancelamento);
 
         return Result.Sucesso(new DoacaoProcessadaResultado(
             registrada.Situacao == SituacaoRegistro.JaProcessada,

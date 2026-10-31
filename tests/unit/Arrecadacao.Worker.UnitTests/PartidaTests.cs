@@ -67,6 +67,7 @@ public sealed class PartidaTests : IClassFixture<PartidaTests.WorkerFactory>
 
             builder.UseEnvironment("Development");
             builder.UseSetting("ConnectionStrings:Campanhas", "Host=banco.invalido.local;Database=campanhas;Username=app;Password=sem-uso");
+            builder.UseSetting("ConnectionStrings:Redis", "redis.invalido.local:6379");
             builder.UseSetting("ConnectionStrings:Mongo", "mongodb://mongo.invalido.local:27017");
             builder.UseSetting("RabbitMq:Host", "rabbitmq.invalido.local");
             builder.ConfigureServices(servicos =>

@@ -1,4 +1,5 @@
 using Campanhas.Application.Arrecadacao;
+using Campanhas.Application.Transparencia;
 using Campanhas.Infrastructure;
 using Campanhas.Infrastructure.Mensageria;
 using ConexaoSolidaria.ServiceDefaults.Logs;
@@ -21,6 +22,8 @@ builder.AddSaude();
 
 builder.Services.AddSingleton(TimeProvider.System);
 builder.Services.AddCampanhasPersistencia(builder.Configuration);
+builder.Services.AddCampanhasCache(builder.Configuration);
+builder.Services.AddSingleton<InvalidadorDoPainel>();
 builder.Services.AddCampanhasArrecadacao(builder.Configuration);
 builder.Services.AddScoped<ProcessarDoacao>();
 builder.Services.AddCampanhasMensageria(builder.Configuration);
