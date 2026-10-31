@@ -1,6 +1,7 @@
 using Identity.Application.Abstracoes;
 using Identity.Domain.Autenticacao;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 
 namespace Identity.Infrastructure.Persistencia.Repositorios;
 
@@ -19,15 +20,27 @@ public sealed class TentativaLoginRepositorio(IdentityDbContext contexto) : ITen
     }
 
     /// <inheritdoc/>
+    /// <remarks>
+    /// Se duas falhas do mesmo e-mail novo chegam juntas, a segunda encontra a chave já gravada pela primeira
+    /// (violação de unicidade). Nesse caso a falha concorrente é descartada: a contagem já foi iniciada e o login segue com 401.
+    /// </remarks>
     public async Task SalvarAsync(TentativaLogin tentativa, CancellationToken cancelamento)
     {
         ArgumentNullException.ThrowIfNull(tentativa);
 
-        if (contexto.Entry(tentativa).State == EntityState.Detached)
+        var nova = contexto.Entry(tentativa).State == EntityState.Detached;
+        if (nova)
         {
             contexto.TentativasLogin.Add(tentativa);
         }
 
-        await contexto.SaveChangesAsync(cancelamento);
+        try
+        {
+            await contexto.SaveChangesAsync(cancelamento);
+        }
+        catch (DbUpdateException excecao) when (nova && excecao.InnerException is PostgresException { SqlState: PostgresErrorCodes.UniqueViolation })
+        {
+            contexto.Entry(tentativa).State = EntityState.Detached;
+        }
     }
 }

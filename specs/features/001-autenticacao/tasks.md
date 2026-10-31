@@ -59,7 +59,7 @@ Formato: `- [ ] Tnnn [P] [história] descrição — arquivo(s)`, seguido do com
 
 ## Fase 8 — Fechamento
 
-- [ ] T017 `/security-review` e `/code-review`; corrigir apontamentos em commits próprios
+- [X] T017 `/security-review` e `/code-review`; corrigir apontamentos em commits próprios
 - [ ] T018 Conferir cobertura ≥ 90% (`verificar-cobertura`) e `git rebase --exec` antes do PR
 
 ## Dependências

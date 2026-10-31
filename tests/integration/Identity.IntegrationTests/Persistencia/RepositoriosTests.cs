@@ -154,6 +154,28 @@ public sealed class RepositoriosTests(BancoIdentityFixture banco) : IClassFixtur
     }
 
     /// <summary>
+    /// Dadas duas primeiras falhas simultâneas do mesmo e-mail, quando a segunda é salva, então não lança exceção e há uma linha só.
+    /// </summary>
+    /// <returns>Tarefa do teste.</returns>
+    [Fact]
+    public async Task Tentativa_DuasPrimeirasFalhasConcorrentes_SegundaNaoLanca()
+    {
+        var hash = Guid.NewGuid().ToByteArray();
+        await using var a = banco.CriarContexto();
+        await using var b = banco.CriarContexto();
+        var primeira = TentativaLogin.Nova(hash, _agora);
+        primeira.RegistrarFalha(_agora);
+        var segunda = TentativaLogin.Nova(hash, _agora);
+        segunda.RegistrarFalha(_agora);
+
+        await new TentativaLoginRepositorio(a).SalvarAsync(primeira, CancellationToken.None);
+        await Should.NotThrowAsync(() => new TentativaLoginRepositorio(b).SalvarAsync(segunda, CancellationToken.None));
+
+        await using var leitura = banco.CriarContexto();
+        (await leitura.TentativasLogin.CountAsync(t => t.EmailHash == hash, TestContext.Current.CancellationToken)).ShouldBe(1);
+    }
+
+    /// <summary>
     /// Dado um controle bloqueado, quando salvo e relido, então o fim do bloqueio persiste.
     /// </summary>
     /// <returns>Tarefa do teste.</returns>
