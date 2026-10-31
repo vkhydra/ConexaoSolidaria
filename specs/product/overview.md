@@ -1,6 +1,6 @@
 # 01 — Visão geral e escopo
 
-[← README](../../README.md) · Próximo: [02 — Pré-requisitos](02-pre-requisitos.md)
+[← README](../../README.md) · Próximo: [02 — Pré-requisitos](../../docs/spec/02-pre-requisitos.md)
 
 ## 1.1 Contexto
 
@@ -18,11 +18,11 @@ Fonte: `wiki:fontes/tech-challenge/05-hackathon-fase-5-conexao-solidaria`.
 
 | # | Objetivo | Como é medido |
 |---|---|---|
-| O1 | Atender todos os requisitos obrigatórios do Hackathon | Checklist em [21 — Entrega e riscos](21-entrega-e-riscos.md) 100% marcado |
-| O2 | Aplicar o conteúdo das 5 fases do curso | Matriz em [18 — Cobertura das fases](18-cobertura-das-fases.md) |
+| O1 | Atender todos os requisitos obrigatórios do Hackathon | Checklist em [21 — Entrega e riscos](../../docs/spec/21-entrega-e-riscos.md) 100% marcado |
+| O2 | Aplicar o conteúdo das 5 fases do curso | Matriz em [18 — Cobertura das fases](../../docs/spec/18-cobertura-das-fases.md) |
 | O3 | Seguir as boas práticas da LLMWiki | Checklists das seções 10 a 17 marcados |
-| O4 | Manter todo commit compilável e no padrão | Hooks locais e CI verdes ([17 — Git e commits](17-git-e-commits.md)) |
-| O5 | Comprovar a arquitetura em até 15 minutos de vídeo | [Roteiro do vídeo](../ROTEIRO-VIDEO.md) |
+| O4 | Manter todo commit compilável e no padrão | Hooks locais e CI verdes ([17 — Git e commits](../../docs/spec/17-git-e-commits.md)) |
+| O5 | Comprovar a arquitetura em até 15 minutos de vídeo | [Roteiro do vídeo](../../docs/ROTEIRO-VIDEO.md) |
 
 ## 1.3 Personas
 
@@ -74,7 +74,7 @@ Fonte: `wiki:fontes/tech-challenge/05-hackathon-fase-5-conexao-solidaria`.
 
 ## 1.5 Premissas
 
-- Cada integrante usa Windows, macOS ou Linux, com 16 GB de RAM ou mais para rodar o cluster local ([02 — Pré-requisitos](02-pre-requisitos.md)).
+- Cada integrante usa Windows, macOS ou Linux, com 16 GB de RAM ou mais para rodar o cluster local ([02 — Pré-requisitos](../../docs/spec/02-pre-requisitos.md)).
 - O repositório será **público** no GitHub.
 - A doação é considerada paga no momento do envio (o enunciado não pede gateway de pagamento).
 - O fuso horário de referência para regras de data é `America/Sao_Paulo`.

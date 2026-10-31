@@ -1,6 +1,6 @@
 # 02 — Pré-requisitos
 
-[← README](../../README.md) · Anterior: [01 — Visão geral](01-visao-geral.md) · Próximo: [03 — Processo ágil](03-processo-agil.md)
+[← README](../../README.md) · Anterior: [01 — Visão geral](../../specs/product/overview.md) · Próximo: [03 — Processo ágil](03-processo-agil.md)
 
 Tudo o que precisa estar pronto antes da primeira linha de código, em **Windows, macOS ou Linux**. Corresponde à **Etapa 0** do [plano de execução](20-plano-de-execucao.md).
 
