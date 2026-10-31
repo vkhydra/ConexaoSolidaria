@@ -6,7 +6,7 @@
 |---|---|
 | Branch | `feat/003-cadastro-doador` |
 | Status | Especificada |
-| Origem | Enunciado, requisito 3 (RF03) |
+| Origem | Requisito do domínio da API (RF03); testado conforme a [feature 009](../009-ci-testes-cobertura/spec.md) |
 | História | H01 |
 | Prioridade | P1 |
 | Serviço | `Identity.Api` |
