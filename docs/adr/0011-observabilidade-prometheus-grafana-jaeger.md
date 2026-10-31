@@ -3,10 +3,11 @@
 - **Status:** Aceito
 - **Data:** 2026-10-30
 - **Decisores:** equipe do projeto
+- **Errata (2026-10-30):** contexto corrigido para o escopo do trabalho substitutivo ([ADR 0018](0018-escopo-trabalho-substitutivo.md)); a decisão não mudou.
 
 ## Contexto
 
-O enunciado pede `/health`, `/metrics` e dashboard Grafana com métricas reais. A Fase 3 cobre Prometheus, Grafana, Zabbix, APMs e tracing.
+A Fase 3 cobre Prometheus, Grafana, Zabbix, APMs e tracing. Para operar os serviços, o projeto precisa de `/health`, `/metrics` e dashboard com métricas reais.
 
 ## Decisão
 
