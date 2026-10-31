@@ -11,7 +11,7 @@ Todos os comandos rodam em **PowerShell 7 (`pwsh`)**, igual nos três sistemas. 
 | Modo | Para quê | Tempo aproximado | Seção |
 |---|---|---|---|
 | A — docker-compose | Desenvolvimento e demonstração rápida | 10 min | 22.5 |
-| B — Kubernetes local (Minikube) | Ambiente exigido pelo Hackathon: Kong, HPA, KEDA, Prometheus, Grafana | 30 min | 22.6 |
+| B — Kubernetes local (Minikube) | Ambiente completo das fases 2 a 4: Kong, HPA, KEDA, Prometheus, Grafana | 30 min | 22.6 |
 | C — Azure (opcional) | Demonstração na nuvem | 45 min | 22.10 |
 
 ## Antes de começar
