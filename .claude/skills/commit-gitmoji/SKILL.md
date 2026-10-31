@@ -23,7 +23,7 @@ Regras completas em `docs/git-e-commits.md`. Resumo obrigatório:
    - quando um arquivo só compila junto com outro (`.csproj` + `Program.cs`; interface + implementação + registro no DI; entidade + configuração EF + migration), use o **menor conjunto que compila**;
    - teste e implementação mínima juntos; refatoração em commit separado;
    - nunca misture mudanças sem relação.
-3. Escolha gitmoji, tipo e escopo na tabela de `docs/git-e-commits.md`. Os mais usados:
+3. Escolha gitmoji, tipo e escopo pela tabela de `docs/git-e-commits.md`: o gitmoji indica o assunto; o tipo segue o efeito (só documentação → `docs`; infraestrutura → `build`; configuração → `chore`; comportamento → `feat`/`fix`). Os mais usados:
 
    | Gitmoji | Tipo | Quando |
    |---|---|---|
