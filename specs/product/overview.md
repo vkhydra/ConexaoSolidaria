@@ -36,6 +36,8 @@ Fontes: `C:/Victor/Fiap/fiap-pdfs/Trabalho Substitutivo/fase 3.pdf` e `wiki:font
 | **Doador** | Pessoa física que contribui | Cadastrar-se, entrar, doar e ver os próprios dados |
 | **Visitante** | Qualquer pessoa, sem login | Ver campanhas ativas, quanto foi arrecadado e buscar campanhas |
 | **Operador da plataforma** | Equipe técnica (o grupo) | Implantar, monitorar e diagnosticar a plataforma |
+| **Desenvolvedor** | Integrante do grupo que escreve código e testes | Pipeline que barra teste quebrado e queda de cobertura |
+| **Avaliador** | Professor ou tutor da FIAP que corrige o trabalho substitutivo | Ver os testes rodando na pipeline e a cobertura com download |
 
 ## Escopo
 
