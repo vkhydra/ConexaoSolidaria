@@ -1,6 +1,6 @@
 # 09 — API e eventos
 
-[← README](../../README.md) · Anterior: [08 — Decisões arquiteturais](../../docs/spec/08-decisoes-arquiteturais.md) · Próximo: [10 — Dados](../../docs/spec/10-dados.md)
+[← README](../../README.md) · Anterior: [08 — Decisões arquiteturais](../../docs/spec/08-decisoes-arquiteturais.md) · Próximo: [10 — Dados](dados.md)
 
 ## 9.1 Convenções da API
 
