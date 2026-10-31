@@ -133,8 +133,8 @@ O token do GitHub nunca vai para o repositório: definir `GITHUB_PERSONAL_ACCESS
 |---|---|---|
 | 1 Fundação | `commit-gitmoji` | GitHub (criar repositório) |
 | 2 Planejamento | `/specify`, `/clarify` para cada feature; `nova-adr` | GitHub (issues e Project) |
-| 3 Esqueleto | `/init` (revisar o `CLAUDE.md`), `/fewer-permission-prompts` | Microsoft Learn, `claude-vscode` |
-| 4–9 Features | `/plan`, `/tasks`, `/analyze`, `/implement`, `reviewer`, `/code-review`, `/security-review` | Microsoft Learn, `claude-vscode`, Playwright |
+| 3 Esqueleto e feature 009 | `/analyze 009`, `/implement 009`, `verificar-cobertura`, `commit-gitmoji`, `/init` (revisar o `CLAUDE.md`), `/fewer-permission-prompts` | Microsoft Learn, `claude-vscode`, GitHub |
+| 4–8 Features (001–008) | `/plan`, `/tasks`, `/analyze`, `/implement`, `reviewer`, `/code-review`, `/security-review` | Microsoft Learn, `claude-vscode`, Playwright |
 | 10–13 Infra e observabilidade | `validar-k8s`, `/run`, `/code-review` | Microsoft Learn |
 | 14 CI/CD | `/loop`, `/code-review` | GitHub |
 | 15 Azure | `/security-review` | Microsoft Learn |
