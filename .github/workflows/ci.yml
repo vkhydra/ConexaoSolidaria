@@ -92,3 +92,83 @@ jobs:
           path: TestResults/unit/**/*.trx
           if-no-files-found: ignore
           retention-days: 14
+
+  testes-integracao:
+    name: testes-integracao
+    needs: testes-unitarios
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Instalar o SDK do .NET
+        uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6
+        with:
+          global-json-file: global.json
+          cache: true
+          cache-dependency-path: '**/packages.lock.json'
+
+      - name: Restaurar as ferramentas dotnet
+        run: dotnet tool restore
+
+      - name: Restaurar os pacotes (modo travado)
+        run: dotnet restore ConexaoSolidaria.slnx --locked-mode
+
+      - name: Compilar (avisos são erros)
+        run: dotnet build ConexaoSolidaria.slnx -c Release --no-restore -warnaserror
+
+      - name: Conferir pacotes com vulnerabilidade alta ou crítica
+        shell: pwsh
+        run: |
+          $saida = dotnet list ConexaoSolidaria.slnx package --vulnerable --include-transitive 2>&1 | Out-String
+          Write-Host $saida
+          if ($saida -match '(?m)>\s.*\s(High|Critical)\s') {
+            throw 'Há pacotes com vulnerabilidade alta ou crítica.'
+          }
+
+      - name: Todos os testes (unidade, contrato, integração e aceitação) com cobertura
+        run: >
+          dotnet test ConexaoSolidaria.slnx -c Release --no-build
+          --settings coverlet.runsettings
+          --collect "XPlat Code Coverage"
+          --logger trx
+          --results-directory TestResults/all
+
+      - name: Gerar o relatório de cobertura total
+        if: always()
+        run: >
+          dotnet reportgenerator
+          "-reports:TestResults/all/**/coverage.cobertura.xml"
+          "-targetdir:coverage/all"
+          "-reporttypes:Html;Cobertura;JsonSummary;MarkdownSummaryGithub"
+          "-title:Cobertura total"
+
+      - name: Mostrar a cobertura total no resumo da execução
+        if: always()
+        run: |
+          if [ -f coverage/all/SummaryGithub.md ]; then
+            cat coverage/all/SummaryGithub.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Conferir a cobertura mínima de 90%
+        shell: pwsh
+        run: ./scripts/verificar-cobertura.ps1 -Minimo 90 -Relatorio coverage/all/Summary.json
+
+      - name: Publicar a cobertura total para download
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: cobertura-total
+          path: coverage/all
+          if-no-files-found: ignore
+          retention-days: 14
+
+      - name: Publicar os resultados de todos os testes
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: resultados-testes
+          path: TestResults/all/**/*.trx
+          if-no-files-found: ignore
+          retention-days: 14

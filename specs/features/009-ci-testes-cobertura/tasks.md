@@ -21,7 +21,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md). Est
 
 - [X] T006 [H11] Workflow `ci.yml` com gatilhos `push`, `pull_request` e `workflow_dispatch` e job `testes-unitarios` (build, testes `Category=Unit`, cobertura, resumo e artefatos) — `.github/workflows/ci.yml`
   Commit: `👷 ci: adiciona pipeline com testes unitários e cobertura`
-- [ ] T007 [H12] Job `testes-integracao` com todos os testes, artefato `cobertura-total` e mínimo de 90% — `.github/workflows/ci.yml`
+- [X] T007 [H12] Job `testes-integracao` com todos os testes, artefato `cobertura-total` e mínimo de 90% — `.github/workflows/ci.yml`
   Commit: `👷 ci: adiciona testes de integração e cobertura mínima na pipeline`
 - [ ] T008 [H11] Badge do status da pipeline e seção "Testes e cobertura" no README — `README.md`
   Commit: `📝 docs: adiciona status da pipeline e cobertura no readme`
