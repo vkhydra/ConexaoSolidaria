@@ -68,7 +68,7 @@ Referências: `wiki:disciplinas/lgpd`, `wiki:boas-praticas/lgpd`, `wiki:conceito
 ### Princípios aplicados
 | Princípio | Aplicação |
 |---|---|
-| Finalidade e necessidade (minimização) | Só os campos do enunciado; eventos e logs com IDs |
+| Finalidade e necessidade (minimização) | Só os campos necessários às funcionalidades; eventos e logs com IDs |
 | Transparência | Política de privacidade versionada (`docs/lgpd/politica-de-privacidade.md`) exibida no cadastro |
 | Segurança | Autenticação, autorização, proteção de dados, segredos e segurança da plataforma (seções acima) |
 | Privacidade por design e por padrão | Endpoints protegidos por padrão; CPF mascarado por padrão; Swagger desligado fora do local |
