@@ -214,6 +214,8 @@ Plugins globais (`KongClusterPlugin`): `correlation-id` (`X-Correlation-ID`, eco
 | Instalação | `helm install keda kedacore/keda -n keda --create-namespace` |
 | Função | Imagem `mcr.microsoft.com/azure-functions/dotnet-isolated` com a `Notificacoes.Function` |
 | Gatilho | `[RabbitMQTrigger("notificacoes-recibo", ConnectionStringSetting = "RabbitMqConnection")]` |
+| Deduplicação | Redis do namespace `infra` (`ConnectionStrings__Redis`), chave `conexao:recibos:v1:<doacaoId>` ([feature 007](../features/007-recibo-doacao/data-model.md)) |
+| Conexão | `RabbitMqConnection` (URI completa) vinda de Secret |
 | `ScaledObject` | `minReplicaCount: 0`, `maxReplicaCount: 3`, trigger `rabbitmq` (`mode: QueueLength`, `value: "10"`), `TriggerAuthentication` lendo o host do Secret |
 | Worker | `ScaledObject` com `minReplicaCount: 1`, `maxReplicaCount: 4`, fila `doacao-recebida` |
 | Demonstração | Fila vazia → 0 pods; doação → pod da função sobe, processa e volta a 0 após `cooldownPeriod` (60 s) |
