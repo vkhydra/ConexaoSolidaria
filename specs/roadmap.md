@@ -237,7 +237,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Commit: `✅ test(bdd): adiciona cenários de autenticação`
   Depende de: R061 (`001/T014`)
 - [X] **R063** · `001/T017` `/security-review` e `/code-review`; corrigir apontamentos em commits próprios
-- [ ] **R064** · `001/T018` Conferir cobertura ≥ 90% (`verificar-cobertura`) e `git rebase --exec` antes do PR
+- [X] **R064** · `001/T018` Conferir cobertura ≥ 90% (`verificar-cobertura`) e `git rebase --exec` antes do PR
 - [ ] **R065** · `003/T001` [H01] VO `Cpf` com dígitos verificadores, sequências repetidas e `Mascarado()`, com testes — `Identity.Domain/Usuarios/Cpf.cs`
   Commit: `✨ feat(identity): adiciona value object Cpf com validação de dígitos`
 - [ ] **R066** · `003/T002` [H01] VO `Senha` com a política de segurança, com testes — `Identity.Domain/Usuarios/Senha.cs`
