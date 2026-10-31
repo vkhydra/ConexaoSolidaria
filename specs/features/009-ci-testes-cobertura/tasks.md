@@ -10,7 +10,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md). Est
   Commit: `✅ test: cria projetos de testes unitários com xunit`
 - [X] T002 [H11] Teste de arquitetura das camadas (passa com as dependências permitidas e acusa dependência proibida) — `tests/unit/*/ArquiteturaTests.cs`
   Commit: `✅ test: adiciona teste de arquitetura das camadas`
-- [ ] T003 [H12] `coverlet.runsettings` com filtros e exclusões — `coverlet.runsettings`
+- [X] T003 [H12] `coverlet.runsettings` com filtros e exclusões — `coverlet.runsettings`
   Commit: `🔧 chore: adiciona configuração de cobertura com coverlet`
 - [X] T004 [H12] ReportGenerator no manifesto de ferramentas — `.config/dotnet-tools.json`
   Commit: `🔧 chore: adiciona reportgenerator ao manifesto de ferramentas`

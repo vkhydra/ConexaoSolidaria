@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Configuração da coleta de cobertura (coverlet). Passe este arquivo ao dotnet test na opção de settings
+     e peça o coletor "XPlat Code Coverage"; os comandos completos estão em docs/testes.md. -->
+<RunSettings>
+  <DataCollectionRunSettings>
+    <DataCollectors>
+      <DataCollector friendlyName="XPlat code coverage">
+        <Configuration>
+          <Format>cobertura</Format>
+          <!-- Mede só o código de produção. -->
+          <Include>[ConexaoSolidaria.*]*,[Identity.*]*,[Campanhas.*]*,[Arrecadacao.*]*,[Notificacoes.*]*</Include>
+          <!-- Projetos de teste ficam de fora (têm nomes parecidos com os de produção). -->
+          <Exclude>[*.UnitTests]*,[*.IntegrationTests]*,[*.ContractTests]*,[*.E2ETests]*,[ConexaoSolidaria.Bdd]*</Exclude>
+          <!-- Código gerado e ponto de entrada. -->
+          <ExcludeByFile>**/Migrations/*.cs,**/Program.cs,**/*.g.cs,**/*.razor.g.cs,**/obj/**</ExcludeByFile>
+          <ExcludeByAttribute>GeneratedCodeAttribute,CompilerGeneratedAttribute,ExcludeFromCodeCoverageAttribute</ExcludeByAttribute>
+          <SkipAutoProps>true</SkipAutoProps>
+          <DeterministicReport>true</DeterministicReport>
+        </Configuration>
+      </DataCollector>
+    </DataCollectors>
+  </DataCollectionRunSettings>
+</RunSettings>

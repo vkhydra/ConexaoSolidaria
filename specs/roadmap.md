@@ -164,7 +164,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Commit: `🔧 chore: adiciona manifesto de ferramentas dotnet`
 - [X] **R036** · `009/T004` [H12] ReportGenerator no manifesto de ferramentas — `.config/dotnet-tools.json`
   Commit: `🔧 chore: adiciona reportgenerator ao manifesto de ferramentas`
-- [ ] **R037** · `009/T003` [H12] `coverlet.runsettings` com filtros e exclusões — `coverlet.runsettings`
+- [X] **R037** · `009/T003` [H12] `coverlet.runsettings` com filtros e exclusões — `coverlet.runsettings`
   Commit: `🔧 chore: adiciona configuração de cobertura com coverlet`
 - [ ] **R038** · `009/T005` [H12] Script de verificação da cobertura mínima (`-Minimo`, `-ExecutarTestes`) — `scripts/verificar-cobertura.ps1`
   Commit: `🔧 chore: adiciona script de verificação da cobertura mínima de 90%`
