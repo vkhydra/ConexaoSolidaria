@@ -1,0 +1,24 @@
+# Normaliza o fim de linha: LF no repositório e na cópia de trabalho
+* text=auto eol=lf
+
+# Scripts do Windows
+*.ps1 text eol=crlf
+*.cmd text eol=crlf
+*.bat text eol=crlf
+
+# Binários (não converter)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.gz binary
+*.pfx binary
+*.snk binary
+
+# Arquivos gerados: ocultar do diff por padrão
+packages.lock.json -diff linguist-generated=true
+**/Migrations/*.Designer.cs linguist-generated=true
+**/Migrations/*ModelSnapshot.cs linguist-generated=true

@@ -123,7 +123,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Commit: `🔧 chore: adiciona global.json com SDK 10`
 - [X] **R016** · Estilo de código e severidades dos analisadores em `.editorconfig`
   Commit: `🔧 chore: adiciona .editorconfig`
-- [ ] **R017** · Fim de linha e arquivos binários em `.gitattributes`
+- [X] **R017** · Fim de linha e arquivos binários em `.gitattributes`
   Commit: `🔧 chore: adiciona .gitattributes`
 - [ ] **R018** · `Directory.Build.props` com `TreatWarningsAsErrors`, nullable e documentação XML
   Commit: `🔧 chore: adiciona Directory.Build.props com avisos como erro`
