@@ -3,10 +3,11 @@
 - **Status:** Aceito
 - **Data:** 2026-10-30
 - **Decisores:** equipe do projeto
+- **Errata (2026-10-30):** contexto corrigido para o escopo do trabalho substitutivo ([ADR 0018](0018-escopo-trabalho-substitutivo.md)); a decisão não mudou.
 
 ## Contexto
 
-Bônus do enunciado; conteúdo da Fase 3 (Kong e Azure APIM).
+Conteúdo da Fase 3 (Kong e Azure APIM): um ponto de entrada único para os microsserviços, com políticas sem código.
 
 ## Decisão
 
