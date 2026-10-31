@@ -13,7 +13,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 - [X] T002 [H05] `CampanhaLeituraDapper` com a consulta do painel e teste de integração (filtros de status e período) — `Campanhas.Infrastructure/Leitura/CampanhaLeituraDapper.cs`
   Commit: `✨ feat(campanhas): adiciona consulta do painel com dapper`
-- [ ] T003 [H05] `CachePainelHybrid` com `HybridCache` + Redis, chave versionada e remoção — `Campanhas.Infrastructure/Cache/CachePainelHybrid.cs`
+- [X] T003 [H05] `CachePainelHybrid` com `HybridCache` + Redis, chave versionada e remoção — `Campanhas.Infrastructure/Cache/CachePainelHybrid.cs`
   Commit: `⚡️ feat(campanhas): adiciona cache do painel com hybridcache e redis`
 - [ ] T004 [H05] Invalidação do cache ao criar ou alterar campanha — `Campanhas.Application/Campanhas/*`
   Commit: `⚡️ feat(campanhas): invalida cache do painel ao alterar campanha`

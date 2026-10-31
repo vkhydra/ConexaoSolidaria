@@ -71,6 +71,7 @@ public sealed class ApiETestesDeRegistroTests
             .AddInMemoryCollection(new Dictionary<string, string?>
             {
                 ["ConnectionStrings:Campanhas"] = "Host=localhost;Database=campanhas_db",
+                ["ConnectionStrings:Redis"] = "localhost:6379",
                 ["RabbitMq:Host"] = "rabbit.local",
             })
             .Build();

@@ -343,7 +343,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R102** · `004/T002` [H05] `CampanhaLeituraDapper` com a consulta do painel e teste de integração (filtros de status e período) — `Campanhas.Infrastructure/Leitura/CampanhaLeituraDapper.cs`
   Commit: `✨ feat(campanhas): adiciona consulta do painel com dapper`
   Depende de: R101 (`004/T001`)
-- [ ] **R103** · `004/T003` [H05] `CachePainelHybrid` com `HybridCache` + Redis, chave versionada e remoção — `Campanhas.Infrastructure/Cache/CachePainelHybrid.cs`
+- [X] **R103** · `004/T003` [H05] `CachePainelHybrid` com `HybridCache` + Redis, chave versionada e remoção — `Campanhas.Infrastructure/Cache/CachePainelHybrid.cs`
   Commit: `⚡️ feat(campanhas): adiciona cache do painel com hybridcache e redis`
   Depende de: R101 (`004/T001`)
 - [ ] **R104** · `004/T004` [H05] Invalidação do cache ao criar ou alterar campanha — `Campanhas.Application/Campanhas/*`

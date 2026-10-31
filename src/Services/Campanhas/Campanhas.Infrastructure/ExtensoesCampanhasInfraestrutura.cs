@@ -1,5 +1,6 @@
 using Campanhas.Application.Abstracoes;
 using Campanhas.Application.Transparencia;
+using Campanhas.Infrastructure.Cache;
 using Campanhas.Infrastructure.Leitura;
 using Campanhas.Infrastructure.Mensageria;
 using Campanhas.Infrastructure.Persistencia;
@@ -37,8 +38,34 @@ public static class ExtensoesCampanhasInfraestrutura
         servicos.AddSingleton<ICampanhaLeitura, CampanhaLeituraDapper>();
         servicos.AddSingleton<IRelogio, RelogioSaoPaulo>();
         servicos.AddSingleton<IMetricasCampanhas, MetricasCampanhasPrometheus>();
+        servicos.AddCampanhasCache(configuracao);
         servicos.AddCampanhasMensageria(configuracao);
 
+        return servicos;
+    }
+
+    /// <summary>
+    /// Registra o HybridCache com o Redis como cache distribuído (<c>ConnectionStrings:Redis</c>) e o cache do painel.
+    /// </summary>
+    /// <param name="servicos">Coleção de serviços.</param>
+    /// <param name="configuracao">Configuração da aplicação.</param>
+    /// <returns>A própria coleção, para encadeamento.</returns>
+    /// <exception cref="InvalidOperationException">A conexão do Redis não foi configurada.</exception>
+    public static IServiceCollection AddCampanhasCache(this IServiceCollection servicos, IConfiguration configuracao)
+    {
+        ArgumentNullException.ThrowIfNull(servicos);
+        ArgumentNullException.ThrowIfNull(configuracao);
+
+        var redis = configuracao.GetConnectionString("Redis")
+            ?? throw new InvalidOperationException("ConnectionStrings:Redis não foi configurada.");
+
+        servicos.AddStackExchangeRedisCache(opcoes =>
+        {
+            opcoes.Configuration = redis;
+            opcoes.InstanceName = "campanhas:";
+        });
+        servicos.AddHybridCache();
+        servicos.AddSingleton<ICachePainel, CachePainelHybrid>();
         return servicos;
     }
 }
