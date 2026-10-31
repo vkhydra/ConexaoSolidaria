@@ -6,7 +6,7 @@
 
 ## Contexto
 
-o enunciado permite RabbitMQ ou Kafka. O MassTransit v9 passou a ter licença comercial.
+O enunciado permite RabbitMQ ou Kafka. O MassTransit v9 passou a ter licença comercial.
 
 ## Decisão
 

@@ -6,7 +6,7 @@
 
 ## Contexto
 
-com chave simétrica (HS256), qualquer serviço que valida também poderia emitir tokens.
+Com chave simétrica (HS256), qualquer serviço que valida também poderia emitir tokens.
 
 ## Decisão
 
@@ -18,7 +18,7 @@ HS256 (mais simples, menos seguro); provedor OIDC externo (Keycloak): fora do es
 
 ## Consequências
 
-rotação de chave exige atualizar Secret e ConfigMap; documentado no runbook.
+Rotação de chave exige atualizar Secret e ConfigMap; documentado no runbook.
 
 ## Referências
 

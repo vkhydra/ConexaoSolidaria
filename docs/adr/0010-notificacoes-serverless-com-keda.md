@@ -6,7 +6,7 @@
 
 ## Contexto
 
-a Fase 3 pede funções serverless acionadas por eventos. O ambiente principal é local.
+A Fase 3 pede funções serverless acionadas por eventos. O ambiente principal é local.
 
 ## Decisão
 
@@ -18,7 +18,7 @@ AWS Lambda com LocalStack (exigiria ponte RabbitMQ → SQS); Function no plano C
 
 ## Consequências
 
-modelo de programação serverless e escala a zero, rodando localmente. Se o runtime do Functions não suportar .NET 10, a função usa .NET 8 isolated.
+Modelo de programação serverless e escala a zero, rodando localmente. Se o runtime do Functions não suportar .NET 10, a função usa .NET 8 isolated.
 
 ## Referências
 

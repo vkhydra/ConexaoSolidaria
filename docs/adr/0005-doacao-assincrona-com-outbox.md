@@ -6,19 +6,19 @@
 
 ## Contexto
 
-publicar no broker e gravar no banco em passos separados pode perder eventos (falha entre os dois).
+Publicar no broker e gravar no banco em passos separados pode perder eventos (falha entre os dois).
 
 ## Decisão
 
-a API grava o evento na tabela de Outbox do MassTransit na mesma transação e responde 202. Um serviço em segundo plano entrega o evento ao RabbitMQ.
+A API grava o evento na tabela de Outbox do MassTransit na mesma transação e responde 202. Um serviço em segundo plano entrega o evento ao RabbitMQ.
 
 ## Alternativas consideradas
 
-publicar direto no RabbitMQ (risco de perda); two-phase commit (não suportado e caro).
+Publicar direto no RabbitMQ (risco de perda); two-phase commit (não suportado e caro).
 
 ## Consequências
 
-entrega *at-least-once*; consumidores precisam ser idempotentes (ADR 0006); pequeno atraso na entrega (polling do Outbox, ~1 s).
+Entrega *at-least-once*; consumidores precisam ser idempotentes (ADR 0006); pequeno atraso na entrega (polling do Outbox, ~1 s).
 
 ## Referências
 

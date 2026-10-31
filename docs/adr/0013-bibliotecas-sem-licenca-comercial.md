@@ -10,11 +10,11 @@ MediatR, AutoMapper, FluentAssertions e MassTransit v9 mudaram para licenças co
 
 ## Decisão
 
-casos de uso chamados diretamente (sem mediator); mapeamento manual em métodos de extensão; asserções com Shouldly; MassTransit 8.x.
+Casos de uso chamados diretamente (sem mediator); mapeamento manual em métodos de extensão; asserções com Shouldly; MassTransit 8.x.
 
 ## Consequências
 
-menos dependências e mais código explícito.
+Menos dependências e mais código explícito.
 
 ## Referências
 

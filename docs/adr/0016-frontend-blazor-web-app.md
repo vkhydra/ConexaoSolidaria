@@ -6,7 +6,7 @@
 
 ## Contexto
 
-a Fase 5 ensina Blazor e Razor. O enunciado aceita Postman ou Swagger, mas um frontend melhora a demonstração.
+A Fase 5 ensina Blazor e Razor. O enunciado aceita Postman ou Swagger, mas um frontend melhora a demonstração.
 
 ## Decisão
 
@@ -18,7 +18,7 @@ Blazor WebAssembly (token no navegador, maior download); SPA em JavaScript (fora
 
 ## Consequências
 
-circuito SignalR por usuário; afinidade de sessão no Kong para o Web com 2 réplicas.
+Circuito SignalR por usuário; afinidade de sessão no Kong para o Web com 2 réplicas.
 
 ## Referências
 

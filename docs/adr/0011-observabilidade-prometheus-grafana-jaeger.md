@@ -6,11 +6,11 @@
 
 ## Contexto
 
-o enunciado pede `/health`, `/metrics` e dashboard Grafana com métricas reais. A Fase 3 cobre Prometheus, Grafana, Zabbix, APMs e tracing.
+O enunciado pede `/health`, `/metrics` e dashboard Grafana com métricas reais. A Fase 3 cobre Prometheus, Grafana, Zabbix, APMs e tracing.
 
 ## Decisão
 
-prometheus-net para `/metrics`; OpenTelemetry para traces (exportados via OTLP para o Jaeger); Serilog em JSON no stdout; kube-prometheus-stack (Prometheus, Grafana, Alertmanager, kube-state-metrics, node-exporter). Zabbix opcional.
+Prometheus-net para `/metrics`; OpenTelemetry para traces (exportados via OTLP para o Jaeger); Serilog em JSON no stdout; kube-prometheus-stack (Prometheus, Grafana, Alertmanager, kube-state-metrics, node-exporter). Zabbix opcional.
 
 ## Alternativas consideradas
 
@@ -18,7 +18,7 @@ Datadog ou New Relic (SaaS; dependem de conta e custo); OpenTelemetry também pa
 
 ## Consequências
 
-stack gratuita e local; dashboards e alertas versionados como código.
+Stack gratuita e local; dashboards e alertas versionados como código.
 
 ## Referências
 

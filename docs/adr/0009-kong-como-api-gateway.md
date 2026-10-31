@@ -6,7 +6,7 @@
 
 ## Contexto
 
-bônus do enunciado; conteúdo da Fase 3 (Kong e Azure APIM).
+Bônus do enunciado; conteúdo da Fase 3 (Kong e Azure APIM).
 
 ## Decisão
 
@@ -18,7 +18,7 @@ Ocelot ou YARP (código .NET; não é conteúdo do curso); Azure APIM (pago, só
 
 ## Consequências
 
-rate limiting, CORS, correlation-id e métricas sem código; a Admin API nunca é exposta.
+Rate limiting, CORS, correlation-id e métricas sem código; a Admin API nunca é exposta.
 
 ## Referências
 

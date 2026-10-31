@@ -6,7 +6,7 @@
 
 ## Contexto
 
-o enunciado exige CI a cada push na branch principal com build e imagem Docker. Repositório público no GitHub.
+O enunciado exige CI a cada push na branch principal com build e imagem Docker. Repositório público no GitHub.
 
 ## Decisão
 

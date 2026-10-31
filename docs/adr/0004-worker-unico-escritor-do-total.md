@@ -6,7 +6,7 @@
 
 ## Contexto
 
-o enunciado exige que o Worker atualize o "Valor Total Arrecadado" e que a API não o faça.
+O enunciado exige que o Worker atualize o "Valor Total Arrecadado" e que a API não o faça.
 
 ## Decisão
 
@@ -18,7 +18,7 @@ Worker com banco próprio e evento de volta para a API atualizar o total: a API 
 
 ## Consequências
 
-"um contexto, dois deployables": escalam separadamente. O banco é do contexto, não de cada processo. As migrations ficam no `Campanhas.Infrastructure`.
+"Um contexto, dois deployables": escalam separadamente. O banco é do contexto, não de cada processo. As migrations ficam no `Campanhas.Infrastructure`.
 
 ## Referências
 

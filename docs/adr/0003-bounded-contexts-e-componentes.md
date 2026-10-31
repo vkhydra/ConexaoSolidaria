@@ -6,11 +6,11 @@
 
 ## Contexto
 
-o enunciado exige ≥ 2 microsserviços. Excesso de serviços aumenta o custo de operação local.
+O enunciado exige ≥ 2 microsserviços. Excesso de serviços aumenta o custo de operação local.
 
 ## Decisão
 
-contextos Identidade, Campanhas e Notificações; componentes `Identity.Api`, `Campanhas.Api`, `Arrecadacao.Worker` e `Notificacoes.Function`.
+Contextos Identidade, Campanhas e Notificações; componentes `Identity.Api`, `Campanhas.Api`, `Arrecadacao.Worker` e `Notificacoes.Function`.
 
 ## Alternativas consideradas
 
@@ -18,7 +18,7 @@ contextos Identidade, Campanhas e Notificações; componentes `Identity.Api`, `C
 
 ## Consequências
 
-fronteiras alinhadas ao negócio; comunicação entre contextos só por JWT e eventos.
+Fronteiras alinhadas ao negócio; comunicação entre contextos só por JWT e eventos.
 
 ## Referências
 
