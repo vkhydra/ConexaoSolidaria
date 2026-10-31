@@ -127,7 +127,7 @@ Relatório navegável em `coverage/index.html` (pasta ignorada pelo git).
 | `*.Domain` | Testes de unidade com TDD (15.3) |
 | `*.Application` | Testes de unidade dos casos de uso com fakes das interfaces |
 | `*.Infrastructure` | Testes de integração com Testcontainers (repositórios, Outbox, cifragem, Elasticsearch, MongoDB, Redis) |
-| `*.Api` | Testes de integração com `WebApplicationFactory` e cenários BDD (todos os códigos de status de [09](09-api-e-eventos.md)) |
+| `*.Api` | Testes de integração com `WebApplicationFactory` e cenários BDD (todos os códigos de status de [09](../../specs/product/api-e-eventos.md)) |
 | `Arrecadacao.Worker` | MassTransit Test Harness + Testcontainers (sucesso, duplicata, falha transitória, falha permanente) |
 | `Notificacoes.Function` | Testes de unidade da função (envelope, deduplicação, log mascarado) |
 | `ConexaoSolidaria.Web` | bUnit em todos os componentes e páginas (estados de carregando, sucesso, erro e sem permissão) |

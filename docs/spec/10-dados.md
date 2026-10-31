@@ -1,6 +1,6 @@
 # 10 — Dados
 
-[← README](../../README.md) · Anterior: [09 — API e eventos](09-api-e-eventos.md) · Próximo: [11 — Segurança e LGPD](11-seguranca-e-lgpd.md)
+[← README](../../README.md) · Anterior: [09 — API e eventos](../../specs/product/api-e-eventos.md) · Próximo: [11 — Segurança e LGPD](11-seguranca-e-lgpd.md)
 
 Esta seção é a base do **PDF de justificativa dos bancos** exigido pelo enunciado (Etapa 17). Referências: `wiki:disciplinas/efcore`, `wiki:disciplinas/nosql`, `wiki:disciplinas/elasticsearch`, `wiki:conceitos/persistencia-poliglota`.
 

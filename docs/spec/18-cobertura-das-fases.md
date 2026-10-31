@@ -10,7 +10,7 @@ Legenda de status: **Obrigatório** (enunciado), **Aplicado** (escolha do projet
 
 | Disciplina | Conteúdo | Aplicação no projeto | Status | Etapa | Wiki |
 |---|---|---|---|---|---|
-| APIs .NET | API REST, verbos e status | Endpoints da [seção 09](09-api-e-eventos.md) | Obrigatório | 4, 5 | `disciplinas/api-dotnet` |
+| APIs .NET | API REST, verbos e status | Endpoints da [seção 09](../../specs/product/api-e-eventos.md) | Obrigatório | 4, 5 | `disciplinas/api-dotnet` |
 | | Middlewares e DI | `IExceptionHandler`, correlação, DI por construtor | Aplicado | 3–5 | `conceitos/middleware-aspnet-core` |
 | | Logs | Serilog estruturado | Aplicado | 3 | `conceitos/logging-dotnet` |
 | | Serialização | `System.Text.Json`, enums como texto, contratos de evento | Aplicado | 4–6 | `conceitos/serializacao-de-dados` |
