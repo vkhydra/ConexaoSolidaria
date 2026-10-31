@@ -1,6 +1,6 @@
 # 05 — Requisitos não funcionais
 
-[← README](../../README.md) · Anterior: [04 — Requisitos funcionais](../../docs/spec/04-requisitos-funcionais.md) · Próximo: [06 — Modelo de domínio](../../docs/spec/06-modelo-de-dominio.md)
+[← README](../../README.md) · Anterior: [04 — Requisitos funcionais](../../docs/spec/04-requisitos-funcionais.md) · Próximo: [06 — Modelo de domínio](dominio.md)
 
 Metas medidas no ambiente local (Minikube) com os recursos da [seção 13](../../docs/spec/13-infraestrutura.md). Os números são de referência para um MVP e são verificados pelo teste de carga (k6) e pelo dashboard.
 
