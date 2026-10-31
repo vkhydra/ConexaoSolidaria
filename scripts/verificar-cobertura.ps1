@@ -62,8 +62,14 @@ if ($ExecutarTestes) {
     dotnet tool restore | Out-Null
     if ($LASTEXITCODE -ne 0) { throw 'Falha ao restaurar as ferramentas dotnet.' }
 
+    # Compila uma vez antes de testar: o dotnet test na solução compila vários projetos em paralelo,
+    # e projetos que compartilham dependências podem disputar os mesmos arquivos intermediários.
+    Write-Host 'Compilando a solução...' -ForegroundColor Cyan
+    dotnet build ConexaoSolidaria.slnx -c Release -warnaserror | Out-Host
+    if ($LASTEXITCODE -ne 0) { throw 'A compilação falhou; a cobertura não foi conferida.' }
+
     $argumentos = @(
-        'test', 'ConexaoSolidaria.slnx', '-c', 'Release',
+        'test', 'ConexaoSolidaria.slnx', '-c', 'Release', '--no-build',
         '--settings', 'coverlet.runsettings',
         '--collect', 'XPlat Code Coverage',
         '--logger', 'trx',
