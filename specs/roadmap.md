@@ -173,7 +173,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Commit: `🔧 chore: adiciona script de validação da mensagem de commit`
 - [X] **R040** · Hooks do Husky.Net: `pre-commit` (formato, build, testes de unidade), `commit-msg` e `pre-push` (cobertura mínima de 90%)
   Commit: `🔧 chore: adiciona hooks do husky para build, formato e mensagem`
-- [ ] **R041** · `009/T006` [H11] Workflow `ci.yml` com gatilhos `push`, `pull_request` e `workflow_dispatch` e job `testes-unitarios` (build, testes `Category=Unit`, cobertura, resumo e artefatos) — `.github/workflows/ci.yml`
+- [X] **R041** · `009/T006` [H11] Workflow `ci.yml` com gatilhos `push`, `pull_request` e `workflow_dispatch` e job `testes-unitarios` (build, testes `Category=Unit`, cobertura, resumo e artefatos) — `.github/workflows/ci.yml`
   Commit: `👷 ci: adiciona pipeline com testes unitários e cobertura`
   Depende de: R030 (`009/T002`)
 - [ ] **R042** · `009/T007` [H12] Job `testes-integracao` com todos os testes, artefato `cobertura-total` e mínimo de 90% — `.github/workflows/ci.yml`

@@ -1,0 +1,94 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  DOTNET_NOLOGO: 'true'
+  DOTNET_CLI_TELEMETRY_OPTOUT: 'true'
+  HUSKY: '0'
+
+jobs:
+  testes-unitarios:
+    name: testes-unitarios
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Instalar o SDK do .NET
+        uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6
+        with:
+          global-json-file: global.json
+          cache: true
+          cache-dependency-path: '**/packages.lock.json'
+
+      - name: Restaurar as ferramentas dotnet
+        run: dotnet tool restore
+
+      - name: Restaurar os pacotes (modo travado)
+        run: dotnet restore ConexaoSolidaria.slnx --locked-mode
+
+      - name: Conferir o formato do código
+        run: dotnet format ConexaoSolidaria.slnx --verify-no-changes --no-restore
+
+      - name: Compilar (avisos são erros)
+        run: dotnet build ConexaoSolidaria.slnx -c Release --no-restore -warnaserror
+
+      - name: Testes unitários com cobertura
+        run: >
+          dotnet test ConexaoSolidaria.slnx -c Release --no-build
+          --filter Category=Unit
+          --settings coverlet.runsettings
+          --collect "XPlat Code Coverage"
+          --logger trx
+          --results-directory TestResults/unit
+
+      - name: Gerar o relatório de cobertura
+        if: always()
+        run: >
+          dotnet reportgenerator
+          "-reports:TestResults/unit/**/coverage.cobertura.xml"
+          "-targetdir:coverage/unit"
+          "-reporttypes:Html;Cobertura;JsonSummary;MarkdownSummaryGithub"
+          "-title:Cobertura - testes unitários"
+
+      - name: Mostrar a cobertura no resumo da execução
+        if: always()
+        run: |
+          if [ -f coverage/unit/SummaryGithub.md ]; then
+            cat coverage/unit/SummaryGithub.md >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "Nenhum relatório de cobertura foi gerado (sem testes executados)." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Publicar a cobertura para download
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: cobertura-testes-unitarios
+          path: coverage/unit
+          if-no-files-found: ignore
+          retention-days: 14
+
+      - name: Publicar os resultados dos testes
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: resultados-testes-unitarios
+          path: TestResults/unit/**/*.trx
+          if-no-files-found: ignore
+          retention-days: 14

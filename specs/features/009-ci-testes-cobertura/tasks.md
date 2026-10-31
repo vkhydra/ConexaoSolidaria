@@ -19,7 +19,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md). Est
 
 ## Fase 2 — Pipeline
 
-- [ ] T006 [H11] Workflow `ci.yml` com gatilhos `push`, `pull_request` e `workflow_dispatch` e job `testes-unitarios` (build, testes `Category=Unit`, cobertura, resumo e artefatos) — `.github/workflows/ci.yml`
+- [X] T006 [H11] Workflow `ci.yml` com gatilhos `push`, `pull_request` e `workflow_dispatch` e job `testes-unitarios` (build, testes `Category=Unit`, cobertura, resumo e artefatos) — `.github/workflows/ci.yml`
   Commit: `👷 ci: adiciona pipeline com testes unitários e cobertura`
 - [ ] T007 [H12] Job `testes-integracao` com todos os testes, artefato `cobertura-total` e mínimo de 90% — `.github/workflows/ci.yml`
   Commit: `👷 ci: adiciona testes de integração e cobertura mínima na pipeline`
