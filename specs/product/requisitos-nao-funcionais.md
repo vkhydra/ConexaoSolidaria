@@ -54,7 +54,7 @@ Detalhes: [Segurança e LGPD](seguranca-e-lgpd.md).
 | ID | Requisito |
 |---|---|
 | RNF24 | Logs, métricas, traces e eventos sem dados pessoais (só IDs) |
-| RNF25 | Coleta mínima: apenas os campos exigidos pelo enunciado |
+| RNF25 | Coleta mínima: apenas os campos necessários às funcionalidades especificadas |
 | RNF26 | Direitos de acesso e eliminação atendidos pela API (RF08) |
 | RNF27 | Base legal documentada para cada finalidade |
 
