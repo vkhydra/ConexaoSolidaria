@@ -1,6 +1,6 @@
 ---
 description: Implementa as tarefas pendentes de tasks.md em ordem, com TDD, build, testes, cobertura e um commit por tarefa
-argument-hint: "[NNN da feature] [Tnnn inicial opcional]"
+argument-hint: "[NNN da feature] [Tnnn inicial opcional] [Tnnn final opcional]"
 ---
 
 # /implement
@@ -14,7 +14,11 @@ Implemente a feature **$ARGUMENTS** (se vazio, use a branch atual `feat/NNN-*`),
 3. `/analyze` sem achados CRÍTICOS (rode-o se não houver relatório recente nesta sessão).
 4. Build atual passando: `dotnet build -c Release -warnaserror`.
 
-## Ciclo por tarefa (a partir da primeira `- [ ]` ou do `Tnnn` informado)
+## Intervalo de tarefas
+
+Sem tarefa inicial, comece na primeira `- [ ]`. Com tarefa final, **pare depois dela**: o [roadmap](../../specs/roadmap.md) executa cada feature em fases diferentes (por exemplo, `/implement 001 T001 T015` na Fase 3 e `/implement 001 T016 T016` na Fase 7). Não implemente tarefas fora do intervalo, mesmo que estejam pendentes.
+
+## Ciclo por tarefa
 
 1. Leia a tarefa, o FR/cenário de origem, o plano e o contrato.
 2. **Vermelho:** escreva primeiro o teste (subagente `test-writer` quando a tarefa tiver regra de negócio). Rode e confirme que falha pelo motivo certo.
