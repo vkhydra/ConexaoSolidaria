@@ -2,7 +2,7 @@
 
 [← README](../README.md)
 
-Como usar a plataforma **Conexão Solidária** pelo navegador. Público: visitantes, doadores e gestores da ONG Esperança Solidária. Para instalar e colocar no ar, ver [22 — Manual de implementação](manual-de-implementacao.md).
+Como usar a plataforma **Conexão Solidária** pelo navegador. Público: visitantes, doadores e gestores da ONG Esperança Solidária. Para instalar e colocar no ar, ver [Manual de implementação](manual-de-implementacao.md).
 
 ## Perfis de acesso
 
@@ -177,7 +177,7 @@ Toda mensagem de erro inesperado traz um **código de rastreio**. Informar esse 
 | Quais dados são coletados? | Nome, e-mail, CPF (cifrado), senha (só o hash) e o aceite da política |
 | Para quê? | Identificar o doador, evitar cadastros duplicados e prestar contas das doações |
 | Quem vê o CPF? | Ninguém vê o número completo na plataforma; ele aparece sempre mascarado |
-| Posso ver e apagar meus dados? | Sim, em **Meus dados** (23.5) |
+| Posso ver e apagar meus dados? | Sim, em **Meus dados** ([Doador](#doador)) |
 | Com quem falar? | Encarregado de dados indicado na política de privacidade |
 
 ## Perguntas frequentes
@@ -193,4 +193,4 @@ Toda mensagem de erro inesperado traz um **código de rastreio**. Informar esse 
 
 ## Uso pela API
 
-Integrações e testes podem usar a API REST direto em `https://api.conexao.local/api/v1`, com a documentação em `/swagger` (ambiente local) e a coleção Postman em `docs/postman/`. Endpoints, exemplos e códigos de erro: [09 — API e eventos](../specs/product/api-e-eventos.md).
+Integrações e testes podem usar a API REST direto em `https://api.conexao.local/api/v1`, com a documentação em `/swagger` (ambiente local) e a coleção Postman em `docs/postman/`. Endpoints, exemplos e códigos de erro: [API e eventos](../specs/product/api-e-eventos.md).

@@ -138,7 +138,7 @@ Instalação (Etapa 3): `dotnet new tool-manifest`, `dotnet tool install Husky`,
 ```
 e confere se o primeiro símbolo está na lista da tabela 17.2. Commits gerados pelo git (`Merge`, `Revert`) são aceitos.
 
-No `pre-push`, `scripts/verificar-cobertura.ps1 -ExecutarTestes` roda todos os testes com cobertura, gera o relatório e bloqueia o push se a cobertura ficar abaixo de 90% ([15.7](testes.md)).
+No `pre-push`, `scripts/verificar-cobertura.ps1 -ExecutarTestes` roda todos os testes com cobertura, gera o relatório e bloqueia o push se a cobertura ficar abaixo de 90% ([estratégia de testes](testes.md)).
 
 ### Camada 2 — Verificação de cada commit antes do PR
 ```powershell
@@ -148,7 +148,7 @@ git rebase --exec "dotnet build -c Release -warnaserror && dotnet test -c Releas
 O rebase para no primeiro commit que falhar; corrigir com `git commit --amend` e `git rebase --continue`.
 
 ### Camada 3 — CI
-O CI roda em todo push e PR ([14 — CI/CD](../specs/product/ci-cd.md)). A `main` é protegida e aceita merge só com CI verde.
+O CI roda em todo push e PR ([CI/CD](../specs/product/ci-cd.md)). A `main` é protegida e aceita merge só com CI verde.
 
 ### Proibido
 - `git commit --no-verify` e `git push --no-verify`.

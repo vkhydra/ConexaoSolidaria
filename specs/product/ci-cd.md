@@ -126,7 +126,7 @@ Configurada na Etapa 14 (`gh api` ou interface do GitHub):
 - Checks obrigatórios: `build-test`, `secret-scan`, `docker` (todas as entradas da matriz), `CodeQL`.
 - Branch atualizada antes do merge.
 - Sem force push e sem exclusão.
-- Merge por **rebase** (preserva os commits atômicos, cada um já validado; ver [17 — Git e commits](../../docs/git-e-commits.md)).
+- Merge por **rebase** (preserva os commits atômicos, cada um já validado; ver [Git e commits](../../docs/git-e-commits.md)).
 - Secret scanning e push protection ligados.
 
 ## Releases

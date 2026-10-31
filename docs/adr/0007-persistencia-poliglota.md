@@ -10,7 +10,7 @@ Padrões de acesso diferentes (transação financeira, histórico imutável, lei
 
 ## Decisão
 
-PostgreSQL (dados transacionais), MongoDB (livro de doações), Redis (cache do painel), Elasticsearch (busca). Detalhes em [10 — Dados](../../specs/product/dados.md).
+PostgreSQL (dados transacionais), MongoDB (livro de doações), Redis (cache do painel), Elasticsearch (busca). Detalhes em [Dados](../../specs/product/dados.md).
 
 ## Alternativas consideradas
 

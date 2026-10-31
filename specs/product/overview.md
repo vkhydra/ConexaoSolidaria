@@ -18,10 +18,10 @@ Fonte: `wiki:fontes/tech-challenge/05-hackathon-fase-5-conexao-solidaria`.
 
 | # | Objetivo | Como é medido |
 |---|---|---|
-| O1 | Atender todos os requisitos obrigatórios do Hackathon | Checklist em [21 — Entrega e riscos](../../docs/entrega-e-riscos.md) 100% marcado |
-| O2 | Aplicar o conteúdo das 5 fases do curso | Matriz em [18 — Cobertura das fases](../../docs/cobertura-das-fases.md) |
-| O3 | Seguir as boas práticas da LLMWiki | Checklists das seções 10 a 17 marcados |
-| O4 | Manter todo commit compilável e no padrão | Hooks locais e CI verdes ([17 — Git e commits](../../docs/git-e-commits.md)) |
+| O1 | Atender todos os requisitos obrigatórios do Hackathon | Checklist em [Entrega e riscos](../../docs/entrega-e-riscos.md) 100% marcado |
+| O2 | Aplicar o conteúdo das 5 fases do curso | Matriz em [Cobertura das fases](../../docs/cobertura-das-fases.md) |
+| O3 | Seguir as boas práticas da LLMWiki | Checklists de `specs/product/` e `docs/` marcados |
+| O4 | Manter todo commit compilável e no padrão | Hooks locais e CI verdes ([Git e commits](../../docs/git-e-commits.md)) |
 | O5 | Comprovar a arquitetura em até 15 minutos de vídeo | [Roteiro do vídeo](../../docs/ROTEIRO-VIDEO.md) |
 
 ## Personas
@@ -74,7 +74,7 @@ Fonte: `wiki:fontes/tech-challenge/05-hackathon-fase-5-conexao-solidaria`.
 
 ## Premissas
 
-- Cada integrante usa Windows, macOS ou Linux, com 16 GB de RAM ou mais para rodar o cluster local ([02 — Pré-requisitos](../../docs/pre-requisitos.md)).
+- Cada integrante usa Windows, macOS ou Linux, com 16 GB de RAM ou mais para rodar o cluster local ([Pré-requisitos](../../docs/pre-requisitos.md)).
 - O repositório será **público** no GitHub.
 - A doação é considerada paga no momento do envio (o enunciado não pede gateway de pagamento).
 - O fuso horário de referência para regras de data é `America/Sao_Paulo`.

@@ -2,7 +2,7 @@
 
 [← README](../README.md)
 
-Do ambiente pronto até a entrega. Cada etapa traz: **objetivo**, **tarefas**, **commits** (na ordem, um por arquivo ou pelo menor conjunto que compila — [seção 17.3](git-e-commits.md#granularidade)), **pronto quando** e **apoio** (skills, MCP, wiki).
+Do ambiente pronto até a entrega. Cada etapa traz: **objetivo**, **tarefas**, **commits** (na ordem, um por arquivo ou pelo menor conjunto que compila — [granularidade](git-e-commits.md#granularidade)), **pronto quando** e **apoio** (skills, MCP, wiki).
 
 Toda etapa termina com: `/code-review` → `git rebase --exec` (todo commit compila) → PR → CI verde → merge na `main` → item "Concluído" no Project.
 
@@ -33,7 +33,7 @@ Toda etapa termina com: `/code-review` → `git rebase --exec` (todo commit comp
 
 ## Etapa 0 — Pré-requisitos
 **Objetivo:** máquina e contas prontas.
-**Tarefas:** seguir [02 — Pré-requisitos](pre-requisitos.md) integralmente.
+**Tarefas:** seguir [Pré-requisitos](pre-requisitos.md) integralmente.
 **Commits:** nenhum.
 **Pronto quando:** todos os comandos de verificação respondem sem erro e o Minikube sobe com o nó `Ready`.
 
@@ -53,7 +53,7 @@ Toda etapa termina com: `/code-review` → `git rebase --exec` (todo commit comp
 ## Etapa 2 — Planejamento ágil e DDD
 **Objetivo:** backlog pronto, domínio modelado, decisões registradas.
 **Tarefas:**
-1. GitHub Project com colunas, campos e labels da [seção 03](processo-agil.md).
+1. GitHub Project com colunas, campos e labels da [processo ágil](processo-agil.md).
 2. Issues H01–H10 e T01–T04 com critérios Gherkin; estimar com Planning Poker.
 3. `docs/agil/definition-of-ready.md` e `docs/agil/definition-of-done.md`.
 4. Event Storming no Miro (fluxos "criar campanha" e "doar"); exportar PNGs.
@@ -363,7 +363,7 @@ Validação de cada manifesto antes do commit: `kubectl apply -k deploy/k8s/over
 
 ## Etapa 16 — Revisão de segurança e LGPD
 **Objetivo:** nenhuma pendência crítica.
-**Tarefas:** `/security-review` completo; checklist OWASP da [seção 11.7](../specs/product/seguranca-e-lgpd.md#checklist-owasp-top-10-revisão-na-etapa-16); registro de tratamento; política de privacidade; conferir logs reais em busca de dados pessoais.
+**Tarefas:** `/security-review` completo; checklist OWASP de [../specs/product/seguranca-e-lgpd.md#checklist-owasp-top-10-revisão-na-etapa-16); registro de tratamento; política de privacidade; conferir logs reais em busca de dados pessoais.
 **Commits (exemplos):**
 ```text
 📝 docs(lgpd): adiciona registro das operações de tratamento
@@ -402,7 +402,7 @@ Validação de cada manifesto antes do commit: `kubectl apply -k deploy/k8s/over
 ## Etapa 19 — Conclusão
 **Objetivo:** entrega final.
 **Tarefas:**
-1. Checklist de [21 — Entrega e riscos](entrega-e-riscos.md) 100%.
+1. Checklist de [Entrega e riscos](entrega-e-riscos.md) 100%.
 2. `git tag -a v1.0.0` + push; CI publica as imagens `1.0.0`; `gh release create v1.0.0 --generate-notes`.
 3. Confirmar repositório público e README funcionando.
 4. Apagar recursos de cloud, se houver.

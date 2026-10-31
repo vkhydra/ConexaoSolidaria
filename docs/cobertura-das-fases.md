@@ -10,7 +10,7 @@ Legenda de status: **Obrigatório** (enunciado), **Aplicado** (escolha do projet
 
 | Disciplina | Conteúdo | Aplicação no projeto | Status | Etapa | Wiki |
 |---|---|---|---|---|---|
-| APIs .NET | API REST, verbos e status | Endpoints da [seção 09](../specs/product/api-e-eventos.md) | Obrigatório | 4, 5 | `disciplinas/api-dotnet` |
+| APIs .NET | API REST, verbos e status | Endpoints dos contratos em [specs/features](../specs/features/) | Obrigatório | 4, 5 | `disciplinas/api-dotnet` |
 | | Middlewares e DI | `IExceptionHandler`, correlação, DI por construtor | Aplicado | 3–5 | `conceitos/middleware-aspnet-core` |
 | | Logs | Serilog estruturado | Aplicado | 3 | `conceitos/logging-dotnet` |
 | | Serialização | `System.Text.Json`, enums como texto, contratos de evento | Aplicado | 4–6 | `conceitos/serializacao-de-dados` |
@@ -26,7 +26,7 @@ Legenda de status: **Obrigatório** (enunciado), **Aplicado** (escolha do projet
 | | Tático | Agregados, VOs, eventos de domínio, repositórios | Aplicado | 4, 5 | `conceitos/aggregate`, `conceitos/value-object` |
 | | Event Storming | Fluxos "criar campanha" e "doar" no Miro | Aplicado | 2 | `conceitos/event-storming` |
 | | Domain Storytelling | História da doação | Aplicado | 2 | `conceitos/domain-storytelling` |
-| | Linguagem ubíqua | Glossário da [seção 01](../specs/product/overview.md) | Aplicado | 2 | `conceitos/linguagem-ubiqua` |
+| | Linguagem ubíqua | [Glossário](glossary.md) | Aplicado | 2 | `conceitos/linguagem-ubiqua` |
 | | Requisitos, DoR, DoD | [Seção 03](processo-agil.md) | Aplicado | 2 | `conceitos/definition-of-ready` |
 | EF Core | Code First, Fluent API | `IEntityTypeConfiguration<T>` | Aplicado | 4, 5 | `conceitos/code-first` |
 | | Migrations | Migration bundle em Job | Aplicado | 4, 5, 11 | `conceitos/migrations` |
@@ -75,9 +75,9 @@ Legenda de status: **Obrigatório** (enunciado), **Aplicado** (escolha do projet
 | Monitoramento | Prometheus | Coleta de `/metrics` | Obrigatório | 13 | `conceitos/prometheus` |
 | | Grafana | Dashboard como código | Obrigatório | 13 | `conceitos/grafana` |
 | | Zabbix | Cenário web em `/health/ready` | Bônus | 13 | `conceitos/zabbix` |
-| | Alertmanager | Alertas da seção 12 | Aplicado | 13 | `conceitos/alertmanager` |
+| | Alertmanager | Alertas de [observabilidade](../specs/product/observabilidade.md) com [runbooks](runbooks/README.md) | Aplicado | 13 | `conceitos/alertmanager` |
 | Monitoramento avançado | Tracing distribuído | OpenTelemetry + Jaeger | Aplicado | 3, 13 | `conceitos/distributed-tracing` |
-| | Golden metrics, SLO | Dashboard e [seção 05](../specs/product/requisitos-nao-funcionais.md) | Aplicado | 13 | `conceitos/golden-metrics` |
+| | Golden metrics, SLO | Dashboard e [requisitos não funcionais](../specs/product/requisitos-nao-funcionais.md) | Aplicado | 13 | `conceitos/golden-metrics` |
 | | Logs e severidade | Serilog | Aplicado | 3 | `conceitos/logs-e-severidade` |
 | | Datadog / New Relic | Não usados (SaaS) | Alternativa | — | `conceitos/apm` |
 | Arquitetura (TC Fase 3) | Event sourcing ou audit log | Livro de doações no MongoDB | Aplicado | 6 | `conceitos/event-sourcing` |

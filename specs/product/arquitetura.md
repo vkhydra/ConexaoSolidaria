@@ -187,7 +187,7 @@ A regra é verificada por um teste de arquitetura (NetArchTest) em cada `*.UnitT
 | `observability` | Prometheus, Grafana, Alertmanager, Jaeger |
 | `keda` | Operador KEDA |
 
-Detalhes de recursos, probes e manifestos: [13 — Infraestrutura](infraestrutura.md).
+Detalhes de recursos, probes e manifestos: [Infraestrutura](infraestrutura.md).
 
 ## Configuração
 

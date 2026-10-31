@@ -13,8 +13,8 @@ Referências: `wiki:disciplinas/solid`, `wiki:boas-praticas/solid`, `wiki:boas-p
 | `Directory.Packages.props` | `ManagePackageVersionsCentrally true`; todas as versões fixas aqui |
 | `.editorconfig` | Estilo C# (namespaces por arquivo, `var` quando o tipo é evidente, chaves sempre, nomes `_camelCase` para campos privados), severidades dos analisadores |
 | `.gitattributes` | `* text=auto eol=lf`; `*.ps1 eol=crlf`; binários marcados |
-| `coverlet.runsettings` | Filtros e exclusões da cobertura ([15.7](testes.md)) |
-| `stylecop.json` | Regras de documentação XML do StyleCop ([16.7](#documentação-xml-summary)) |
+| `coverlet.runsettings` | Filtros e exclusões da cobertura ([testes](testes.md)) |
+| `stylecop.json` | Regras de documentação XML do StyleCop ([documentação XML](#documentação-xml-summary)) |
 | `.config/dotnet-tools.json` | `dotnet-ef`, `husky`, `dotnet-reportgenerator-globaltool` |
 
 ## Pacotes aprovados
@@ -204,7 +204,7 @@ public sealed class CampanhaCriarTests
 | `.editorconfig` | `SA1600`, `SA1601`, `SA1602`, `SA1604`, `SA1606`, `SA1611`, `SA1614`, `SA1615`, `SA1616`, `SA1618` e `SA1622` com `severity = error`; demais regras `SA*` desligadas; `[**/Migrations/*.cs] generated_code = true` | Só as regras de documentação são cobradas |
 | Hook `pre-commit` e CI | `dotnet build -warnaserror` | Commit e PR sem `<summary>` não passam |
 | OpenAPI | Gerador de OpenAPI do .NET 10 lê os comentários XML dos endpoints e DTOs | O `<summary>` vira a descrição no Swagger |
-| Revisão | Checklist do PR (16.6) | Avalia se o texto é útil, o que o compilador não verifica |
+| Revisão | [Checklist do PR](#revisão-de-código-checklist-do-pr) | Avalia se o texto é útil, o que o compilador não verifica |
 
 `stylecop.json` (raiz, referenciado como `AdditionalFiles` no `Directory.Build.props`):
 ```json

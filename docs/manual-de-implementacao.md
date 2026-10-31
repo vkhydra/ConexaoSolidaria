@@ -16,7 +16,7 @@ Todos os comandos rodam em **PowerShell 7 (`pwsh`)**, igual nos três sistemas. 
 
 ## Antes de começar
 
-- [ ] Pré-requisitos instalados e verificados ([02 — Pré-requisitos](pre-requisitos.md)).
+- [ ] Pré-requisitos instalados e verificados ([Pré-requisitos](pre-requisitos.md)).
 - [ ] Docker em execução (`docker version` mostra `Server`).
 - [ ] Pelo menos 14 GB de memória livre para o modo B.
 - [ ] Portas livres no modo A: 5432, 6379, 5672, 15672, 9200, 27017, 16686, 8080, 8081, 8082, 9090.
@@ -247,7 +247,7 @@ k6 run -e BASE_URL=https://api.conexao.local tests/load/painel.js
 k6 run -e BASE_URL=https://api.conexao.local tests/load/doacao.js
 k6 run -e BASE_URL=https://api.conexao.local tests/load/busca.js
 ```
-Os testes de integração precisam do Docker ligado (Testcontainers). Detalhes em [15 — Testes](testes.md).
+Os testes de integração precisam do Docker ligado (Testcontainers). Detalhes em [Testes](testes.md).
 
 ## Atualizar uma versão (Rolling Update)
 
@@ -264,7 +264,7 @@ Desfazer: `kubectl rollout undo deploy/campanhas-api -n conexao`. Migrations nov
 
 ## Modo C — Azure (opcional)
 
-Só se o grupo decidir demonstrar na nuvem ([13.6](../specs/product/infraestrutura.md#cloud-opcional-azure)). Custo real: **apagar tudo** logo depois da gravação.
+Só se o grupo decidir demonstrar na nuvem ([infraestrutura](../specs/product/infraestrutura.md#cloud-opcional-azure)). Custo real: **apagar tudo** logo depois da gravação.
 
 ```powershell
 az login
@@ -273,7 +273,7 @@ az group create -n rg-conexao-solidaria -l brazilsouth
 az deployment group create -g rg-conexao-solidaria -f deploy/azure/main.bicep
 az aks get-credentials -g rg-conexao-solidaria -n <nome-do-aks>
 ```
-Depois, repetir os passos 3 a 9 do modo B usando o overlay `azure` (segredos vêm do Key Vault). O deploy contínuo fica no `cd.yml` ([14.6](../specs/product/ci-cd.md#cd-opcional-aks)).
+Depois, repetir os passos 3 a 9 do modo B usando o overlay `azure` (segredos vêm do Key Vault). O deploy contínuo fica no `cd.yml` ([CI/CD](../specs/product/ci-cd.md#cd-opcional-aks)).
 
 Remoção: `az group delete -n rg-conexao-solidaria --yes --no-wait`.
 
@@ -292,13 +292,13 @@ Remoção: `az group delete -n rg-conexao-solidaria --yes --no-wait`.
 
 | Sintoma | Causa provável | Como resolver |
 |---|---|---|
-| Pods em `Pending` | Memória insuficiente no Minikube | `kubectl describe pod <pod>`; conferir 12 GB no Minikube e a memória do Docker ([02](pre-requisitos.md)) |
-| Elasticsearch em `CrashLoopBackOff` | `vm.max_map_count` baixo (Linux) | Passo 5 da seção 2.6 e `kubectl delete pod -n infra -l app.kubernetes.io/name=elasticsearch` |
+| Pods em `Pending` | Memória insuficiente no Minikube | `kubectl describe pod <pod>`; conferir 12 GB no Minikube e a memória do Docker ([pré-requisitos](pre-requisitos.md)) |
+| Elasticsearch em `CrashLoopBackOff` | `vm.max_map_count` baixo (Linux) | Passo 5 da [instalação no Linux](pre-requisitos.md#instalação-no-linux-ubuntu-2404) e `kubectl delete pod -n infra -l app.kubernetes.io/name=elasticsearch` |
 | `ImagePullBackOff` | Tag inexistente no GHCR ou nome errado | `kubectl describe pod`; conferir a tag `sha-*` no GHCR ou usar build local (passo 6) |
 | `https://app.conexao.local` não abre | Túnel parado ou `hosts` sem a linha | Passo 2 aberto em outro terminal; passo 8 |
 | Aviso de certificado no navegador | Autoridade do mkcert não instalada | `mkcert -install` e reabrir o navegador |
 | Job `migrate-*` falhou | Banco ainda subindo ou senha errada | `kubectl logs job/migrate-campanhas -n conexao`; corrigir o `.env`, rodar o passo 5 e reaplicar |
-| 401 em todas as rotas protegidas | Chave pública do JWT diferente da privada | Gerar o par de novo (22.4) e repetir o passo 5 |
+| 401 em todas as rotas protegidas | Chave pública do JWT diferente da privada | Gerar o par de novo ([configurar segredos](#configurar-segredos-e-variáveis)) e repetir o passo 5 |
 | 429 no login | Bloqueio por tentativas (RF01) ou rate limit do Kong | Esperar 15 min ou usar outro e-mail |
 | Total do painel não muda | Worker parado ou mensagem na fila de erro | `kubectl logs -n conexao deploy/arrecadacao-worker`; fila `*_error` no painel do RabbitMQ |
 | Função não escala de 0 para 1 | `ScaledObject` sem acesso ao RabbitMQ | `kubectl describe scaledobject -n conexao`; conferir o `TriggerAuthentication` |

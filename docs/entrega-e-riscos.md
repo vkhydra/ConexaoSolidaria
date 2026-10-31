@@ -28,7 +28,7 @@
 
 ## Checklist de qualidade
 
-- [ ] Todos os commits no padrão da [seção 17](git-e-commits.md) e compilando (`git rebase --exec` na `main` inteira sem falha).
+- [ ] Todos os commits no padrão da [git e commits](git-e-commits.md) e compilando (`git rebase --exec` na `main` inteira sem falha).
 - [ ] CI verde na `main`.
 - [ ] Nenhum segredo no histórico (gitleaks).
 - [ ] Nenhuma vulnerabilidade crítica corrigível (Trivy).
@@ -66,7 +66,7 @@ Links:
 | R1 | Memória insuficiente para toda a stack no Minikube | Média | Alto | Heap do Elasticsearch em 512 MB; limites definidos; Zabbix opcional | Desligar Jaeger e Zabbix na gravação; Elasticsearch fora do cluster (docker-compose) |
 | R2 | Runtime do Azure Functions sem suporte a .NET 10 | Média | Médio | Spike na Etapa 7 | Função em .NET 8 isolated (ADR 0010) |
 | R3 | Gatilho RabbitMQ da função não lê o envelope do MassTransit | Baixa | Médio | Spike na Etapa 7; fila declarada por `definitions.json` | Configurar o MassTransit para publicar JSON "cru" nesse evento |
-| R4 | Licença comercial em bibliotecas | Baixa | Médio | Versões fixadas; lista de pacotes proibidos (ADR 0013) | Trocar pela alternativa da [seção 16.2](padroes-de-codigo.md#pacotes-aprovados) |
+| R4 | Licença comercial em bibliotecas | Baixa | Médio | Versões fixadas; lista de pacotes proibidos (ADR 0013) | Trocar pela alternativa da [lista de pacotes aprovados](padroes-de-codigo.md#pacotes-aprovados) |
 | R5 | Custo na Azure | Baixa | Alto | Cloud opcional; alerta de orçamento; exclusão após gravação | Pular a Etapa 15 |
 | R6 | Total exibido desatualizado na demonstração | Média | Baixo | Consistência eventual explicada; atraso < 5 s | Repetir o `GET` após alguns segundos (Plano B do roteiro) |
 | R7 | Vídeo acima de 15 min | Média | Alto | Roteiro cronometrado e ensaio | Cortar blocos 9 e 10 para versões curtas |

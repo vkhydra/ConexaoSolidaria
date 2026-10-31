@@ -2,7 +2,7 @@
 
 [← README](../../README.md)
 
-Metas medidas no ambiente local (Minikube) com os recursos da [seção 13](infraestrutura.md). Os números são de referência para um MVP e são verificados pelo teste de carga (k6) e pelo dashboard.
+Metas medidas no ambiente local (Minikube) com os recursos de [infraestrutura](infraestrutura.md). Os números são de referência para um MVP e são verificados pelo teste de carga (k6) e pelo dashboard.
 
 ## Desempenho
 
@@ -47,7 +47,7 @@ Metas medidas no ambiente local (Minikube) com os recursos da [seção 13](infra
 | RNF22 | Nenhuma vulnerabilidade `CRITICAL` corrigível nas imagens (Trivy) |
 | RNF23 | Nenhum segredo no histórico do git (gitleaks) |
 
-Detalhes: [11 — Segurança e LGPD](seguranca-e-lgpd.md).
+Detalhes: [Segurança e LGPD](seguranca-e-lgpd.md).
 
 ## Privacidade (LGPD)
 
@@ -68,7 +68,7 @@ Detalhes: [11 — Segurança e LGPD](seguranca-e-lgpd.md).
 | RNF31 | Dashboard Grafana com métricas reais (requisições, latência, erros, CPU e memória, doações, fila) |
 | RNF32 | Alertas para erros 5xx, mensagens na DLQ e pods reiniciando |
 
-Detalhes: [12 — Observabilidade](observabilidade.md).
+Detalhes: [Observabilidade](observabilidade.md).
 
 ## SLOs (indicativos)
 

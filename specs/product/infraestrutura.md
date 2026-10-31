@@ -175,7 +175,7 @@ spec:
 | `Job` | `migrate-identity`, `migrate-campanhas` (migration bundle), executados antes do rollout |
 | `NetworkPolicy` | Negar tudo por padrão em `infra`; liberar só de `conexao` nas portas dos bancos |
 | `ServiceMonitor` | Coleta de `/metrics` (label `release` igual ao nome do release Helm do kube-prometheus-stack) |
-| `PrometheusRule` | Alertas da [seção 12.5](observabilidade.md#alertas-deployobservabilityalertsprometheus-rulesyaml) |
+| `PrometheusRule` | Alertas de [observabilidade](observabilidade.md#alertas-deployobservabilityalertsprometheus-rulesyaml) |
 
 ### Ordem de subida (`scripts/up.ps1`)
 1. `minikube start` e `minikube tunnel` (outro terminal).
@@ -231,4 +231,4 @@ Só se o grupo decidir demonstrar na nuvem (Etapa 15). Tudo apagado após a grav
 | Key Vault | Segredos | CSI Secrets Store Driver no AKS |
 | Bancos | Mesmos StatefulSets do local | Evita custo de serviços gerenciados |
 
-IaC: `deploy/azure/main.bicep` + `az deployment group create`. CD: `.github/workflows/cd.yml` com OIDC ([14 — CI/CD](ci-cd.md)). Remoção: `az group delete -n rg-conexao-solidaria --yes`.
+IaC: `deploy/azure/main.bicep` + `az deployment group create`. CD: `.github/workflows/cd.yml` com OIDC ([CI/CD](ci-cd.md)). Remoção: `az group delete -n rg-conexao-solidaria --yes`.

@@ -70,10 +70,10 @@ Um item entra em "Pronto" quando:
 
 Um item só vai para "Concluído" quando:
 
-- [ ] Código segue [16 — Padrões de código](padroes-de-codigo.md), com `/// <summary>` em todos os tipos e membros.
+- [ ] Código segue [Padrões de código](padroes-de-codigo.md), com `/// <summary>` em todos os tipos e membros.
 - [ ] Testes de unidade escritos (TDD no domínio) e cenários Gherkin da história automatizados.
 - [ ] Cobertura de testes ≥ 90% de linhas e ramos, no total e em cada projeto de `src/`.
-- [ ] Todos os commits no padrão e compilando ([17 — Git e commits](git-e-commits.md)).
+- [ ] Todos os commits no padrão e compilando ([Git e commits](git-e-commits.md)).
 - [ ] CI verde: formato, build, testes, scans.
 - [ ] `/code-review` executado e apontamentos tratados.
 - [ ] Revisão de pelo menos um integrante no PR.

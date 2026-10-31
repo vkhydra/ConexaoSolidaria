@@ -26,7 +26,7 @@ Os scripts do projeto (`scripts/*.ps1` e hooks de git) são escritos em **PowerS
 
 ## Software necessário
 
-Mesmas ferramentas e versões em todos os sistemas. Os comandos de instalação de cada sistema estão nas seções 2.4 a 2.6.
+Mesmas ferramentas e versões em todos os sistemas. Os comandos de instalação de cada sistema estão nas seções seguintes.
 
 | # | Ferramenta | Versão | Uso no projeto | Verificação |
 |---|---|---|---|---|
@@ -218,7 +218,7 @@ Fim de linha: o `.gitattributes` do repositório (Etapa 3) define LF para todo o
 | IP no `hosts` | `127.0.0.1` | `127.0.0.1` | `EXTERNAL-IP` do Service do Kong (`kubectl get svc -n kong`) |
 | `minikube tunnel` | Terminal como administrador | Pede a senha (`sudo`) | Pede a senha (`sudo`) |
 | Memória do Docker | `.wslconfig` | Docker Desktop → Resources | Sem limite (usa a máquina) |
-| `vm.max_map_count` (Elasticsearch) | Já ajustado na VM do Docker Desktop | Já ajustado na VM do Docker Desktop | Ajuste manual (seção 2.6, passo 5) |
+| `vm.max_map_count` (Elasticsearch) | Já ajustado na VM do Docker Desktop | Já ajustado na VM do Docker Desktop | Ajuste manual ([Linux](#instalação-no-linux-ubuntu-2404), passo 5) |
 | Rodar scripts do projeto | `pwsh ./scripts/<nome>.ps1` | `pwsh ./scripts/<nome>.ps1` | `pwsh ./scripts/<nome>.ps1` |
 | Separador de caminho nos exemplos | `\` funciona, mas a spec usa `/` (aceito pelo PowerShell) | `/` | `/` |
 
@@ -245,7 +245,7 @@ Leitura mínima antes de começar, na LLMWiki (somente leitura; no Windows em `C
 
 ## Verificação final
 
-Script `scripts/verificar-pre-requisitos.ps1` (criado na Etapa 3) detecta o sistema (`$IsWindows`, `$IsMacOS`, `$IsLinux`), executa todas as verificações da seção 2.3 e mostra o que falta com o comando de instalação do sistema detectado. Até lá, rodar manualmente em `pwsh`:
+Script `scripts/verificar-pre-requisitos.ps1` (criado na Etapa 3) detecta o sistema (`$IsWindows`, `$IsMacOS`, `$IsLinux`), executa todas as verificações de [software necessário](#software-necessário) e mostra o que falta com o comando de instalação do sistema detectado. Até lá, rodar manualmente em `pwsh`:
 
 ```powershell
 git --version; dotnet --list-sdks; docker version --format '{{.Server.Version}}'
