@@ -375,7 +375,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Commit: `✨ feat(campanhas): adiciona regras de doação no agregado Campanha`
 - [X] **R111** · `005/T002` [H06] `DoacaoRecebidaEvent` e `DoacaoProcessadaEvent` v1 com testes de snapshot — `ConexaoSolidaria.Contracts/V1/*`, `tests/contract/ConexaoSolidaria.ContractTests/*`
   Commit: `🏷️ feat(contracts): adiciona eventos de doação v1`
-- [ ] **R112** · `005/T003` [H06] Caso de uso `ReceberDoacao` com validador e testes (202, 404, 422, total não alterado) — `Campanhas.Application/Doacoes/*`
+- [X] **R112** · `005/T003` [H06] Caso de uso `ReceberDoacao` com validador e testes (202, 404, 422, total não alterado) — `Campanhas.Application/Doacoes/*`
   Commit: `✨ feat(campanhas): adiciona caso de uso de recebimento de doação`
   Depende de: R110 (`005/T001`)
 - [ ] **R113** · `005/T004` [H06] Tabelas `doacoes_processadas` e `chaves_idempotencia` na migration — `Campanhas.Infrastructure/Persistencia/*`

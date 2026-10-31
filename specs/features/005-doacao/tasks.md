@@ -13,7 +13,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 ## Fase 2 — Recebimento na API
 
-- [ ] T003 [H06] Caso de uso `ReceberDoacao` com validador e testes (202, 404, 422, total não alterado) — `Campanhas.Application/Doacoes/*`
+- [X] T003 [H06] Caso de uso `ReceberDoacao` com validador e testes (202, 404, 422, total não alterado) — `Campanhas.Application/Doacoes/*`
   Commit: `✨ feat(campanhas): adiciona caso de uso de recebimento de doação`
 - [ ] T004 [H06] Tabelas `doacoes_processadas` e `chaves_idempotencia` na migration — `Campanhas.Infrastructure/Persistencia/*`
   Commit: `🗃️ feat(campanhas): adiciona tabelas de idempotência de doações`
