@@ -25,7 +25,14 @@ Regras obrigatórias: **todo arquivo criado tem commit semântico com gitmoji** 
 
 ## Gitmojis permitidos
 
-| Gitmoji | Tipo | Quando |
+O **gitmoji** indica o assunto da mudança e precisa estar nesta tabela (o hook rejeita os demais). O **tipo** segue o Conventional Commits pelo efeito da mudança. A coluna "Tipo usual" é o caso mais comum, mas o tipo muda quando o arquivo alterado pede outro:
+
+- só documentação ou specs → `docs` (ex.: `🚚 docs: move ...`, `🔥 docs: remove ...`, `🐛 docs: corrige regra ...`);
+- infraestrutura (Docker, Kubernetes, Helm) → `build` (ex.: `📈 build(obs): adiciona service monitors`, `🔒️ build(k8s): adiciona network policies`);
+- configuração de ferramentas → `chore` (ex.: `✏️ chore(claude): ...`);
+- código que muda comportamento → `feat` ou `fix` (ex.: `🔒️ feat(identity): adiciona cifragem do cpf`, `⚡️ feat(campanhas): adiciona cache do painel`).
+
+| Gitmoji | Tipo usual | Quando |
 |---|---|---|
 | 🎉 | `chore` | Criar a solução ou um projeto novo |
 | ✨ | `feat` | Nova funcionalidade |
