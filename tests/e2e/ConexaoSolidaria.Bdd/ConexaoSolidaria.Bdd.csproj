@@ -1,8 +1,24 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <PackageReference Include="Reqnroll.xunit.v3" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="Testcontainers.PostgreSql" />
+    <PackageReference Include="SSH.NET" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\src\Services\Identity\Identity.Api\Identity.Api.csproj" />
     <ProjectReference Include="..\..\..\src\Services\Campanhas\Campanhas.Api\Campanhas.Api.csproj" />
   </ItemGroup>
+
+  <!-- As duas APIs têm uma classe Program global; o apelido separa a da Identity (extern alias IdentityApi). -->
+  <Target Name="ApelidarIdentityApi" AfterTargets="FindReferenceAssembliesForReferences" BeforeTargets="CoreCompile">
+    <ItemGroup>
+      <ReferencePathWithRefAssemblies Condition="'%(FileName)' == 'Identity.Api'">
+        <Aliases>IdentityApi</Aliases>
+      </ReferencePathWithRefAssemblies>
+    </ItemGroup>
+  </Target>
 
 </Project>

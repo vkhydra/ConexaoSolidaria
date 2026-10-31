@@ -233,7 +233,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R061** · `001/T014` [H02] Testes de integração: 200, 401 (dois casos), 429, 401 sem token, seed idempotente; o 403 por role já é testado no ServiceDefaults e entra aqui quando a Identity tiver a primeira rota protegida por papel — `tests/integration/Identity.IntegrationTests/AutenticacaoTests.cs`
   Commit: `✅ test(identity): adiciona testes de integração do login`
   Depende de: R057 (`001/T010`), R058 (`001/T011`), R059 (`001/T012`)
-- [ ] **R062** · `001/T015` [H02] Cenários Gherkin da spec automatizados — `tests/e2e/ConexaoSolidaria.Bdd/Features/001-autenticacao.feature` e steps
+- [X] **R062** · `001/T015` [H02] Cenários Gherkin da spec automatizados (os cenários que dependem do cadastro de doador ou das rotas de campanhas ficam com `@ignore` e são liberados em R075 e R099) — `tests/e2e/ConexaoSolidaria.Bdd/Features/001-autenticacao.feature` e steps
   Commit: `✅ test(bdd): adiciona cenários de autenticação`
   Depende de: R061 (`001/T014`)
 - [ ] **R063** · `001/T017` `/security-review` e `/code-review`; corrigir apontamentos em commits próprios
