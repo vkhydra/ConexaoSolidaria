@@ -18,7 +18,7 @@ Este documento reúne os bancos e as regras comuns. O modelo de dados de cada fu
 
 Local: uma instância PostgreSQL com dois bancos e usuários separados (`identity_app`, `campanhas_app`), cada um sem acesso ao banco do outro.
 
-## Justificativa (resumo do PDF)
+## Justificativa
 
 | Necessidade | Por que esse banco | Por que não os outros |
 |---|---|---|
