@@ -1,6 +1,6 @@
 # 01 — Visão geral e escopo
 
-[← Índice](../SPEC.md) · Próximo: [02 — Pré-requisitos](02-pre-requisitos.md)
+[← README](../../README.md) · Próximo: [02 — Pré-requisitos](02-pre-requisitos.md)
 
 ## 1.1 Contexto
 

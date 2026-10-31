@@ -1,6 +1,6 @@
 # 02 — Pré-requisitos
 
-[← Índice](../SPEC.md) · Anterior: [01 — Visão geral](01-visao-geral.md) · Próximo: [03 — Processo ágil](03-processo-agil.md)
+[← README](../../README.md) · Anterior: [01 — Visão geral](01-visao-geral.md) · Próximo: [03 — Processo ágil](03-processo-agil.md)
 
 Tudo o que precisa estar pronto antes da primeira linha de código. Corresponde à **Etapa 0** do [plano de execução](20-plano-de-execucao.md).
 

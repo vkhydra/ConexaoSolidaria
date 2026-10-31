@@ -1,6 +1,6 @@
 # 21 — Entrega e riscos
 
-[← Índice](../SPEC.md) · Anterior: [20 — Plano de execução](20-plano-de-execucao.md)
+[← README](../../README.md) · Anterior: [20 — Plano de execução](20-plano-de-execucao.md)
 
 ## 21.1 Checklist do enunciado (com evidência)
 
@@ -55,7 +55,7 @@ Links:
   - Vídeo: <link>
   - Diagrama de arquitetura: <link para docs/arquitetura/arquitetura.png>
   - Justificativa dos bancos (PDF): <link>
-  - Especificação: <link para docs/SPEC.md>
+  - Especificação: <link para docs/spec/>
   - Event Storming (Miro): <link>
 ```
 

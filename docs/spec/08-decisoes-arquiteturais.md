@@ -1,6 +1,6 @@
 # 08 — Decisões arquiteturais (ADRs)
 
-[← Índice](../SPEC.md) · Anterior: [07 — Arquitetura](07-arquitetura.md) · Próximo: [09 — API e eventos](09-api-e-eventos.md)
+[← README](../../README.md) · Anterior: [07 — Arquitetura](07-arquitetura.md) · Próximo: [09 — API e eventos](09-api-e-eventos.md)
 
 Cada decisão abaixo vira um arquivo `docs/adr/NNNN-titulo.md` na Etapa 2, no formato: **Status, Contexto, Decisão, Alternativas, Consequências**. Novas decisões durante o projeto recebem novos ADRs; ADRs aceitos não são editados, são substituídos por outro (status `Substituído por NNNN`).
 

@@ -1,6 +1,6 @@
 # 20 — Plano de execução
 
-[← Índice](../SPEC.md) · Anterior: [19 — Skills e MCP](19-skills-e-mcp.md) · Próximo: [21 — Entrega e riscos](21-entrega-e-riscos.md)
+[← README](../../README.md) · Anterior: [19 — Skills e MCP](19-skills-e-mcp.md) · Próximo: [21 — Entrega e riscos](21-entrega-e-riscos.md)
 
 Do ambiente pronto até a entrega. Cada etapa traz: **objetivo**, **tarefas**, **commits** (na ordem, um por arquivo ou pelo menor conjunto que compila — [seção 17.3](17-git-e-commits.md#173-granularidade)), **pronto quando** e **apoio** (skills, MCP, wiki).
 
@@ -41,7 +41,7 @@ Toda etapa termina com: `/code-review` → `git rebase --exec` (todo commit comp
 **Objetivo:** repositório com regras e especificação.
 **Tarefas:**
 1. ✅ `git init`, branch `main`.
-2. ✅ `.gitignore`, `README.md`, `docs/SPEC.md`, `docs/spec/*`, `docs/ROTEIRO-VIDEO.md`.
+2. ✅ `.gitignore`, `README.md`, `docs/spec/*`, `docs/ROTEIRO-VIDEO.md`.
 3. Criar o repositório público: `gh repo create <owner>/conexao-solidaria --public --source . --push`.
 4. Adicionar os integrantes como colaboradores.
 5. Ligar secret scanning e push protection (Settings → Code security).

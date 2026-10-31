@@ -1,6 +1,6 @@
 # 17 — Git e commits
 
-[← Índice](../SPEC.md) · Anterior: [16 — Padrões de código](16-padroes-de-codigo.md) · Próximo: [18 — Cobertura das fases](18-cobertura-das-fases.md)
+[← README](../../README.md) · Anterior: [16 — Padrões de código](16-padroes-de-codigo.md) · Próximo: [18 — Cobertura das fases](18-cobertura-das-fases.md)
 
 Regras obrigatórias: **todo arquivo criado tem commit semântico com gitmoji** e **todo commit compila sem erro**. Referências: `wiki:conceitos/pull-request`, `wiki:conceitos/integracao-continua`.
 

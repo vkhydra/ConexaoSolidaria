@@ -1,6 +1,6 @@
 # 14 — CI/CD (GitHub Actions)
 
-[← Índice](../SPEC.md) · Anterior: [13 — Infraestrutura](13-infraestrutura.md) · Próximo: [15 — Testes](15-testes.md)
+[← README](../../README.md) · Anterior: [13 — Infraestrutura](13-infraestrutura.md) · Próximo: [15 — Testes](15-testes.md)
 
 Atende ao requisito obrigatório "pipeline acionada a cada push na branch principal que faz .NET build e gera a imagem Docker" e ao bônus "testes de unidade dentro do CI". Referências: `wiki:disciplinas/github-actions`, `wiki:boas-praticas/github-actions`, `wiki:conceitos/ci-cd`.
 

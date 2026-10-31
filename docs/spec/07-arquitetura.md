@@ -1,6 +1,6 @@
 # 07 — Arquitetura
 
-[← Índice](../SPEC.md) · Anterior: [06 — Modelo de domínio](06-modelo-de-dominio.md) · Próximo: [08 — Decisões arquiteturais](08-decisoes-arquiteturais.md)
+[← README](../../README.md) · Anterior: [06 — Modelo de domínio](06-modelo-de-dominio.md) · Próximo: [08 — Decisões arquiteturais](08-decisoes-arquiteturais.md)
 
 ## 7.1 Visão de contexto
 
@@ -127,7 +127,7 @@ sequenceDiagram
 │   │   └── alerts/prometheus-rules.yaml
 │   └── azure/main.bicep             # cloud opcional
 ├── docs/
-│   ├── SPEC.md, ROTEIRO-VIDEO.md, spec/
+│   ├── ROTEIRO-VIDEO.md, spec/
 │   ├── adr/, agil/, ddd/, arquitetura/, lgpd/, postman/
 │   └── justificativa-bancos.md (+ PDF)
 ├── scripts/                         # verificar-pre-requisitos.ps1, k8s-secrets.ps1, up.ps1

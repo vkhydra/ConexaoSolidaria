@@ -4,7 +4,7 @@ Plataforma de doações para a **ONG Esperança Solidária**, desenvolvida como 
 
 O MVP digitaliza a gestão de campanhas e doações com foco em **escalabilidade, observabilidade e automação**, aplicando o conteúdo das 5 fases do curso.
 
-> **Status:** em especificação. O passo a passo de execução abaixo será preenchido conforme as etapas da [especificação](docs/SPEC.md) forem concluídas.
+> **Status:** em especificação. O passo a passo de execução abaixo será preenchido conforme as etapas da [especificação](docs/spec/) forem concluídas.
 
 ## Funcionalidades
 
@@ -55,7 +55,7 @@ Exemplo: `✨ feat(campanhas): adiciona criação de campanha`. Todo commit deve
 
 ## Documentação
 
-- [Especificação do projeto](docs/SPEC.md): índice dos 21 arquivos, dos pré-requisitos à conclusão
+- [Especificação do projeto](docs/spec/): 21 arquivos, dos pré-requisitos à conclusão (começar por [01 — Visão geral](docs/spec/01-visao-geral.md))
 - [Roteiro do vídeo](docs/ROTEIRO-VIDEO.md): apresentação de até 15 minutos
 
 ## Equipe
