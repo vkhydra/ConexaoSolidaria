@@ -17,7 +17,7 @@ Regras em `specs/product/dados.md` (seção de migrations).
 ## Passos
 
 1. Confirme que a mudança no modelo compila: `dotnet build -c Release -warnaserror`.
-2. Nome no padrão `AAAAMMDD_DescricaoEmPascalCase` só na descrição (o EF acrescenta o carimbo de tempo); ex.: `AdicionaChavesIdempotencia`.
+2. Escolha o nome em PascalCase, descrevendo a mudança (o EF acrescenta o carimbo de data e hora); ex.: `AdicionaChavesIdempotencia`.
 3. Gere:
    ```bash
    dotnet ef migrations add <Nome> \
