@@ -843,7 +843,9 @@
         "type": "Project",
         "dependencies": {
           "Campanhas.Domain": "[1.0.0, )",
-          "ConexaoSolidaria.Contracts": "[1.0.0, )"
+          "ConexaoSolidaria.Contracts": "[1.0.0, )",
+          "FluentValidation": "[12.1.1, )",
+          "Microsoft.Extensions.Logging.Abstractions": "[10.0.14, )"
         }
       },
       "campanhas.domain": {

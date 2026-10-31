@@ -24,7 +24,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 - [X] T006 [H03] `IRelogio` (hoje em São Paulo) e `ICampanhaRepositorio` — `Campanhas.Application/Abstracoes/*`
   Commit: `🏷️ feat(campanhas): adiciona abstrações de relógio e repositório`
-- [ ] T007 [H03] `CriarCampanha` com validador e testes — `Campanhas.Application/Campanhas/CriarCampanha.cs`
+- [X] T007 [H03] `CriarCampanha` com validador e testes — `Campanhas.Application/Campanhas/CriarCampanha.cs`
   Commit: `✨ feat(campanhas): adiciona caso de uso de criação de campanha`
 - [ ] T008 [H04] `AtualizarCampanha` e `AlterarStatusCampanha` com testes — `Campanhas.Application/Campanhas/*`
   Commit: `✨ feat(campanhas): adiciona casos de uso de edição e status`

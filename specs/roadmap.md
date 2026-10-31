@@ -310,7 +310,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Depende de: R086 (`002/T003`)
 - [X] **R089** · `002/T006` [H03] `IRelogio` (hoje em São Paulo) e `ICampanhaRepositorio` — `Campanhas.Application/Abstracoes/*`
   Commit: `🏷️ feat(campanhas): adiciona abstrações de relógio e repositório`
-- [ ] **R090** · `002/T007` [H03] `CriarCampanha` com validador e testes — `Campanhas.Application/Campanhas/CriarCampanha.cs`
+- [X] **R090** · `002/T007` [H03] `CriarCampanha` com validador e testes — `Campanhas.Application/Campanhas/CriarCampanha.cs`
   Commit: `✨ feat(campanhas): adiciona caso de uso de criação de campanha`
   Depende de: R089 (`002/T006`)
 - [ ] **R091** · `002/T008` [H04] `AtualizarCampanha` e `AlterarStatusCampanha` com testes — `Campanhas.Application/Campanhas/*`

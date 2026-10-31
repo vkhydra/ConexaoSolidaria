@@ -496,7 +496,9 @@
         "type": "Project",
         "dependencies": {
           "Campanhas.Domain": "[1.0.0, )",
-          "ConexaoSolidaria.Contracts": "[1.0.0, )"
+          "ConexaoSolidaria.Contracts": "[1.0.0, )",
+          "FluentValidation": "[12.1.1, )",
+          "Microsoft.Extensions.Logging.Abstractions": "[10.0.14, )"
         }
       },
       "campanhas.domain": {
@@ -524,6 +526,12 @@
           "Serilog.AspNetCore": "[10.0.0, )",
           "prometheus-net.AspNetCore": "[8.2.1, )"
         }
+      },
+      "FluentValidation": {
+        "type": "CentralTransitive",
+        "requested": "[12.1.1, )",
+        "resolved": "12.1.1",
+        "contentHash": "EPpkIe1yh1a0OXyC100oOA8WMbZvqUu5plwhvYcb7oSELfyUZzfxV48BLhvs3kKo4NwG7MGLNgy1RJiYtT8Dpw=="
       },
       "Microsoft.AspNetCore.Authentication.JwtBearer": {
         "type": "CentralTransitive",
