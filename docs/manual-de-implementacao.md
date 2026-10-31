@@ -1,8 +1,8 @@
 # 22 — Manual de implementação
 
-[← README](../../README.md) · Anterior: [21 — Entrega e riscos](../entrega-e-riscos.md) · Próximo: [23 — Manual do usuário](23-manual-do-usuario.md)
+[← README](../README.md) · Anterior: [21 — Entrega e riscos](entrega-e-riscos.md) · Próximo: [23 — Manual do usuário](spec/23-manual-do-usuario.md)
 
-Passo a passo para colocar o Conexão Solidária no ar a partir de um clone do repositório, em Windows, macOS ou Linux. Público: integrantes do grupo e avaliadores. O código é construído conforme o [plano de execução](../plano-de-execucao.md); este manual descreve como **implantar e operar** o resultado.
+Passo a passo para colocar o Conexão Solidária no ar a partir de um clone do repositório, em Windows, macOS ou Linux. Público: integrantes do grupo e avaliadores. O código é construído conforme o [plano de execução](plano-de-execucao.md); este manual descreve como **implantar e operar** o resultado.
 
 Todos os comandos rodam em **PowerShell 7 (`pwsh`)**, igual nos três sistemas. Quando um passo muda por sistema, a diferença aparece numa tabela.
 
@@ -16,7 +16,7 @@ Todos os comandos rodam em **PowerShell 7 (`pwsh`)**, igual nos três sistemas. 
 
 ## 22.2 Antes de começar
 
-- [ ] Pré-requisitos instalados e verificados ([02 — Pré-requisitos](../pre-requisitos.md)).
+- [ ] Pré-requisitos instalados e verificados ([02 — Pré-requisitos](pre-requisitos.md)).
 - [ ] Docker em execução (`docker version` mostra `Server`).
 - [ ] Pelo menos 14 GB de memória livre para o modo B.
 - [ ] Portas livres no modo A: 5432, 6379, 5672, 15672, 9200, 27017, 16686, 8080, 8081, 8082, 9090.
@@ -247,7 +247,7 @@ k6 run -e BASE_URL=https://api.conexao.local tests/load/painel.js
 k6 run -e BASE_URL=https://api.conexao.local tests/load/doacao.js
 k6 run -e BASE_URL=https://api.conexao.local tests/load/busca.js
 ```
-Os testes de integração precisam do Docker ligado (Testcontainers). Detalhes em [15 — Testes](../testes.md).
+Os testes de integração precisam do Docker ligado (Testcontainers). Detalhes em [15 — Testes](testes.md).
 
 ## 22.9 Atualizar uma versão (Rolling Update)
 
@@ -264,7 +264,7 @@ Desfazer: `kubectl rollout undo deploy/campanhas-api -n conexao`. Migrations nov
 
 ## 22.10 Modo C — Azure (opcional)
 
-Só se o grupo decidir demonstrar na nuvem ([13.6](../../specs/product/infraestrutura.md#136-cloud-opcional-azure)). Custo real: **apagar tudo** logo depois da gravação.
+Só se o grupo decidir demonstrar na nuvem ([13.6](../specs/product/infraestrutura.md#136-cloud-opcional-azure)). Custo real: **apagar tudo** logo depois da gravação.
 
 ```powershell
 az login
@@ -273,7 +273,7 @@ az group create -n rg-conexao-solidaria -l brazilsouth
 az deployment group create -g rg-conexao-solidaria -f deploy/azure/main.bicep
 az aks get-credentials -g rg-conexao-solidaria -n <nome-do-aks>
 ```
-Depois, repetir os passos 3 a 9 do modo B usando o overlay `azure` (segredos vêm do Key Vault). O deploy contínuo fica no `cd.yml` ([14.6](../../specs/product/ci-cd.md#146-cd-opcional-aks)).
+Depois, repetir os passos 3 a 9 do modo B usando o overlay `azure` (segredos vêm do Key Vault). O deploy contínuo fica no `cd.yml` ([14.6](../specs/product/ci-cd.md#146-cd-opcional-aks)).
 
 Remoção: `az group delete -n rg-conexao-solidaria --yes --no-wait`.
 
@@ -292,7 +292,7 @@ Remoção: `az group delete -n rg-conexao-solidaria --yes --no-wait`.
 
 | Sintoma | Causa provável | Como resolver |
 |---|---|---|
-| Pods em `Pending` | Memória insuficiente no Minikube | `kubectl describe pod <pod>`; conferir 12 GB no Minikube e a memória do Docker ([02](../pre-requisitos.md)) |
+| Pods em `Pending` | Memória insuficiente no Minikube | `kubectl describe pod <pod>`; conferir 12 GB no Minikube e a memória do Docker ([02](pre-requisitos.md)) |
 | Elasticsearch em `CrashLoopBackOff` | `vm.max_map_count` baixo (Linux) | Passo 5 da seção 2.6 e `kubectl delete pod -n infra -l app.kubernetes.io/name=elasticsearch` |
 | `ImagePullBackOff` | Tag inexistente no GHCR ou nome errado | `kubectl describe pod`; conferir a tag `sha-*` no GHCR ou usar build local (passo 6) |
 | `https://app.conexao.local` não abre | Túnel parado ou `hosts` sem a linha | Passo 2 aberto em outro terminal; passo 8 |
