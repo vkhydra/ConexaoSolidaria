@@ -1,6 +1,8 @@
-# Visão geral e escopo
+# Visão geral do produto
 
-[← README](../../README.md)
+[← README](../../README.md) · [Constituição](../constitution.md)
+
+Ponto de partida da especificação: o problema, os objetivos, quem usa e o que está dentro e fora do escopo. Os detalhes de cada funcionalidade estão em [`specs/features/`](../features/); as decisões transversais, nos demais arquivos desta pasta.
 
 ## Contexto
 
@@ -80,23 +82,39 @@ Fonte: `wiki:fontes/tech-challenge/05-hackathon-fase-5-conexao-solidaria`.
 - O fuso horário de referência para regras de data é `America/Sao_Paulo`.
 - Valores monetários em reais (BRL), com 2 casas decimais.
 
-## Linguagem ubíqua (glossário)
+## Catálogo de features
 
-Os termos abaixo são usados igualmente no código, na API, nos testes e na documentação (`wiki:conceitos/linguagem-ubiqua`).
+| # | Feature | Origem | Histórias | Serviço | Prioridade |
+|---|---|---|---|---|---|
+| 001 | [Autenticação e autorização](../features/001-autenticacao/spec.md) | RF01 | H02 | Identity.Api | P1 |
+| 002 | [Gestão de campanhas](../features/002-gestao-campanhas/spec.md) | RF02 | H03, H04 | Campanhas.Api | P1 |
+| 003 | [Cadastro de doador](../features/003-cadastro-doador/spec.md) | RF03 | H01 | Identity.Api | P1 |
+| 004 | [Painel de transparência](../features/004-painel-transparencia/spec.md) | RF04 | H05 | Campanhas.Api | P1 |
+| 005 | [Doação assíncrona](../features/005-doacao/spec.md) | RF05 | H06, H07 | Campanhas.Api + Arrecadacao.Worker | P1 |
+| 006 | [Busca de campanhas](../features/006-busca-campanhas/spec.md) | RF06 (Fase 4) | H08 | Campanhas.Api | P2 |
+| 007 | [Recibo de doação](../features/007-recibo-doacao/spec.md) | RF07 (Fase 3) | H09 | Notificacoes.Function | P2 |
+| 008 | [Direitos do titular](../features/008-direitos-titular/spec.md) | RF08 (Fase 5) | H10 | Identity.Api | P2 |
 
-| Termo | Definição | No código |
-|---|---|---|
-| Campanha | Ação de arrecadação com meta e período | `Campanha` |
-| Meta financeira | Valor que a campanha pretende arrecadar | `MetaFinanceira` |
-| Total arrecadado | Soma das doações **processadas** da campanha | `TotalArrecadado` |
-| Campanha ativa | Campanha com status `Ativa` | `StatusCampanha.Ativa` |
-| Campanha concluída | Encerrada pelo gestor após o período ou meta | `StatusCampanha.Concluida` |
-| Campanha cancelada | Encerrada pelo gestor antes do fim, sem conclusão | `StatusCampanha.Cancelada` |
-| Doador | Pessoa cadastrada que faz doações | `Usuario` com `Role.Doador` |
-| Gestor da ONG | Usuário que administra campanhas | `Usuario` com `Role.GestorONG` |
-| Doação recebida | Doação aceita pela API e ainda não somada ao total | `DoacaoRecebidaEvent` |
-| Doação processada | Doação já somada ao total pelo Worker | `DoacaoProcessadaEvent` |
-| Livro de doações | Registro imutável de todas as doações processadas | coleção `lancamentos_doacao` |
-| Painel de transparência | Visão pública das campanhas ativas e do total | `GET /transparencia/campanhas` |
-| Recibo | Comprovante simulado enviado ao doador | `Notificacoes.Function` |
-| Anonimização | Remoção irreversível dos dados pessoais do doador | `Usuario.Anonimizar()` |
+Ordem de implementação sugerida: 001 → 002 → 003 → 004 → 005 → 006 → 007 → 008 (cada feature lista as dependências na própria spec).
+
+Convenções comuns a todas as features:
+- **400:** entrada mal formada (formato, campo obrigatório); **422:** entrada bem formada que viola regra de negócio.
+- Todo erro usa `ProblemDetails` com `code` estável (ex.: `campanha.meta_invalida`).
+- "Hoje" é a data atual em `America/Sao_Paulo`, obtida por `TimeProvider`.
+- Cenários Gherkin de cada `spec.md` viram arquivos `.feature` em `tests/e2e/ConexaoSolidaria.Bdd/Features/`.
+
+## Documentos do produto
+
+| Documento | Conteúdo |
+|---|---|
+| [Requisitos não funcionais](requisitos-nao-funcionais.md) | Desempenho, escalabilidade, resiliência, segurança, LGPD, observabilidade e SLOs |
+| [Domínio](dominio.md) | Subdomínios, bounded contexts, agregados, value objects e eventos |
+| [Arquitetura](arquitetura.md) | Diagramas, componentes, fluxos, camadas e configuração |
+| [API e eventos](api-e-eventos.md) | Convenções da API, endpoints técnicos e contratos de eventos |
+| [Dados](dados.md) | Bancos, justificativa, esquemas, cache, índice de busca e backup |
+| [Segurança e LGPD](seguranca-e-lgpd.md) | Autenticação, autorização, dados pessoais, segredos e OWASP |
+| [Observabilidade](observabilidade.md) | Health checks, métricas, dashboard, alertas, traces e logs |
+| [Infraestrutura](infraestrutura.md) | Docker, docker-compose, Kubernetes, Kong, KEDA e Azure opcional |
+| [CI/CD](ci-cd.md) | GitHub Actions, GHCR, proteção da `main` e releases |
+
+A linguagem ubíqua está no [glossário](../../docs/glossary.md).
