@@ -8,7 +8,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 - [X] T001 [H06] `PodeReceberDoacao` e `RegistrarDoacaoProcessada` no agregado, com testes (antes do início, no período, depois do fim, encerrada) — `Campanhas.Domain/Campanhas/Campanha.cs`
   Commit: `✨ feat(campanhas): adiciona regras de doação no agregado Campanha`
-- [ ] T002 [P] [H06] `DoacaoRecebidaEvent` e `DoacaoProcessadaEvent` v1 com testes de snapshot — `ConexaoSolidaria.Contracts/V1/*`, `tests/contract/ConexaoSolidaria.ContractTests/*`
+- [X] T002 [P] [H06] `DoacaoRecebidaEvent` e `DoacaoProcessadaEvent` v1 com testes de snapshot — `ConexaoSolidaria.Contracts/V1/*`, `tests/contract/ConexaoSolidaria.ContractTests/*`
   Commit: `🏷️ feat(contracts): adiciona eventos de doação v1`
 
 ## Fase 2 — Recebimento na API
