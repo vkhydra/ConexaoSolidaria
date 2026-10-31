@@ -107,7 +107,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Commit: `📝 docs(ddd): adiciona mapa de contextos`
 - [X] **R013** · Criar o modelo de issue de história em `.github/ISSUE_TEMPLATE/historia.md`
   Commit: `📝 docs: adiciona modelo de issue de história`
-- [ ] **R014** · Criar o modelo de pull request em `.github/pull_request_template.md`
+- [X] **R014** · Criar o modelo de pull request em `.github/pull_request_template.md`
   Commit: `📝 docs: adiciona modelo de pull request`
 
 <a id="fase-2"></a>
