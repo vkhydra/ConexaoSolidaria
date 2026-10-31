@@ -31,7 +31,7 @@ Registro das decisões de arquitetura do Conexão Solidária. Cada arquivo segue
 
 1. Toda decisão arquitetural nova vira um ADR antes do código ([constituição](../../specs/constitution.md), princípio de rastreabilidade).
 2. Numeração sequencial de 4 dígitos; nome do arquivo em `kebab-case` sem acentos.
-3. ADR aceito não é editado. Uma mudança gera um ADR novo, e o antigo passa a ter o status `Substituído por NNNN`.
+3. ADR aceito não é editado. Uma mudança gera um ADR novo, e o antigo passa a ter o status `Substituído por NNNN`. Correção de contexto que não muda a decisão é registrada como **errata** no próprio ADR, com data e motivo.
 4. Status possíveis: `Proposto`, `Aceito`, `Rejeitado`, `Substituído por NNNN`, `Descontinuado`.
 5. Criação assistida pela skill `nova-adr` (`.claude/skills/nova-adr/SKILL.md`).
 
