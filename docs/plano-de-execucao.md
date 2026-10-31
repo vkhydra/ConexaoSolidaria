@@ -6,17 +6,19 @@ Do ambiente pronto até a entrega. Cada etapa traz: **objetivo**, **tarefas**, *
 
 Toda etapa termina com: `/code-review` → `git rebase --exec` (todo commit compila) → PR → CI verde → merge na `main` → item "Concluído" no Project.
 
+As funcionalidades (Etapas 4 a 8) seguem o fluxo de Spec-Driven Development: as specs e planos já estão em [`specs/features/`](../specs/features/); cada feature é implementada com `/analyze` → `/implement`, e os commits são os do seu `tasks.md` ([Claude Code no projeto](claude-code.md)).
+
 | Etapa | Nome | Sprint |
 |---|---|---|
 | 0 | Pré-requisitos | 0 |
 | 1 | Fundação do repositório | 0 |
 | 2 | Planejamento ágil e DDD | 0 |
 | 3 | Esqueleto da solução e qualidade automática | 0 |
-| 4 | Identity.Api | 1 |
-| 5 | Campanhas.Api | 1 |
-| 6 | Arrecadacao.Worker e mensageria | 2 |
-| 7 | Notificacoes.Function | 2 |
-| 8 | Frontend Blazor (+ IA bônus) | 2 |
+| 4 | Features de identidade (001, 003, 008) | 1 |
+| 5 | Features de campanhas (002, 004, 006) | 1 |
+| 6 | Feature de doação (005) | 2 |
+| 7 | Feature de recibo (007) | 2 |
+| 8 | Frontend: layout, navegação e IA (bônus) | 2 |
 | 9 | Testes complementares | 2 |
 | 10 | Containers e docker-compose | 3 |
 | 11 | Kubernetes local | 3 |
@@ -38,28 +40,29 @@ Toda etapa termina com: `/code-review` → `git rebase --exec` (todo commit comp
 **Pronto quando:** todos os comandos de verificação respondem sem erro e o Minikube sobe com o nó `Ready`.
 
 ## Etapa 1 — Fundação do repositório
-**Objetivo:** repositório com regras e especificação.
+**Objetivo:** repositório com regras, especificação e configuração do Claude Code.
 **Tarefas:**
 1. ✅ `git init`, branch `main`.
-2. ✅ `.gitignore`, `README.md`, `docs/spec/*`, `docs/ROTEIRO-VIDEO.md`.
-3. Criar o repositório público: `gh repo create <owner>/conexao-solidaria --public --source . --push`.
-4. Adicionar os integrantes como colaboradores.
-5. Ligar secret scanning e push protection (Settings → Code security).
+2. ✅ `.gitignore`, `README.md`, `CLAUDE.md`, `.mcp.json`, `.claude/` (settings, comandos, agentes, skills), `.vscode/`.
+3. ✅ `specs/` (constituição, produto, 8 features), `docs/` (ADRs, runbooks, glossário, guias, manuais, roteiro do vídeo), guias de `tests/` e `scripts/`.
+4. Criar o repositório público: `gh repo create <owner>/conexao-solidaria --public --source . --push`.
+5. Adicionar os integrantes como colaboradores.
+6. Ligar secret scanning e push protection (Settings → Code security).
 
 **Commits:** já feitos (um por arquivo).
 **Pronto quando:** repositório público no GitHub com a spec visível.
 **Apoio:** MCP GitHub ou `gh`.
 
 ## Etapa 2 — Planejamento ágil e DDD
-**Objetivo:** backlog pronto, domínio modelado, decisões registradas.
+**Objetivo:** backlog ligado às features, domínio modelado e specs validadas pelo grupo.
 **Tarefas:**
-1. GitHub Project com colunas, campos e labels da [processo ágil](processo-agil.md).
-2. Issues H01–H10 e T01–T04 com critérios Gherkin; estimar com Planning Poker.
-3. `docs/agil/definition-of-ready.md` e `docs/agil/definition-of-done.md`.
-4. Event Storming no Miro (fluxos "criar campanha" e "doar"); exportar PNGs.
-5. Domain Storytelling da doação; exportar PNG.
-6. `docs/ddd/glossario.md` e `docs/ddd/context-map.md`.
-7. ADRs 0001–0016 em `docs/adr/` (um arquivo por ADR, a partir da [índice de ADRs](adr/README.md)).
+1. GitHub Project com colunas, campos e labels do [processo ágil](processo-agil.md).
+2. Uma issue por feature (H01–H10 agrupadas como em [visão geral](../specs/product/overview.md#catálogo-de-features)) e por tarefa técnica (T01–T04), com link para a `spec.md`; estimar com Planning Poker.
+3. Revisar cada spec em grupo; ajustes com `/clarify` e `/analyze`.
+4. `docs/agil/definition-of-ready.md` e `docs/agil/definition-of-done.md`.
+5. Event Storming no Miro (fluxos "criar campanha" e "doar"); exportar PNGs.
+6. Domain Storytelling da doação; exportar PNG.
+7. `docs/ddd/context-map.md` (o glossário e os ADRs 0001–0017 já existem).
 8. `.github/ISSUE_TEMPLATE/historia.md` e `.github/pull_request_template.md`.
 
 **Commits (exemplos):**
@@ -69,14 +72,12 @@ Toda etapa termina com: `/code-review` → `git rebase --exec` (todo commit comp
 📝 docs(ddd): adiciona event storming do fluxo de doação
 📝 docs(ddd): adiciona event storming do fluxo de campanha
 📝 docs(ddd): adiciona domain storytelling da doação
-📝 docs(ddd): adiciona glossário da linguagem ubíqua
 📝 docs(ddd): adiciona mapa de contextos
-📝 docs(adr): adiciona ADR 0001 sobre .NET 10   (… um por ADR)
 📝 docs: adiciona modelo de issue de história
 📝 docs: adiciona modelo de pull request
 ```
-**Pronto quando:** Sprint 1 planejada com itens na coluna "Pronto (DoR)".
-**Apoio:** MCP GitHub; `wiki:disciplinas/ddd`, `wiki:disciplinas/metodologias-ageis`.
+**Pronto quando:** Sprint 1 planejada com as features 001, 002 e 003 na coluna "Pronto (DoR)" e `/analyze` sem achados críticos.
+**Apoio:** `/clarify`, `/analyze`, MCP GitHub; `wiki:disciplinas/ddd`, `wiki:disciplinas/metodologias-ageis`.
 
 ## Etapa 3 — Esqueleto da solução e qualidade automática
 **Objetivo:** solução vazia compilando, hooks e CI mínimo funcionando.
@@ -91,11 +92,15 @@ Toda etapa termina com: `/code-review` → `git rebase --exec` (todo commit comp
 🎉 chore: cria solução ConexaoSolidaria
 🎉 chore(contracts): cria projeto ConexaoSolidaria.Contracts
 🎉 chore(defaults): cria projeto ConexaoSolidaria.ServiceDefaults
+🔊 feat(defaults): adiciona logs estruturados com serilog
+📈 feat(defaults): adiciona tracing com opentelemetry e endpoint de métricas
+🩺 feat(defaults): adiciona health checks live e ready
+🥅 feat(defaults): adiciona tratamento global de erros com problem details
 🎉 chore(identity): cria projetos Domain, Application, Infrastructure e Api
 🎉 chore(campanhas): cria projetos Domain, Application, Infrastructure, Api e Worker
 🎉 chore(notificacoes): cria projeto Notificacoes.Function
 🎉 chore(web): cria projeto ConexaoSolidaria.Web
-✅ test: cria projetos de teste com xUnit v3
+✅ test: cria projetos de teste em tests/unit, integration, contract e e2e
 ✅ test: adiciona teste de arquitetura das camadas
 🔧 chore: adiciona manifesto de ferramentas dotnet
 🔧 chore: adiciona hooks do husky para build, formato e mensagem
@@ -103,163 +108,54 @@ Toda etapa termina com: `/code-review` → `git rebase --exec` (todo commit comp
 🔧 chore: adiciona configuração de cobertura com coverlet
 🔧 chore: adiciona script de verificação da cobertura mínima de 90%
 👷 ci: adiciona workflow com restore, formato, build, testes e cobertura
-📝 docs: adiciona CLAUDE.md
+📝 docs: atualiza CLAUDE.md com os comandos reais da solução
 🔧 chore: adiciona script de verificação de pré-requisitos
 ```
 Cada projeto novo entra na `.slnx` no mesmo commit em que é criado (`dotnet sln add`).
 **Pronto quando:** `dotnet build -warnaserror` e `dotnet test` passam local e no CI; commit com mensagem fora do padrão é bloqueado; push e CI com cobertura abaixo de 90% falham.
-**Apoio:** `/init`, `/fewer-permission-prompts`, MCP Microsoft Learn.
+**Apoio:** `/init` (revisar o `CLAUDE.md` existente), `/fewer-permission-prompts`, skills `commit-gitmoji` e `documentar-xml`, MCP Microsoft Learn.
 
-## Etapa 4 — Identity.Api
-**Objetivo:** RF01, RF03 e RF08 funcionando com testes.
-**Tarefas:**
-1. ServiceDefaults: Serilog, OpenTelemetry, health checks, `ProblemDetails`/`IExceptionHandler`, `/metrics`, autenticação JWT (validação).
-2. Domínio (TDD): `Email`, `Cpf`, `Senha`, `Consentimento`, `Usuario`.
-3. Aplicação: `CadastrarDoador`, `Autenticar`, `ObterMeusDados`, `AnonimizarMeusDados`; validadores.
-4. Infraestrutura: `IdentityDbContext`, configurações, migration, `CifradorCpf` (AES-GCM + HMAC), `HasherSenha` (BCrypt), `EmissorJwt` (RS256), bloqueio por tentativas, seed do gestor.
-5. API: endpoints, OpenAPI, policies, `FallbackPolicy`.
-6. Testes de integração (Testcontainers PostgreSQL).
+## Etapas 4 a 8 — Features
 
-**Commits (exemplos):**
-```text
-🔊 feat(defaults): adiciona logs estruturados com serilog
-📈 feat(defaults): adiciona tracing com opentelemetry e endpoint de métricas
-🩺 feat(defaults): adiciona health checks live e ready
-🥅 feat(defaults): adiciona tratamento global de erros com problem details
-✨ feat(identity): adiciona value object Email
-✨ feat(identity): adiciona value object Cpf com validação de dígitos
-✨ feat(identity): adiciona value object Senha com política de segurança
-✨ feat(identity): adiciona agregado Usuario com cadastro de doador
-✨ feat(identity): adiciona anonimização do usuário
-🗃️ feat(identity): adiciona IdentityDbContext e migration inicial
-🔒️ feat(identity): adiciona cifragem e hash do cpf
-🛂 feat(identity): adiciona hash de senha com bcrypt
-🛂 feat(identity): emite jwt rs256 no login
-🦺 feat(identity): adiciona validadores de cadastro e login
-✨ feat(identity): adiciona endpoint de cadastro de doador
-✨ feat(identity): adiciona endpoint de login
-🛂 feat(identity): adiciona bloqueio por tentativas de login
-✨ feat(identity): adiciona endpoints de acesso e anonimização do titular
-🌱 chore(identity): adiciona seed do gestor por variáveis de ambiente
-✅ test(identity): adiciona testes de integração dos endpoints
-```
-**Pronto quando:** cenários Gherkin de RF01, RF03 e RF08 passam; `/security-review` sem pendências críticas.
-**Apoio:** `/security-review`, MCP Microsoft Learn, `wiki:disciplinas/api-dotnet`, `wiki:conceitos/jwt`.
+Cada feature é uma branch `feat/NNN-nome`, um PR e uma sequência de commits definida no seu `tasks.md`.
 
-## Etapa 5 — Campanhas.Api
-**Objetivo:** RF02, RF04, RF05 (lado da API) e RF06.
-**Tarefas:**
-1. Domínio (TDD): `Dinheiro`, `Periodo`, `Campanha` com todas as regras e eventos de domínio.
-2. Contratos: `DoacaoRecebidaEvent`, `CampanhaAlteradaEvent`, `DoacaoProcessadaEvent` + testes de snapshot.
-3. Infraestrutura: `CampanhasDbContext`, configurações, `xmin`, migration (inclui tabelas do MassTransit, `doacoes_processadas` e `chaves_idempotencia`), MassTransit com Outbox, `HybridCache` + Redis, cliente Elasticsearch, consulta Dapper do painel.
-4. Aplicação: casos de uso de campanha, painel, busca e `ReceberDoacao`.
-5. API: endpoints com policies, `ETag`/`If-Match`, `Idempotency-Key`.
-6. Consumidor `IndexarCampanhaConsumer` e endpoint de reindexação.
-7. Testes de integração e cenários BDD de RF02, RF04, RF05 (API) e RF06.
+**Ciclo por feature:**
+1. `git switch -c feat/NNN-nome` a partir da `main` atualizada.
+2. `/analyze NNN` → corrigir achados críticos na spec, no plano ou nas tarefas.
+3. `/implement NNN` → tarefas em ordem, com TDD, um commit por tarefa.
+4. Skill `verificar-cobertura` (≥ 90% por projeto) e agente `reviewer`.
+5. `/code-review`; `/security-review` nas features com autenticação ou dados pessoais.
+6. `git rebase --exec ...` → PR → CI verde → merge.
 
-**Commits (exemplos):**
-```text
-✨ feat(campanhas): adiciona value objects Dinheiro e Periodo
-✨ feat(campanhas): adiciona agregado Campanha com regras de criação
-✨ feat(campanhas): adiciona transições de status da campanha
-🏷️ feat(contracts): adiciona eventos de integração v1
-✅ test(contracts): adiciona snapshots dos contratos de eventos
-🗃️ feat(campanhas): adiciona CampanhasDbContext e migration inicial
-✨ feat(campanhas): adiciona endpoints de gestão de campanhas
-✨ feat(campanhas): adiciona painel de transparência com dapper
-⚡️ feat(campanhas): adiciona cache do painel com hybridcache e redis
-✨ feat(campanhas): adiciona recebimento de doação com outbox
-✨ feat(campanhas): adiciona chave de idempotência na doação
-✨ feat(campanhas): adiciona indexação de campanhas no elasticsearch
-✨ feat(campanhas): adiciona busca fuzzy de campanhas
-✅ test(campanhas): adiciona testes de integração da api
-✅ test(bdd): adiciona cenários de gestão de campanhas e doação
-```
-**Pronto quando:** cenários passam; doação retorna 202 e a mensagem fica no Outbox.
-**Apoio:** `/security-review`, `wiki:disciplinas/elasticsearch`, `wiki:disciplinas/nosql`.
+| Etapa | Features | Pronto quando |
+|---|---|---|
+| 4 — Identidade | [001 Autenticação](../specs/features/001-autenticacao/tasks.md), [003 Cadastro de doador](../specs/features/003-cadastro-doador/tasks.md), [008 Direitos do titular](../specs/features/008-direitos-titular/tasks.md) | Cenários de RF01, RF03 e RF08 passando; `/security-review` sem pendências críticas |
+| 5 — Campanhas | [002 Gestão de campanhas](../specs/features/002-gestao-campanhas/tasks.md), [004 Painel](../specs/features/004-painel-transparencia/tasks.md), [006 Busca](../specs/features/006-busca-campanhas/tasks.md) | Cenários de RF02, RF04 e RF06 passando; evento no Outbox a cada alteração |
+| 6 — Doação | [005 Doação assíncrona](../specs/features/005-doacao/tasks.md) | Doação aparece no painel em até 5 s; evento duplicado não soma duas vezes |
+| 7 — Recibo | [007 Recibo de doação](../specs/features/007-recibo-doacao/tasks.md) | Cada doação gera um `ReciboEmitido` sem dados pessoais; spike registrado |
+| 8 — Frontend | Layout, navegação e itens transversais do Blazor (as páginas de cada feature já vêm nas tarefas da feature) | Fluxo completo pelo navegador; testes bUnit passando |
 
-## Etapa 6 — Arrecadacao.Worker e mensageria
-**Objetivo:** RF05 de ponta a ponta (total atualizado pelo Worker).
-**Tarefas:**
-1. Worker Service com MassTransit (consumidor de `DoacaoRecebidaEvent`), retry e DLQ.
-2. Caso de uso `ProcessarDoacao`: transação com idempotência + `UPDATE` atômico + Outbox de `DoacaoProcessadaEvent`.
-3. Livro de doações no MongoDB (upsert idempotente) e verificação na reentrega.
-4. Invalidação do cache do painel.
-5. Métricas de negócio, health checks e `/metrics` na porta 9090.
-6. Testes: unidade do caso de uso; integração com Testcontainers e MassTransit Test Harness (inclui reentrega e falha permanente → `_error`).
-
-**Commits (exemplos):**
-```text
-✨ feat(worker): adiciona consumidor de doação recebida
-✨ feat(worker): soma doação ao total com idempotência
-✨ feat(worker): adiciona livro de doações no mongodb
-⚡️ feat(worker): invalida cache do painel após processar doação
-✨ feat(worker): publica DoacaoProcessadaEvent via outbox
-🥅 feat(worker): configura retentativas e fila de erro
-📈 feat(worker): adiciona métricas de doações processadas
-✅ test(worker): adiciona testes de reentrega e falha permanente
-✅ test(bdd): adiciona cenário de painel atualizado após doação
-```
-**Pronto quando:** doação feita na API aparece no painel em até 5 s; evento duplicado não soma duas vezes.
-**Apoio:** `wiki:disciplinas/mensageria`, `wiki:conceitos/idempotencia`.
-
-## Etapa 7 — Notificacoes.Function
-**Objetivo:** RF07 com escala a zero.
-**Tarefas:**
-1. Spike (time-box 1 dia): gatilho RabbitMQ no isolated worker .NET 10 lendo o envelope do MassTransit.
-2. Função `EmitirRecibo` com log estruturado mascarado e deduplicação.
-3. `deploy/rabbitmq/definitions.json` com a fila `notificacoes-recibo` e o binding.
-4. Dockerfile da função.
-5. Testes da desserialização do envelope e do conteúdo do log.
-
-**Commits (exemplos):**
-```text
-✨ feat(notificacoes): adiciona função de recibo com gatilho rabbitmq
-🔧 chore(notificacoes): adiciona definição da fila de recibos
-🧱 build(notificacoes): adiciona dockerfile da função
-✅ test(notificacoes): adiciona testes do envelope e do recibo
-```
-**Pronto quando:** com docker-compose, cada doação gera um log `ReciboEmitido` sem dados pessoais.
-**Apoio:** `wiki:disciplinas/serverless-apps`.
-
-## Etapa 8 — Frontend Blazor (+ IA bônus)
-**Objetivo:** interface para todas as funcionalidades.
-**Tarefas:**
-1. Layout, navegação e páginas públicas (início, transparência, busca) com SSR estático.
-2. Cadastro e login (cookie de autenticação no servidor; JWT anexado por `DelegatingHandler`).
-3. Doação (`InteractiveServer`), com mensagem de "processando".
-4. Gestão de campanhas (`<AuthorizeView Roles="GestorONG">`).
-5. Página "Meus dados" (acesso e anonimização).
-6. Testes bUnit.
-7. Bônus: assistente de descrição (Semantic Kernel + Ollama) com aviso de IA e revisão humana.
-
-**Commits (exemplos):**
+**Commits da Etapa 8 (exemplos):**
 ```text
 💄 feat(web): adiciona layout e navegação
-✨ feat(web): adiciona página de transparência
-✨ feat(web): adiciona busca de campanhas
-🛂 feat(web): adiciona cadastro e login de doador
-✨ feat(web): adiciona fluxo de doação
-✨ feat(web): adiciona gestão de campanhas para gestor
-✨ feat(web): adiciona página de dados do titular
-✅ test(web): adiciona testes de componentes com bunit
+💄 feat(web): adiciona página inicial
 🤖 feat(web): adiciona sugestão de descrição com semantic kernel
+✅ test(web): adiciona testes de layout e navegação com bunit
 ```
-**Pronto quando:** fluxo completo pelo navegador; testes bUnit passando.
-**Apoio:** MCP Playwright, `wiki:disciplinas/blazor-razor`.
+O assistente de IA (bônus) recebe só título e tópicos digitados pelo gestor e mostra o aviso de texto gerado por IA ([segurança e LGPD](../specs/product/seguranca-e-lgpd.md)).
+
+**Apoio:** agentes `test-writer`, `implementer` e `reviewer`; skills `commit-gitmoji`, `documentar-xml`, `verificar-cobertura`, `nova-migration`; MCP Microsoft Learn e Playwright; `wiki:disciplinas/api-dotnet`, `wiki:disciplinas/mensageria`, `wiki:disciplinas/elasticsearch`, `wiki:disciplinas/serverless-apps`, `wiki:disciplinas/blazor-razor`.
 
 ## Etapa 9 — Testes complementares
 **Objetivo:** cobertura de aceitação completa e metas de desempenho verificadas.
-**Tarefas:** cenários BDD restantes; k6 (`painel.js`, `doacao.js`, `busca.js`); testes que faltarem para manter cada projeto com cobertura ≥ 90%; bônus GraphQL/gRPC se houver tempo; E2E Playwright (bônus).
+**Tarefas:** conferir que todo cenário das specs está automatizado; E2E Playwright da jornada "doar" (bônus); bônus GraphQL/gRPC se houver tempo; rodar os três scripts k6 depois da Etapa 11.
 **Commits (exemplos):**
 ```text
-✅ test(bdd): adiciona cenários de busca e recibo
-✅ test(load): adiciona teste de carga do painel com k6
-✅ test(load): adiciona teste de carga da doação com k6
-✅ test(load): adiciona teste de carga da busca com k6
+✅ test(e2e): adiciona jornada de doação com playwright
+✅ test(load): ajusta thresholds do k6 após medição no minikube
 ```
-**Pronto quando:** todos os RFs com cenário automatizado; thresholds do k6 atendidos (após a Etapa 11).
-**Apoio:** `wiki:disciplinas/qualidade-software`.
+**Pronto quando:** todos os RFs com cenário automatizado; thresholds do k6 atendidos; cobertura ≥ 90% em todos os projetos.
+**Apoio:** MCP Playwright; `wiki:disciplinas/qualidade-software`.
 
 ## Etapa 10 — Containers e docker-compose
 **Objetivo:** stack completa com um comando.
