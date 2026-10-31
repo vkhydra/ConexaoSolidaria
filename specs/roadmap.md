@@ -271,7 +271,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R078** · `008/T002` [H10] Casos de uso `ObterMeusDados` e `AnonimizarMeusDados` com testes — `Identity.Application/Titular/*`
   Commit: `✨ feat(identity): adiciona casos de uso de acesso e anonimização do titular`
   Depende de: R077 (`008/T001`)
-- [ ] **R079** · `008/T003` [H10] Endpoints `GET` e `DELETE /doadores/me` com policy `Doador` e `Cache-Control: no-store` — `Identity.Api/Endpoints/TitularEndpoints.cs`
+- [X] **R079** · `008/T003` [H10] Endpoints `GET` e `DELETE /doadores/me` com policy `Doador` e `Cache-Control: no-store` — `Identity.Api/Endpoints/TitularEndpoints.cs`
   Commit: `✨ feat(identity): adiciona endpoints de acesso e anonimização do titular`
   Depende de: R078 (`008/T002`)
 - [ ] **R080** · `008/T004` [H10] Log de auditoria `TitularAnonimizado` e métrica `titulares_anonimizados_total` — `Identity.Application/Titular/AnonimizarMeusDados.cs`

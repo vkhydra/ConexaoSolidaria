@@ -7,6 +7,7 @@ using FluentValidation;
 using Identity.Api.Endpoints;
 using Identity.Application.Autenticacao;
 using Identity.Application.Doadores;
+using Identity.Application.Titular;
 using Identity.Infrastructure;
 
 const string Servico = "identity-api";
@@ -26,6 +27,8 @@ builder.Services.AddScoped<Autenticar>();
 builder.Services.AddSingleton<IValidator<CadastrarDoadorRequest>, CadastrarDoadorRequestValidator>();
 builder.Services.AddSingleton(new CadastrarDoadorOpcoes(builder.Configuration["Lgpd:VersaoPolitica"] ?? "2026-10"));
 builder.Services.AddScoped<CadastrarDoador>();
+builder.Services.AddScoped<ObterMeusDados>();
+builder.Services.AddScoped<AnonimizarMeusDados>();
 
 var app = builder.Build();
 
@@ -37,6 +40,7 @@ app.MapearSaude();
 app.MapearMetricas();
 app.MapearAutenticacao();
 app.MapearDoadores();
+app.MapearTitular();
 
 app.Run();
 
