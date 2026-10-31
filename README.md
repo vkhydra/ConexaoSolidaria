@@ -57,7 +57,7 @@ Exemplo: `✨ feat(campanhas): adiciona criação de campanha`. Todo commit deve
 
 - [Especificação do projeto](docs/spec/): 23 arquivos, dos pré-requisitos à conclusão (começar por [01 — Visão geral](specs/product/overview.md))
 - [Manual de implementação](docs/manual-de-implementacao.md): como implantar e operar (docker-compose, Minikube e Azure)
-- [Manual do usuário](docs/spec/23-manual-do-usuario.md): como visitantes, doadores e gestores usam a plataforma
+- [Manual do usuário](docs/manual-do-usuario.md): como visitantes, doadores e gestores usam a plataforma
 - [Roteiro do vídeo](docs/ROTEIRO-VIDEO.md): apresentação de até 15 minutos
 
 ## Equipe

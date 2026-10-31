@@ -1,8 +1,8 @@
 # 23 — Manual do usuário
 
-[← README](../../README.md) · Anterior: [22 — Manual de implementação](../manual-de-implementacao.md)
+[← README](../README.md) · Anterior: [22 — Manual de implementação](manual-de-implementacao.md)
 
-Como usar a plataforma **Conexão Solidária** pelo navegador. Público: visitantes, doadores e gestores da ONG Esperança Solidária. Para instalar e colocar no ar, ver [22 — Manual de implementação](../manual-de-implementacao.md).
+Como usar a plataforma **Conexão Solidária** pelo navegador. Público: visitantes, doadores e gestores da ONG Esperança Solidária. Para instalar e colocar no ar, ver [22 — Manual de implementação](manual-de-implementacao.md).
 
 ## 23.1 Perfis de acesso
 
@@ -193,4 +193,4 @@ Toda mensagem de erro inesperado traz um **código de rastreio**. Informar esse 
 
 ## 23.10 Uso pela API
 
-Integrações e testes podem usar a API REST direto em `https://api.conexao.local/api/v1`, com a documentação em `/swagger` (ambiente local) e a coleção Postman em `docs/postman/`. Endpoints, exemplos e códigos de erro: [09 — API e eventos](../../specs/product/api-e-eventos.md).
+Integrações e testes podem usar a API REST direto em `https://api.conexao.local/api/v1`, com a documentação em `/swagger` (ambiente local) e a coleção Postman em `docs/postman/`. Endpoints, exemplos e códigos de erro: [09 — API e eventos](../specs/product/api-e-eventos.md).
