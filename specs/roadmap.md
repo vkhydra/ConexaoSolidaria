@@ -158,7 +158,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Commit: `📈 feat(defaults): adiciona tracing com opentelemetry e endpoint de métricas`
 - [X] **R033** · `ServiceDefaults`: `/health/live` e `/health/ready`, com testes
   Commit: `🩺 feat(defaults): adiciona health checks live e ready`
-- [ ] **R034** · `ServiceDefaults`: tratamento global de erros com `ProblemDetails`, com testes
+- [X] **R034** · `ServiceDefaults`: tratamento global de erros com `ProblemDetails`, com testes
   Commit: `🥅 feat(defaults): adiciona tratamento global de erros com problem details`
 - [ ] **R035** · Manifesto de ferramentas locais (`dotnet-ef`, `husky`)
   Commit: `🔧 chore: adiciona manifesto de ferramentas dotnet`

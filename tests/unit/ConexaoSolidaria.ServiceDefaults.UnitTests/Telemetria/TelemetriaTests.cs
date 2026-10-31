@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using ConexaoSolidaria.ServiceDefaults.Telemetria;
 using ConexaoSolidaria.ServiceDefaults.UnitTests.Suporte;
 using Microsoft.AspNetCore.Builder;
@@ -50,7 +49,7 @@ public sealed class TelemetriaTests
     public async Task Traces_RequisicaoDeNegocio_GeraSpan()
     {
         var ct = TestContext.Current.CancellationToken;
-        var spans = new List<Activity>();
+        var spans = new SpansCollection();
         var builder = AplicacaoDeTeste.CriarConstrutor();
         builder.AddTelemetria("servico-de-teste");
         builder.Services.ConfigureOpenTelemetryTracerProvider(traces => traces.AddInMemoryExporter(spans));
@@ -60,10 +59,10 @@ public sealed class TelemetriaTests
         using var cliente = app.GetTestClient();
 
         (await cliente.GetAsync("/negocio", ct)).EnsureSuccessStatusCode();
-        var apareceu = await Aguardar.AteAsync(() => spans.Count > 0, TimeSpan.FromSeconds(5), ct);
+        var apareceu = await Aguardar.AteAsync(() => spans.TemCaminho("/negocio"), TimeSpan.FromSeconds(5), ct);
 
         apareceu.ShouldBeTrue("o span da requisição deveria ter sido exportado");
-        spans.ShouldContain(s => s.OperationName.Contains("Microsoft.AspNetCore", StringComparison.Ordinal));
+        spans.Copia().ShouldContain(s => s.OperationName.Contains("Microsoft.AspNetCore", StringComparison.Ordinal));
     }
 
     /// <summary>
@@ -77,7 +76,7 @@ public sealed class TelemetriaTests
     public async Task Traces_SondasEMetricas_NaoGeramSpan(string caminho)
     {
         var ct = TestContext.Current.CancellationToken;
-        var spans = new List<Activity>();
+        var spans = new SpansCollection();
         var builder = AplicacaoDeTeste.CriarConstrutor();
         builder.AddTelemetria("servico-de-teste");
         builder.Services.ConfigureOpenTelemetryTracerProvider(traces => traces.AddInMemoryExporter(spans));
@@ -90,10 +89,12 @@ public sealed class TelemetriaTests
 
         (await cliente.GetAsync(caminho, ct)).EnsureSuccessStatusCode();
         (await cliente.GetAsync("/negocio", ct)).EnsureSuccessStatusCode();
-        var controle = await Aguardar.AteAsync(() => spans.Count > 0, TimeSpan.FromSeconds(5), ct);
+        var controle = await Aguardar.AteAsync(() => spans.TemCaminho("/negocio"), TimeSpan.FromSeconds(5), ct);
 
+        // O ActivitySource do ASP.NET é global: spans de outros testes em paralelo também chegam aqui.
+        // Por isso confere-se só o que importa: a rota de controle aparece e a sonda não.
         controle.ShouldBeTrue("a requisição de controle deveria gerar span");
-        spans.Select(s => s.GetTagItem("url.path")?.ToString()).ShouldBe(["/negocio"]);
+        spans.TemCaminho(caminho).ShouldBeFalse($"{caminho} não deveria gerar span");
     }
 
     /// <summary>
