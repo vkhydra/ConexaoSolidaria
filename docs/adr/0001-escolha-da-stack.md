@@ -3,10 +3,11 @@
 - **Status:** Aceito
 - **Data:** 2026-10-30
 - **Decisores:** equipe do projeto
+- **Errata (2026-10-30):** contexto corrigido para o escopo do trabalho substitutivo ([ADR 0018](0018-escopo-trabalho-substitutivo.md)); a decisão não mudou.
 
 ## Contexto
 
-O Hackathon da Fase 5 pede um MVP com foco em escalabilidade, observabilidade e automação, avaliado pela arquitetura. O projeto também precisa aplicar o conteúdo das 5 fases do curso ([cobertura das fases](../cobertura-das-fases.md)). O enunciado da Fase 2 pede .NET 8 ou superior, e o .NET 8 sai de suporte em novembro de 2026.
+O trabalho substitutivo da Fase 3 pede uma API .NET com testes unitários e uma pipeline de CI que retorne a cobertura ([ADR 0018](0018-escopo-trabalho-substitutivo.md)). O grupo também quer aplicar na API o conteúdo das 5 fases do curso ([cobertura das fases](../cobertura-das-fases.md)). O .NET 8 sai de suporte em novembro de 2026.
 
 A stack precisa:
 
@@ -51,4 +52,4 @@ Usar .NET 10 (LTS) em todos os projetos, com o SDK fixado em `global.json`, e a 
 
 - [Visão geral do produto](../../specs/product/overview.md)
 - [Arquitetura](../../specs/product/arquitetura.md)
-- `wiki:fontes/tech-challenge/05-hackathon-fase-5-conexao-solidaria`
+- `wiki:fontes/tech-challenge/06-trabalho-substitutivo-fase-3-testes-e-cobertura-ci`
