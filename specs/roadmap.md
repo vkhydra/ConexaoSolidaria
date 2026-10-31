@@ -316,7 +316,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R091** · `002/T008` [H04] `AtualizarCampanha` e `AlterarStatusCampanha` com testes — `Campanhas.Application/Campanhas/*`
   Commit: `✨ feat(campanhas): adiciona casos de uso de edição e status`
   Depende de: R087 (`002/T004`), R090 (`002/T007`)
-- [ ] **R092** · `002/T009` [H04] `ListarCampanhas` (paginação e filtro) e `ObterCampanha`, com testes — `Campanhas.Application/Campanhas/*`
+- [X] **R092** · `002/T009` [H04] `ListarCampanhas` (paginação e filtro) e `ObterCampanha`, com testes — `Campanhas.Application/Campanhas/*`
   Commit: `✨ feat(campanhas): adiciona listagem e detalhe de campanhas`
 - [ ] **R093** · `002/T010` [H03] `CampanhasDbContext`, configuração com `xmin` e migration inicial (inclui tabelas do Outbox) — `Campanhas.Infrastructure/Persistencia/*`
   Commit: `🗃️ feat(campanhas): adiciona CampanhasDbContext e migration inicial`
