@@ -63,6 +63,12 @@ Pacotes `AspNetCore.HealthChecks.*` (NpgSql, Rabbitmq, Redis, MongoDb, Elasticse
 | `doacao_atraso_processamento_segundos` | Histogram | — | Worker (`ProcessadaEm - RecebidaEm`) |
 | `campanhas_criadas_total` | Counter | — | Campanhas.Api |
 | `recibos_emitidos_total` | Counter | — | Função (exposto via log; métrica opcional) |
+| `logins_total` | Counter | `resultado` (`sucesso`, `falha`, `bloqueado`) | Identity.Api ([feature 001](../features/001-autenticacao/plan.md)) |
+| `doadores_cadastrados_total` | Counter | — | Identity.Api ([feature 003](../features/003-cadastro-doador/plan.md)) |
+| `titulares_anonimizados_total` | Counter | — | Identity.Api ([feature 008](../features/008-direitos-titular/plan.md)) |
+| `painel_cache_total` | Counter | `resultado` (`acerto`, `falta`, `erro`) | Campanhas.Api ([feature 004](../features/004-painel-transparencia/plan.md)) |
+| `buscas_total` | Counter | `resultado` (`ok`, `vazio`, `indisponivel`) | Campanhas.Api ([feature 006](../features/006-busca-campanhas/plan.md)) |
+| `campanhas_indexadas_total` | Counter | — | Campanhas.Api, consumidor de indexação ([feature 006](../features/006-busca-campanhas/plan.md)) |
 
 Regra: labels de **baixa cardinalidade** (nunca `campanhaId`, `doadorId` ou URL completa).
 
