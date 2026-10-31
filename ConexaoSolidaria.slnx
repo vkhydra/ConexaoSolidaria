@@ -2,5 +2,6 @@
   <Folder Name="/src/" />
   <Folder Name="/src/BuildingBlocks/">
     <Project Path="src/BuildingBlocks/ConexaoSolidaria.Contracts/ConexaoSolidaria.Contracts.csproj" />
+    <Project Path="src/BuildingBlocks/ConexaoSolidaria.ServiceDefaults/ConexaoSolidaria.ServiceDefaults.csproj" />
   </Folder>
 </Solution>
