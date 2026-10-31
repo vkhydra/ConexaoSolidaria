@@ -26,7 +26,7 @@ O MVP digitaliza a gestão de campanhas e doações com foco em **escalabilidade
 - **CI/CD:** GitHub Actions faz build, testes e a imagem Docker a cada push na `main`.
 - **Frontend:** Blazor.
 
-Detalhes, diagramas e decisões: [docs/spec/07-arquitetura.md](docs/spec/07-arquitetura.md) e [docs/spec/08-decisoes-arquiteturais.md](docs/spec/08-decisoes-arquiteturais.md).
+Detalhes, diagramas e decisões: [docs/spec/07-arquitetura.md](specs/product/arquitetura.md) e [docs/spec/08-decisoes-arquiteturais.md](docs/spec/08-decisoes-arquiteturais.md).
 
 ## Estrutura do repositório
 

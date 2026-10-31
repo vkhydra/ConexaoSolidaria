@@ -1,6 +1,6 @@
 # 06 — Modelo de domínio (DDD)
 
-[← README](../../README.md) · Anterior: [05 — Requisitos não funcionais](requisitos-nao-funcionais.md) · Próximo: [07 — Arquitetura](../../docs/spec/07-arquitetura.md)
+[← README](../../README.md) · Anterior: [05 — Requisitos não funcionais](requisitos-nao-funcionais.md) · Próximo: [07 — Arquitetura](arquitetura.md)
 
 Aplica o design estratégico e tático da Fase 1 (`wiki:disciplinas/ddd`, `wiki:boas-praticas/ddd`).
 

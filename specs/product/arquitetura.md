@@ -1,6 +1,6 @@
 # 07 — Arquitetura
 
-[← README](../../README.md) · Anterior: [06 — Modelo de domínio](../../specs/product/dominio.md) · Próximo: [08 — Decisões arquiteturais](08-decisoes-arquiteturais.md)
+[← README](../../README.md) · Anterior: [06 — Modelo de domínio](dominio.md) · Próximo: [08 — Decisões arquiteturais](../../docs/spec/08-decisoes-arquiteturais.md)
 
 ## 7.1 Visão de contexto
 
@@ -187,7 +187,7 @@ A regra é verificada por um teste de arquitetura (NetArchTest) em cada `*.UnitT
 | `observability` | Prometheus, Grafana, Alertmanager, Jaeger |
 | `keda` | Operador KEDA |
 
-Detalhes de recursos, probes e manifestos: [13 — Infraestrutura](13-infraestrutura.md).
+Detalhes de recursos, probes e manifestos: [13 — Infraestrutura](../../docs/spec/13-infraestrutura.md).
 
 ## 7.9 Configuração
 
