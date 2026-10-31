@@ -87,6 +87,7 @@ Toda etapa termina com: `/code-review` → `git rebase --exec` (todo commit comp
 🔧 chore: adiciona .gitattributes
 🔧 chore: adiciona Directory.Build.props com avisos como erro
 🔧 chore: adiciona Directory.Packages.props com gestão central de pacotes
+🔧 chore: adiciona stylecop para exigir documentação xml
 🎉 chore: cria solução ConexaoSolidaria
 🎉 chore(contracts): cria projeto ConexaoSolidaria.Contracts
 🎉 chore(defaults): cria projeto ConexaoSolidaria.ServiceDefaults
