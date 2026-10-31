@@ -243,9 +243,9 @@ dotnet test -c Release --settings coverlet.runsettings --collect "XPlat Code Cov
 dotnet reportgenerator -reports:"TestResults/**/coverage.cobertura.xml" -targetdir:coverage -reporttypes:"Html;JsonSummary"
 pwsh ./scripts/verificar-cobertura.ps1 -Minimo 90
 
-k6 run -e BASE_URL=https://api.conexao.local tests/load/painel.js
-k6 run -e BASE_URL=https://api.conexao.local tests/load/doacao.js
-k6 run -e BASE_URL=https://api.conexao.local tests/load/busca.js
+k6 run -e BASE_URL=https://api.conexao.local tests/e2e/load/painel.js
+k6 run -e BASE_URL=https://api.conexao.local tests/e2e/load/doacao.js
+k6 run -e BASE_URL=https://api.conexao.local tests/e2e/load/busca.js
 ```
 Os testes de integração precisam do Docker ligado (Testcontainers). Detalhes em [Testes](testes.md).
 
