@@ -3,10 +3,11 @@
 - **Status:** Aceito
 - **Data:** 2026-10-30
 - **Decisores:** equipe do projeto
+- **Errata (2026-10-30):** contexto corrigido para o escopo do trabalho substitutivo ([ADR 0018](0018-escopo-trabalho-substitutivo.md)); a decisão não mudou.
 
 ## Contexto
 
-O enunciado exige que o Worker atualize o "Valor Total Arrecadado" e que a API não o faça.
+A doação é processada de forma assíncrona (mensageria, Fase 2): a API aceita a doação e o Worker atualiza o "Valor Total Arrecadado". Dois escritores do mesmo valor gerariam conflito de concorrência e regras duplicadas.
 
 ## Decisão
 
@@ -14,7 +15,7 @@ O enunciado exige que o Worker atualize o "Valor Total Arrecadado" e que a API n
 
 ## Alternativas consideradas
 
-Worker com banco próprio e evento de volta para a API atualizar o total: a API voltaria a atualizar o total, contrariando o enunciado.
+Worker com banco próprio e evento de volta para a API atualizar o total: a API voltaria a atualizar o total, com dois escritores do mesmo valor.
 
 ## Consequências
 
