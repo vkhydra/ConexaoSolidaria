@@ -6,16 +6,18 @@ Referências: `wiki:disciplinas/qualidade-software`, `wiki:disciplinas/principio
 
 ## Estratégia (pirâmide)
 
-| Nível | Quantidade | Ferramentas | O que cobre | Roda em |
-|---|---|---|---|---|
-| Unidade | Muitos | xUnit v3, Shouldly, NSubstitute | Domínio (agregados, VOs), casos de uso, validadores, handlers | Todo commit (hook) e CI |
-| Arquitetura | Poucos | NetArchTest | Regras de dependência entre camadas | CI |
-| Contrato de eventos | Poucos | xUnit + snapshot JSON | Serialização dos eventos v1 | CI |
-| Integração | Médio | `WebApplicationFactory`, Testcontainers (PostgreSQL, RabbitMQ, Redis, MongoDB, Elasticsearch), MassTransit Test Harness | Endpoints reais, banco real, Outbox, consumidores | CI e `pre-push` |
-| Aceitação (BDD) | Um por cenário Gherkin | Reqnroll + xUnit | Critérios de aceitação dos RFs | CI |
-| Componentes de UI | Poucos | bUnit | Componentes Blazor | CI |
-| E2E (bônus) | Muito poucos | Playwright | Jornada "doar" no navegador | Manual / agendado |
-| Carga | Poucos | k6 | RNF01–RNF04 | Manual, antes do vídeo |
+| Nível | Quantidade | Ferramentas | O que cobre | Pasta | Roda em |
+|---|---|---|---|---|---|
+| Unidade | Muitos | xUnit v3, Shouldly, NSubstitute | Domínio (agregados, VOs), casos de uso, validadores, handlers | `tests/unit/` | Todo commit (hook) e CI |
+| Arquitetura | Poucos | NetArchTest | Regras de dependência entre camadas | `tests/unit/` | Todo commit e CI |
+| Componentes de UI | Poucos | bUnit | Componentes e páginas Blazor | `tests/unit/` | Todo commit e CI |
+| Contrato | Poucos | xUnit + snapshot JSON | Eventos v1 e documento OpenAPI | `tests/contract/` | CI e `pre-push` |
+| Integração | Médio | `WebApplicationFactory`, Testcontainers (PostgreSQL, RabbitMQ, Redis, MongoDB, Elasticsearch), MassTransit Test Harness | Endpoints reais, banco real, Outbox, consumidores | `tests/integration/` | CI e `pre-push` |
+| Aceitação (BDD) | Um por cenário Gherkin | Reqnroll + xUnit | Cenários das `spec.md` das features | `tests/e2e/ConexaoSolidaria.Bdd/` | CI |
+| E2E (bônus) | Muito poucos | Playwright | Jornada "doar" no navegador | `tests/e2e/ConexaoSolidaria.E2ETests/` | Manual / agendado |
+| Carga | Poucos | k6 | RNF01–RNF04 | `tests/e2e/load/` | Manual, antes do vídeo |
+
+Projetos de teste: `<Projeto>.UnitTests`, `<Projeto>.IntegrationTests`, `ConexaoSolidaria.ContractTests`, `ConexaoSolidaria.Bdd` e `ConexaoSolidaria.E2ETests`. Cada pasta tem um README com o que entra nela.
 
 Um framework de teste para toda a solução: **xUnit v3**.
 
@@ -59,7 +61,7 @@ Como todo commit precisa compilar e passar nos testes, o teste e a implementaç�
 
 ## BDD (Reqnroll)
 
-- Projeto `tests/ConexaoSolidaria.Bdd` com `Features/*.feature` em português (`# language: pt`).
+- Projeto `tests/e2e/ConexaoSolidaria.Bdd` com `Features/NNN-nome.feature` (um por feature) em português (`# language: pt`).
 - Um arquivo por RF, com os cenários de `spec.md` de cada feature em [specs/features/](../specs/features/).
 - Steps declarativos ("o doador doa 150.00"), sem detalhes de HTTP no texto.
 - Steps chamam as APIs reais em memória (`WebApplicationFactory`) com infraestrutura em Testcontainers.
@@ -67,7 +69,7 @@ Como todo commit precisa compilar e passar nos testes, o teste e a implementaç�
 
 ## Testes de carga (k6)
 
-Pasta `tests/load/`, execução contra o Kong local:
+Pasta `tests/e2e/load/`, execução contra o Kong local:
 
 | Script | Cenário | Thresholds |
 |---|---|---|
@@ -76,7 +78,7 @@ Pasta `tests/load/`, execução contra o Kong local:
 | `busca.js` | 30 VUs com termos com erro de digitação | `p(95)<400` |
 
 - `checks` validam status e corpo.
-- Resultado salvo em `tests/load/results/` (ignorado pelo git) e resumo no README.
+- Resultado salvo em `tests/e2e/load/results/` (ignorado pelo git) e resumo no README.
 - Durante a carga, observar no Grafana a subida de réplicas (HPA/KEDA): bom material para o vídeo.
 
 ## Cobertura (mínimo obrigatório de 90%)
@@ -101,7 +103,7 @@ Pasta `tests/load/`, execução contra o Kong local:
         <Configuration>
           <Format>cobertura</Format>
           <Include>[ConexaoSolidaria.*]*,[Identity.*]*,[Campanhas.*]*,[Arrecadacao.*]*,[Notificacoes.*]*</Include>
-          <Exclude>[*.UnitTests]*,[*.IntegrationTests]*,[*.Tests]*,[ConexaoSolidaria.Bdd]*</Exclude>
+          <Exclude>[*.UnitTests]*,[*.IntegrationTests]*,[*.ContractTests]*,[*.E2ETests]*,[ConexaoSolidaria.Bdd]*</Exclude>
           <ExcludeByFile>**/Migrations/*.cs,**/Program.cs,**/*.g.cs</ExcludeByFile>
           <ExcludeByAttribute>GeneratedCodeAttribute,CompilerGeneratedAttribute,ExcludeFromCodeCoverageAttribute</ExcludeByAttribute>
           <SkipAutoProps>true</SkipAutoProps>
