@@ -357,7 +357,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R107** · `004/T007` [H05] Testes de integração: só ativas no período, ordenação, percentual, Redis parado, cabeçalho de cache — `tests/integration/Campanhas.IntegrationTests/TransparenciaTests.cs`
   Commit: `✅ test(campanhas): adiciona testes de integração do painel`
   Depende de: R105 (`004/T005`)
-- [ ] **R108** · `004/T008` [H05] Cenários Gherkin (exceto "após doação", entregue com a feature 005) — `tests/e2e/ConexaoSolidaria.Bdd/Features/004-painel-transparencia.feature`
+- [X] **R108** · `004/T008` [H05] Cenários Gherkin (exceto "após doação", entregue com a feature 005); as campanhas dos cenários entram direto no banco (títulos curtos como "A" e datas passadas não passariam pela API) — `tests/e2e/ConexaoSolidaria.Bdd/Features/004-painel-transparencia.feature`
   Commit: `✅ test(bdd): adiciona cenários do painel de transparência`
   Depende de: R107 (`004/T007`)
 - [ ] **R109** · `004/T011` `/code-review`; cobertura ≥ 90%; `git rebase --exec` antes do PR

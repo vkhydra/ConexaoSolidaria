@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Time.Testing;
+using Npgsql;
 
 namespace ConexaoSolidaria.Bdd.Suporte;
 
@@ -23,12 +23,22 @@ public sealed class AmbienteCampanhas(AmbienteIdentity identidade, RespostaDoCen
     /// <summary>
     /// Relógio do cenário, fixado em "hoje" e usado pela API.
     /// </summary>
-    private readonly FakeTimeProvider _relogio = new(new DateTimeOffset(2026, 11, 10, 15, 0, 0, TimeSpan.Zero));
+    private readonly RelogioDoCenario _relogio = new();
 
     /// <summary>
     /// Versões (ETag) guardadas pelo cenário, por rótulo ("1", "2").
     /// </summary>
     private readonly Dictionary<string, string> _versoes = [];
+
+    /// <summary>
+    /// Identificadores das campanhas criadas pelo cenário, por título.
+    /// </summary>
+    private readonly Dictionary<string, Guid> _idsPorTitulo = [];
+
+    /// <summary>
+    /// String de conexão do banco do cenário.
+    /// </summary>
+    private string? _conexao;
 
     /// <summary>
     /// API iniciada pelo cenário, descartada no fim.
@@ -39,6 +49,12 @@ public sealed class AmbienteCampanhas(AmbienteIdentity identidade, RespostaDoCen
     /// Cliente HTTP da API.
     /// </summary>
     private HttpClient? _cliente;
+
+    /// <summary>
+    /// Obtém ou define se o Redis do cenário deve apontar para um endereço sem servidor, simulando o Redis fora do ar.
+    /// Precisa ser definido antes da primeira chamada à API.
+    /// </summary>
+    public bool RedisForaDoAr { get; set; }
 
     /// <summary>
     /// Obtém o identificador da última campanha criada pelo cenário.
@@ -52,7 +68,7 @@ public sealed class AmbienteCampanhas(AmbienteIdentity identidade, RespostaDoCen
     public void DefinirHoje(string hoje)
     {
         var data = DateOnly.ParseExact(hoje, "yyyy-MM-dd", CultureInfo.InvariantCulture);
-        _relogio.SetUtcNow(new DateTimeOffset(data.Year, data.Month, data.Day, 15, 0, 0, TimeSpan.Zero));
+        _relogio.Definir(new DateTimeOffset(data.Year, data.Month, data.Day, 15, 0, 0, TimeSpan.Zero));
     }
 
     /// <summary>
@@ -82,6 +98,7 @@ public sealed class AmbienteCampanhas(AmbienteIdentity identidade, RespostaDoCen
         {
             var corpo = JsonDocument.Parse(await respostaDoCenario.Resposta.Content.ReadAsStringAsync()).RootElement;
             UltimaCampanhaId = corpo.GetProperty("id").GetGuid();
+            _idsPorTitulo[titulo] = UltimaCampanhaId.Value;
             _versoes["1"] = respostaDoCenario.Resposta.Headers.ETag!.Tag;
         }
     }
@@ -148,6 +165,66 @@ public sealed class AmbienteCampanhas(AmbienteIdentity identidade, RespostaDoCen
     }
 
     /// <summary>
+    /// Insere uma campanha direto no banco, como dado já existente, sem passar pelas regras de criação da API (por exemplo,
+    /// títulos curtos e datas no passado). Limpa o cache do painel.
+    /// </summary>
+    /// <param name="titulo">Título da campanha.</param>
+    /// <param name="status">Status: <c>Ativa</c>, <c>Concluida</c> ou <c>Cancelada</c>.</param>
+    /// <param name="inicio">Data início (<c>aaaa-MM-dd</c>).</param>
+    /// <param name="fim">Data fim (<c>aaaa-MM-dd</c>).</param>
+    /// <param name="meta">Meta em reais, com ponto decimal.</param>
+    /// <param name="total">Total arrecadado em reais, com ponto decimal.</param>
+    /// <returns>Tarefa que termina com a campanha inserida.</returns>
+    public async Task InserirCampanhaAsync(string titulo, string status, string inicio, string fim, string meta, string total)
+    {
+        await ObterClienteAsync();
+        await using var conexao = new NpgsqlConnection(_conexao);
+        await conexao.OpenAsync();
+        await using var comando = new NpgsqlCommand(
+            """
+            INSERT INTO campanhas (id, titulo, descricao, data_inicio, data_fim, meta_financeira, total_arrecadado, status, criado_em, atualizado_em)
+            VALUES (@id, @titulo, 'Campanha de teste.', @inicio, @fim, @meta, @total, @status, now(), now())
+            """,
+            conexao);
+        var id = Guid.CreateVersion7();
+        comando.Parameters.AddWithValue("id", id);
+        comando.Parameters.AddWithValue("titulo", titulo);
+        comando.Parameters.AddWithValue("inicio", DateOnly.ParseExact(inicio, "yyyy-MM-dd", CultureInfo.InvariantCulture));
+        comando.Parameters.AddWithValue("fim", DateOnly.ParseExact(fim, "yyyy-MM-dd", CultureInfo.InvariantCulture));
+        comando.Parameters.AddWithValue("meta", decimal.Parse(meta, CultureInfo.InvariantCulture));
+        comando.Parameters.AddWithValue("total", decimal.Parse(total, CultureInfo.InvariantCulture));
+        comando.Parameters.AddWithValue("status", status);
+        await comando.ExecuteNonQueryAsync();
+        _idsPorTitulo[titulo] = id;
+        if (!RedisForaDoAr)
+        {
+            await _api!.Services.GetRequiredService<Campanhas.Application.Transparencia.ICachePainel>().RemoverAsync(CancellationToken.None);
+        }
+    }
+
+    /// <summary>
+    /// Consulta o painel público como visitante, sem token, e guarda a resposta.
+    /// </summary>
+    /// <returns>Tarefa que termina com a resposta guardada.</returns>
+    public async Task ConsultarPainelAsync()
+    {
+        await ObterClienteAsync();
+        using var visitante = _api!.CreateClient();
+        respostaDoCenario.Resposta = await visitante.GetAsync("/api/v1/transparencia/campanhas");
+    }
+
+    /// <summary>
+    /// Lê os itens do painel da última resposta.
+    /// </summary>
+    /// <returns>Os itens do painel, como elementos JSON.</returns>
+    public async Task<IReadOnlyList<JsonElement>> LerPainelAsync()
+    {
+        var texto = await respostaDoCenario.Resposta!.Content.ReadAsStringAsync();
+        using var documento = JsonDocument.Parse(texto);
+        return [.. documento.RootElement.EnumerateArray().Select(e => e.Clone())];
+    }
+
+    /// <summary>
     /// Libera a API e o cliente.
     /// </summary>
     public void Dispose()
@@ -188,6 +265,7 @@ public sealed class AmbienteCampanhas(AmbienteIdentity identidade, RespostaDoCen
         }
 
         var conexao = await ServidorPostgres.CriarBancoAsync();
+        _conexao = conexao;
         var opcoes = new DbContextOptionsBuilder<CampanhasDbContext>();
         CampanhasDbContext.Configurar(opcoes, conexao);
         await using (var contexto = new CampanhasDbContext(opcoes.Options))
@@ -199,7 +277,7 @@ public sealed class AmbienteCampanhas(AmbienteIdentity identidade, RespostaDoCen
         {
             builder.UseEnvironment("Development");
             builder.UseSetting("ConnectionStrings:Campanhas", conexao);
-            builder.UseSetting("ConnectionStrings:Redis", ServidorRedis.Conexao);
+            builder.UseSetting("ConnectionStrings:Redis", RedisForaDoAr ? "localhost:1,abortConnect=false,connectTimeout=300,syncTimeout=300" : ServidorRedis.Conexao);
             builder.UseSetting("RabbitMq:Host", "rabbitmq.invalido.local");
             builder.UseSetting("Jwt:ChavePublicaPem", identidade.ChavePublicaPem);
             builder.ConfigureServices(servicos =>

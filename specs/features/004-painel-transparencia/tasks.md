@@ -29,7 +29,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 - [X] T007 [H05] Testes de integração: só ativas no período, ordenação, percentual, Redis parado, cabeçalho de cache — `tests/integration/Campanhas.IntegrationTests/TransparenciaTests.cs`
   Commit: `✅ test(campanhas): adiciona testes de integração do painel`
-- [ ] T008 [H05] Cenários Gherkin (exceto "após doação", entregue com a feature 005) — `tests/e2e/ConexaoSolidaria.Bdd/Features/004-painel-transparencia.feature`
+- [X] T008 [H05] Cenários Gherkin (exceto "após doação", entregue com a feature 005); as campanhas dos cenários entram direto no banco (títulos curtos como "A" e datas passadas não passariam pela API) — `tests/e2e/ConexaoSolidaria.Bdd/Features/004-painel-transparencia.feature`
   Commit: `✅ test(bdd): adiciona cenários do painel de transparência`
 - [ ] T009 [P] [H05] Script k6 com threshold p95 < 300 ms e 50 VUs — `tests/e2e/load/painel.js`
   Commit: `✅ test(load): adiciona teste de carga do painel com k6`
