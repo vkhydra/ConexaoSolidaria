@@ -34,7 +34,9 @@ Linguagem ubíqua do Conexão Solidária (`wiki:conceitos/linguagem-ubiqua`). Os
 |---|---|
 | Agregado | Conjunto de objetos de domínio tratado como uma unidade de consistência, acessado pela raiz (`Campanha`, `Usuario`) |
 | At-least-once | Garantia de entrega em que a mensagem chega pelo menos uma vez e pode chegar repetida |
+| Artefato (CI) | Arquivo publicado por uma execução da pipeline para download, como o relatório de cobertura |
 | Bounded context | Fronteira em que um modelo de domínio é válido (Identidade, Campanhas, Notificações) |
+| Cobertura de código | Percentual de linhas e de ramos do código executados pelos testes |
 | Consistência eventual | O total do painel fica correto alguns segundos depois da doação, não no mesmo instante |
 | Constituição | Princípios inegociáveis do projeto ([specs/constitution.md](../specs/constitution.md)) |
 | DLQ (fila de erro) | Fila `*_error` que recebe mensagens que falharam após todas as retentativas |
@@ -47,4 +49,5 @@ Linguagem ubíqua do Conexão Solidária (`wiki:conceitos/linguagem-ubiqua`). Os
 | RF / RNF | Requisito funcional / não funcional |
 | SDD | Spec-Driven Development: especificar antes de implementar ([ADR 0017](adr/0017-spec-driven-development.md)) |
 | SLO | Objetivo de nível de serviço ([requisitos não funcionais](../specs/product/requisitos-nao-funcionais.md)) |
+| Trabalho substitutivo | Atividade Substitutiva da Fase 3: API .NET, testes unitários e CI com cobertura ([ADR 0018](adr/0018-escopo-trabalho-substitutivo.md)) |
 | Value object | Objeto definido pelo valor, imutável e sem identidade (`Dinheiro`, `Periodo`, `Cpf`, `Email`) |
