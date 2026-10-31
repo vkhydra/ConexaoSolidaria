@@ -40,7 +40,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 ## Fase 5 — API
 
-- [ ] T012 [H03] Endpoints `POST`, `GET` (lista e detalhe) com policy `GestorONG` — `Campanhas.Api/Endpoints/CampanhasEndpoints.cs`
+- [X] T012 [H03] Endpoints `POST`, `GET` (lista e detalhe) com policy `GestorONG` — `Campanhas.Api/Endpoints/CampanhasEndpoints.cs`
   Commit: `✨ feat(campanhas): adiciona endpoints de criação e consulta de campanhas`
 - [ ] T013 [H04] Endpoints `PUT` com `ETag`/`If-Match` e `PATCH /status` — `Campanhas.Api/Endpoints/CampanhasEndpoints.cs`
   Commit: `✨ feat(campanhas): adiciona endpoints de edição e status com etag`

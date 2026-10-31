@@ -323,7 +323,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R094** · `002/T011` [H03] MassTransit com Outbox EF Core e publicação de `CampanhaAlteradaEvent`, com teste de integração — `Campanhas.Infrastructure/Mensageria/*`
   Commit: `✨ feat(campanhas): publica CampanhaAlteradaEvent via outbox`
   Depende de: R093 (`002/T010`)
-- [ ] **R095** · `002/T012` [H03] Endpoints `POST`, `GET` (lista e detalhe) com policy `GestorONG` — `Campanhas.Api/Endpoints/CampanhasEndpoints.cs`
+- [X] **R095** · `002/T012` [H03] Endpoints `POST`, `GET` (lista e detalhe) com policy `GestorONG` — `Campanhas.Api/Endpoints/CampanhasEndpoints.cs`
   Commit: `✨ feat(campanhas): adiciona endpoints de criação e consulta de campanhas`
   Depende de: R094 (`002/T011`)
 - [ ] **R096** · `002/T013` [H04] Endpoints `PUT` com `ETag`/`If-Match` e `PATCH /status` — `Campanhas.Api/Endpoints/CampanhasEndpoints.cs`
