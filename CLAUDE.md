@@ -32,6 +32,7 @@ Resumo prático:
 | Caminho | Conteúdo |
 |---|---|
 | `specs/constitution.md` | Princípios do projeto |
+| `specs/roadmap.md` | Todas as tarefas em ordem de execução (`R001` a `R251`); consulte antes de escolher o que implementar |
 | `specs/product/` | Visão do produto, requisitos não funcionais, domínio, arquitetura, API e eventos, dados, segurança, observabilidade, infraestrutura, CI/CD |
 | `specs/features/NNN-nome/` | `spec.md`, `research.md`, `plan.md`, `data-model.md`, `contracts/`, `tasks.md` de cada funcionalidade |
 | `docs/` | Pré-requisitos, processo ágil, testes, padrões de código, git, plano de execução, entrega, manuais, glossário |
