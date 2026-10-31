@@ -22,7 +22,7 @@
 ## R4 — Política de senha
 
 - **Decisão:** VO `Senha` só para validação (nunca guardado): 8–64 caracteres, ao menos uma letra, um número e um caractere não alfanumérico.
-- **Justificativa:** atende o enunciado e o limite de 72 bytes do BCrypt (64 caracteres ASCII cabem).
+- **Justificativa:** atende a regra do RF03 e o limite de 72 bytes do BCrypt (64 caracteres ASCII cabem).
 
 ## R5 — Corrida entre cadastros iguais
 
