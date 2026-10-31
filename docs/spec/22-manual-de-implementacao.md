@@ -264,7 +264,7 @@ Desfazer: `kubectl rollout undo deploy/campanhas-api -n conexao`. Migrations nov
 
 ## 22.10 Modo C — Azure (opcional)
 
-Só se o grupo decidir demonstrar na nuvem ([13.6](13-infraestrutura.md#136-cloud-opcional-azure)). Custo real: **apagar tudo** logo depois da gravação.
+Só se o grupo decidir demonstrar na nuvem ([13.6](../../specs/product/infraestrutura.md#136-cloud-opcional-azure)). Custo real: **apagar tudo** logo depois da gravação.
 
 ```powershell
 az login

@@ -1,6 +1,6 @@
 # 13 — Infraestrutura
 
-[← README](../../README.md) · Anterior: [12 — Observabilidade](../../specs/product/observabilidade.md) · Próximo: [14 — CI/CD](14-ci-cd.md)
+[← README](../../README.md) · Anterior: [12 — Observabilidade](observabilidade.md) · Próximo: [14 — CI/CD](../../docs/spec/14-ci-cd.md)
 
 Referências: `wiki:disciplinas/docker`, `wiki:disciplinas/kubernetes`, `wiki:disciplinas/orquestracao-k8s`, `wiki:disciplinas/api-gateway`, `wiki:disciplinas/serverless-apps`, `wiki:boas-praticas/docker`, `wiki:boas-praticas/kubernetes`.
 
@@ -175,7 +175,7 @@ spec:
 | `Job` | `migrate-identity`, `migrate-campanhas` (migration bundle), executados antes do rollout |
 | `NetworkPolicy` | Negar tudo por padrão em `infra`; liberar só de `conexao` nas portas dos bancos |
 | `ServiceMonitor` | Coleta de `/metrics` (label `release` igual ao nome do release Helm do kube-prometheus-stack) |
-| `PrometheusRule` | Alertas da [seção 12.5](../../specs/product/observabilidade.md#125-alertas-deployobservabilityalertsprometheus-rulesyaml) |
+| `PrometheusRule` | Alertas da [seção 12.5](observabilidade.md#125-alertas-deployobservabilityalertsprometheus-rulesyaml) |
 
 ### Ordem de subida (`scripts/up.ps1`)
 1. `minikube start` e `minikube tunnel` (outro terminal).
@@ -231,4 +231,4 @@ Só se o grupo decidir demonstrar na nuvem (Etapa 15). Tudo apagado após a grav
 | Key Vault | Segredos | CSI Secrets Store Driver no AKS |
 | Bancos | Mesmos StatefulSets do local | Evita custo de serviços gerenciados |
 
-IaC: `deploy/azure/main.bicep` + `az deployment group create`. CD: `.github/workflows/cd.yml` com OIDC ([14 — CI/CD](14-ci-cd.md)). Remoção: `az group delete -n rg-conexao-solidaria --yes`.
+IaC: `deploy/azure/main.bicep` + `az deployment group create`. CD: `.github/workflows/cd.yml` com OIDC ([14 — CI/CD](../../docs/spec/14-ci-cd.md)). Remoção: `az group delete -n rg-conexao-solidaria --yes`.
