@@ -2,7 +2,7 @@
 
 [← README](../README.md)
 
-Onde cada disciplina do curso é aplicada. Coluna **Etapa** aponta para o [plano de execução](plano-de-execucao.md); **Wiki** aponta para `C:\Victor\Fiap\LLMWiki\wiki`.
+Onde cada disciplina do curso é aplicada. Coluna **Etapa** aponta para o [plano de execução](plano-de-execucao.md) (Etapas 4 a 8 = features de [`specs/features/`](../specs/features/)); **Wiki** aponta para `C:\Victor\Fiap\LLMWiki\wiki`.
 
 Legenda de status: **Obrigatório** (enunciado), **Aplicado** (escolha do projeto para cobrir a fase), **Bônus** (se houver tempo), **Alternativa** (registrada em ADR, não implementada).
 
@@ -110,5 +110,6 @@ Legenda de status: **Obrigatório** (enunciado), **Aplicado** (escolha do projet
 | SOLID | Cinco princípios | [Seção 16](padroes-de-codigo.md) | Aplicado | 4–8 | `disciplinas/solid` |
 | LGPD | Bases legais, direitos, anonimização, criptografia | [Seção 11](../specs/product/seguranca-e-lgpd.md), RF08 | Aplicado | 4, 16 | `disciplinas/lgpd` |
 | Blazor e Razor | Componentes, render modes, formulários, autenticação | `ConexaoSolidaria.Web` | Aplicado | 8 | `disciplinas/blazor-razor` |
+| Engenharia com IA | Spec-Driven Development, agentes e skills do Claude Code | `specs/`, `.claude/` ([ADR 0017](adr/0017-spec-driven-development.md)) | Aplicado | Todas | `conceitos/etica-e-explicabilidade-em-ia` |
 | IA em .NET (introdução) | Semantic Kernel, IA local | Assistente de descrição de campanha | Bônus | 8 | `conceitos/etica-e-explicabilidade-em-ia` |
 | Hackathon | Requisitos do enunciado | Todo o projeto | Obrigatório | Todas | `fontes/tech-challenge/05-hackathon-fase-5-conexao-solidaria` |
