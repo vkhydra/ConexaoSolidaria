@@ -97,6 +97,7 @@ Exemplo: `✨ feat(campanhas): adiciona criação de campanha`. Todo commit deve
 | [Decisões de arquitetura](docs/adr/README.md) | ADRs 0001–0018 |
 | [Runbooks](docs/runbooks/README.md) | Resposta a alertas e operações |
 | [Glossário](docs/glossary.md) | Linguagem ubíqua |
+| [Roadmap de implementação](specs/roadmap.md) | Todas as tarefas, uma a uma, em ordem lógica |
 | [Plano de execução](docs/plano-de-execucao.md) | Etapas do início à entrega |
 | [Processo ágil](docs/processo-agil.md) | Scrum, Kanban, DoR, DoD e backlog |
 | [Claude Code no projeto](docs/claude-code.md) | Comandos, agentes, skills e MCP |
