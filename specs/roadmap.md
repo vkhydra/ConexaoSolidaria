@@ -95,7 +95,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [ ] **R006** · *[manual]* Revisar cada spec em grupo: `/analyze NNN` e, se houver pendência, `/clarify NNN`
 - [X] **R007** · Escrever a Definition of Ready em `docs/agil/definition-of-ready.md`
   Commit: `📝 docs(agil): adiciona definition of ready`
-- [ ] **R008** · Escrever a Definition of Done em `docs/agil/definition-of-done.md`
+- [X] **R008** · Escrever a Definition of Done em `docs/agil/definition-of-done.md`
   Commit: `📝 docs(agil): adiciona definition of done`
 - [ ] **R009** · Exportar o Event Storming do fluxo de doação (Miro) para `docs/ddd/`
   Commit: `📝 docs(ddd): adiciona event storming do fluxo de doação`
