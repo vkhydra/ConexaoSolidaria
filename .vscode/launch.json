@@ -1,0 +1,94 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Identity.Api",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/src/Services/Identity/Identity.Api/bin/Debug/net10.0/Identity.Api.dll",
+      "cwd": "${workspaceFolder}/src/Services/Identity/Identity.Api",
+      "envFile": "${workspaceFolder}/deploy/.env",
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:8081"
+      },
+      "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "Now listening on:\\s+(https?://\\S+)",
+        "uriFormat": "%s/swagger"
+      },
+      "stopAtEntry": false
+    },
+    {
+      "name": "Campanhas.Api",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/src/Services/Campanhas/Campanhas.Api/bin/Debug/net10.0/Campanhas.Api.dll",
+      "cwd": "${workspaceFolder}/src/Services/Campanhas/Campanhas.Api",
+      "envFile": "${workspaceFolder}/deploy/.env",
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:8082"
+      },
+      "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "Now listening on:\\s+(https?://\\S+)",
+        "uriFormat": "%s/swagger"
+      },
+      "stopAtEntry": false
+    },
+    {
+      "name": "Arrecadacao.Worker",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/src/Services/Campanhas/Arrecadacao.Worker/bin/Debug/net10.0/Arrecadacao.Worker.dll",
+      "cwd": "${workspaceFolder}/src/Services/Campanhas/Arrecadacao.Worker",
+      "envFile": "${workspaceFolder}/deploy/.env",
+      "env": {
+        "DOTNET_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:9090"
+      },
+      "stopAtEntry": false
+    },
+    {
+      "name": "ConexaoSolidaria.Web",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/src/Web/ConexaoSolidaria.Web/bin/Debug/net10.0/ConexaoSolidaria.Web.dll",
+      "cwd": "${workspaceFolder}/src/Web/ConexaoSolidaria.Web",
+      "envFile": "${workspaceFolder}/deploy/.env",
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:8080"
+      },
+      "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "Now listening on:\\s+(https?://\\S+)"
+      },
+      "stopAtEntry": false
+    },
+    {
+      "name": "Notificacoes.Function (anexar)",
+      "type": "coreclr",
+      "request": "attach",
+      "processId": "${command:azureFunctions.pickProcess}",
+      "preLaunchTask": "func: host start"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Backend completo",
+      "configurations": ["Identity.Api", "Campanhas.Api", "Arrecadacao.Worker"],
+      "stopAll": true
+    },
+    {
+      "name": "Sistema completo",
+      "configurations": ["Identity.Api", "Campanhas.Api", "Arrecadacao.Worker", "ConexaoSolidaria.Web"],
+      "stopAll": true
+    }
+  ]
+}
