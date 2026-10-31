@@ -169,7 +169,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R038** · `009/T005` [H12] Script de verificação da cobertura mínima (`-Minimo`, `-ExecutarTestes`) — `scripts/verificar-cobertura.ps1`
   Commit: `🔧 chore: adiciona script de verificação da cobertura mínima de 90%`
   Depende de: R037 (`009/T003`), R036 (`009/T004`)
-- [ ] **R039** · Script `scripts/validar-mensagem-commit.ps1` (regex do guia de commits e lista de gitmojis)
+- [X] **R039** · Script `scripts/validar-mensagem-commit.ps1` (regex do guia de commits e lista de gitmojis)
   Commit: `🔧 chore: adiciona script de validação da mensagem de commit`
 - [ ] **R040** · Hooks do Husky.Net: `pre-commit` (formato, build, testes de unidade), `commit-msg` e `pre-push` (cobertura mínima de 90%)
   Commit: `🔧 chore: adiciona hooks do husky para build, formato e mensagem`
