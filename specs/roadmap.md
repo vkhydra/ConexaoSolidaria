@@ -207,7 +207,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Depende de: R048 (`001/T001`)
 - [X] **R050** · `001/T003` [H02] Entidade `TentativaLogin` com janela de 15 min e bloqueio na 5ª falha, com testes — `Identity.Domain/Autenticacao/TentativaLogin.cs`
   Commit: `✨ feat(identity): adiciona controle de tentativas de login`
-- [ ] **R051** · `001/T004` [H02] Interfaces `IUsuarioRepositorio`, `IHasherSenha`, `IEmissorToken`, `ITentativaLoginRepositorio` — `Identity.Application/Abstracoes/*`
+- [X] **R051** · `001/T004` [H02] Interfaces `IUsuarioRepositorio`, `IHasherEmail`, `IEmissorToken`, `ITentativaLoginRepositorio` — `Identity.Application/Abstracoes/*` (`IHasherSenha` ficou no domínio, porque `Usuario.VerificarSenha` a usa)
   Commit: `🏷️ feat(identity): adiciona abstrações de autenticação`
 - [ ] **R052** · `001/T005` [H02] Caso de uso `Autenticar` com validador e testes (sucesso, senha errada, e-mail inexistente com tempo constante, bloqueado, anonimizado) — `Identity.Application/Autenticacao/*`
   Commit: `✨ feat(identity): adiciona caso de uso de autenticação`
