@@ -33,7 +33,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 ## Fase 4 — Infraestrutura
 
-- [ ] T010 [H03] `CampanhasDbContext`, configuração com `xmin` e migration inicial (inclui tabelas do Outbox) — `Campanhas.Infrastructure/Persistencia/*`
+- [X] T010 [H03] `CampanhasDbContext`, configuração com `xmin` e migration inicial (inclui tabelas do Outbox) — `Campanhas.Infrastructure/Persistencia/*`
   Commit: `🗃️ feat(campanhas): adiciona CampanhasDbContext e migration inicial`
 - [ ] T011 [H03] MassTransit com Outbox EF Core e publicação de `CampanhaAlteradaEvent`, com teste de integração — `Campanhas.Infrastructure/Mensageria/*`
   Commit: `✨ feat(campanhas): publica CampanhaAlteradaEvent via outbox`

@@ -318,7 +318,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Depende de: R087 (`002/T004`), R090 (`002/T007`)
 - [X] **R092** · `002/T009` [H04] `ListarCampanhas` (paginação e filtro) e `ObterCampanha`, com testes — `Campanhas.Application/Campanhas/*`
   Commit: `✨ feat(campanhas): adiciona listagem e detalhe de campanhas`
-- [ ] **R093** · `002/T010` [H03] `CampanhasDbContext`, configuração com `xmin` e migration inicial (inclui tabelas do Outbox) — `Campanhas.Infrastructure/Persistencia/*`
+- [X] **R093** · `002/T010` [H03] `CampanhasDbContext`, configuração com `xmin` e migration inicial (inclui tabelas do Outbox) — `Campanhas.Infrastructure/Persistencia/*`
   Commit: `🗃️ feat(campanhas): adiciona CampanhasDbContext e migration inicial`
 - [ ] **R094** · `002/T011` [H03] MassTransit com Outbox EF Core e publicação de `CampanhaAlteradaEvent`, com teste de integração — `Campanhas.Infrastructure/Mensageria/*`
   Commit: `✨ feat(campanhas): publica CampanhaAlteradaEvent via outbox`
