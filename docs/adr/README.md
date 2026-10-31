@@ -25,6 +25,7 @@ Registro das decisões de arquitetura do Conexão Solidária. Cada arquivo segue
 | [0015](0015-execucao-local-com-cloud-opcional.md) | Execução local com cloud opcional na Azure | Aceito |
 | [0016](0016-frontend-blazor-web-app.md) | Frontend Blazor Web App | Aceito |
 | [0017](0017-spec-driven-development.md) | Spec-Driven Development com Claude Code | Aceito |
+| [0018](0018-escopo-trabalho-substitutivo.md) | Escopo: trabalho substitutivo da Fase 3 | Aceito |
 
 ## Regras
 
