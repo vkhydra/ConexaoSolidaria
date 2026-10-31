@@ -1,8 +1,8 @@
 # 18 — Cobertura das 5 fases
 
-[← README](../../README.md) · Anterior: [17 — Git e commits](../git-e-commits.md) · Próximo: [19 — Skills e MCP](19-skills-e-mcp.md)
+[← README](../README.md) · Anterior: [17 — Git e commits](git-e-commits.md) · Próximo: [19 — Skills e MCP](spec/19-skills-e-mcp.md)
 
-Onde cada disciplina do curso é aplicada. Coluna **Etapa** aponta para o [plano de execução](20-plano-de-execucao.md); **Wiki** aponta para `C:\Victor\Fiap\LLMWiki\wiki`.
+Onde cada disciplina do curso é aplicada. Coluna **Etapa** aponta para o [plano de execução](spec/20-plano-de-execucao.md); **Wiki** aponta para `C:\Victor\Fiap\LLMWiki\wiki`.
 
 Legenda de status: **Obrigatório** (enunciado), **Aplicado** (escolha do projeto para cobrir a fase), **Bônus** (se houver tempo), **Alternativa** (registrada em ADR, não implementada).
 
@@ -10,7 +10,7 @@ Legenda de status: **Obrigatório** (enunciado), **Aplicado** (escolha do projet
 
 | Disciplina | Conteúdo | Aplicação no projeto | Status | Etapa | Wiki |
 |---|---|---|---|---|---|
-| APIs .NET | API REST, verbos e status | Endpoints da [seção 09](../../specs/product/api-e-eventos.md) | Obrigatório | 4, 5 | `disciplinas/api-dotnet` |
+| APIs .NET | API REST, verbos e status | Endpoints da [seção 09](../specs/product/api-e-eventos.md) | Obrigatório | 4, 5 | `disciplinas/api-dotnet` |
 | | Middlewares e DI | `IExceptionHandler`, correlação, DI por construtor | Aplicado | 3–5 | `conceitos/middleware-aspnet-core` |
 | | Logs | Serilog estruturado | Aplicado | 3 | `conceitos/logging-dotnet` |
 | | Serialização | `System.Text.Json`, enums como texto, contratos de evento | Aplicado | 4–6 | `conceitos/serializacao-de-dados` |
@@ -26,13 +26,13 @@ Legenda de status: **Obrigatório** (enunciado), **Aplicado** (escolha do projet
 | | Tático | Agregados, VOs, eventos de domínio, repositórios | Aplicado | 4, 5 | `conceitos/aggregate`, `conceitos/value-object` |
 | | Event Storming | Fluxos "criar campanha" e "doar" no Miro | Aplicado | 2 | `conceitos/event-storming` |
 | | Domain Storytelling | História da doação | Aplicado | 2 | `conceitos/domain-storytelling` |
-| | Linguagem ubíqua | Glossário da [seção 01](../../specs/product/overview.md) | Aplicado | 2 | `conceitos/linguagem-ubiqua` |
-| | Requisitos, DoR, DoD | [Seção 03](../processo-agil.md) | Aplicado | 2 | `conceitos/definition-of-ready` |
+| | Linguagem ubíqua | Glossário da [seção 01](../specs/product/overview.md) | Aplicado | 2 | `conceitos/linguagem-ubiqua` |
+| | Requisitos, DoR, DoD | [Seção 03](processo-agil.md) | Aplicado | 2 | `conceitos/definition-of-ready` |
 | EF Core | Code First, Fluent API | `IEntityTypeConfiguration<T>` | Aplicado | 4, 5 | `conceitos/code-first` |
 | | Migrations | Migration bundle em Job | Aplicado | 4, 5, 11 | `conceitos/migrations` |
 | | Performance | `AsNoTracking`, projeção, índices | Aplicado | 5 | `conceitos/otimizacao-de-performance-ef-core` |
 | | Concorrência | `xmin` + `If-Match` | Aplicado | 5 | `boas-praticas/efcore` |
-| Princípios de qualidade | Pirâmide de testes | [Seção 15](../testes.md) | Aplicado | 4–9 | `conceitos/piramide-de-testes` |
+| Princípios de qualidade | Pirâmide de testes | [Seção 15](testes.md) | Aplicado | 4–9 | `conceitos/piramide-de-testes` |
 | | Testes de UI | bUnit; Playwright | Aplicado / Bônus | 8 | `conceitos/automacao-de-testes-ui` |
 | Qualidade de software | Testes de unidade | xUnit | Bônus do enunciado | 4–6 | `conceitos/teste-de-unidade` |
 | | TDD | Domínio | Aplicado | 4, 5 | `conceitos/tdd` |
@@ -77,7 +77,7 @@ Legenda de status: **Obrigatório** (enunciado), **Aplicado** (escolha do projet
 | | Zabbix | Cenário web em `/health/ready` | Bônus | 13 | `conceitos/zabbix` |
 | | Alertmanager | Alertas da seção 12 | Aplicado | 13 | `conceitos/alertmanager` |
 | Monitoramento avançado | Tracing distribuído | OpenTelemetry + Jaeger | Aplicado | 3, 13 | `conceitos/distributed-tracing` |
-| | Golden metrics, SLO | Dashboard e [seção 05](../../specs/product/requisitos-nao-funcionais.md) | Aplicado | 13 | `conceitos/golden-metrics` |
+| | Golden metrics, SLO | Dashboard e [seção 05](../specs/product/requisitos-nao-funcionais.md) | Aplicado | 13 | `conceitos/golden-metrics` |
 | | Logs e severidade | Serilog | Aplicado | 3 | `conceitos/logs-e-severidade` |
 | | Datadog / New Relic | Não usados (SaaS) | Alternativa | — | `conceitos/apm` |
 | Arquitetura (TC Fase 3) | Event sourcing ou audit log | Livro de doações no MongoDB | Aplicado | 6 | `conceitos/event-sourcing` |
@@ -107,8 +107,8 @@ Legenda de status: **Obrigatório** (enunciado), **Aplicado** (escolha do projet
 | | XP | TDD, pareamento, CI, refatoração | Aplicado | Todas | `conceitos/extreme-programming` |
 | | Lean | Fatiamento vertical, eliminar desperdício (YAGNI) | Aplicado | Todas | `conceitos/pensamento-lean` |
 | | Histórias, INVEST, critérios | Backlog e Gherkin | Aplicado | 2 | `conceitos/historias-de-usuario` |
-| SOLID | Cinco princípios | [Seção 16](../padroes-de-codigo.md) | Aplicado | 4–8 | `disciplinas/solid` |
-| LGPD | Bases legais, direitos, anonimização, criptografia | [Seção 11](../../specs/product/seguranca-e-lgpd.md), RF08 | Aplicado | 4, 16 | `disciplinas/lgpd` |
+| SOLID | Cinco princípios | [Seção 16](padroes-de-codigo.md) | Aplicado | 4–8 | `disciplinas/solid` |
+| LGPD | Bases legais, direitos, anonimização, criptografia | [Seção 11](../specs/product/seguranca-e-lgpd.md), RF08 | Aplicado | 4, 16 | `disciplinas/lgpd` |
 | Blazor e Razor | Componentes, render modes, formulários, autenticação | `ConexaoSolidaria.Web` | Aplicado | 8 | `disciplinas/blazor-razor` |
 | IA em .NET (introdução) | Semantic Kernel, IA local | Assistente de descrição de campanha | Bônus | 8 | `conceitos/etica-e-explicabilidade-em-ia` |
 | Hackathon | Requisitos do enunciado | Todo o projeto | Obrigatório | Todas | `fontes/tech-challenge/05-hackathon-fase-5-conexao-solidaria` |
