@@ -13,7 +13,7 @@ As funcionalidades (Etapas 4 a 8) seguem o fluxo de Spec-Driven Development: as 
 | 0 | Pré-requisitos | 0 |
 | 1 | Fundação do repositório | 0 |
 | 2 | Planejamento ágil e DDD | 0 |
-| 3 | Esqueleto da solução e qualidade automática | 0 |
+| 3 | Esqueleto, testes e pipeline com cobertura (feature 009, avaliada) | 0 |
 | 4 | Features de identidade (001, 003, 008) | 1 |
 | 5 | Features de campanhas (002, 004, 006) | 1 |
 | 6 | Feature de doação (005) | 2 |
@@ -24,10 +24,10 @@ As funcionalidades (Etapas 4 a 8) seguem o fluxo de Spec-Driven Development: as 
 | 11 | Kubernetes local | 3 |
 | 12 | API Gateway (Kong) | 3 |
 | 13 | Observabilidade | 3 |
-| 14 | CI/CD | 3 |
+| 14 | CI/CD complementar | 3 |
 | 15 | Cloud opcional (Azure) | 4 |
 | 16 | Revisão de segurança e LGPD | 4 |
-| 17 | Documentação e entregáveis | 4 |
+| 17 | Documentação final | 4 |
 | 18 | Vídeo | 4 |
 | 19 | Conclusão | 4 |
 
@@ -80,7 +80,7 @@ As funcionalidades (Etapas 4 a 8) seguem o fluxo de Spec-Driven Development: as 
 **Apoio:** `/clarify`, `/analyze`, MCP GitHub; `wiki:disciplinas/ddd`, `wiki:disciplinas/metodologias-ageis`.
 
 ## Etapa 3 — Esqueleto da solução e qualidade automática
-**Objetivo:** solução vazia compilando, hooks e CI mínimo funcionando.
+**Objetivo:** solução compilando, hooks e a **pipeline de CI executando os testes unitários e retornando a cobertura** — o que o trabalho substitutivo avalia. Inclui as tarefas da [feature 009](../specs/features/009-ci-testes-cobertura/tasks.md).
 **Tarefas e commits (nesta ordem; cada commit compila):**
 ```text
 🔧 chore: adiciona global.json com SDK 10
@@ -100,19 +100,23 @@ As funcionalidades (Etapas 4 a 8) seguem o fluxo de Spec-Driven Development: as 
 🎉 chore(campanhas): cria projetos Domain, Application, Infrastructure, Api e Worker
 🎉 chore(notificacoes): cria projeto Notificacoes.Function
 🎉 chore(web): cria projeto ConexaoSolidaria.Web
-✅ test: cria projetos de teste em tests/unit, integration, contract e e2e
+✅ test: cria projetos de testes unitários com xunit
+✅ test: cria projetos de testes de integração, contrato e e2e
 ✅ test: adiciona teste de arquitetura das camadas
 🔧 chore: adiciona manifesto de ferramentas dotnet
+🔧 chore: adiciona reportgenerator ao manifesto de ferramentas
 🔧 chore: adiciona hooks do husky para build, formato e mensagem
 🔧 chore: adiciona script de validação da mensagem de commit
 🔧 chore: adiciona configuração de cobertura com coverlet
 🔧 chore: adiciona script de verificação da cobertura mínima de 90%
-👷 ci: adiciona workflow com restore, formato, build, testes e cobertura
+👷 ci: adiciona pipeline com testes unitários e cobertura
+👷 ci: adiciona testes de integração e cobertura mínima na pipeline
+📝 docs: adiciona status da pipeline e cobertura no readme
 📝 docs: atualiza CLAUDE.md com os comandos reais da solução
 🔧 chore: adiciona script de verificação de pré-requisitos
 ```
 Cada projeto novo entra na `.slnx` no mesmo commit em que é criado (`dotnet sln add`).
-**Pronto quando:** `dotnet build -warnaserror` e `dotnet test` passam local e no CI; commit com mensagem fora do padrão é bloqueado; push e CI com cobertura abaixo de 90% falham.
+**Pronto quando:** `dotnet build -warnaserror` e `dotnet test` passam local e no CI; commit com mensagem fora do padrão é bloqueado; push e CI com cobertura abaixo de 90% falham; cada execução da pipeline mostra a cobertura no resumo e oferece o artefato `cobertura-testes-unitarios` para download.
 **Apoio:** `/init` (revisar o `CLAUDE.md` existente), `/fewer-permission-prompts`, skills `commit-gitmoji` e `documentar-xml`, MCP Microsoft Learn.
 
 ## Etapas 4 a 8 — Features
@@ -231,11 +235,10 @@ Validação de cada manifesto antes do commit: `kubectl apply -k deploy/k8s/over
 **Apoio:** `dataviz` (opcional), `wiki:disciplinas/monitoramento-acesso`.
 
 ## Etapa 14 — CI/CD
-**Objetivo:** pipeline completo e `main` protegida.
-**Tarefas:** completar `ci.yml` (cobertura, gitleaks, matriz Docker, Trivy, push GHCR); `codeql.yml`; `dependabot.yml`; proteção da `main`; `cd.yml` opcional.
+**Objetivo:** completar o CI além do que é avaliado (os testes e a cobertura já existem desde a Etapa 3) e proteger a `main`.
+**Tarefas:** completar `ci.yml` (gitleaks, matriz Docker, Trivy, push GHCR); `codeql.yml`; `dependabot.yml`; proteção da `main`; `cd.yml` opcional.
 **Commits (exemplos):**
 ```text
-👷 ci: adiciona relatório de cobertura no resumo do workflow
 👷 ci: adiciona varredura de segredos com gitleaks
 👷 ci: adiciona build e push das imagens no ghcr
 👷 ci: adiciona varredura de vulnerabilidades com trivy
@@ -259,7 +262,7 @@ Validação de cada manifesto antes do commit: `kubectl apply -k deploy/k8s/over
 
 ## Etapa 16 — Revisão de segurança e LGPD
 **Objetivo:** nenhuma pendência crítica.
-**Tarefas:** `/security-review` completo; checklist OWASP de [../specs/product/seguranca-e-lgpd.md#checklist-owasp-top-10-revisão-na-etapa-16); registro de tratamento; política de privacidade; conferir logs reais em busca de dados pessoais.
+**Tarefas:** `/security-review` completo; checklist OWASP de [segurança e LGPD](../specs/product/seguranca-e-lgpd.md#checklist-owasp-top-10-revisão-na-etapa-16); registro de tratamento; política de privacidade; conferir logs reais em busca de dados pessoais.
 **Commits (exemplos):**
 ```text
 📝 docs(lgpd): adiciona registro das operações de tratamento
@@ -268,41 +271,37 @@ Validação de cada manifesto antes do commit: `kubectl apply -k deploy/k8s/over
 ```
 **Pronto quando:** checklist OWASP e LGPD 100%; gitleaks e Trivy verdes.
 
-## Etapa 17 — Documentação e entregáveis
-**Objetivo:** tudo o que o avaliador precisa.
+## Etapa 17 — Documentação final
+**Objetivo:** repositório que qualquer pessoa consegue rodar e entender.
 **Tarefas:**
-1. README final: visão, arquitetura, pré-requisitos, passo a passo com docker-compose e com Kubernetes, URLs, usuários de teste, variáveis, como rodar testes, links.
+1. README final: visão, arquitetura, pré-requisitos, como rodar os testes e ver a cobertura, passo a passo com docker-compose e com Kubernetes, URLs, usuários de teste, variáveis.
 2. `docs/arquitetura/arquitetura.png` (exportado do Mermaid).
-3. `docs/justificativa-bancos.md` e o PDF gerado.
+3. `docs/justificativa-bancos.md` (conteúdo de persistência poliglota da Fase 4).
 4. Coleção e ambiente Postman.
-5. Relatório de entrega (PDF): grupo, participantes, usernames do Discord, links do repositório, vídeo e documentação.
 
 **Commits (exemplos):**
 ```text
 📝 docs: adiciona diagrama de arquitetura em png
 📝 docs: adiciona justificativa dos bancos de dados
-📝 docs: adiciona pdf da justificativa dos bancos
 📝 docs: adiciona coleção postman
 📝 docs: atualiza README com passo a passo completo
-📝 docs: adiciona relatório de entrega
 ```
-**Pronto quando:** outra pessoa sobe o projeto do zero seguindo só o README.
-**Apoio:** skill `pdf`.
+**Pronto quando:** outra pessoa roda os testes e sobe a API do zero seguindo só o README.
 
 ## Etapa 18 — Vídeo
-**Objetivo:** vídeo de até 15 minutos comprovando a arquitetura.
-**Tarefas:** seguir [ROTEIRO-VIDEO.md](ROTEIRO-VIDEO.md): preparação, ensaio cronometrado, gravação, revisão, publicação.
+**Objetivo:** vídeo que demonstra todos os passos do enunciado: API, testes unitários de sucesso e erro, pipeline executando e cobertura com download.
+**Tarefas:** seguir o [roteiro do vídeo](ROTEIRO-VIDEO.md): preparação, ensaio, gravação, revisão, publicação.
 **Commits:** `📝 docs: adiciona link do vídeo no README`.
-**Pronto quando:** vídeo ≤ 15:00 publicado e link testado em aba anônima.
+**Pronto quando:** vídeo publicado, link testado em aba anônima e todos os itens do [checklist do enunciado](entrega-e-riscos.md#checklist-do-enunciado-com-evidência) aparecendo no vídeo.
 
 ## Etapa 19 — Conclusão
 **Objetivo:** entrega final.
 **Tarefas:**
-1. Checklist de [Entrega e riscos](entrega-e-riscos.md) 100%.
-2. `git tag -a v1.0.0` + push; CI publica as imagens `1.0.0`; `gh release create v1.0.0 --generate-notes`.
-3. Confirmar repositório público e README funcionando.
+1. Checklist de [entrega e riscos](entrega-e-riscos.md) 100%.
+2. `git tag -a v1.0.0` + push; `gh release create v1.0.0 --generate-notes`.
+3. Confirmar o repositório acessível e o README funcionando.
 4. Apagar recursos de cloud, se houver.
-5. Entregar o relatório na plataforma da FIAP.
+5. Enviar o link do vídeo na plataforma da FIAP.
 6. Retrospectiva final do projeto.
 
 **Commits:** `🔖 chore: versão 1.0.0` (atualiza versão nos `Directory.Build.props`).
