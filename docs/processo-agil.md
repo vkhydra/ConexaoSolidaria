@@ -12,7 +12,7 @@ Como o grupo organiza o trabalho. Aplica Scrum, Kanban, XP e Lean da Fase 5 (`wi
 
 | Papel | Responsabilidade no projeto | Integrante |
 |---|---|---|
-| Product Owner | Ordena o backlog a partir do enunciado; aceita as histórias | _a definir_ |
+| Product Owner | Ordena o backlog a partir do enunciado do substitutivo e das specs; aceita as histórias | _a definir_ |
 | Scrum Master | Facilita as cerimônias, remove impedimentos, cuida do quadro | _a definir_ |
 | Developers | Implementam, testam e documentam | Todos |
 
@@ -24,7 +24,7 @@ Ajustar as datas ao prazo de entrega da FIAP. A sprint só termina com o increme
 
 | Sprint | Meta da sprint | Etapas do plano |
 |---|---|---|
-| 0 | Ambiente pronto, domínio modelado e solução compilando no CI | 0, 1, 2, 3 |
+| 0 | Ambiente pronto, domínio modelado e pipeline executando testes unitários com cobertura (feature 009) | 0, 1, 2, 3 |
 | 1 | Cadastro, login e gestão de campanhas funcionando | 4, 5 |
 | 2 | Doação assíncrona de ponta a ponta, recibo, frontend e testes | 6, 7, 8, 9 |
 | 3 | Tudo rodando no Kubernetes com gateway, observabilidade e CI/CD | 10, 11, 12, 13, 14 |
@@ -104,6 +104,8 @@ Um item só vai para "Concluído" quando:
 | H08 | Como visitante, quero buscar campanhas mesmo com erro de digitação, para achá-las rápido | RF06 | [006](../specs/features/006-busca-campanhas/spec.md) | 5 |
 | H09 | Como doador, quero receber um recibo da doação, para ter um comprovante | RF07 | [007](../specs/features/007-recibo-doacao/spec.md) | 5 |
 | H10 | Como doador, quero ver e apagar meus dados, para exercer meus direitos da LGPD | RF08 | [008](../specs/features/008-direitos-titular/spec.md) | 5 |
+| H11 | Como avaliador, quero ver a pipeline executar os testes unitários e mostrar a cobertura, para confirmar a qualidade da API | Substitutivo | [009](../specs/features/009-ci-testes-cobertura/spec.md) | 5 |
+| H12 | Como desenvolvedor, quero que a pipeline falhe quando um teste falhar ou a cobertura cair, para não integrar código sem qualidade | Substitutivo | [009](../specs/features/009-ci-testes-cobertura/spec.md) | 3 |
 | T01 | Containerizar e orquestrar no Kubernetes | — | Etapas 10–14 | 8 |
 | T02 | Dashboard Grafana com métricas reais | — | Etapas 10–14 | 5 |
 | T03 | Pipeline de CI com imagem Docker | — | Etapas 10–14 | 5 |
