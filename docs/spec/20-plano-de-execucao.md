@@ -2,7 +2,7 @@
 
 [← README](../../README.md) · Anterior: [19 — Skills e MCP](19-skills-e-mcp.md) · Próximo: [21 — Entrega e riscos](21-entrega-e-riscos.md)
 
-Do ambiente pronto até a entrega. Cada etapa traz: **objetivo**, **tarefas**, **commits** (na ordem, um por arquivo ou pelo menor conjunto que compila — [seção 17.3](17-git-e-commits.md#173-granularidade)), **pronto quando** e **apoio** (skills, MCP, wiki).
+Do ambiente pronto até a entrega. Cada etapa traz: **objetivo**, **tarefas**, **commits** (na ordem, um por arquivo ou pelo menor conjunto que compila — [seção 17.3](../git-e-commits.md#173-granularidade)), **pronto quando** e **apoio** (skills, MCP, wiki).
 
 Toda etapa termina com: `/code-review` → `git rebase --exec` (todo commit compila) → PR → CI verde → merge na `main` → item "Concluído" no Project.
 

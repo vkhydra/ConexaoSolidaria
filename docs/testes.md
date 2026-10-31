@@ -88,7 +88,7 @@ Pasta `tests/load/`, execução contra o Kong local:
 | Soma | Unidade, integração, BDD e bUnit somados pelo ReportGenerator em um único `coverage/Summary.json` |
 | Relatório | HTML como artefato do CI; resumo Markdown no `GITHUB_STEP_SUMMARY` |
 | Verificação | `scripts/verificar-cobertura.ps1 -Minimo 90` lê o `Summary.json` e termina com erro (exit 1) se o total ou algum projeto ficar abaixo de 90% em linhas ou ramos, listando quais |
-| Onde é obrigatória | Hook `pre-push` ([17.4](spec/17-git-e-commits.md)) e job `build-test` do CI; PR com cobertura abaixo da meta não faz merge |
+| Onde é obrigatória | Hook `pre-push` ([17.4](git-e-commits.md)) e job `build-test` do CI; PR com cobertura abaixo da meta não faz merge |
 | Fora da medição | Projetos de teste, `**/Migrations/*.cs`, `**/Program.cs`, código gerado (`*.g.cs`, `GeneratedCodeAttribute`, arquivos do Reqnroll) |
 | `[ExcludeFromCodeCoverage]` | Só com `Justification` preenchida e aprovada no PR; nunca para fugir da meta |
 

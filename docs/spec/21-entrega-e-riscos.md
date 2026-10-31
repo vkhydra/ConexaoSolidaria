@@ -28,7 +28,7 @@
 
 ## 21.2 Checklist de qualidade
 
-- [ ] Todos os commits no padrão da [seção 17](17-git-e-commits.md) e compilando (`git rebase --exec` na `main` inteira sem falha).
+- [ ] Todos os commits no padrão da [seção 17](../git-e-commits.md) e compilando (`git rebase --exec` na `main` inteira sem falha).
 - [ ] CI verde na `main`.
 - [ ] Nenhum segredo no histórico (gitleaks).
 - [ ] Nenhuma vulnerabilidade crítica corrigível (Trivy).

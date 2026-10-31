@@ -51,7 +51,7 @@ Commits semânticos ([Conventional Commits](https://www.conventionalcommits.org/
 <gitmoji> <tipo>(<escopo opcional>): <descrição no imperativo>
 ```
 
-Exemplo: `✨ feat(campanhas): adiciona criação de campanha`. Todo commit deve compilar e passar nos testes. As regras completas estão em [docs/spec/17-git-e-commits.md](docs/spec/17-git-e-commits.md).
+Exemplo: `✨ feat(campanhas): adiciona criação de campanha`. Todo commit deve compilar e passar nos testes. As regras completas estão em [docs/spec/17-git-e-commits.md](docs/git-e-commits.md).
 
 ## Documentação
 
