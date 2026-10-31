@@ -156,7 +156,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Commit: `🔊 feat(defaults): adiciona logs estruturados com serilog`
 - [X] **R032** · `ServiceDefaults`: OpenTelemetry e `/metrics`, com testes
   Commit: `📈 feat(defaults): adiciona tracing com opentelemetry e endpoint de métricas`
-- [ ] **R033** · `ServiceDefaults`: `/health/live` e `/health/ready`, com testes
+- [X] **R033** · `ServiceDefaults`: `/health/live` e `/health/ready`, com testes
   Commit: `🩺 feat(defaults): adiciona health checks live e ready`
 - [ ] **R034** · `ServiceDefaults`: tratamento global de erros com `ProblemDetails`, com testes
   Commit: `🥅 feat(defaults): adiciona tratamento global de erros com problem details`
