@@ -22,13 +22,13 @@ Em grupo pequeno, PO e Scrum Master acumulam papel de Developer.
 
 Ajustar as datas ao prazo de entrega da FIAP. A sprint só termina com o incremento cumprindo a [Definition of Done](#definition-of-done-dod).
 
-| Sprint | Meta da sprint | Etapas do plano |
-|---|---|---|
-| 0 | Ambiente pronto, domínio modelado e pipeline executando testes unitários com cobertura (feature 009) | 0, 1, 2, 3 |
-| 1 | Cadastro, login e gestão de campanhas funcionando | 4, 5 |
-| 2 | Doação assíncrona de ponta a ponta, recibo, frontend e testes | 6, 7, 8, 9 |
-| 3 | Tudo rodando no Kubernetes com gateway, observabilidade e CI/CD | 10, 11, 12, 13, 14 |
-| 4 | Revisões, documentação, vídeo e entrega | 15, 16, 17, 18, 19 |
+| Sprint | Meta da sprint | Fases do [roadmap](../specs/roadmap.md) | Etapas do plano |
+|---|---|---|---|
+| 0 | Ambiente pronto, domínio modelado e pipeline executando testes unitários com cobertura (feature 009) | 1 e 2 | 0, 1, 2, 3 |
+| 1 | Cadastro, login, direitos do titular, gestão de campanhas e painel funcionando | 3 e 4 | 4, 5 |
+| 2 | Doação assíncrona de ponta a ponta, busca, recibo, interface e testes complementares | 5, 6, 7 e 8 | 5, 6, 7, 8, 9 |
+| 3 | Tudo rodando no Kubernetes com gateway, carga, observabilidade e CI/CD | 9 a 14 | 10, 11, 12, 13, 14 e k6 da 9 |
+| 4 | Nuvem opcional, segurança, documentação, vídeo e entrega | 15 a 19 | 15, 16, 17, 18, 19 |
 
 ## Cerimônias (sprint de 1 semana)
 
