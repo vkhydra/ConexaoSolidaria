@@ -329,7 +329,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R096** · `002/T013` [H04] Endpoints `PUT` com `ETag`/`If-Match` e `PATCH /status` — `Campanhas.Api/Endpoints/CampanhasEndpoints.cs`
   Commit: `✨ feat(campanhas): adiciona endpoints de edição e status com etag`
   Depende de: R095 (`002/T012`)
-- [ ] **R097** · `002/T014` [H03] Métrica `campanhas_criadas_total` — `Campanhas.Application/Campanhas/CriarCampanha.cs`
+- [X] **R097** · `002/T014` [H03] Métrica `campanhas_criadas_total` — `Campanhas.Application/Campanhas/CriarCampanha.cs`
   Commit: `📈 feat(campanhas): adiciona métrica de campanhas criadas`
 - [ ] **R098** · `002/T015` [H03] [H04] Testes de integração: 201, 400, 401, 403, 404, 409, 412, 422 e evento no Outbox — `tests/integration/Campanhas.IntegrationTests/CampanhasEndpointsTests.cs`
   Commit: `✅ test(campanhas): adiciona testes de integração da gestão de campanhas`

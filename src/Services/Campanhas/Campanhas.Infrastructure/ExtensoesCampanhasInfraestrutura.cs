@@ -31,6 +31,7 @@ public static class ExtensoesCampanhasInfraestrutura
         servicos.AddDbContext<CampanhasDbContext>(opcoes => CampanhasDbContext.Configurar(opcoes, conexao));
         servicos.AddScoped<ICampanhaRepositorio, CampanhaRepositorio>();
         servicos.AddSingleton<IRelogio, RelogioSaoPaulo>();
+        servicos.AddSingleton<IMetricasCampanhas, MetricasCampanhasPrometheus>();
         servicos.AddCampanhasMensageria(configuracao);
 
         return servicos;

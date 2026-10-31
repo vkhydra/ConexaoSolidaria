@@ -370,7 +370,8 @@
           "MassTransit.EntityFrameworkCore": "[8.5.12, )",
           "MassTransit.RabbitMQ": "[8.5.12, )",
           "Microsoft.EntityFrameworkCore": "[10.0.14, )",
-          "Npgsql.EntityFrameworkCore.PostgreSQL": "[10.0.1, )"
+          "Npgsql.EntityFrameworkCore.PostgreSQL": "[10.0.1, )",
+          "prometheus-net": "[8.2.1, )"
         }
       },
       "conexaosolidaria.contracts": {

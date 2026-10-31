@@ -14,11 +14,13 @@ namespace Campanhas.Application.Campanhas;
 /// <param name="campanhas">Repositório de campanhas.</param>
 /// <param name="validador">Validador do pedido.</param>
 /// <param name="relogio">Relógio no fuso de São Paulo.</param>
+/// <param name="metricas">Métricas de campanhas.</param>
 /// <param name="log">Logger do caso de uso.</param>
 public sealed partial class CriarCampanha(
     ICampanhaRepositorio campanhas,
     IValidator<CampanhaRequest> validador,
     IRelogio relogio,
+    IMetricasCampanhas metricas,
     ILogger<CriarCampanha> log)
 {
     /// <summary>
@@ -50,6 +52,7 @@ public sealed partial class CriarCampanha(
         }
 
         await campanhas.AdicionarAsync(campanha.Valor, cancelamento);
+        metricas.RegistrarCriacao();
         LogCriada(log, campanha.Valor.Id);
         return Result.Sucesso(CampanhaResponse.De(campanha.Valor));
     }

@@ -28,6 +28,11 @@ public sealed class CriarCampanhaTests
     private readonly IRelogio _relogio = Substitute.For<IRelogio>();
 
     /// <summary>
+    /// Métricas de campanhas falsas.
+    /// </summary>
+    private readonly IMetricasCampanhas _metricas = Substitute.For<IMetricasCampanhas>();
+
+    /// <summary>
     /// Logger que guarda as mensagens para conferência.
     /// </summary>
     private readonly LoggerCaptura<CriarCampanha> _log = new();
@@ -44,7 +49,7 @@ public sealed class CriarCampanhaTests
     {
         _relogio.Hoje().Returns(_hoje);
         _relogio.Agora().Returns(new DateTimeOffset(2026, 11, 10, 9, 0, 0, TimeSpan.FromHours(-3)));
-        _criar = new CriarCampanha(_campanhas, new CampanhaRequestValidator(), _relogio, _log);
+        _criar = new CriarCampanha(_campanhas, new CampanhaRequestValidator(), _relogio, _metricas, _log);
     }
 
     /// <summary>
@@ -67,6 +72,7 @@ public sealed class CriarCampanhaTests
             Arg.Is<Campanha>(c => c.Id.Valor == resultado.Valor.Id && c.Status == StatusCampanha.Ativa),
             Arg.Any<CancellationToken>());
         _log.Mensagens.ShouldHaveSingleItem().ShouldBe($"Campanha criada: {resultado.Valor.Id}.");
+        _metricas.Received(1).RegistrarCriacao();
     }
 
     /// <summary>
@@ -153,6 +159,7 @@ public sealed class CriarCampanhaTests
 
         resultado.Erro.Codigo.ShouldBe(codigo);
         await _campanhas.DidNotReceive().AdicionarAsync(Arg.Any<Campanha>(), Arg.Any<CancellationToken>());
+        _metricas.DidNotReceive().RegistrarCriacao();
     }
 
     /// <summary>
