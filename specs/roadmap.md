@@ -397,7 +397,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R119** · `005/T010` [H07] Invalidação do cache do painel após processar — `Campanhas.Application/Arrecadacao/ProcessarDoacao.cs`
   Commit: `⚡️ feat(worker): invalida cache do painel após processar doação`
   Depende de: R118 (`005/T009`)
-- [ ] **R120** · `005/T011` [H07] `DoacaoRecebidaConsumer` com retentativas (3 imediatas + 5 s, 30 s, 2 min) e fila de erro — `Arrecadacao.Worker/Consumidores/DoacaoRecebidaConsumer.cs`
+- [X] **R120** · `005/T011` [H07] `DoacaoRecebidaConsumer` com retentativas (3 imediatas + 5 s, 30 s, 2 min) e fila de erro — `Arrecadacao.Worker/Consumidores/DoacaoRecebidaConsumer.cs`
   Commit: `🥅 feat(worker): configura consumidor com retentativas e fila de erro`
   Depende de: R119 (`005/T010`)
 - [ ] **R121** · `005/T012` [H07] Métricas de doação na API e no Worker — `Campanhas.Application/Doacoes/*`, `Campanhas.Application/Arrecadacao/*`

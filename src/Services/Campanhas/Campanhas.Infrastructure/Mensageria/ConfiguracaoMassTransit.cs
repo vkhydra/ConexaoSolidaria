@@ -56,6 +56,7 @@ public static class ConfiguracaoMassTransit
                     servidor.Username(usuario);
                     servidor.Password(senha);
                 });
+                bus.UseDelayedMessageScheduler();
                 bus.ConfigureEndpoints(contexto);
             });
         });

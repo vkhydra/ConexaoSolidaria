@@ -1,3 +1,4 @@
+using Arrecadacao.Worker.Consumidores;
 using Campanhas.Application.Arrecadacao;
 using Campanhas.Application.Transparencia;
 using Campanhas.Infrastructure;
@@ -5,6 +6,7 @@ using Campanhas.Infrastructure.Mensageria;
 using ConexaoSolidaria.ServiceDefaults.Logs;
 using ConexaoSolidaria.ServiceDefaults.Saude;
 using ConexaoSolidaria.ServiceDefaults.Telemetria;
+using MassTransit;
 
 const string Servico = "arrecadacao-worker";
 
@@ -26,7 +28,8 @@ builder.Services.AddCampanhasCache(builder.Configuration);
 builder.Services.AddSingleton<InvalidadorDoPainel>();
 builder.Services.AddCampanhasArrecadacao(builder.Configuration);
 builder.Services.AddScoped<ProcessarDoacao>();
-builder.Services.AddCampanhasMensageria(builder.Configuration);
+builder.Services.AddSingleton(PoliticaDeRetentativa.Padrao);
+builder.Services.AddCampanhasMensageria(builder.Configuration, registro => registro.AddConsumer<DoacaoRecebidaConsumer, DoacaoRecebidaConsumerDefinition>());
 
 var app = builder.Build();
 

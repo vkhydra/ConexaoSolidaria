@@ -5,30 +5,37 @@ using Dapper;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
-using Npgsql;
 
 namespace Campanhas.Infrastructure.Arrecadacao;
 
 /// <summary>
-/// Soma uma doação ao total da campanha em uma única transação do PostgreSQL: <c>INSERT</c> em <c>doacoes_processadas</c>
+/// Soma uma doação ao total da campanha em uma única transação do PostgreSQL: registro em <c>doacoes_processadas</c>
 /// (a chave primária garante uma soma por doação), <c>UPDATE</c> atômico do total e gravação do <c>DoacaoProcessadaEvent</c> no
-/// Outbox do MassTransit. Se a doação já foi somada, ou se a campanha não existe, nada é alterado.
+/// Outbox do MassTransit. Se a doação já foi somada, ou se a campanha não existe, nada é alterado. Quando já existe uma
+/// transação no contexto (a do Outbox do consumidor), ela é reaproveitada e quem a abriu é quem a confirma.
 /// </summary>
 /// <param name="contexto">Contexto do banco de campanhas, de onde vêm a conexão e a transação.</param>
-/// <param name="publicador">Publicador do MassTransit, que no modo bus outbox grava na tabela <c>outbox_message</c>.</param>
+/// <param name="publicador">Publicador do MassTransit, que grava na tabela <c>outbox_message</c>.</param>
 public sealed class RegistroArrecadacaoSql(CampanhasDbContext contexto, IPublishEndpoint publicador) : IRegistroArrecadacao
 {
     /// <summary>
-    /// Registra a doação processada; a chave primária duplicada indica reentrega.
+    /// Registra a doação e soma o valor ao total num só comando: o <c>INSERT ... ON CONFLICT DO NOTHING</c> não lança exceção
+    /// para a doação repetida (o que abortaria a transação) e só ocorre se a campanha existe; o <c>UPDATE</c> só soma quando o
+    /// <c>INSERT</c> gravou uma linha. Sem linha de retorno, a doação é repetida ou a campanha não existe.
     /// </summary>
-    private const string _sqlInserirDoacao =
-        "INSERT INTO doacoes_processadas (doacao_id, campanha_id, valor, processada_em) VALUES (@DoacaoId, @CampanhaId, @Valor, @Agora)";
-
-    /// <summary>
-    /// Soma o valor ao total sem carregar o agregado e devolve o novo total.
-    /// </summary>
-    private const string _sqlSomarAoTotal =
-        "UPDATE campanhas SET total_arrecadado = total_arrecadado + @Valor, atualizado_em = @Agora WHERE id = @CampanhaId RETURNING total_arrecadado";
+    private const string _sqlRegistrarESomar = """
+        WITH nova AS (
+            INSERT INTO doacoes_processadas (doacao_id, campanha_id, valor, processada_em)
+            SELECT @DoacaoId, @CampanhaId, @Valor, @Agora
+            WHERE EXISTS (SELECT 1 FROM campanhas WHERE id = @CampanhaId)
+            ON CONFLICT (doacao_id) DO NOTHING
+            RETURNING doacao_id
+        )
+        UPDATE campanhas
+           SET total_arrecadado = total_arrecadado + @Valor, atualizado_em = @Agora
+         WHERE id = @CampanhaId AND EXISTS (SELECT 1 FROM nova)
+        RETURNING total_arrecadado
+        """;
 
     /// <summary>
     /// Lê o instante da primeira soma e o total atual da campanha, para responder a uma reentrega.
@@ -41,48 +48,39 @@ public sealed class RegistroArrecadacaoSql(CampanhasDbContext contexto, IPublish
     {
         ArgumentNullException.ThrowIfNull(doacao);
 
-        var parametros = new { doacao.DoacaoId, doacao.CampanhaId, doacao.Valor, Agora = agora.ToUniversalTime() };
-        await using var transacao = await contexto.Database.BeginTransactionAsync(cancelamento);
+        var transacaoExistente = contexto.Database.CurrentTransaction;
+        await using var transacaoPropria = transacaoExistente is null ? await contexto.Database.BeginTransactionAsync(cancelamento) : null;
+        var transacao = transacaoExistente ?? transacaoPropria!;
         var conexao = contexto.Database.GetDbConnection();
         var transacaoDb = transacao.GetDbTransaction();
+        var parametros = new { doacao.DoacaoId, doacao.CampanhaId, doacao.Valor, Agora = agora.ToUniversalTime() };
 
-        try
+        var total = await conexao.QuerySingleOrDefaultAsync<decimal?>(new CommandDefinition(_sqlRegistrarESomar, parametros, transacaoDb, cancellationToken: cancelamento));
+        if (total is null)
         {
-            await conexao.ExecuteAsync(new CommandDefinition(_sqlInserirDoacao, parametros, transacaoDb, cancellationToken: cancelamento));
-        }
-        catch (PostgresException excecao) when (excecao.SqlState == PostgresErrorCodes.UniqueViolation)
-        {
-            await transacao.RollbackAsync(cancelamento);
-            return await LerJaProcessadaAsync(conexao, doacao.DoacaoId, cancelamento);
-        }
-        catch (PostgresException excecao) when (excecao.SqlState == PostgresErrorCodes.ForeignKeyViolation)
-        {
-            await transacao.RollbackAsync(cancelamento);
-            return new ResultadoRegistro(SituacaoRegistro.CampanhaInexistente, null, null);
-        }
+            var anterior = await conexao.QuerySingleOrDefaultAsync<LinhaJaProcessada>(
+                new CommandDefinition(_sqlLerJaProcessada, new { doacao.DoacaoId }, transacaoDb, cancellationToken: cancelamento));
+            if (transacaoPropria is not null)
+            {
+                await transacaoPropria.RollbackAsync(cancelamento);
+            }
 
-        var total = await conexao.QuerySingleAsync<decimal>(new CommandDefinition(_sqlSomarAoTotal, parametros, transacaoDb, cancellationToken: cancelamento));
+            return anterior is null
+                ? new ResultadoRegistro(SituacaoRegistro.CampanhaInexistente, null, null)
+                : new ResultadoRegistro(SituacaoRegistro.JaProcessada, new DateTimeOffset(DateTime.SpecifyKind(anterior.ProcessadaEm, DateTimeKind.Utc)), anterior.TotalArrecadado);
+        }
 
         await publicador.Publish(
-            new DoacaoProcessadaEvent(doacao.DoacaoId, doacao.CampanhaId, doacao.DoadorId, doacao.Valor, total, doacao.OcorridoEm, agora),
+            new DoacaoProcessadaEvent(doacao.DoacaoId, doacao.CampanhaId, doacao.DoadorId, doacao.Valor, total.Value, doacao.OcorridoEm, agora),
             cancelamento);
-        await contexto.SaveChangesAsync(cancelamento);
-        await transacao.CommitAsync(cancelamento);
 
-        return new ResultadoRegistro(SituacaoRegistro.Registrada, agora, total);
-    }
+        if (transacaoPropria is not null)
+        {
+            await contexto.SaveChangesAsync(cancelamento);
+            await transacaoPropria.CommitAsync(cancelamento);
+        }
 
-    /// <summary>
-    /// Lê os dados da doação já somada, fora de transação, depois do desfazer da tentativa.
-    /// </summary>
-    /// <param name="conexao">Conexão do contexto.</param>
-    /// <param name="doacaoId">Identificador da doação.</param>
-    /// <param name="cancelamento">Token de cancelamento.</param>
-    /// <returns>O resultado de reentrega, com o instante da primeira soma e o total atual.</returns>
-    private static async Task<ResultadoRegistro> LerJaProcessadaAsync(System.Data.Common.DbConnection conexao, Guid doacaoId, CancellationToken cancelamento)
-    {
-        var linha = await conexao.QuerySingleAsync<LinhaJaProcessada>(new CommandDefinition(_sqlLerJaProcessada, new { DoacaoId = doacaoId }, cancellationToken: cancelamento));
-        return new ResultadoRegistro(SituacaoRegistro.JaProcessada, new DateTimeOffset(DateTime.SpecifyKind(linha.ProcessadaEm, DateTimeKind.Utc)), linha.TotalArrecadado);
+        return new ResultadoRegistro(SituacaoRegistro.Registrada, agora, total.Value);
     }
 
     /// <summary>

@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Arrecadacao.Worker.IntegrationTests.Suporte;
 using Campanhas.Application.Arrecadacao;
+using Campanhas.Infrastructure.Persistencia;
 using ConexaoSolidaria.Contracts.V1;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -131,6 +132,57 @@ public sealed class RegistroArrecadacaoTests(BancoWorkerFixture banco) : IClassF
 
         (await banco.LerTotalAsync(campanhaId)).ShouldBe(200.00m);
         (await banco.ContarDoacoesAsync(campanhaId)).ShouldBe(20);
+    }
+
+    /// <summary>
+    /// Dada uma transação já aberta no contexto (a do Outbox do consumidor), quando a doação é registrada e repetida na mesma
+    /// transação, então a repetição não aborta a transação e, ao confirmá-la, só uma soma vale.
+    /// </summary>
+    /// <returns>Tarefa do teste.</returns>
+    [Fact]
+    public async Task Registrar_EmTransacaoExterna_ReaproveitaATransacaoERepeticaoNaoAborta()
+    {
+        var campanhaId = await banco.CriarCampanhaAsync();
+        var doacao = NovaDoacao(campanhaId, 30.00m);
+        await using (var escopo = banco.CriarEscopo())
+        {
+            var contexto = escopo.ServiceProvider.GetRequiredService<CampanhasDbContext>();
+            var registro = escopo.ServiceProvider.GetRequiredService<IRegistroArrecadacao>();
+            await using var transacao = await contexto.Database.BeginTransactionAsync(CancellationToken.None);
+
+            var primeira = await registro.RegistrarAsync(doacao, _agora, CancellationToken.None);
+            var repetida = await registro.RegistrarAsync(doacao, _agora, CancellationToken.None);
+            (await banco.LerTotalAsync(campanhaId)).ShouldBe(0m);
+            await contexto.SaveChangesAsync(CancellationToken.None);
+            await transacao.CommitAsync(CancellationToken.None);
+
+            primeira.Situacao.ShouldBe(SituacaoRegistro.Registrada);
+            repetida.Situacao.ShouldBe(SituacaoRegistro.JaProcessada);
+        }
+
+        (await banco.LerTotalAsync(campanhaId)).ShouldBe(30.00m);
+        (await banco.LerOutboxAsync(doacao.DoacaoId)).ShouldHaveSingleItem();
+    }
+
+    /// <summary>
+    /// Dada uma transação externa desfeita, quando a doação já tinha sido registrada nela, então nada fica gravado.
+    /// </summary>
+    /// <returns>Tarefa do teste.</returns>
+    [Fact]
+    public async Task Registrar_EmTransacaoExternaDesfeita_NaoDeixaNada()
+    {
+        var campanhaId = await banco.CriarCampanhaAsync();
+        var doacao = NovaDoacao(campanhaId, 30.00m);
+        await using (var escopo = banco.CriarEscopo())
+        {
+            var contexto = escopo.ServiceProvider.GetRequiredService<CampanhasDbContext>();
+            await using var transacao = await contexto.Database.BeginTransactionAsync(CancellationToken.None);
+            await escopo.ServiceProvider.GetRequiredService<IRegistroArrecadacao>().RegistrarAsync(doacao, _agora, CancellationToken.None);
+            await transacao.RollbackAsync(CancellationToken.None);
+        }
+
+        (await banco.LerTotalAsync(campanhaId)).ShouldBe(0m);
+        (await banco.ContarDoacoesAsync(campanhaId)).ShouldBe(0);
     }
 
     /// <summary>
