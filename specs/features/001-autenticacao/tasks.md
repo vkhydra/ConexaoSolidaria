@@ -22,7 +22,7 @@ Formato: `- [ ] Tnnn [P] [história] descrição — arquivo(s)`, seguido do com
 
 ## Fase 3 — Infraestrutura
 
-- [ ] T006 [H02] `IdentityDbContext`, configurações de `usuarios` e `tentativas_login` e migration inicial — `Identity.Infrastructure/Persistencia/*`
+- [X] T006 [H02] `IdentityDbContext`, configurações de `usuarios` e `tentativas_login` e migration inicial — `Identity.Infrastructure/Persistencia/*`
   Commit: `🗃️ feat(identity): adiciona IdentityDbContext e migration inicial`
 - [ ] T007 [P] [H02] `HasherSenhaBcrypt` (work factor 12) com testes — `Identity.Infrastructure/Seguranca/HasherSenhaBcrypt.cs`
   Commit: `🛂 feat(identity): adiciona hash de senha com bcrypt`

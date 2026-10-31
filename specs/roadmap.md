@@ -212,7 +212,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R052** · `001/T005` [H02] Caso de uso `Autenticar` com validador e testes (sucesso, senha errada, e-mail inexistente com tempo constante, bloqueado, anonimizado) — `Identity.Application/Autenticacao/*`
   Commit: `✨ feat(identity): adiciona caso de uso de autenticação`
   Depende de: R049 (`001/T002`), R050 (`001/T003`), R051 (`001/T004`)
-- [ ] **R053** · `001/T006` [H02] `IdentityDbContext`, configurações de `usuarios` e `tentativas_login` e migration inicial — `Identity.Infrastructure/Persistencia/*`
+- [X] **R053** · `001/T006` [H02] `IdentityDbContext`, configurações de `usuarios` e `tentativas_login` e migration inicial — `Identity.Infrastructure/Persistencia/*`
   Commit: `🗃️ feat(identity): adiciona IdentityDbContext e migration inicial`
 - [ ] **R054** · `001/T007` [H02] `HasherSenhaBcrypt` (work factor 12) com testes — `Identity.Infrastructure/Seguranca/HasherSenhaBcrypt.cs`
   Commit: `🛂 feat(identity): adiciona hash de senha com bcrypt`
