@@ -3,10 +3,11 @@
 - **Status:** Aceito
 - **Data:** 2026-10-30
 - **Decisores:** equipe do projeto
+- **Errata (2026-10-30):** contexto corrigido para o escopo do trabalho substitutivo ([ADR 0018](0018-escopo-trabalho-substitutivo.md)); a decisão não mudou.
 
 ## Contexto
 
-O enunciado exige CI a cada push na branch principal com build e imagem Docker. Repositório público no GitHub.
+O trabalho substitutivo exige uma pipeline de CI (GitHub Actions ou Azure DevOps) que execute os testes e retorne a cobertura ([ADR 0018](0018-escopo-trabalho-substitutivo.md)). A Fase 4 também ensina build e publicação de imagens. O repositório está no GitHub.
 
 ## Decisão
 
