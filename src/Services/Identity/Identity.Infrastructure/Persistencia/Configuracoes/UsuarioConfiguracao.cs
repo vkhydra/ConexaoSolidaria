@@ -42,7 +42,7 @@ public sealed class UsuarioConfiguracao : IEntityTypeConfiguration<Usuario>
         builder.Property(u => u.Email)
             .HasColumnName("email")
             .HasMaxLength(Email.TamanhoMaximo)
-            .HasConversion(email => email.Valor, texto => Email.Criar(texto).Valor)
+            .HasConversion(email => email.Valor, texto => Email.Restaurar(texto))
             .IsRequired();
         builder.HasIndex(u => u.Email).IsUnique().HasDatabaseName("ux_usuarios_email");
 

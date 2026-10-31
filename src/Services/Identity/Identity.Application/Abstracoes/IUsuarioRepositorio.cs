@@ -24,6 +24,23 @@ public interface IUsuarioRepositorio
     Task<Usuario?> ObterPorIdAsync(UsuarioId id, CancellationToken cancelamento);
 
     /// <summary>
+    /// Lê e decifra o CPF de um usuário.
+    /// </summary>
+    /// <param name="id">Identificador do usuário.</param>
+    /// <param name="cancelamento">Token de cancelamento.</param>
+    /// <returns>O CPF, ou nulo se o usuário não tem CPF (gestor ou anonimizado).</returns>
+    Task<Cpf?> ObterCpfAsync(UsuarioId id, CancellationToken cancelamento);
+
+    /// <summary>
+    /// Grava as alterações de um usuário já carregado. Se o usuário foi anonimizado, o CPF cifrado e o hash são apagados
+    /// na mesma gravação.
+    /// </summary>
+    /// <param name="usuario">Usuário carregado por este repositório e alterado.</param>
+    /// <param name="cancelamento">Token de cancelamento.</param>
+    /// <returns>Tarefa que termina quando as alterações foram gravadas.</returns>
+    Task SalvarAsync(Usuario usuario, CancellationToken cancelamento);
+
+    /// <summary>
     /// Informa se já existe algum usuário com o papel de gestor.
     /// </summary>
     /// <param name="cancelamento">Token de cancelamento.</param>

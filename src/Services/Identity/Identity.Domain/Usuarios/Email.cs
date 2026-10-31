@@ -48,6 +48,19 @@ public sealed partial record Email
     }
 
     /// <summary>
+    /// Recria o e-mail a partir do valor já gravado no banco, sem validar de novo: o texto foi validado ao cadastrar ou é o
+    /// e-mail anônimo, que não segue o formato comum (<c>@invalid</c> não tem ponto). Use só para materializar dados persistidos.
+    /// </summary>
+    /// <param name="valorPersistido">Texto gravado na coluna <c>email</c>.</param>
+    /// <returns>O e-mail com o texto exato da coluna.</returns>
+    public static Email Restaurar(string valorPersistido)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(valorPersistido);
+
+        return new Email(valorPersistido);
+    }
+
+    /// <summary>
     /// Cria o e-mail de um usuário anonimizado (<c>anonimo+&lt;id&gt;@invalid</c>), que não identifica ninguém e mantém a unicidade da coluna.
     /// O domínio <c>invalid</c> é reservado pela RFC 2606, então nunca recebe mensagens.
     /// </summary>

@@ -152,6 +152,63 @@ public sealed class RepositoriosTests(BancoIdentityFixture banco) : IClassFixtur
     }
 
     /// <summary>
+    /// Dado um doador gravado, quando o cadastro é anonimizado e salvo, então nome, e-mail, CPF cifrado, hash e senha somem do banco e o e-mail e o CPF ficam livres.
+    /// </summary>
+    /// <returns>Tarefa do teste.</returns>
+    [Fact]
+    public async Task Doador_AnonimizarESalvar_LimpaDadosPessoaisNoBanco()
+    {
+        var cpf = Cpf.Criar("390.533.447-05").Valor;
+        var email = Email.Criar($"anon-{Guid.NewGuid():N}@exemplo.com").Valor;
+        var doador = Usuario.CadastrarDoador("Ana Souza", email, cpf, "hash-bcrypt", Consentimento.Criar(true, "2026-10", _agora).Valor, _agora).Valor;
+        await using (var escrita = banco.CriarContexto())
+        {
+            await new UsuarioRepositorio(escrita, banco.Cifrador).AdicionarAsync(doador, CancellationToken.None);
+        }
+
+        await using (var contexto = banco.CriarContexto())
+        {
+            var repositorio = new UsuarioRepositorio(contexto, banco.Cifrador);
+            (await repositorio.ObterCpfAsync(doador.Id, CancellationToken.None)).ShouldBe(cpf);
+            var carregado = await repositorio.ObterPorIdAsync(doador.Id, CancellationToken.None);
+            carregado!.Anonimizar(_agora.AddDays(1));
+            await repositorio.SalvarAsync(carregado, CancellationToken.None);
+        }
+
+        await using var leitura = banco.CriarContexto();
+        var repo = new UsuarioRepositorio(leitura, banco.Cifrador);
+        var lido = await repo.ObterPorIdAsync(doador.Id, CancellationToken.None);
+        lido!.NomeCompleto.ShouldBe(Usuario.NomeAnonimizado);
+        lido.Email.Valor.ShouldBe($"anonimo+{doador.Id.Valor}@invalid");
+        lido.SenhaHash.ShouldBeNull();
+        lido.AnonimizadoEm.ShouldBe(_agora.AddDays(1));
+        leitura.Entry(lido).Property<byte[]?>("CpfCifrado").CurrentValue.ShouldBeNull();
+        leitura.Entry(lido).Property<byte[]?>("CpfHash").CurrentValue.ShouldBeNull();
+        (await repo.ObterCpfAsync(doador.Id, CancellationToken.None)).ShouldBeNull();
+        (await repo.ExisteEmailAsync(email, CancellationToken.None)).ShouldBeFalse();
+        (await repo.ExisteCpfAsync(banco.Cifrador.CalcularHash(cpf), CancellationToken.None)).ShouldBeFalse();
+    }
+
+    /// <summary>
+    /// Dado um usuário alterado mas não anonimizado, quando salvo, então o CPF cifrado é preservado.
+    /// </summary>
+    /// <returns>Tarefa do teste.</returns>
+    [Fact]
+    public async Task Doador_SalvarSemAnonimizar_PreservaCpf()
+    {
+        var cpf = Cpf.Criar("935.411.347-80").Valor;
+        var email = Email.Criar($"preserva-{Guid.NewGuid():N}@exemplo.com").Valor;
+        var doador = Usuario.CadastrarDoador("Bia Lima", email, cpf, "hash", Consentimento.Criar(true, "2026-10", _agora).Valor, _agora).Valor;
+        await using var contexto = banco.CriarContexto();
+        var repositorio = new UsuarioRepositorio(contexto, banco.Cifrador);
+        await repositorio.AdicionarAsync(doador, CancellationToken.None);
+
+        await repositorio.SalvarAsync(doador, CancellationToken.None);
+
+        (await repositorio.ObterCpfAsync(doador.Id, CancellationToken.None)).ShouldBe(cpf);
+    }
+
+    /// <summary>
     /// Dado um e-mail já cadastrado, quando outro usuário o usa, então o índice único do banco recusa e o repositório sinaliza conflito de e-mail.
     /// </summary>
     /// <returns>Tarefa do teste.</returns>

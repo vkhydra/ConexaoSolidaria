@@ -268,7 +268,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R076** · `003/T013` `/security-review` e `/code-review`; cobertura ≥ 90%; `git rebase --exec` antes do PR
 - [X] **R077** · `008/T001` [H10] `Usuario.Anonimizar` idempotente, com testes (anonimizar, repetir, senha após anonimizar) — `Identity.Domain/Usuarios/Usuario.cs`
   Commit: `✨ feat(identity): adiciona anonimização do usuário`
-- [ ] **R078** · `008/T002` [H10] Casos de uso `ObterMeusDados` e `AnonimizarMeusDados` com testes — `Identity.Application/Titular/*`
+- [X] **R078** · `008/T002` [H10] Casos de uso `ObterMeusDados` e `AnonimizarMeusDados` com testes — `Identity.Application/Titular/*`
   Commit: `✨ feat(identity): adiciona casos de uso de acesso e anonimização do titular`
   Depende de: R077 (`008/T001`)
 - [ ] **R079** · `008/T003` [H10] Endpoints `GET` e `DELETE /doadores/me` com policy `Doador` e `Cache-Control: no-store` — `Identity.Api/Endpoints/TitularEndpoints.cs`

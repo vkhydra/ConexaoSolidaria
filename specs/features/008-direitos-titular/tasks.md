@@ -11,7 +11,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 ## Fase 2 — Aplicação
 
-- [ ] T002 [H10] Casos de uso `ObterMeusDados` e `AnonimizarMeusDados` com testes — `Identity.Application/Titular/*`
+- [X] T002 [H10] Casos de uso `ObterMeusDados` e `AnonimizarMeusDados` com testes — `Identity.Application/Titular/*`
   Commit: `✨ feat(identity): adiciona casos de uso de acesso e anonimização do titular`
 
 ## Fase 3 — API

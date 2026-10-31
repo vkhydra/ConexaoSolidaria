@@ -28,6 +28,32 @@ public sealed class UsuarioRepositorio(IdentityDbContext contexto, ICifradorCpf 
     }
 
     /// <inheritdoc/>
+    public async Task<Cpf?> ObterCpfAsync(UsuarioId id, CancellationToken cancelamento)
+    {
+        var cifrado = await contexto.Usuarios
+            .Where(u => u.Id == id)
+            .Select(u => EF.Property<byte[]?>(u, UsuarioConfiguracao.NomeCpfCifrado))
+            .SingleOrDefaultAsync(cancelamento);
+
+        return cifrado is null ? null : cifrador.Decifrar(cifrado);
+    }
+
+    /// <inheritdoc/>
+    public async Task SalvarAsync(Usuario usuario, CancellationToken cancelamento)
+    {
+        ArgumentNullException.ThrowIfNull(usuario);
+
+        if (usuario.EstaAnonimizado)
+        {
+            var entrada = contexto.Entry(usuario);
+            entrada.Property<byte[]?>(UsuarioConfiguracao.NomeCpfCifrado).CurrentValue = null;
+            entrada.Property<byte[]?>(UsuarioConfiguracao.NomeCpfHash).CurrentValue = null;
+        }
+
+        await contexto.SaveChangesAsync(cancelamento);
+    }
+
+    /// <inheritdoc/>
     public Task<bool> ExisteGestorAsync(CancellationToken cancelamento)
     {
         return contexto.Usuarios.AnyAsync(u => u.Role == Role.GestorONG, cancelamento);

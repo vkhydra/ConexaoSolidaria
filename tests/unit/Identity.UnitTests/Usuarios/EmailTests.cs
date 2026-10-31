@@ -118,4 +118,25 @@ public sealed class EmailTests
         email.Valor.ShouldBe($"anonimo+{id.Valor}@invalid");
         email.ShouldNotBe(Email.Anonimo(UsuarioId.Novo()));
     }
+
+    /// <summary>
+    /// Dado um valor gravado no banco, quando o e-mail é restaurado, então guarda o texto exato, inclusive o anônimo, sem revalidar.
+    /// </summary>
+    [Fact]
+    public void Restaurar_ValorPersistido_GuardaTextoExato()
+    {
+        var id = UsuarioId.Novo();
+
+        Email.Restaurar(Email.Anonimo(id).Valor).ShouldBe(Email.Anonimo(id));
+        Email.Restaurar("maria@exemplo.com").Valor.ShouldBe("maria@exemplo.com");
+    }
+
+    /// <summary>
+    /// Dado um valor vazio, quando o e-mail é restaurado, então a chamada é recusada.
+    /// </summary>
+    [Fact]
+    public void Restaurar_ValorVazio_LancaExcecao()
+    {
+        Should.Throw<ArgumentException>(() => Email.Restaurar(" "));
+    }
 }
