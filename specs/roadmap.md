@@ -242,7 +242,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Commit: `✨ feat(identity): adiciona value object Cpf com validação de dígitos`
 - [X] **R066** · `003/T002` [H01] VO `Senha` com a política de segurança, com testes — `Identity.Domain/Usuarios/Senha.cs`
   Commit: `✨ feat(identity): adiciona value object Senha com política de segurança`
-- [ ] **R067** · `003/T003` [H01] VO `Consentimento`, com testes — `Identity.Domain/Usuarios/Consentimento.cs`
+- [X] **R067** · `003/T003` [H01] VO `Consentimento`, com testes — `Identity.Domain/Usuarios/Consentimento.cs`
   Commit: `✨ feat(identity): adiciona value object Consentimento`
 - [ ] **R068** · `003/T004` [H01] `Usuario.CadastrarDoador` com testes — `Identity.Domain/Usuarios/Usuario.cs`
   Commit: `✨ feat(identity): adiciona cadastro de doador no agregado Usuario`
