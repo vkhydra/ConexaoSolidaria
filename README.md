@@ -4,44 +4,69 @@ Plataforma de doações para a **ONG Esperança Solidária**, desenvolvida como 
 
 O MVP digitaliza a gestão de campanhas e doações com foco em **escalabilidade, observabilidade e automação**, aplicando o conteúdo das 5 fases do curso.
 
-> **Status:** em especificação. O passo a passo de execução abaixo será preenchido conforme as etapas da [especificação](docs/spec/) forem concluídas.
+> **Status:** especificação concluída; implementação feature a feature conforme o [plano de execução](docs/plano-de-execucao.md).
 
 ## Funcionalidades
 
-| # | Funcionalidade | Acesso |
+| # | Feature | Acesso |
 |---|---|---|
-| 1 | Autenticação JWT com as roles `GestorONG` e `Doador` | — |
-| 2 | Gestão de campanhas (meta > 0, data fim não pode estar no passado) | `GestorONG` |
-| 3 | Cadastro de doador (e-mail único, CPF validado, senha com hash) | Público |
-| 4 | Painel de transparência: campanhas ativas, meta e total arrecadado | Público |
-| 5 | Doação para campanha ativa, processada de forma assíncrona | `Doador` |
+| 001 | [Autenticação JWT com as roles `GestorONG` e `Doador`](specs/features/001-autenticacao/spec.md) | — |
+| 002 | [Gestão de campanhas (meta > 0, data fim não pode estar no passado)](specs/features/002-gestao-campanhas/spec.md) | `GestorONG` |
+| 003 | [Cadastro de doador (e-mail único, CPF validado, senha com hash)](specs/features/003-cadastro-doador/spec.md) | Público |
+| 004 | [Painel de transparência: campanhas ativas, meta e total arrecadado](specs/features/004-painel-transparencia/spec.md) | Público |
+| 005 | [Doação para campanha ativa, processada de forma assíncrona](specs/features/005-doacao/spec.md) | `Doador` |
+| 006 | [Busca de campanhas tolerante a erros de digitação](specs/features/006-busca-campanhas/spec.md) | Público |
+| 007 | [Recibo de doação por função serverless](specs/features/007-recibo-doacao/spec.md) | — |
+| 008 | [Direitos do titular (LGPD): ver e apagar os próprios dados](specs/features/008-direitos-titular/spec.md) | `Doador` |
 
 ## Arquitetura (resumo)
 
 - **Microsserviços:** `Identity.Api`, `Campanhas.Api`, `Arrecadacao.Worker` e a função serverless `Notificacoes.Function`.
-- **Mensageria:** a doação publica `DoacaoRecebidaEvent` no RabbitMQ (MassTransit). O Worker consome o evento e atualiza o total arrecadado.
+- **Mensageria:** a doação publica `DoacaoRecebidaEvent` no RabbitMQ (MassTransit com Outbox). O Worker consome o evento e atualiza o total arrecadado.
 - **Dados:** PostgreSQL, MongoDB, Redis e Elasticsearch, cada um com uma justificativa documentada.
 - **Infra:** Docker, Kubernetes (Minikube) e Kong como API Gateway.
 - **Observabilidade:** OpenTelemetry, Prometheus, Grafana e Jaeger.
-- **CI/CD:** GitHub Actions faz build, testes e a imagem Docker a cada push na `main`.
+- **CI/CD:** GitHub Actions faz build, testes, cobertura e a imagem Docker a cada push na `main`.
 - **Frontend:** Blazor.
 
 Detalhes, diagramas e decisões: [specs/product/arquitetura.md](specs/product/arquitetura.md) e [docs/adr/](docs/adr/README.md).
+
+## Como o projeto é desenvolvido
+
+O projeto usa **Spec-Driven Development** com o Claude Code ([ADR 0017](docs/adr/0017-spec-driven-development.md)):
+
+```text
+/constitution → /specify → /clarify → /plan → /tasks → /analyze → /implement
+```
+
+| Regra | Onde |
+|---|---|
+| Princípios inegociáveis | [specs/constitution.md](specs/constitution.md) |
+| Cobertura de testes ≥ 90% (linhas e ramos, por projeto) | [docs/testes.md](docs/testes.md) |
+| `/// <summary>` em todo código C# | [docs/padroes-de-codigo.md](docs/padroes-de-codigo.md) |
+| Um commit por arquivo, gitmoji, sempre compilando, sem coautoria | [docs/git-e-commits.md](docs/git-e-commits.md) |
 
 ## Estrutura do repositório
 
 ```text
 .
-├── docs/                 # Especificação, roteiro de vídeo, diagramas e ADRs
+├── .claude/              # Comandos, agentes, skills e configuração do Claude Code
+├── .vscode/              # Configuração, extensões, depuração e tarefas do VS Code
+├── specs/                # Constituição, visão do produto e uma pasta por feature
+├── docs/                 # ADRs, runbooks, glossário, guias, manuais e roteiro do vídeo
 ├── src/                  # Código-fonte (serviços, worker, função e frontend)
-├── tests/                # Testes de unidade, BDD, integração e carga
-├── deploy/               # docker-compose, manifestos Kubernetes, Kong e Grafana
-└── .github/workflows/    # Pipelines de CI/CD
+├── tests/                # unit, integration, contract e e2e
+├── deploy/               # docker-compose, Kubernetes, Kong, Helm e observabilidade
+├── scripts/              # Automação em PowerShell 7 (Windows, macOS e Linux)
+├── CLAUDE.md             # Regras do projeto para o Claude Code
+└── .mcp.json             # Servidores MCP (Microsoft Learn, GitHub, Playwright)
 ```
 
-## Como executar localmente
+## Como executar
 
-Pré-requisitos em [docs/spec/02-pre-requisitos.md](docs/pre-requisitos.md). O passo a passo de subida está em [docs/spec/13-infraestrutura.md](specs/product/infraestrutura.md) e receberá os comandos finais na Etapa 17 do [plano de execução](docs/plano-de-execucao.md).
+1. Instale os [pré-requisitos](docs/pre-requisitos.md) (Windows, macOS ou Linux).
+2. Siga o [manual de implementação](docs/manual-de-implementacao.md): docker-compose (rápido) ou Kubernetes local (completo).
+3. Use a plataforma pelo [manual do usuário](docs/manual-do-usuario.md).
 
 ## Convenção de commits
 
@@ -51,14 +76,23 @@ Commits semânticos ([Conventional Commits](https://www.conventionalcommits.org/
 <gitmoji> <tipo>(<escopo opcional>): <descrição no imperativo>
 ```
 
-Exemplo: `✨ feat(campanhas): adiciona criação de campanha`. Todo commit deve compilar e passar nos testes. As regras completas estão em [docs/spec/17-git-e-commits.md](docs/git-e-commits.md).
+Exemplo: `✨ feat(campanhas): adiciona criação de campanha`. Todo commit deve compilar e passar nos testes.
 
 ## Documentação
 
-- [Especificação do projeto](docs/spec/): 23 arquivos, dos pré-requisitos à conclusão (começar por [01 — Visão geral](specs/product/overview.md))
-- [Manual de implementação](docs/manual-de-implementacao.md): como implantar e operar (docker-compose, Minikube e Azure)
-- [Manual do usuário](docs/manual-do-usuario.md): como visitantes, doadores e gestores usam a plataforma
-- [Roteiro do vídeo](docs/ROTEIRO-VIDEO.md): apresentação de até 15 minutos
+| Documento | Conteúdo |
+|---|---|
+| [Visão geral do produto](specs/product/overview.md) | Contexto, objetivos, personas, escopo e catálogo de features |
+| [Constituição](specs/constitution.md) | Princípios do projeto |
+| [Features](specs/features/) | Spec, pesquisa, plano, modelo de dados, contratos e tarefas de cada funcionalidade |
+| [Decisões de arquitetura](docs/adr/README.md) | ADRs 0001–0017 |
+| [Runbooks](docs/runbooks/README.md) | Resposta a alertas e operações |
+| [Glossário](docs/glossary.md) | Linguagem ubíqua |
+| [Plano de execução](docs/plano-de-execucao.md) | Etapas do início à entrega |
+| [Processo ágil](docs/processo-agil.md) | Scrum, Kanban, DoR, DoD e backlog |
+| [Claude Code no projeto](docs/claude-code.md) | Comandos, agentes, skills e MCP |
+| [Entrega e riscos](docs/entrega-e-riscos.md) | Checklist do enunciado, relatório e riscos |
+| [Roteiro do vídeo](docs/ROTEIRO-VIDEO.md) | Apresentação de até 15 minutos |
 
 ## Equipe
 
