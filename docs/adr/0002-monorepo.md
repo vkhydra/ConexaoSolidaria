@@ -3,10 +3,11 @@
 - **Status:** Aceito
 - **Data:** 2026-10-30
 - **Decisores:** equipe do projeto
+- **Errata (2026-10-30):** contexto corrigido para o escopo do trabalho substitutivo ([ADR 0018](0018-escopo-trabalho-substitutivo.md)); a decisão não mudou.
 
 ## Contexto
 
-O Hackathon pede **um** repositório público com README passo a passo.
+A entrega é um vídeo que mostra a API, os testes e a pipeline com cobertura. Um único repositório simplifica a pipeline, a cobertura consolidada e a demonstração.
 
 ## Decisão
 
