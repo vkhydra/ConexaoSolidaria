@@ -337,7 +337,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R099** · `002/T016` [H03] [H04] Cenários Gherkin automatizados — `tests/e2e/ConexaoSolidaria.Bdd/Features/002-gestao-campanhas.feature`
   Commit: `✅ test(bdd): adiciona cenários de gestão de campanhas`
   Depende de: R098 (`002/T015`)
-- [ ] **R100** · `002/T018` `/code-review` e `/simplify`; cobertura ≥ 90%; `git rebase --exec` antes do PR
+- [X] **R100** · `002/T018` `/code-review` e `/simplify`; cobertura ≥ 90%; `git rebase --exec` antes do PR
 - [ ] **R101** · `004/T001` [H05] `PainelItemResponse`, `ICampanhaLeitura`, `ICachePainel` e caso de uso `ObterPainelTransparencia` com testes (percentual, lista vazia, falha do cache) — `Campanhas.Application/Transparencia/*`
   Commit: `✨ feat(campanhas): adiciona caso de uso do painel de transparência`
 - [ ] **R102** · `004/T002` [H05] `CampanhaLeituraDapper` com a consulta do painel e teste de integração (filtros de status e período) — `Campanhas.Infrastructure/Leitura/CampanhaLeituraDapper.cs`

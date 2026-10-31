@@ -61,7 +61,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 ## Fase 8 — Fechamento
 
-- [ ] T018 `/code-review` e `/simplify`; cobertura ≥ 90%; `git rebase --exec` antes do PR
+- [X] T018 `/code-review` e `/simplify`; cobertura ≥ 90%; `git rebase --exec` antes do PR
 
 ## Dependências
 
