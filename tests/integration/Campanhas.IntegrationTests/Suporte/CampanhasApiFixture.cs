@@ -97,8 +97,9 @@ public sealed class CampanhasApiFixture : WebApplicationFactory<Program>, IAsync
     /// Gera um JWT válido para a API de teste, assinado com a chave privada da fixture.
     /// </summary>
     /// <param name="role">Papel do token (<c>GestorONG</c> ou <c>Doador</c>).</param>
+    /// <param name="usuarioId">Identificador do usuário (<c>sub</c>); sorteado quando não informado.</param>
     /// <returns>O JWT assinado.</returns>
-    public string GerarToken(string role)
+    public string GerarToken(string role, Guid? usuarioId = null)
     {
         var descritor = new SecurityTokenDescriptor
         {
@@ -106,7 +107,7 @@ public sealed class CampanhasApiFixture : WebApplicationFactory<Program>, IAsync
             Audience = "conexao-api",
             Expires = DateTime.UtcNow.AddHours(1),
             SigningCredentials = new SigningCredentials(new RsaSecurityKey(_rsa), SecurityAlgorithms.RsaSha256),
-            Claims = new Dictionary<string, object> { ["sub"] = Guid.NewGuid().ToString(), ["role"] = role },
+            Claims = new Dictionary<string, object> { ["sub"] = (usuarioId ?? Guid.NewGuid()).ToString(), ["role"] = role },
         };
 
         return new JsonWebTokenHandler().CreateToken(descritor);

@@ -1,4 +1,5 @@
 using Campanhas.Application.Abstracoes;
+using Campanhas.Application.Doacoes;
 using Campanhas.Application.Transparencia;
 using Campanhas.Infrastructure.Cache;
 using Campanhas.Infrastructure.Leitura;
@@ -34,6 +35,7 @@ public static class ExtensoesCampanhasInfraestrutura
 
         servicos.AddDbContext<CampanhasDbContext>(opcoes => CampanhasDbContext.Configurar(opcoes, conexao));
         servicos.AddScoped<ICampanhaRepositorio, CampanhaRepositorio>();
+        servicos.AddScoped<IPublicadorDeDoacoes, PublicadorDeDoacoes>();
         servicos.AddSingleton(NpgsqlDataSource.Create(conexao));
         servicos.AddSingleton<ICampanhaLeitura, CampanhaLeituraDapper>();
         servicos.AddSingleton<IRelogio, RelogioSaoPaulo>();

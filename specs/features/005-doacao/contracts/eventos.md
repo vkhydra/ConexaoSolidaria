@@ -41,6 +41,8 @@ public sealed record DoacaoProcessadaEvent(
 
 ## Exemplo de mensagem no broker
 
+No envelope do MassTransit, `decimal` é gravado como texto (`"150.00"`) para não perder precisão; o consumidor lê normalmente como `decimal`.
+
 ```json
 {
   "messageId": "0192f3c4-0000-7000-8000-000000000001",
@@ -50,7 +52,7 @@ public sealed record DoacaoProcessadaEvent(
     "doacaoId": "0192f3c4-2b3c-7d4e-9f50-6a7b8c9d0e1f",
     "campanhaId": "0192f3b0-1a2b-7c3d-8e4f-5a6b7c8d9e0f",
     "doadorId": "0192f3a1-7c2e-7b4a-9f1e-2b3c4d5e6f70",
-    "valor": 150.00,
+    "valor": "150.00",
     "ocorridoEm": "2026-11-10T14:10:05-03:00"
   }
 }
