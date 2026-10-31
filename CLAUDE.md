@@ -1,6 +1,8 @@
 # CLAUDE.md — Conexão Solidária
 
-Plataforma de doações da ONG Esperança Solidária: Hackathon da Fase 5 da PósTech FIAP (Arquitetura de Sistemas .NET). Monorepo .NET 10 com microsserviços, mensageria, Kubernetes local e observabilidade.
+**Atividade Substitutiva da Fase 3** da PósTech FIAP (Arquitetura de Sistemas .NET): assegurar a qualidade de uma API .NET com **testes unitários (sucesso e erro)** e uma **pipeline de CI que execute os testes e retorne a cobertura**; entregável = vídeo ([ADR 0018](docs/adr/0018-escopo-trabalho-substitutivo.md), [feature 009](specs/features/009-ci-testes-cobertura/spec.md)).
+
+A API testada é a **Conexão Solidária** (plataforma de doações da ONG Esperança Solidária): monorepo .NET 10 que aplica o conteúdo das 5 fases (microsserviços, mensageria, Kubernetes local, observabilidade). Enunciados do Hackathon e dos Tech Challenges **não** são fonte de requisitos.
 
 ## Como responder
 
@@ -18,7 +20,7 @@ Resumo prático:
 
 1. **Spec antes do código:** toda funcionalidade passa por `/specify` → `/clarify` → `/plan` → `/tasks` → `/analyze` → `/implement`.
 2. **Commits:** `<gitmoji> <tipo>(<escopo>): <descrição>` em português; **um arquivo por commit** (ou o menor conjunto que compila); todo commit compila e passa nos testes; **sem `Co-Authored-By`**; nunca `--no-verify`. Use a skill `commit-gitmoji`.
-3. **Testes:** TDD no domínio; cobertura **≥ 90% de linhas e ramos**, no total e por projeto (skill `verificar-cobertura`).
+3. **Testes:** TDD no domínio; toda funcionalidade com testes de **sucesso e de erro**; cobertura **≥ 90% de linhas e ramos**, no total e por projeto (skill `verificar-cobertura`). A pipeline publica a cobertura dos testes unitários como artefato `cobertura-testes-unitarios`.
 4. **Documentação no código:** `/// <summary>` em português em **todo** tipo e membro C#, inclusive testes (skill `documentar-xml`).
 5. **Segurança e LGPD:** nenhum dado pessoal em logs e eventos; nenhum segredo em código, YAML ou prompt.
 6. **Decisões:** decisão arquitetural nova vira ADR (skill `nova-adr`).
@@ -53,6 +55,7 @@ Resumo prático:
 | 006 | [Busca de campanhas](specs/features/006-busca-campanhas/spec.md) | Campanhas.Api |
 | 007 | [Recibo de doação](specs/features/007-recibo-doacao/spec.md) | Notificacoes.Function |
 | 008 | [Direitos do titular](specs/features/008-direitos-titular/spec.md) | Identity.Api |
+| 009 | [Testes unitários e cobertura no CI](specs/features/009-ci-testes-cobertura/spec.md) — **requisito avaliado** | tests/unit + GitHub Actions |
 
 ## Comandos
 
