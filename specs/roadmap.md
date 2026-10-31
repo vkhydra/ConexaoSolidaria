@@ -154,7 +154,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Depende de: R028 (`009/T001`)
 - [X] **R031** · `ServiceDefaults`: logs estruturados com Serilog, com testes de sucesso e de erro
   Commit: `🔊 feat(defaults): adiciona logs estruturados com serilog`
-- [ ] **R032** · `ServiceDefaults`: OpenTelemetry e `/metrics`, com testes
+- [X] **R032** · `ServiceDefaults`: OpenTelemetry e `/metrics`, com testes
   Commit: `📈 feat(defaults): adiciona tracing com opentelemetry e endpoint de métricas`
 - [ ] **R033** · `ServiceDefaults`: `/health/live` e `/health/ready`, com testes
   Commit: `🩺 feat(defaults): adiciona health checks live e ready`
