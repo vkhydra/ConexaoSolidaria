@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Net;
 using System.Text.Json;
 using ConexaoSolidaria.ServiceDefaults.Erros;
@@ -187,6 +188,74 @@ public sealed class ErrosTests
         Should.Throw<ArgumentNullException>(() => ExtensoesErros.UsarTratamentoErros(null!));
         await Should.ThrowAsync<ArgumentNullException>(async () => await tratador.TryHandleAsync(null!, new InvalidOperationException(), ct));
         await Should.ThrowAsync<ArgumentNullException>(async () => await tratador.TryHandleAsync(new DefaultHttpContext(), null!, ct));
+    }
+
+    /// <summary>
+    /// Dado um problema sem status, quando é completado, então usa o status da resposta e o código correspondente.
+    /// </summary>
+    [Fact]
+    public void CompletarProblema_SemStatus_UsaStatusDaResposta()
+    {
+        var http = new DefaultHttpContext();
+        http.Response.StatusCode = StatusCodes.Status404NotFound;
+        var contexto = new ProblemDetailsContext { HttpContext = http, ProblemDetails = new Microsoft.AspNetCore.Mvc.ProblemDetails() };
+
+        ExtensoesErros.CompletarProblema(contexto);
+
+        contexto.ProblemDetails.Status.ShouldBe(404);
+        contexto.ProblemDetails.Extensions["code"].ShouldBe(CatalogoDeErros.NaoEncontrado);
+        contexto.ProblemDetails.Title.ShouldBe("Recurso não encontrado");
+    }
+
+    /// <summary>
+    /// Dado um problema com <c>code</c> nulo e <c>instance</c> já definida, quando é completado, então o código é preenchido e a instância preservada.
+    /// </summary>
+    [Fact]
+    public void CompletarProblema_CodigoNuloEInstanciaDefinida_PreencheCodigoEPreservaInstancia()
+    {
+        var problema = new Microsoft.AspNetCore.Mvc.ProblemDetails { Status = 400, Instance = "/campanhas/123" };
+        problema.Extensions["code"] = null;
+        var contexto = new ProblemDetailsContext { HttpContext = new DefaultHttpContext(), ProblemDetails = problema };
+
+        ExtensoesErros.CompletarProblema(contexto);
+
+        problema.Extensions["code"].ShouldBe(CatalogoDeErros.Validacao);
+        problema.Instance.ShouldBe("/campanhas/123");
+    }
+
+    /// <summary>
+    /// Dados uma atividade em andamento e uma requisição sem atividade, quando o problema é completado, então o traceId vem de cada origem.
+    /// </summary>
+    [Fact]
+    public void CompletarProblema_TraceId_VemDaAtividadeOuDoIdentificadorDaRequisicao()
+    {
+        using var ouvinte = new ActivityListener
+        {
+            ShouldListenTo = _ => true,
+            Sample = (ref ActivityCreationOptions<ActivityContext> _) => ActivitySamplingResult.AllData,
+        };
+        ActivitySource.AddActivityListener(ouvinte);
+        using var fonte = new ActivitySource("testes.erros");
+
+        Activity.Current = null;
+        var semAtividade = new ProblemDetailsContext { HttpContext = new DefaultHttpContext { TraceIdentifier = "req-123" }, ProblemDetails = new Microsoft.AspNetCore.Mvc.ProblemDetails { Status = 500 } };
+        ExtensoesErros.CompletarProblema(semAtividade);
+
+        using var atividade = fonte.StartActivity("operacao");
+        var comAtividade = new ProblemDetailsContext { HttpContext = new DefaultHttpContext { TraceIdentifier = "req-456" }, ProblemDetails = new Microsoft.AspNetCore.Mvc.ProblemDetails { Status = 500 } };
+        ExtensoesErros.CompletarProblema(comAtividade);
+
+        semAtividade.ProblemDetails.Extensions["traceId"].ShouldBe("req-123");
+        comAtividade.ProblemDetails.Extensions["traceId"].ShouldBe(atividade!.TraceId.ToString());
+    }
+
+    /// <summary>
+    /// Dado um contexto nulo, quando o problema é completado, então a chamada é recusada.
+    /// </summary>
+    [Fact]
+    public void CompletarProblema_ContextoNulo_LancaExcecao()
+    {
+        Should.Throw<ArgumentNullException>(() => ExtensoesErros.CompletarProblema(null!));
     }
 
     /// <summary>

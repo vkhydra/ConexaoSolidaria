@@ -21,7 +21,7 @@ public static class ExtensoesErros
     {
         ArgumentNullException.ThrowIfNull(builder);
 
-        builder.Services.AddProblemDetails(opcoes => opcoes.CustomizeProblemDetails = Completar);
+        builder.Services.AddProblemDetails(opcoes => opcoes.CustomizeProblemDetails = CompletarProblema);
         builder.Services.AddExceptionHandler<TratadorExcecoes>();
         return builder;
     }
@@ -46,8 +46,10 @@ public static class ExtensoesErros
     /// preservando o <c>code</c> quando a regra de negócio já definiu um.
     /// </summary>
     /// <param name="contexto">Contexto da resposta de erro.</param>
-    private static void Completar(ProblemDetailsContext contexto)
+    public static void CompletarProblema(ProblemDetailsContext contexto)
     {
+        ArgumentNullException.ThrowIfNull(contexto);
+
         var problema = contexto.ProblemDetails;
         var status = problema.Status ?? contexto.HttpContext.Response.StatusCode;
 
