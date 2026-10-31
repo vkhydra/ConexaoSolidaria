@@ -119,7 +119,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 
 **Pronto quando:** `dotnet build -warnaserror` e `dotnet test` passam local e no CI; mensagem de commit fora do padrão é bloqueada; a pipeline mostra a cobertura no resumo e oferece o artefato `cobertura-testes-unitarios` para download; execução manual validada.
 
-- [ ] **R015** · SDK fixado em `global.json`
+- [X] **R015** · SDK fixado em `global.json`
   Commit: `🔧 chore: adiciona global.json com SDK 10`
 - [ ] **R016** · Estilo de código e severidades dos analisadores em `.editorconfig`
   Commit: `🔧 chore: adiciona .editorconfig`
