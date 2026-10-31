@@ -21,7 +21,7 @@ Regras obrigatórias: **todo arquivo criado tem commit semântico com gitmoji** 
 | Escopo | Opcional, minúsculo: `identity`, `campanhas`, `worker`, `notificacoes`, `web`, `contracts`, `defaults`, `k8s`, `kong`, `obs`, `ci`, `spec`, `adr`, `ddd`, `agil`, `video` |
 | `!` | Mudança incompatível (contrato de API ou evento) |
 | Descrição | Imperativo, em português, minúscula, sem ponto final, até 72 caracteres |
-| Rodapé | `Refs #12`, `Closes #12`, `BREAKING CHANGE: ...`, `Co-Authored-By: ...` |
+| Rodapé | `Refs #12`, `Closes #12`, `BREAKING CHANGE: ...`. **Sem** linha de coautoria (`Co-Authored-By`) |
 
 ## 17.2 Gitmojis permitidos
 
