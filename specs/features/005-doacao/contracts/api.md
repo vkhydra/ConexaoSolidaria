@@ -26,9 +26,9 @@
 | 422 | `doacao.chave_idempotencia_conflitante` | Mesma `Idempotency-Key` com corpo diferente |
 | 429 | — | Limite do Kong (60/min por IP) |
 
-## `POST /admin/doacoes/reprocessar` — `GestorONG` (operação)
+## Reprocessamento
 
-Não existe: o reenvio de mensagens da fila de erro é feito pelo painel do RabbitMQ, seguindo o [runbook](../../../../docs/runbooks/mensagens-na-dlq.md).
+Não há endpoint de reprocessamento. Mensagens na fila de erro são reenviadas pelo painel do RabbitMQ, seguindo o [runbook](../../../../docs/runbooks/mensagens-na-dlq.md).
 
 ## Eventos
 
