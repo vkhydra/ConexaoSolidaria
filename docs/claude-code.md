@@ -57,6 +57,8 @@ No macOS e no Linux, usar o caminho local, por exemplo `"~/fiap/LLMWiki/wiki"`.
 | `/analyze` | Feature | Relatório de consistência (somente leitura) |
 | `/implement` | Feature | Código, testes e um commit por tarefa |
 
+Para saber **o que implementar agora**, abra o [roadmap](../specs/roadmap.md): ele ordena as tarefas de todas as features e da infraestrutura. Use `/implement NNN Tinicial Tfinal` para executar só o trecho da fase atual.
+
 Exemplo de uso para uma funcionalidade nova:
 
 ```text
