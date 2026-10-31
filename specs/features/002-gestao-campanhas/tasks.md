@@ -6,7 +6,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 ## Fase 1 — Domínio (TDD)
 
-- [ ] T001 [H03] `Result` e `Erro` do domínio, com testes — `Campanhas.Domain/Comum/{Result.cs, Erro.cs}`
+- [X] T001 [H03] `Result` e `Erro` do domínio, com testes — `Campanhas.Domain/Comum/{Result.cs, Erro.cs}`
   Commit: `✨ feat(campanhas): adiciona tipos Result e Erro do domínio`
 - [ ] T002 [H03] Value objects `Dinheiro` e `Periodo`, com testes — `Campanhas.Domain/Comum/*`
   Commit: `✨ feat(campanhas): adiciona value objects Dinheiro e Periodo`
