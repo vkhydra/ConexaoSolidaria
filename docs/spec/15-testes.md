@@ -83,7 +83,7 @@ Pasta `tests/load/`, execução contra o Kong local:
 
 | Item | Definição |
 |---|---|
-| Meta | **≥ 90% de linhas e ≥ 90% de ramos**, no total da solução **e** em cada projeto de `src/` ([RNF34](05-requisitos-nao-funcionais.md)) |
+| Meta | **≥ 90% de linhas e ≥ 90% de ramos**, no total da solução **e** em cada projeto de `src/` ([RNF34](../../specs/product/requisitos-nao-funcionais.md)) |
 | Coleta | `coverlet.collector` (`--collect "XPlat Code Coverage"`) com `--settings coverlet.runsettings` |
 | Soma | Unidade, integração, BDD e bUnit somados pelo ReportGenerator em um único `coverage/Summary.json` |
 | Relatório | HTML como artefato do CI; resumo Markdown no `GITHUB_STEP_SUMMARY` |

@@ -77,7 +77,7 @@ Legenda de status: **Obrigatório** (enunciado), **Aplicado** (escolha do projet
 | | Zabbix | Cenário web em `/health/ready` | Bônus | 13 | `conceitos/zabbix` |
 | | Alertmanager | Alertas da seção 12 | Aplicado | 13 | `conceitos/alertmanager` |
 | Monitoramento avançado | Tracing distribuído | OpenTelemetry + Jaeger | Aplicado | 3, 13 | `conceitos/distributed-tracing` |
-| | Golden metrics, SLO | Dashboard e [seção 05](05-requisitos-nao-funcionais.md) | Aplicado | 13 | `conceitos/golden-metrics` |
+| | Golden metrics, SLO | Dashboard e [seção 05](../../specs/product/requisitos-nao-funcionais.md) | Aplicado | 13 | `conceitos/golden-metrics` |
 | | Logs e severidade | Serilog | Aplicado | 3 | `conceitos/logs-e-severidade` |
 | | Datadog / New Relic | Não usados (SaaS) | Alternativa | — | `conceitos/apm` |
 | Arquitetura (TC Fase 3) | Event sourcing ou audit log | Livro de doações no MongoDB | Aplicado | 6 | `conceitos/event-sourcing` |

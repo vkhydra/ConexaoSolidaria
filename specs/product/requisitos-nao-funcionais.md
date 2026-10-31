@@ -1,8 +1,8 @@
 # 05 — Requisitos não funcionais
 
-[← README](../../README.md) · Anterior: [04 — Requisitos funcionais](04-requisitos-funcionais.md) · Próximo: [06 — Modelo de domínio](06-modelo-de-dominio.md)
+[← README](../../README.md) · Anterior: [04 — Requisitos funcionais](../../docs/spec/04-requisitos-funcionais.md) · Próximo: [06 — Modelo de domínio](../../docs/spec/06-modelo-de-dominio.md)
 
-Metas medidas no ambiente local (Minikube) com os recursos da [seção 13](13-infraestrutura.md). Os números são de referência para um MVP e são verificados pelo teste de carga (k6) e pelo dashboard.
+Metas medidas no ambiente local (Minikube) com os recursos da [seção 13](../../docs/spec/13-infraestrutura.md). Os números são de referência para um MVP e são verificados pelo teste de carga (k6) e pelo dashboard.
 
 ## 5.1 Desempenho
 
@@ -47,7 +47,7 @@ Metas medidas no ambiente local (Minikube) com os recursos da [seção 13](13-in
 | RNF22 | Nenhuma vulnerabilidade `CRITICAL` corrigível nas imagens (Trivy) |
 | RNF23 | Nenhum segredo no histórico do git (gitleaks) |
 
-Detalhes: [11 — Segurança e LGPD](11-seguranca-e-lgpd.md).
+Detalhes: [11 — Segurança e LGPD](../../docs/spec/11-seguranca-e-lgpd.md).
 
 ## 5.5 Privacidade (LGPD)
 
@@ -68,7 +68,7 @@ Detalhes: [11 — Segurança e LGPD](11-seguranca-e-lgpd.md).
 | RNF31 | Dashboard Grafana com métricas reais (requisições, latência, erros, CPU e memória, doações, fila) |
 | RNF32 | Alertas para erros 5xx, mensagens na DLQ e pods reiniciando |
 
-Detalhes: [12 — Observabilidade](12-observabilidade.md).
+Detalhes: [12 — Observabilidade](../../docs/spec/12-observabilidade.md).
 
 ## 5.7 SLOs (indicativos)
 
