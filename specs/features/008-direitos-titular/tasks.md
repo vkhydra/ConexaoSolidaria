@@ -35,7 +35,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 ## Fase 6 — Fechamento
 
-- [ ] T008 `/security-review` (foco LGPD) e `/code-review`; cobertura ≥ 90%; `git rebase --exec`
+- [X] T008 `/security-review` (foco LGPD) e `/code-review`; cobertura ≥ 90%; `git rebase --exec`
 
 ## Dependências
 

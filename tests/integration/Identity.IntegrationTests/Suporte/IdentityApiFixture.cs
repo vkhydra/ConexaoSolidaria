@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.JsonWebTokens;
+using Microsoft.IdentityModel.Tokens;
 using Npgsql;
 using Serilog.Core;
 using Serilog.Events;
@@ -99,6 +101,26 @@ public sealed class IdentityApiFixture : WebApplicationFactory<Program>, IAsyncL
             leitor.IsDBNull(3) ? null : (byte[])leitor[3],
             leitor.IsDBNull(4) ? null : leitor.GetString(4),
             leitor.IsDBNull(5) ? null : leitor.GetFieldValue<DateTimeOffset>(5));
+    }
+
+    /// <summary>
+    /// Gera um JWT válido para a API de teste, assinado com a chave privada da fixture, com o papel e o <c>sub</c> informados.
+    /// </summary>
+    /// <param name="role">Papel do token (<c>GestorONG</c> ou <c>Doador</c>).</param>
+    /// <param name="sub">Valor da claim <c>sub</c>.</param>
+    /// <returns>O JWT assinado.</returns>
+    public string GerarToken(string role, string sub)
+    {
+        var descritor = new SecurityTokenDescriptor
+        {
+            Issuer = "conexao-identity",
+            Audience = "conexao-api",
+            Expires = DateTime.UtcNow.AddHours(1),
+            SigningCredentials = new SigningCredentials(new RsaSecurityKey(_rsa), SecurityAlgorithms.RsaSha256),
+            Claims = new Dictionary<string, object> { ["sub"] = sub, ["role"] = role },
+        };
+
+        return new JsonWebTokenHandler().CreateToken(descritor);
     }
 
     /// <summary>

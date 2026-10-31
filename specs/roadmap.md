@@ -283,7 +283,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R082** · `008/T006` [H10] Cenários Gherkin (inclui total da campanha mantido) (o cenário que depende de doação fica com `@ignore` e é liberado em R124) — `tests/e2e/ConexaoSolidaria.Bdd/Features/008-direitos-titular.feature`
   Commit: `✅ test(bdd): adiciona cenários de direitos do titular`
   Depende de: R081 (`008/T005`)
-- [ ] **R083** · `008/T008` `/security-review` (foco LGPD) e `/code-review`; cobertura ≥ 90%; `git rebase --exec`
+- [X] **R083** · `008/T008` `/security-review` (foco LGPD) e `/code-review`; cobertura ≥ 90%; `git rebase --exec`
 
 <a id="fase-4"></a>
 ## Fase 4 — Campanhas e painel

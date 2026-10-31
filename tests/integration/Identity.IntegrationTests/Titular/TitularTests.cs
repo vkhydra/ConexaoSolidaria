@@ -127,6 +127,20 @@ public sealed class TitularTests(IdentityApiFixture api) : IClassFixture<Identit
     }
 
     /// <summary>
+    /// Dado um token de doador assinado mas com sub que não é um GUID, quando acessa as rotas do titular, então recebe 401.
+    /// </summary>
+    /// <returns>Tarefa do teste.</returns>
+    [Fact]
+    public async Task Rotas_TokenComSubInvalido_Recebem401()
+    {
+        using var cliente = api.CreateClient();
+        cliente.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", api.GerarToken("Doador", "isto-nao-e-guid"));
+
+        (await cliente.GetAsync(_rotaMe, TestContext.Current.CancellationToken)).StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
+        (await cliente.DeleteAsync(_rotaMe, TestContext.Current.CancellationToken)).StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
+    }
+
+    /// <summary>
     /// Cadastra um doador com o CPF informado e entra com ele.
     /// </summary>
     /// <param name="cpf">CPF do doador.</param>
