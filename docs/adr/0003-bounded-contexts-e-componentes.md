@@ -3,10 +3,11 @@
 - **Status:** Aceito
 - **Data:** 2026-10-30
 - **Decisores:** equipe do projeto
+- **Errata (2026-10-30):** contexto corrigido para o escopo do trabalho substitutivo ([ADR 0018](0018-escopo-trabalho-substitutivo.md)); a decisão não mudou.
 
 ## Contexto
 
-O enunciado exige ≥ 2 microsserviços. Excesso de serviços aumenta o custo de operação local.
+A Fase 2 ensina microsserviços e o grupo quer aplicá-los na API. Excesso de serviços aumenta o custo de operação local e de testes.
 
 ## Decisão
 
@@ -14,7 +15,7 @@ Contextos Identidade, Campanhas e Notificações; componentes `Identity.Api`, `C
 
 ## Alternativas consideradas
 
-2 serviços (API única + Worker): cumpriria o mínimo, mas misturaria identidade com arrecadação; um serviço por agregado: complexidade sem ganho.
+2 serviços (API única + Worker): seria mais simples, mas misturaria identidade com arrecadação; um serviço por agregado: complexidade sem ganho.
 
 ## Consequências
 
