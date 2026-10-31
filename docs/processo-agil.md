@@ -52,7 +52,7 @@ Ajustar as datas ao prazo de entrega da FIAP. A sprint só termina com o increme
 
 **Campos do Project:** `Sprint` (iteração), `Estimativa` (pontos), `Etapa` (0–19), `Tipo` (história, tarefa técnica, bug, spike).
 
-**Labels:** `feature-001`…`feature-008`, `rf01`…`rf08`, `infra`, `observabilidade`, `seguranca`, `lgpd`, `docs`, `bonus`, `bug`.
+**Labels:** `feature-001`…`feature-009`, `rf01`…`rf08`, `infra`, `observabilidade`, `seguranca`, `lgpd`, `docs`, `bonus`, `bug`.
 
 **Rastreabilidade:** cada PR cita a issue (`Refs #12` ou `Closes #12`) e cada commit relevante cita a issue no rodapé.
 
