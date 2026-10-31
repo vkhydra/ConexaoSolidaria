@@ -103,7 +103,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Commit: `📝 docs(ddd): adiciona event storming do fluxo de campanha`
 - [X] **R011** · Exportar o Domain Storytelling da doação para `docs/ddd/`
   Commit: `📝 docs(ddd): adiciona domain storytelling da doação`
-- [ ] **R012** · Escrever o mapa de contextos em `docs/ddd/context-map.md`
+- [X] **R012** · Escrever o mapa de contextos em `docs/ddd/context-map.md`
   Commit: `📝 docs(ddd): adiciona mapa de contextos`
 - [ ] **R013** · Criar o modelo de issue de história em `.github/ISSUE_TEMPLATE/historia.md`
   Commit: `📝 docs: adiciona modelo de issue de história`
