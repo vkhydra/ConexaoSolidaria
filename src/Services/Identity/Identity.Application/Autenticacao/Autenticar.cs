@@ -3,6 +3,7 @@ using Identity.Application.Abstracoes;
 using Identity.Domain.Autenticacao;
 using Identity.Domain.Comum;
 using Identity.Domain.Usuarios;
+using Microsoft.Extensions.Logging;
 
 namespace Identity.Application.Autenticacao;
 
@@ -17,14 +18,18 @@ namespace Identity.Application.Autenticacao;
 /// <param name="emissor">Emissor do token de acesso.</param>
 /// <param name="validador">Validador do pedido de login.</param>
 /// <param name="relogio">Relógio da aplicação.</param>
-public sealed class Autenticar(
+/// <param name="metricas">Métrica de logins.</param>
+/// <param name="log">Logger; nunca recebe e-mail nem senha.</param>
+public sealed partial class Autenticar(
     IUsuarioRepositorio usuarios,
     ITentativaLoginRepositorio tentativas,
     IHasherSenha hasherSenha,
     IHasherEmail hasherEmail,
     IEmissorToken emissor,
     IValidator<AutenticarRequest> validador,
-    TimeProvider relogio)
+    TimeProvider relogio,
+    IMetricasLogin metricas,
+    ILogger<Autenticar> log)
 {
     /// <summary>
     /// Código do erro de entrada inválida.
@@ -72,6 +77,8 @@ public sealed class Autenticar(
 
         if (tentativa is not null && tentativa.EstaBloqueado(agora))
         {
+            metricas.Registrar(ResultadoLogin.Bloqueado);
+            LogBloqueado(log);
             return Result.Falha<AutenticarResponse>(new Erro(CodigoBloqueado, "Muitas tentativas. Tente novamente mais tarde."));
         }
 
@@ -83,6 +90,8 @@ public sealed class Autenticar(
             tentativa ??= TentativaLogin.Nova(emailHash, agora);
             tentativa.RegistrarFalha(agora);
             await tentativas.SalvarAsync(tentativa, cancelamento);
+            metricas.Registrar(ResultadoLogin.Falha);
+            LogFalha(log, tentativa.Falhas);
             return Result.Falha<AutenticarResponse>(new Erro(CodigoCredenciaisInvalidas, "E-mail ou senha inválidos"));
         }
 
@@ -93,6 +102,8 @@ public sealed class Autenticar(
         }
 
         var token = emissor.Emitir(usuario!);
+        metricas.Registrar(ResultadoLogin.Sucesso);
+        LogSucesso(log, usuario!.Id);
         return Result.Sucesso(new AutenticarResponse(token.AccessToken, TipoDoToken, token.ExpiraEmSegundos, usuario!.Role.ToString()));
     }
 
@@ -112,4 +123,27 @@ public sealed class Autenticar(
 
         return usuario.VerificarSenha(senha, hasherSenha);
     }
+
+    /// <summary>
+    /// Registra um login bem-sucedido, só com o identificador do usuário.
+    /// </summary>
+    /// <param name="log">Logger do caso de uso.</param>
+    /// <param name="usuarioId">Identificador do usuário autenticado.</param>
+    [LoggerMessage(Level = LogLevel.Information, Message = "Login realizado: {UsuarioId}.")]
+    private static partial void LogSucesso(ILogger log, UsuarioId usuarioId);
+
+    /// <summary>
+    /// Registra uma falha de login, sem e-mail nem senha.
+    /// </summary>
+    /// <param name="log">Logger do caso de uso.</param>
+    /// <param name="falhas">Falhas acumuladas na janela atual.</param>
+    [LoggerMessage(Level = LogLevel.Warning, Message = "Falha de login ({Falhas} na janela atual).")]
+    private static partial void LogFalha(ILogger log, int falhas);
+
+    /// <summary>
+    /// Registra uma tentativa recusada por bloqueio, sem e-mail.
+    /// </summary>
+    /// <param name="log">Logger do caso de uso.</param>
+    [LoggerMessage(Level = LogLevel.Warning, Message = "Tentativa de login recusada: e-mail bloqueado por excesso de falhas.")]
+    private static partial void LogBloqueado(ILogger log);
 }

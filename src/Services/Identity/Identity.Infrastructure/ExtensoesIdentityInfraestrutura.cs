@@ -37,6 +37,7 @@ public static class ExtensoesIdentityInfraestrutura
         servicos.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
         servicos.AddScoped<ITentativaLoginRepositorio, TentativaLoginRepositorio>();
         servicos.AddSingleton<IHasherSenha, HasherSenhaBcrypt>();
+        servicos.AddSingleton<IMetricasLogin, MetricasLoginPrometheus>();
         servicos.AddSingleton<IHasherEmail>(new HasherEmailHmac(chaveHashEmail));
 
         var jwt = new JwtOpcoes

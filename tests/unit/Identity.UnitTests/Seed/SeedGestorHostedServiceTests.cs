@@ -1,6 +1,7 @@
 using Identity.Application.Abstracoes;
 using Identity.Domain.Usuarios;
 using Identity.Infrastructure.Seed;
+using Identity.UnitTests.Suporte;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -37,7 +38,7 @@ public sealed class SeedGestorHostedServiceTests
     /// <summary>
     /// Logger que guarda as mensagens para conferência.
     /// </summary>
-    private readonly LoggerCaptura _log = new();
+    private readonly LoggerCaptura<SeedGestorHostedService> _log = new();
 
     /// <summary>
     /// Prepara o hasher falso.
@@ -184,41 +185,5 @@ public sealed class SeedGestorHostedServiceTests
             configuracao,
             new FakeTimeProvider(),
             _log);
-    }
-
-    /// <summary>
-    /// Logger de teste que guarda nível e texto de cada mensagem.
-    /// </summary>
-    private sealed class LoggerCaptura : ILogger<SeedGestorHostedService>
-    {
-        /// <summary>
-        /// Obtém os níveis registrados.
-        /// </summary>
-        public List<LogLevel> Niveis { get; } = [];
-
-        /// <summary>
-        /// Obtém os textos registrados.
-        /// </summary>
-        public List<string> Mensagens { get; } = [];
-
-        /// <inheritdoc/>
-        public IDisposable? BeginScope<TState>(TState state)
-            where TState : notnull
-        {
-            return null;
-        }
-
-        /// <inheritdoc/>
-        public bool IsEnabled(LogLevel logLevel)
-        {
-            return true;
-        }
-
-        /// <inheritdoc/>
-        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
-        {
-            Niveis.Add(logLevel);
-            Mensagens.Add(formatter(state, exception));
-        }
     }
 }

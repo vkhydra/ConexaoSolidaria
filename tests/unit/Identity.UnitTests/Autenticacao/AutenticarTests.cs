@@ -3,6 +3,7 @@ using Identity.Application.Abstracoes;
 using Identity.Application.Autenticacao;
 using Identity.Domain.Autenticacao;
 using Identity.Domain.Usuarios;
+using Identity.UnitTests.Suporte;
 using Microsoft.Extensions.Time.Testing;
 
 namespace Identity.UnitTests.Autenticacao;
@@ -54,6 +55,16 @@ public sealed class AutenticarTests
     private readonly IEmissorToken _emissor = Substitute.For<IEmissorToken>();
 
     /// <summary>
+    /// Métrica de logins falsa.
+    /// </summary>
+    private readonly IMetricasLogin _metricas = Substitute.For<IMetricasLogin>();
+
+    /// <summary>
+    /// Logger que guarda as mensagens para conferência.
+    /// </summary>
+    private readonly LoggerCaptura<Autenticar> _log = new();
+
+    /// <summary>
     /// Relógio controlado pelo teste.
     /// </summary>
     private readonly FakeTimeProvider _relogio = new(new DateTimeOffset(2026, 11, 10, 14, 0, 0, TimeSpan.FromHours(-3)));
@@ -81,7 +92,7 @@ public sealed class AutenticarTests
         _usuarios.ObterPorEmailAsync(Arg.Is<Email>(e => e.Valor == _emailTexto), Arg.Any<CancellationToken>()).Returns(_usuario);
         _emissor.Emitir(_usuario).Returns(new TokenEmitido("jwt", 3600));
 
-        _autenticar = new Autenticar(_usuarios, _tentativas, _hasherSenha, _hasherEmail, _emissor, new AutenticarRequestValidator(), _relogio);
+        _autenticar = new Autenticar(_usuarios, _tentativas, _hasherSenha, _hasherEmail, _emissor, new AutenticarRequestValidator(), _relogio, _metricas, _log);
     }
 
     /// <summary>
@@ -96,6 +107,9 @@ public sealed class AutenticarTests
         resultado.EhSucesso.ShouldBeTrue();
         resultado.Valor.ShouldBe(new AutenticarResponse("jwt", "Bearer", 3600, "GestorONG"));
         await _tentativas.DidNotReceive().SalvarAsync(Arg.Any<TentativaLogin>(), Arg.Any<CancellationToken>());
+        _metricas.Received(1).Registrar(ResultadoLogin.Sucesso);
+        _log.Mensagens.ShouldHaveSingleItem().ShouldBe($"Login realizado: {_usuario.Id}.");
+        _log.Mensagens.ShouldAllBe(m => !m.Contains("exemplo.com", StringComparison.OrdinalIgnoreCase));
     }
 
     /// <summary>
@@ -132,6 +146,9 @@ public sealed class AutenticarTests
             Arg.Is<TentativaLogin>(t => t.Falhas == 1 && t.EmailHash == _emailHash),
             Arg.Any<CancellationToken>());
         _emissor.DidNotReceive().Emitir(Arg.Any<Usuario>());
+        _metricas.Received(1).Registrar(ResultadoLogin.Falha);
+        _log.Niveis.ShouldBe([Microsoft.Extensions.Logging.LogLevel.Warning]);
+        _log.Mensagens.ShouldAllBe(m => !m.Contains("exemplo.com", StringComparison.OrdinalIgnoreCase) && !m.Contains("errada", StringComparison.Ordinal));
     }
 
     /// <summary>
@@ -188,6 +205,8 @@ public sealed class AutenticarTests
         resultado.EhFalha.ShouldBeTrue();
         resultado.Erro.Codigo.ShouldBe(Autenticar.CodigoBloqueado);
         await _usuarios.DidNotReceive().ObterPorEmailAsync(Arg.Any<Email>(), Arg.Any<CancellationToken>());
+        _metricas.Received(1).Registrar(ResultadoLogin.Bloqueado);
+        _log.Mensagens.ShouldAllBe(m => !m.Contains("exemplo.com", StringComparison.OrdinalIgnoreCase));
     }
 
     /// <summary>
@@ -225,6 +244,7 @@ public sealed class AutenticarTests
         resultado.Erro.Codigo.ShouldBe(Autenticar.CodigoValidacao);
         resultado.Erro.Campos.ShouldNotBeNull();
         resultado.Erro.Campos.Keys.ShouldBe(["email", "senha"], ignoreOrder: true);
+        _metricas.DidNotReceive().Registrar(Arg.Any<ResultadoLogin>());
         await _usuarios.DidNotReceive().ObterPorEmailAsync(Arg.Any<Email>(), Arg.Any<CancellationToken>());
     }
 

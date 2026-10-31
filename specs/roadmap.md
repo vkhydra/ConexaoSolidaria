@@ -228,7 +228,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Depende de: R052 (`001/T005`), R054 (`001/T007`), R055 (`001/T008`), R056 (`001/T009`)
 - [X] **R059** · `001/T012` [H02] Seed do gestor por `Seed__GestorEmail`/`Seed__GestorSenha`, com teste de idempotência — `Identity.Infrastructure/Seed/SeedGestorHostedService.cs`
   Commit: `🌱 chore(identity): adiciona seed do gestor por variáveis de ambiente`
-- [ ] **R060** · `001/T013` [H02] Métrica `logins_total{resultado}` e logs sem e-mail — `Identity.Application/Autenticacao/Autenticar.cs`
+- [X] **R060** · `001/T013` [H02] Métrica `logins_total{resultado}` e logs sem e-mail — `Identity.Application/Autenticacao/Autenticar.cs`
   Commit: `📈 feat(identity): adiciona métrica de logins`
 - [ ] **R061** · `001/T014` [H02] Testes de integração: 200, 401 (dois casos), 429, 401 sem token, 403 role errada — `tests/integration/Identity.IntegrationTests/AutenticacaoTests.cs`
   Commit: `✅ test(identity): adiciona testes de integração do login`

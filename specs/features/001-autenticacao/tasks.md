@@ -42,7 +42,7 @@ Formato: `- [ ] Tnnn [P] [história] descrição — arquivo(s)`, seguido do com
   Commit: `✨ feat(identity): adiciona endpoint de login`
 - [X] T012 [H02] Seed do gestor por `Seed__GestorEmail`/`Seed__GestorSenha`, com teste de idempotência — `Identity.Infrastructure/Seed/SeedGestorHostedService.cs`
   Commit: `🌱 chore(identity): adiciona seed do gestor por variáveis de ambiente`
-- [ ] T013 [H02] Métrica `logins_total{resultado}` e logs sem e-mail — `Identity.Application/Autenticacao/Autenticar.cs`
+- [X] T013 [H02] Métrica `logins_total{resultado}` e logs sem e-mail — `Identity.Application/Autenticacao/Autenticar.cs`
   Commit: `📈 feat(identity): adiciona métrica de logins`
 
 ## Fase 6 — Testes de integração e aceitação
