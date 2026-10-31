@@ -92,14 +92,14 @@ Boas práticas: unidades corretas (s, %, bytes, R$), descrição em cada painel 
 
 | Alerta | Expressão (resumo) | Duração | Severidade | Ação (runbook) |
 |---|---|---|---|---|
-| `TaxaDeErros5xxAlta` | 5xx > 5% por serviço | 5 min | crítica | Ver logs com o `traceId` das falhas; checar `/health/ready` |
-| `LatenciaPainelAlta` | p95 do painel > 300 ms | 10 min | aviso | Checar Redis e consulta do painel |
-| `MensagensNaDLQ` | `_error` > 0 | 1 min | crítica | Inspecionar a mensagem no RabbitMQ; corrigir e reenviar |
-| `FilaDoacoesAcumulando` | `doacao-recebida` > 100 | 5 min | aviso | Ver réplicas do Worker e KEDA |
-| `PodReiniciando` | > 3 reinícios em 15 min | — | aviso | `kubectl describe pod`; ver probes e limites de memória |
-| `ServicoSemReplicas` | réplicas disponíveis = 0 | 1 min | crítica | `kubectl get events` |
+| [`TaxaDeErros5xxAlta`](../../docs/runbooks/taxa-de-erros-5xx-alta.md) | 5xx > 5% por serviço | 5 min | crítica | Ver logs com o `traceId` das falhas; checar `/health/ready` |
+| [`LatenciaPainelAlta`](../../docs/runbooks/latencia-painel-alta.md) | p95 do painel > 300 ms | 10 min | aviso | Checar Redis e consulta do painel |
+| [`MensagensNaDLQ`](../../docs/runbooks/mensagens-na-dlq.md) | `_error` > 0 | 1 min | crítica | Inspecionar a mensagem no RabbitMQ; corrigir e reenviar |
+| [`FilaDoacoesAcumulando`](../../docs/runbooks/fila-doacoes-acumulando.md) | `doacao-recebida` > 100 | 5 min | aviso | Ver réplicas do Worker e KEDA |
+| [`PodReiniciando`](../../docs/runbooks/pod-reiniciando.md) | > 3 reinícios em 15 min | — | aviso | `kubectl describe pod`; ver probes e limites de memória |
+| [`ServicoSemReplicas`](../../docs/runbooks/servico-sem-replicas.md) | réplicas disponíveis = 0 | 1 min | crítica | `kubectl get events` |
 
-Runbooks em `docs/runbooks/<alerta>.md`. No ambiente local, o Alertmanager só registra (sem integração externa); opcionalmente, webhook para um canal do Discord.
+Cada alerta aponta para o seu runbook (link na tabela e anotação `runbook_url` na regra); índice em [docs/runbooks](../../docs/runbooks/README.md). No ambiente local, o Alertmanager só registra (sem integração externa); opcionalmente, webhook para um canal do Discord.
 
 ## Traces
 
