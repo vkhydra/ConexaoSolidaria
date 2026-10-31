@@ -1,9 +1,12 @@
 using Campanhas.Application.Abstracoes;
+using Campanhas.Application.Transparencia;
+using Campanhas.Infrastructure.Leitura;
 using Campanhas.Infrastructure.Mensageria;
 using Campanhas.Infrastructure.Persistencia;
 using Campanhas.Infrastructure.Persistencia.Repositorios;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Npgsql;
 
 namespace Campanhas.Infrastructure;
 
@@ -13,7 +16,7 @@ namespace Campanhas.Infrastructure;
 public static class ExtensoesCampanhasInfraestrutura
 {
     /// <summary>
-    /// Registra o <see cref="CampanhasDbContext"/> (<c>ConnectionStrings:Campanhas</c>), o repositório, o relógio de São Paulo
+    /// Registra o <see cref="CampanhasDbContext"/> (<c>ConnectionStrings:Campanhas</c>), o repositório, a consulta do painel (Dapper), o relógio de São Paulo
     /// e o MassTransit com Outbox e RabbitMQ.
     /// </summary>
     /// <param name="servicos">Coleção de serviços.</param>
@@ -30,6 +33,8 @@ public static class ExtensoesCampanhasInfraestrutura
 
         servicos.AddDbContext<CampanhasDbContext>(opcoes => CampanhasDbContext.Configurar(opcoes, conexao));
         servicos.AddScoped<ICampanhaRepositorio, CampanhaRepositorio>();
+        servicos.AddSingleton(NpgsqlDataSource.Create(conexao));
+        servicos.AddSingleton<ICampanhaLeitura, CampanhaLeituraDapper>();
         servicos.AddSingleton<IRelogio, RelogioSaoPaulo>();
         servicos.AddSingleton<IMetricasCampanhas, MetricasCampanhasPrometheus>();
         servicos.AddCampanhasMensageria(configuracao);

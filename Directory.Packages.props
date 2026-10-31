@@ -10,6 +10,7 @@
     <PackageVersion Include="StyleCop.Analyzers" Version="1.1.118" />
     <PackageVersion Include="FluentValidation" Version="12.1.1" />
     <PackageVersion Include="BCrypt.Net-Next" Version="4.0.3" />
+    <PackageVersion Include="Dapper" Version="2.1.66" />
     <PackageVersion Include="MassTransit.EntityFrameworkCore" Version="8.5.12" />
     <PackageVersion Include="MassTransit.RabbitMQ" Version="8.5.12" />
     <PackageVersion Include="EFCore.NamingConventions" Version="10.0.1" />

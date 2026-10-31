@@ -910,6 +910,7 @@
           "Campanhas.Application": "[1.0.0, )",
           "Campanhas.Domain": "[1.0.0, )",
           "ConexaoSolidaria.Contracts": "[1.0.0, )",
+          "Dapper": "[2.1.66, )",
           "EFCore.NamingConventions": "[10.0.1, )",
           "MassTransit.EntityFrameworkCore": "[8.5.12, )",
           "MassTransit.RabbitMQ": "[8.5.12, )",
@@ -973,6 +974,12 @@
         "requested": "[4.0.3, )",
         "resolved": "4.0.3",
         "contentHash": "W+U9WvmZQgi5cX6FS5GDtDoPzUCV4LkBLkywq/kRZhuDwcbavOzcDAr3LXJFqHUi952Yj3LEYoWW0jbEUQChsA=="
+      },
+      "Dapper": {
+        "type": "CentralTransitive",
+        "requested": "[2.1.66, )",
+        "resolved": "2.1.66",
+        "contentHash": "/q77jUgDOS+bzkmk3Vy9SiWMaetTw+NOoPAV0xPBsGVAyljd5S6P+4RUW7R3ZUGGr9lDRyPKgAMj2UAOwvqZYw=="
       },
       "EFCore.NamingConventions": {
         "type": "CentralTransitive",

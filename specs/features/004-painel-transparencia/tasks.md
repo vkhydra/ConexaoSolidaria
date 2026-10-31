@@ -11,7 +11,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 ## Fase 2 — Infraestrutura
 
-- [ ] T002 [H05] `CampanhaLeituraDapper` com a consulta do painel e teste de integração (filtros de status e período) — `Campanhas.Infrastructure/Leitura/CampanhaLeituraDapper.cs`
+- [X] T002 [H05] `CampanhaLeituraDapper` com a consulta do painel e teste de integração (filtros de status e período) — `Campanhas.Infrastructure/Leitura/CampanhaLeituraDapper.cs`
   Commit: `✨ feat(campanhas): adiciona consulta do painel com dapper`
 - [ ] T003 [H05] `CachePainelHybrid` com `HybridCache` + Redis, chave versionada e remoção — `Campanhas.Infrastructure/Cache/CachePainelHybrid.cs`
   Commit: `⚡️ feat(campanhas): adiciona cache do painel com hybridcache e redis`
