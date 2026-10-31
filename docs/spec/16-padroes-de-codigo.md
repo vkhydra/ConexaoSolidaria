@@ -13,6 +13,7 @@ Referências: `wiki:disciplinas/solid`, `wiki:boas-praticas/solid`, `wiki:boas-p
 | `Directory.Packages.props` | `ManagePackageVersionsCentrally true`; todas as versões fixas aqui |
 | `.editorconfig` | Estilo C# (namespaces por arquivo, `var` quando o tipo é evidente, chaves sempre, nomes `_camelCase` para campos privados), severidades dos analisadores |
 | `.gitattributes` | `* text=auto eol=lf`; `*.ps1 eol=crlf`; binários marcados |
+| `coverlet.runsettings` | Filtros e exclusões da cobertura ([15.7](15-testes.md)) |
 | `.config/dotnet-tools.json` | `dotnet-ef`, `husky`, `dotnet-reportgenerator-globaltool` |
 
 ## 16.2 Pacotes aprovados
@@ -96,6 +97,7 @@ Referências: `wiki:disciplinas/solid`, `wiki:boas-praticas/solid`, `wiki:boas-p
 - [ ] O PR tem até ~400 linhas alteradas e um objetivo só.
 - [ ] Descrição com o que mudou, por quê, como testar e link da issue.
 - [ ] Testes novos cobrem o comportamento alterado.
+- [ ] Cobertura continua ≥ 90% de linhas e ramos (total e por projeto).
 - [ ] Nenhuma regra de negócio em endpoint, consumidor ou componente.
 - [ ] Nenhum dado pessoal em logs, eventos ou exceções.
 - [ ] Nenhum segredo ou URL fixa no código.

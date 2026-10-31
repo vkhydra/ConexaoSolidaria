@@ -32,7 +32,7 @@
 - [ ] CI verde na `main`.
 - [ ] Nenhum segredo no histórico (gitleaks).
 - [ ] Nenhuma vulnerabilidade crítica corrigível (Trivy).
-- [ ] Cobertura de Domain/Application ≥ 80%.
+- [ ] Cobertura ≥ 90% de linhas e ramos, no total e em cada projeto de `src/` (relatório do último CI da `main`).
 - [ ] Thresholds do k6 atendidos.
 - [ ] Checklists de segurança e LGPD completos.
 - [ ] Todos os ADRs escritos.

@@ -79,14 +79,61 @@ Pasta `tests/load/`, execução contra o Kong local:
 - Resultado salvo em `tests/load/results/` (ignorado pelo git) e resumo no README.
 - Durante a carga, observar no Grafana a subida de réplicas (HPA/KEDA): bom material para o vídeo.
 
-## 15.7 Cobertura
+## 15.7 Cobertura (mínimo obrigatório de 90%)
 
 | Item | Definição |
 |---|---|
-| Coleta | `coverlet.collector` (`--collect "XPlat Code Coverage"`) |
-| Relatório | ReportGenerator (HTML como artefato; resumo Markdown no `GITHUB_STEP_SUMMARY`) |
-| Meta | ≥ 80% de linhas e ramos em `*.Domain` e `*.Application` (indicador; queda relevante é discutida no PR) |
-| Exclusões | `Migrations`, `Program.cs`, código gerado (`[ExcludeFromCodeCoverage]` só com justificativa) |
+| Meta | **≥ 90% de linhas e ≥ 90% de ramos**, no total da solução **e** em cada projeto de `src/` ([RNF34](05-requisitos-nao-funcionais.md)) |
+| Coleta | `coverlet.collector` (`--collect "XPlat Code Coverage"`) com `--settings coverlet.runsettings` |
+| Soma | Unidade, integração, BDD e bUnit somados pelo ReportGenerator em um único `coverage/Summary.json` |
+| Relatório | HTML como artefato do CI; resumo Markdown no `GITHUB_STEP_SUMMARY` |
+| Verificação | `scripts/verificar-cobertura.ps1 -Minimo 90` lê o `Summary.json` e termina com erro (exit 1) se o total ou algum projeto ficar abaixo de 90% em linhas ou ramos, listando quais |
+| Onde é obrigatória | Hook `pre-push` ([17.4](17-git-e-commits.md)) e job `build-test` do CI; PR com cobertura abaixo da meta não faz merge |
+| Fora da medição | Projetos de teste, `**/Migrations/*.cs`, `**/Program.cs`, código gerado (`*.g.cs`, `GeneratedCodeAttribute`, arquivos do Reqnroll) |
+| `[ExcludeFromCodeCoverage]` | Só com `Justification` preenchida e aprovada no PR; nunca para fugir da meta |
+
+### Arquivo `coverlet.runsettings` (raiz, criado na Etapa 3)
+```xml
+<RunSettings>
+  <DataCollectionRunSettings>
+    <DataCollectors>
+      <DataCollector friendlyName="XPlat code coverage">
+        <Configuration>
+          <Format>cobertura</Format>
+          <Include>[ConexaoSolidaria.*]*,[Identity.*]*,[Campanhas.*]*,[Arrecadacao.*]*,[Notificacoes.*]*</Include>
+          <Exclude>[*.UnitTests]*,[*.IntegrationTests]*,[*.Tests]*,[ConexaoSolidaria.Bdd]*</Exclude>
+          <ExcludeByFile>**/Migrations/*.cs,**/Program.cs,**/*.g.cs</ExcludeByFile>
+          <ExcludeByAttribute>GeneratedCodeAttribute,CompilerGeneratedAttribute,ExcludeFromCodeCoverageAttribute</ExcludeByAttribute>
+          <SkipAutoProps>true</SkipAutoProps>
+        </Configuration>
+      </DataCollector>
+    </DataCollectors>
+  </DataCollectionRunSettings>
+</RunSettings>
+```
+
+### Rodar localmente (Windows, macOS e Linux)
+```bash
+dotnet test -c Release --settings coverlet.runsettings --collect "XPlat Code Coverage" --results-directory TestResults
+dotnet reportgenerator -reports:"TestResults/**/coverage.cobertura.xml" -targetdir:coverage -reporttypes:"Html;JsonSummary;MarkdownSummaryGithub"
+pwsh ./scripts/verificar-cobertura.ps1 -Minimo 90
+```
+Relatório navegável em `coverage/index.html` (pasta ignorada pelo git).
+
+### Como chegar aos 90% em cada projeto
+
+| Projeto | Principal fonte de cobertura |
+|---|---|
+| `*.Domain` | Testes de unidade com TDD (15.3) |
+| `*.Application` | Testes de unidade dos casos de uso com fakes das interfaces |
+| `*.Infrastructure` | Testes de integração com Testcontainers (repositórios, Outbox, cifragem, Elasticsearch, MongoDB, Redis) |
+| `*.Api` | Testes de integração com `WebApplicationFactory` e cenários BDD (todos os códigos de status de [09](09-api-e-eventos.md)) |
+| `Arrecadacao.Worker` | MassTransit Test Harness + Testcontainers (sucesso, duplicata, falha transitória, falha permanente) |
+| `Notificacoes.Function` | Testes de unidade da função (envelope, deduplicação, log mascarado) |
+| `ConexaoSolidaria.Web` | bUnit em todos os componentes e páginas (estados de carregando, sucesso, erro e sem permissão) |
+| `ConexaoSolidaria.Contracts`, `ServiceDefaults` | Testes de snapshot dos eventos e testes de integração dos health checks e do tratamento de erros |
+
+Ramos (`if`, `switch`, `?:`, `??`) contam: cada regra de validação e cada caminho de erro precisa de um teste.
 
 ## 15.8 Testes de regressão
 

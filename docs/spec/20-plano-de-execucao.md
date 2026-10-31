@@ -99,12 +99,14 @@ Toda etapa termina com: `/code-review` → `git rebase --exec` (todo commit comp
 🔧 chore: adiciona manifesto de ferramentas dotnet
 🔧 chore: adiciona hooks do husky para build, formato e mensagem
 🔧 chore: adiciona script de validação da mensagem de commit
-👷 ci: adiciona workflow com restore, formato, build e testes
+🔧 chore: adiciona configuração de cobertura com coverlet
+🔧 chore: adiciona script de verificação da cobertura mínima de 90%
+👷 ci: adiciona workflow com restore, formato, build, testes e cobertura
 📝 docs: adiciona CLAUDE.md
 🔧 chore: adiciona script de verificação de pré-requisitos
 ```
 Cada projeto novo entra na `.slnx` no mesmo commit em que é criado (`dotnet sln add`).
-**Pronto quando:** `dotnet build -warnaserror` e `dotnet test` passam local e no CI; commit com mensagem fora do padrão é bloqueado.
+**Pronto quando:** `dotnet build -warnaserror` e `dotnet test` passam local e no CI; commit com mensagem fora do padrão é bloqueado; push e CI com cobertura abaixo de 90% falham.
 **Apoio:** `/init`, `/fewer-permission-prompts`, MCP Microsoft Learn.
 
 ## Etapa 4 — Identity.Api
@@ -247,7 +249,7 @@ Cada projeto novo entra na `.slnx` no mesmo commit em que é criado (`dotnet sln
 
 ## Etapa 9 — Testes complementares
 **Objetivo:** cobertura de aceitação completa e metas de desempenho verificadas.
-**Tarefas:** cenários BDD restantes; k6 (`painel.js`, `doacao.js`, `busca.js`); relatório de cobertura; bônus GraphQL/gRPC se houver tempo; E2E Playwright (bônus).
+**Tarefas:** cenários BDD restantes; k6 (`painel.js`, `doacao.js`, `busca.js`); testes que faltarem para manter cada projeto com cobertura ≥ 90%; bônus GraphQL/gRPC se houver tempo; E2E Playwright (bônus).
 **Commits (exemplos):**
 ```text
 ✅ test(bdd): adiciona cenários de busca e recibo

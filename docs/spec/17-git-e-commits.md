@@ -123,10 +123,10 @@ Instalação (Etapa 3): `dotnet new tool-manifest`, `dotnet tool install Husky`,
       "args": ["-NoProfile", "-File", ".husky/scripts/validar-mensagem.ps1", "${args}"]
     },
     {
-      "name": "testes-completos",
+      "name": "testes-e-cobertura",
       "group": "pre-push",
-      "command": "dotnet",
-      "args": ["test", "-c", "Release"]
+      "command": "pwsh",
+      "args": ["-NoProfile", "-File", "scripts/verificar-cobertura.ps1", "-Minimo", "90", "-ExecutarTestes"]
     }
   ]
 }
@@ -137,6 +137,8 @@ Instalação (Etapa 3): `dotnet new tool-manifest`, `dotnet tool install Husky`,
 ^\S+ (feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\([a-z0-9-]+\))?!?: \S.{0,71}$
 ```
 e confere se o primeiro símbolo está na lista da tabela 17.2. Commits gerados pelo git (`Merge`, `Revert`) são aceitos.
+
+No `pre-push`, `scripts/verificar-cobertura.ps1 -ExecutarTestes` roda todos os testes com cobertura, gera o relatório e bloqueia o push se a cobertura ficar abaixo de 90% ([15.7](15-testes.md)).
 
 ### Camada 2 — Verificação de cada commit antes do PR
 ```powershell

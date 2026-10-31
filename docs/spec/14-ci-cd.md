@@ -36,8 +36,9 @@ flowchart LR
 | Formato | `dotnet format --verify-no-changes --no-restore` | Código fora do `.editorconfig` |
 | Build | `dotnet build -c Release --no-restore -warnaserror` | Erro ou aviso |
 | Pacotes vulneráveis | `dotnet list package --vulnerable --include-transitive` + verificação da saída | Vulnerabilidade alta ou crítica |
-| Testes | `dotnet test -c Release --no-build --collect "XPlat Code Coverage" --logger trx --results-directory TestResults` | Teste falhando (Testcontainers usa o Docker do runner) |
-| Cobertura | `reportgenerator -reports:TestResults/**/coverage.cobertura.xml -targetdir:coverage -reporttypes:MarkdownSummaryGithub;Html` e `cat coverage/SummaryGithub.md >> $GITHUB_STEP_SUMMARY` | — |
+| Testes | `dotnet test -c Release --no-build --settings coverlet.runsettings --collect "XPlat Code Coverage" --logger trx --results-directory TestResults` | Teste falhando (Testcontainers usa o Docker do runner) |
+| Relatório de cobertura | `dotnet reportgenerator -reports:"TestResults/**/coverage.cobertura.xml" -targetdir:coverage -reporttypes:"Html;JsonSummary;MarkdownSummaryGithub"` e `cat coverage/SummaryGithub.md >> $GITHUB_STEP_SUMMARY` | — |
+| Cobertura mínima | `pwsh ./scripts/verificar-cobertura.ps1 -Minimo 90` | Linhas ou ramos abaixo de 90% no total ou em algum projeto de `src/` |
 | Artefatos | `actions/upload-artifact` (`TestResults`, `coverage`) com `retention-days: 14` | — |
 
 ### Job `secret-scan`
@@ -84,8 +85,11 @@ jobs:
       - run: dotnet restore --locked-mode
       - run: dotnet format --verify-no-changes --no-restore
       - run: dotnet build -c Release --no-restore -warnaserror
-      - run: dotnet test -c Release --no-build --collect "XPlat Code Coverage" --logger trx --results-directory TestResults
-      # ... cobertura e artefatos
+      - run: dotnet test -c Release --no-build --settings coverlet.runsettings --collect "XPlat Code Coverage" --logger trx --results-directory TestResults
+      - run: dotnet reportgenerator -reports:"TestResults/**/coverage.cobertura.xml" -targetdir:coverage -reporttypes:"Html;JsonSummary;MarkdownSummaryGithub"
+      - run: cat coverage/SummaryGithub.md >> "$GITHUB_STEP_SUMMARY"
+      - run: pwsh ./scripts/verificar-cobertura.ps1 -Minimo 90
+      # ... upload dos artefatos (if: always())
 
   docker:
     needs: [build-test, secret-scan]

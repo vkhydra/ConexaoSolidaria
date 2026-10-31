@@ -85,7 +85,7 @@ Orçamento de erro do painel: 0,5% das requisições. Ver `wiki:conceitos/sli-sl
 | ID | Requisito |
 |---|---|
 | RNF33 | Build sem avisos (`TreatWarningsAsErrors`) e formato verificado no CI |
-| RNF34 | Cobertura ≥ 80% nos projetos `*.Domain` e `*.Application` (indicador, não meta absoluta) |
+| RNF34 | Cobertura de testes **≥ 90% de linhas e ≥ 90% de ramos**, no total e em cada projeto de `src/`; abaixo disso o push e o CI falham |
 | RNF35 | Domínio sem dependência de frameworks ou infraestrutura |
 | RNF36 | Toda decisão arquitetural registrada em ADR |
 | RNF37 | Todo commit compila e passa nos testes |
