@@ -176,6 +176,16 @@
           "Docker.DotNet.Enhanced.Handler.Abstractions": "4.3.3"
         }
       },
+      "Elastic.Esql": {
+        "type": "Transitive",
+        "resolved": "0.11.0",
+        "contentHash": "frYrulxZxDLsAk5vBw6oVG4dOYcGFSOPBsJ+1EfLn/sEB/fS56zVEbEitdVxreY3xREdhZwS9dtUkAqsAt037g=="
+      },
+      "Elastic.Transport": {
+        "type": "Transitive",
+        "resolved": "1.1.0",
+        "contentHash": "ITDBefOt0yZWakd6IiYl8RIw6D978CVvVEpLZaHOG8NSVtiPCLP6GkX+Ieu99wCBoXCYqhz8QBak6xRpycodAg=="
+      },
       "EmptyFiles": {
         "type": "Transitive",
         "resolved": "4.4.0",
@@ -744,6 +754,7 @@
           "ConexaoSolidaria.Contracts": "[1.0.0, )",
           "Dapper": "[2.1.66, )",
           "EFCore.NamingConventions": "[10.0.1, )",
+          "Elastic.Clients.Elasticsearch": "[9.5.3, )",
           "MassTransit.EntityFrameworkCore": "[8.5.12, )",
           "MassTransit.RabbitMQ": "[8.5.12, )",
           "Microsoft.EntityFrameworkCore": "[10.0.14, )",
@@ -785,6 +796,16 @@
           "Microsoft.EntityFrameworkCore": "[10.0.1, 11.0.0)",
           "Microsoft.EntityFrameworkCore.Relational": "[10.0.1, 11.0.0)",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.1"
+        }
+      },
+      "Elastic.Clients.Elasticsearch": {
+        "type": "CentralTransitive",
+        "requested": "[9.5.3, )",
+        "resolved": "9.5.3",
+        "contentHash": "6hu5Xyf8N3TttOZHdz+hcbLv/4cxAKrN0g44sOz1ai0UNjED+Qa/MGgyP77HzR5VP/x1Ez40q1xk/Fn+HwaKTw==",
+        "dependencies": {
+          "Elastic.Esql": "0.11.0",
+          "Elastic.Transport": "1.1.0"
         }
       },
       "FluentValidation": {

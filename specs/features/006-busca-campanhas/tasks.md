@@ -13,7 +13,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 ## Fase 2 — Infraestrutura
 
-- [ ] T003 [H08] Criação do índice `campanhas-v1` com analyzer `pt_br` e alias `campanhas` — `Campanhas.Infrastructure/Busca/MapeamentoIndice.cs`
+- [X] T003 [H08] Criação do índice `campanhas-v1` com analyzer `pt_br` e alias `campanhas` — `Campanhas.Infrastructure/Busca/MapeamentoIndice.cs`
   Commit: `🗃️ feat(campanhas): adiciona índice de campanhas no elasticsearch`
 - [ ] T004 [H08] `IndiceCampanhasElasticsearch` (upsert com versão externa) — `Campanhas.Infrastructure/Busca/IndiceCampanhasElasticsearch.cs`
   Commit: `✨ feat(campanhas): adiciona indexação de campanhas no elasticsearch`
