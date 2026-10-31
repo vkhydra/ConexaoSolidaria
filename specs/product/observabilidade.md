@@ -113,7 +113,7 @@ Cada alerta aponta para o seu runbook (link na tabela e anotação `runbook_url`
 | Spans de negócio | `ReceberDoacao`, `ProcessarDoacao`, `EmitirRecibo` com atributos `doacao.id`, `campanha.id` (sem dados pessoais) |
 | Destino | Jaeger all-in-one (armazenamento em memória no local) |
 
-Resultado esperado no vídeo: um único trace com spans do Kong/API → publicação → consumo no Worker → consumo na Função.
+Resultado esperado: um único trace com spans do Kong/API → publicação → consumo no Worker → consumo na Função.
 
 ## Logs
 
