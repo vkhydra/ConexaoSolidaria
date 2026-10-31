@@ -6,7 +6,7 @@
 |---|---|
 | Branch | `feat/004-painel-transparencia` |
 | Status | Especificada |
-| Origem | Enunciado, requisito 4 (RF04) |
+| Origem | Requisito do domínio da API (RF04); testado conforme a [feature 009](../009-ci-testes-cobertura/spec.md) |
 | História | H05 |
 | Prioridade | P1 |
 | Serviço | `Campanhas.Api` |
