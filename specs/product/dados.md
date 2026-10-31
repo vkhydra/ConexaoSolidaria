@@ -2,7 +2,7 @@
 
 [← README](../../README.md)
 
-Esta seção é a base do **PDF de justificativa dos bancos** exigido pelo enunciado (Etapa 17). Referências: `wiki:disciplinas/efcore`, `wiki:disciplinas/nosql`, `wiki:disciplinas/elasticsearch`, `wiki:conceitos/persistencia-poliglota`.
+Esta seção é a base de `docs/justificativa-bancos.md` (Etapa 17), que aplica o conteúdo de persistência poliglota da Fase 4. Referências: `wiki:disciplinas/efcore`, `wiki:disciplinas/nosql`, `wiki:disciplinas/elasticsearch`, `wiki:conceitos/persistencia-poliglota`.
 
 ## Visão geral
 
