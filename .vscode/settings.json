@@ -1,6 +1,5 @@
 {
   "dotnet.defaultSolution": "ConexaoSolidaria.slnx",
-  "dotnet.testWindow.useTestingPlatformProtocol": true,
 
   "editor.formatOnSave": true,
   "editor.rulers": [120],
@@ -46,7 +45,5 @@
     "MD033": false
   },
 
-  "powershell.codeFormatting.preset": "OTBS",
-
-  "cSpell.language": "pt-BR,en"
+  "powershell.codeFormatting.preset": "OTBS"
 }
