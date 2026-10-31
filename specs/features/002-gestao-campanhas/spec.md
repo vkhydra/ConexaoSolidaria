@@ -6,7 +6,7 @@
 |---|---|
 | Branch | `feat/002-gestao-campanhas` |
 | Status | Especificada |
-| Origem | Enunciado, requisito 2 (RF02) |
+| Origem | Requisito do domínio da API (RF02); testado conforme a [feature 009](../009-ci-testes-cobertura/spec.md) |
 | Histórias | H03, H04 |
 | Prioridade | P1 |
 | Serviço | `Campanhas.Api` |
