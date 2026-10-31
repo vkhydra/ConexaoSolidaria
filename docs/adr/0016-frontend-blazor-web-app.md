@@ -3,10 +3,11 @@
 - **Status:** Aceito
 - **Data:** 2026-10-30
 - **Decisores:** equipe do projeto
+- **Errata (2026-10-30):** contexto corrigido para o escopo do trabalho substitutivo ([ADR 0018](0018-escopo-trabalho-substitutivo.md)); a decisão não mudou.
 
 ## Contexto
 
-A Fase 5 ensina Blazor e Razor. O enunciado aceita Postman ou Swagger, mas um frontend melhora a demonstração.
+A Fase 5 ensina Blazor e Razor. A API pode ser usada por Postman ou Swagger, mas um frontend aplica esse conteúdo e melhora a demonstração.
 
 ## Decisão
 
