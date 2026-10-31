@@ -386,7 +386,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R115** · `005/T006` [H06] `Idempotency-Key` com hash do corpo e limpeza após 24 h — `Campanhas.Application/Doacoes/ReceberDoacao.cs`, `Campanhas.Infrastructure/Idempotencia/*`
   Commit: `✨ feat(campanhas): adiciona chave de idempotência na doação`
   Depende de: R114 (`005/T005`)
-- [ ] **R116** · `005/T007` [H07] Projeto `Arrecadacao.Worker` com MassTransit, `ServiceDefaults`, health e `/metrics` na porta 9090 — `Arrecadacao.Worker/*`
+- [X] **R116** · `005/T007` [H07] Projeto `Arrecadacao.Worker` com MassTransit, `ServiceDefaults`, health e `/metrics` na porta 9090 — `Arrecadacao.Worker/*`
   Commit: `🎉 chore(worker): configura worker com masstransit e health checks`
 - [ ] **R117** · `005/T008` [H07] `ProcessarDoacao` com `RegistroArrecadacaoSql` (transação: idempotência + `UPDATE` + Outbox), com testes — `Campanhas.Application/Arrecadacao/*`, `Campanhas.Infrastructure/Arrecadacao/RegistroArrecadacaoSql.cs`
   Commit: `✨ feat(worker): soma doação ao total com idempotência`

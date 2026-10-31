@@ -19,8 +19,30 @@ namespace Campanhas.Infrastructure;
 public static class ExtensoesCampanhasInfraestrutura
 {
     /// <summary>
-    /// Registra o <see cref="CampanhasDbContext"/> (<c>ConnectionStrings:Campanhas</c>), o repositório, a consulta do painel (Dapper), o relógio de São Paulo
-    /// e o MassTransit com Outbox e RabbitMQ.
+    /// Registra o <see cref="CampanhasDbContext"/> (<c>ConnectionStrings:Campanhas</c>), a fonte de dados do Npgsql e o relógio de São Paulo.
+    /// É a base comum da Campanhas.Api e do Arrecadacao.Worker.
+    /// </summary>
+    /// <param name="servicos">Coleção de serviços.</param>
+    /// <param name="configuracao">Configuração da aplicação.</param>
+    /// <returns>A própria coleção, para encadeamento.</returns>
+    /// <exception cref="InvalidOperationException">A string de conexão não foi configurada.</exception>
+    public static IServiceCollection AddCampanhasPersistencia(this IServiceCollection servicos, IConfiguration configuracao)
+    {
+        ArgumentNullException.ThrowIfNull(servicos);
+        ArgumentNullException.ThrowIfNull(configuracao);
+
+        var conexao = configuracao.GetConnectionString("Campanhas")
+            ?? throw new InvalidOperationException("ConnectionStrings:Campanhas não foi configurada.");
+
+        servicos.AddDbContext<CampanhasDbContext>(opcoes => CampanhasDbContext.Configurar(opcoes, conexao));
+        servicos.AddSingleton(NpgsqlDataSource.Create(conexao));
+        servicos.AddSingleton<IRelogio, RelogioSaoPaulo>();
+        return servicos;
+    }
+
+    /// <summary>
+    /// Registra a persistência, o repositório, a consulta do painel (Dapper), as doações com idempotência, o cache e o
+    /// MassTransit com Outbox e RabbitMQ: tudo o que a Campanhas.Api usa.
     /// </summary>
     /// <param name="servicos">Coleção de serviços.</param>
     /// <param name="configuracao">Configuração da aplicação.</param>
@@ -31,17 +53,12 @@ public static class ExtensoesCampanhasInfraestrutura
         ArgumentNullException.ThrowIfNull(servicos);
         ArgumentNullException.ThrowIfNull(configuracao);
 
-        var conexao = configuracao.GetConnectionString("Campanhas")
-            ?? throw new InvalidOperationException("ConnectionStrings:Campanhas não foi configurada.");
-
-        servicos.AddDbContext<CampanhasDbContext>(opcoes => CampanhasDbContext.Configurar(opcoes, conexao));
+        servicos.AddCampanhasPersistencia(configuracao);
         servicos.AddScoped<ICampanhaRepositorio, CampanhaRepositorio>();
         servicos.AddScoped<IPublicadorDeDoacoes, PublicadorDeDoacoes>();
         servicos.AddScoped<IChavesIdempotencia, ChavesIdempotenciaRepositorio>();
         servicos.AddHostedService<LimpezaChavesIdempotenciaHostedService>();
-        servicos.AddSingleton(NpgsqlDataSource.Create(conexao));
         servicos.AddSingleton<ICampanhaLeitura, CampanhaLeituraDapper>();
-        servicos.AddSingleton<IRelogio, RelogioSaoPaulo>();
         servicos.AddSingleton<IMetricasCampanhas, MetricasCampanhasPrometheus>();
         servicos.AddCampanhasCache(configuracao);
         servicos.AddCampanhasMensageria(configuracao);

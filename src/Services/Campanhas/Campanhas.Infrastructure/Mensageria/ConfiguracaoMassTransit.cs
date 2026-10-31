@@ -33,9 +33,10 @@ public static class ConfiguracaoMassTransit
     /// </summary>
     /// <param name="servicos">Coleção de serviços.</param>
     /// <param name="configuracao">Configuração da aplicação.</param>
+    /// <param name="configurar">Registro extra, por exemplo dos consumidores de um serviço; nulo quando não há.</param>
     /// <returns>A própria coleção, para encadeamento.</returns>
     /// <exception cref="InvalidOperationException">O host do RabbitMQ não foi configurado.</exception>
-    public static IServiceCollection AddCampanhasMensageria(this IServiceCollection servicos, IConfiguration configuracao)
+    public static IServiceCollection AddCampanhasMensageria(this IServiceCollection servicos, IConfiguration configuracao, Action<IBusRegistrationConfigurator>? configurar = null)
     {
         ArgumentNullException.ThrowIfNull(servicos);
         ArgumentNullException.ThrowIfNull(configuracao);
@@ -47,6 +48,7 @@ public static class ConfiguracaoMassTransit
         servicos.AddMassTransit(registro =>
         {
             ConfigurarOutbox(registro);
+            configurar?.Invoke(registro);
             registro.UsingRabbitMq((contexto, bus) =>
             {
                 bus.Host(host, "/", servidor =>
