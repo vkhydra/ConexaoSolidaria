@@ -18,6 +18,21 @@ public sealed class Usuario
     public const string NomeDoGestorInicial = "Gestor da ONG";
 
     /// <summary>
+    /// Código do erro de nome completo inválido.
+    /// </summary>
+    public const string CodigoNomeInvalido = "usuario.nome_invalido";
+
+    /// <summary>
+    /// Tamanho mínimo do nome completo.
+    /// </summary>
+    public const int NomeTamanhoMinimo = 3;
+
+    /// <summary>
+    /// Tamanho máximo do nome completo, igual ao da coluna do banco.
+    /// </summary>
+    public const int NomeTamanhoMaximo = 150;
+
+    /// <summary>
     /// Construtor sem parâmetros usado pelo EF Core para materializar o agregado.
     /// </summary>
     private Usuario()
@@ -35,7 +50,9 @@ public sealed class Usuario
     /// <param name="senhaHash">Hash BCrypt da senha.</param>
     /// <param name="role">Papel do usuário.</param>
     /// <param name="criadoEm">Data e hora do cadastro.</param>
-    private Usuario(UsuarioId id, string nomeCompleto, Email email, string senhaHash, Role role, DateTimeOffset criadoEm)
+    /// <param name="cpf">CPF do doador; nulo para o gestor.</param>
+    /// <param name="consentimento">Aceite da política de privacidade; nulo para o gestor.</param>
+    private Usuario(UsuarioId id, string nomeCompleto, Email email, string senhaHash, Role role, DateTimeOffset criadoEm, Cpf? cpf = null, Consentimento? consentimento = null)
     {
         Id = id;
         NomeCompleto = nomeCompleto;
@@ -43,6 +60,8 @@ public sealed class Usuario
         SenhaHash = senhaHash;
         Role = role;
         CriadoEm = criadoEm;
+        Cpf = cpf;
+        Consentimento = consentimento;
     }
 
     /// <summary>
@@ -76,6 +95,16 @@ public sealed class Usuario
     public DateTimeOffset CriadoEm { get; private set; }
 
     /// <summary>
+    /// Obtém o CPF do doador; nulo para o gestor e depois da anonimização.
+    /// </summary>
+    public Cpf? Cpf { get; private set; }
+
+    /// <summary>
+    /// Obtém o aceite da política de privacidade; nulo para o gestor.
+    /// </summary>
+    public Consentimento? Consentimento { get; private set; }
+
+    /// <summary>
     /// Obtém a data e a hora da anonimização; nulo enquanto o cadastro está ativo.
     /// </summary>
     public DateTimeOffset? AnonimizadoEm { get; private set; }
@@ -102,6 +131,36 @@ public sealed class Usuario
         }
 
         return Result.Sucesso(new Usuario(UsuarioId.Novo(), NomeDoGestorInicial, email, senhaHash, Role.GestorONG, agora));
+    }
+
+    /// <summary>
+    /// Cadastra um doador. O papel é sempre <see cref="Role.Doador"/>; quem se cadastra pela API nunca escolhe o papel.
+    /// </summary>
+    /// <param name="nomeCompleto">Nome completo, de 3 a 150 caracteres e ao menos duas palavras.</param>
+    /// <param name="email">E-mail normalizado.</param>
+    /// <param name="cpf">CPF validado.</param>
+    /// <param name="senhaHash">Hash da senha já gerado pelo <see cref="IHasherSenha"/>.</param>
+    /// <param name="consentimento">Aceite da política de privacidade.</param>
+    /// <param name="agora">Data e hora atuais.</param>
+    /// <returns>O doador criado, ou o erro <c>usuario.nome_invalido</c> ou <c>usuario.senha_hash_invalido</c>.</returns>
+    public static Result<Usuario> CadastrarDoador(string? nomeCompleto, Email email, Cpf cpf, string senhaHash, Consentimento consentimento, DateTimeOffset agora)
+    {
+        ArgumentNullException.ThrowIfNull(email);
+        ArgumentNullException.ThrowIfNull(cpf);
+        ArgumentNullException.ThrowIfNull(consentimento);
+
+        var nome = nomeCompleto?.Trim();
+        if (nome is null || nome.Length is < NomeTamanhoMinimo or > NomeTamanhoMaximo || nome.Split(' ', StringSplitOptions.RemoveEmptyEntries).Length < 2)
+        {
+            return Result.Falha<Usuario>(new Erro(CodigoNomeInvalido, "Informe o nome completo, com nome e sobrenome."));
+        }
+
+        if (string.IsNullOrWhiteSpace(senhaHash))
+        {
+            return Result.Falha<Usuario>(new Erro(CodigoSenhaHashInvalido, "O hash da senha do doador é obrigatório."));
+        }
+
+        return Result.Sucesso(new Usuario(UsuarioId.Novo(), nome, email, senhaHash, Role.Doador, agora, cpf, consentimento));
     }
 
     /// <summary>

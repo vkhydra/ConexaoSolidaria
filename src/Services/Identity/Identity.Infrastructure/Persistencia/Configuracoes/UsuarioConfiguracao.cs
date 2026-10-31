@@ -42,5 +42,9 @@ public sealed class UsuarioConfiguracao : IEntityTypeConfiguration<Usuario>
         builder.Property(u => u.AnonimizadoEm).HasColumnName("anonimizado_em");
 
         builder.Ignore(u => u.EstaAnonimizado);
+
+        // Mapeados na migration de cadastro de doador (CPF cifrado e consentimento); até lá ficam fora do modelo.
+        builder.Ignore(u => u.Cpf);
+        builder.Ignore(u => u.Consentimento);
     }
 }

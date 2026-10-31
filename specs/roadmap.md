@@ -244,7 +244,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Commit: `✨ feat(identity): adiciona value object Senha com política de segurança`
 - [X] **R067** · `003/T003` [H01] VO `Consentimento`, com testes — `Identity.Domain/Usuarios/Consentimento.cs`
   Commit: `✨ feat(identity): adiciona value object Consentimento`
-- [ ] **R068** · `003/T004` [H01] `Usuario.CadastrarDoador` com testes — `Identity.Domain/Usuarios/Usuario.cs`
+- [X] **R068** · `003/T004` [H01] `Usuario.CadastrarDoador` com testes — `Identity.Domain/Usuarios/Usuario.cs`
   Commit: `✨ feat(identity): adiciona cadastro de doador no agregado Usuario`
   Depende de: R065 (`003/T001`), R066 (`003/T002`), R067 (`003/T003`)
 - [ ] **R069** · `003/T005` [H01] `ICifradorCpf` e caso de uso `CadastrarDoador` com validador e testes (sucesso, 400, 409 e-mail, 409 CPF) — `Identity.Application/Doadores/*`

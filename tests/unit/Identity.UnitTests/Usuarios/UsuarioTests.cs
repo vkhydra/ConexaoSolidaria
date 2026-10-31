@@ -139,4 +139,85 @@ public sealed class UsuarioTests
         gestor.VerificarSenha("qualquer", hasher).ShouldBeFalse();
         hasher.DidNotReceive().Verificar(Arg.Any<string>(), Arg.Any<string>());
     }
+
+    /// <summary>
+    /// Dados válidos, quando o doador é cadastrado, então tem o papel Doador, CPF, consentimento e nome sem espaços nas pontas.
+    /// </summary>
+    [Fact]
+    public void CadastrarDoador_DadosValidos_CriaDoador()
+    {
+        var email = Email.Criar("Maria@Exemplo.com").Valor;
+        var cpf = Cpf.Criar("529.982.247-25").Valor;
+        var consentimento = Consentimento.Criar(true, "2026-10", _agora).Valor;
+
+        var resultado = Usuario.CadastrarDoador("  Maria Silva ", email, cpf, "hash-bcrypt", consentimento, _agora);
+
+        resultado.EhSucesso.ShouldBeTrue();
+        var doador = resultado.Valor;
+        doador.Role.ShouldBe(Role.Doador);
+        doador.NomeCompleto.ShouldBe("Maria Silva");
+        doador.Email.Valor.ShouldBe("maria@exemplo.com");
+        doador.Cpf.ShouldBe(cpf);
+        doador.Consentimento.ShouldBe(consentimento);
+        doador.SenhaHash.ShouldBe("hash-bcrypt");
+        doador.CriadoEm.ShouldBe(_agora);
+        doador.EstaAnonimizado.ShouldBeFalse();
+    }
+
+    /// <summary>
+    /// Dado um nome ausente, curto ou de uma palavra só, quando o doador é cadastrado, então devolve usuario.nome_invalido.
+    /// </summary>
+    /// <param name="nome">Nome informado.</param>
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    [InlineData("Ma")]
+    [InlineData("Maria")]
+    [InlineData("   Maria   ")]
+    public void CadastrarDoador_NomeInvalido_DevolveErro(string? nome)
+    {
+        var resultado = Usuario.CadastrarDoador(nome, Email.Criar("a@b.com").Valor, Cpf.Criar("52998224725").Valor, "hash", Consentimento.Criar(true, "1", _agora).Valor, _agora);
+
+        resultado.EhFalha.ShouldBeTrue();
+        resultado.Erro.Codigo.ShouldBe(Usuario.CodigoNomeInvalido);
+    }
+
+    /// <summary>
+    /// Dado um nome com mais de 150 caracteres, quando o doador é cadastrado, então devolve usuario.nome_invalido.
+    /// </summary>
+    [Fact]
+    public void CadastrarDoador_NomeGrandeDemais_DevolveErro()
+    {
+        var nome = "Maria " + new string('a', Usuario.NomeTamanhoMaximo);
+
+        var resultado = Usuario.CadastrarDoador(nome, Email.Criar("a@b.com").Valor, Cpf.Criar("52998224725").Valor, "hash", Consentimento.Criar(true, "1", _agora).Valor, _agora);
+
+        resultado.Erro.Codigo.ShouldBe(Usuario.CodigoNomeInvalido);
+    }
+
+    /// <summary>
+    /// Dado um hash de senha vazio, quando o doador é cadastrado, então devolve usuario.senha_hash_invalido.
+    /// </summary>
+    [Fact]
+    public void CadastrarDoador_HashVazio_DevolveErro()
+    {
+        var resultado = Usuario.CadastrarDoador("Maria Silva", Email.Criar("a@b.com").Valor, Cpf.Criar("52998224725").Valor, " ", Consentimento.Criar(true, "1", _agora).Valor, _agora);
+
+        resultado.Erro.Codigo.ShouldBe(Usuario.CodigoSenhaHashInvalido);
+    }
+
+    /// <summary>
+    /// Dado um argumento nulo, quando o doador é cadastrado, então a chamada é recusada.
+    /// </summary>
+    [Fact]
+    public void CadastrarDoador_ArgumentoNulo_LancaExcecao()
+    {
+        var email = Email.Criar("a@b.com").Valor;
+        var cpf = Cpf.Criar("52998224725").Valor;
+        var consentimento = Consentimento.Criar(true, "1", _agora).Valor;
+
+        Should.Throw<ArgumentNullException>(() => Usuario.CadastrarDoador("Maria Silva", null!, cpf, "h", consentimento, _agora));
+        Should.Throw<ArgumentNullException>(() => Usuario.CadastrarDoador("Maria Silva", email, null!, "h", consentimento, _agora));
+        Should.Throw<ArgumentNullException>(() => Usuario.CadastrarDoador("Maria Silva", email, cpf, "h", null!, _agora));
+    }
 }

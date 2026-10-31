@@ -12,7 +12,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
   Commit: `✨ feat(identity): adiciona value object Senha com política de segurança`
 - [X] T003 [P] [H01] VO `Consentimento`, com testes — `Identity.Domain/Usuarios/Consentimento.cs`
   Commit: `✨ feat(identity): adiciona value object Consentimento`
-- [ ] T004 [H01] `Usuario.CadastrarDoador` com testes — `Identity.Domain/Usuarios/Usuario.cs`
+- [X] T004 [H01] `Usuario.CadastrarDoador` com testes — `Identity.Domain/Usuarios/Usuario.cs`
   Commit: `✨ feat(identity): adiciona cadastro de doador no agregado Usuario`
 
 ## Fase 2 — Aplicação
