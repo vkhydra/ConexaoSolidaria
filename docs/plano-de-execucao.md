@@ -4,6 +4,8 @@
 
 Do ambiente pronto até a entrega. Cada etapa traz: **objetivo**, **tarefas**, **commits** (na ordem, um por arquivo ou pelo menor conjunto que compila — [granularidade](git-e-commits.md#granularidade)), **pronto quando** e **apoio** (skills, MCP, wiki).
 
+A ordem exata das tarefas, uma a uma, está no [roadmap de implementação](../specs/roadmap.md); este plano descreve cada etapa e o roadmap diz o que executar primeiro.
+
 Toda etapa termina com: `/code-review` → `git rebase --exec` (todo commit compila) → PR → CI verde → merge na `main` → item "Concluído" no Project.
 
 As funcionalidades (Etapas 4 a 8) seguem o fluxo de Spec-Driven Development: as specs e planos já estão em [`specs/features/`](../specs/features/); cada feature é implementada com `/analyze` → `/implement`, e os commits são os do seu `tasks.md` ([Claude Code no projeto](claude-code.md)).
@@ -105,10 +107,10 @@ As funcionalidades (Etapas 4 a 8) seguem o fluxo de Spec-Driven Development: as 
 🥅 feat(defaults): adiciona tratamento global de erros com problem details
 🔧 chore: adiciona manifesto de ferramentas dotnet
 🔧 chore: adiciona reportgenerator ao manifesto de ferramentas
-🔧 chore: adiciona hooks do husky para build, formato e mensagem
-🔧 chore: adiciona script de validação da mensagem de commit
 🔧 chore: adiciona configuração de cobertura com coverlet
 🔧 chore: adiciona script de verificação da cobertura mínima de 90%
+🔧 chore: adiciona script de validação da mensagem de commit
+🔧 chore: adiciona hooks do husky para build, formato e mensagem
 👷 ci: adiciona pipeline com testes unitários e cobertura
 👷 ci: adiciona testes de integração e cobertura mínima na pipeline
 📝 docs: adiciona status da pipeline e cobertura no readme
@@ -117,6 +119,7 @@ As funcionalidades (Etapas 4 a 8) seguem o fluxo de Spec-Driven Development: as 
 ```
 Cada projeto novo entra na `.slnx` no mesmo commit em que é criado (`dotnet sln add`).
 Os commits `feat(defaults)` vêm depois dos projetos de teste e cada um inclui os testes de sucesso e de erro do que adiciona, para a cobertura já nascer acima de 90%.
+O script de validação da mensagem vem **antes** dos hooks do Husky, e o script de cobertura vem antes do hook `pre-push`, porque os hooks chamam esses scripts.
 **Pronto quando:** `dotnet build -warnaserror` e `dotnet test` passam local e no CI; commit com mensagem fora do padrão é bloqueado; push e CI com cobertura abaixo de 90% falham; cada execução da pipeline mostra a cobertura no resumo e oferece o artefato `cobertura-testes-unitarios` para download.
 **Apoio:** `/init` (revisar o `CLAUDE.md` existente), `/fewer-permission-prompts`, skills `commit-gitmoji` e `documentar-xml`, MCP Microsoft Learn.
 
@@ -142,11 +145,14 @@ Cada feature é uma branch `feat/NNN-nome`, um PR e uma sequência de commits de
 
 **Commits da Etapa 8 (exemplos):**
 ```text
+📝 docs(lgpd): adiciona registro das operações de tratamento
+📝 docs(lgpd): adiciona política de privacidade
 💄 feat(web): adiciona layout e navegação
 💄 feat(web): adiciona página inicial
 🤖 feat(web): adiciona sugestão de descrição com semantic kernel
-✅ test(web): adiciona testes de layout e navegação com bunit
 ```
+Os commits de layout e de página inicial já incluem os testes bUnit (teste e implementação no mesmo commit). A política de privacidade vem antes, porque a página de cadastro aponta para ela. As páginas de cada feature (`/entrar`, `/cadastro`, `/transparencia`, `/busca`, `/gestao/campanhas`, `/doar` e `/meus-dados`) são tarefas dos `tasks.md` executadas nesta etapa, depois das APIs.
+
 O assistente de IA (bônus) recebe só título e tópicos digitados pelo gestor e mostra o aviso de texto gerado por IA ([segurança e LGPD](../specs/product/seguranca-e-lgpd.md)).
 
 **Apoio:** agentes `test-writer`, `implementer` e `reviewer`; skills `commit-gitmoji`, `documentar-xml`, `verificar-cobertura`, `nova-migration`; MCP Microsoft Learn e Playwright; `wiki:disciplinas/api-dotnet`, `wiki:disciplinas/mensageria`, `wiki:disciplinas/elasticsearch`, `wiki:disciplinas/serverless-apps`, `wiki:disciplinas/blazor-razor`.
@@ -172,8 +178,9 @@ O assistente de IA (bônus) recebe só título e tópicos digitados pelo gestor 
 🧱 build(campanhas): adiciona dockerfile multi-stage da campanhas-api
 🧱 build(worker): adiciona dockerfile multi-stage do worker
 🧱 build(web): adiciona dockerfile multi-stage do web
-🧱 build: adiciona docker-compose com toda a stack
+🧱 build(notificacoes): adiciona dockerfile da função
 🔐 chore: adiciona modelo de variáveis de ambiente
+🧱 build: adiciona docker-compose com toda a stack
 🌱 chore: adiciona script de dados de demonstração
 ```
 **Pronto quando:** `docker compose up -d` + seed → doação de ponta a ponta funcionando.
@@ -185,6 +192,9 @@ O assistente de IA (bônus) recebe só título e tópicos digitados pelo gestor 
 **Commits (exemplos):**
 ```text
 🧱 build(k8s): adiciona namespaces
+🧱 build(k8s): adiciona estrutura kustomize da base
+🔐 chore(k8s): adiciona modelos de secrets
+🔧 chore: adiciona script de criação de secrets
 🧱 build(k8s): adiciona statefulset do postgres
 🧱 build(k8s): adiciona statefulset do mongodb
 🧱 build(k8s): adiciona deployment do redis
@@ -194,14 +204,11 @@ O assistente de IA (bônus) recebe só título e tópicos digitados pelo gestor 
 🧱 build(k8s): adiciona deployment, service e configmap da identity-api
 🧱 build(k8s): adiciona deployment, service e configmap da campanhas-api
 🧱 build(k8s): adiciona deployment do worker
-🧱 build(k8s): adiciona deployment da função de notificações
 🧱 build(k8s): adiciona deployment do web
 🧱 build(k8s): adiciona hpa e pdb das apis
 🔒️ build(k8s): adiciona network policies
-🔐 chore(k8s): adiciona modelos de secrets
-🔧 chore: adiciona script de criação de secrets
-🔧 chore: adiciona script de subida do ambiente
 🧱 build(k8s): adiciona overlay local
+🔧 chore: adiciona script de subida do ambiente
 ```
 Validação de cada manifesto antes do commit: `kubectl apply -k deploy/k8s/overlays/local --dry-run=server`.
 **Pronto quando:** `kubectl get pods -A` com tudo `Running`/`Completed`; doação de ponta a ponta no cluster.
@@ -209,13 +216,16 @@ Validação de cada manifesto antes do commit: `kubectl apply -k deploy/k8s/over
 
 ## Etapa 12 — API Gateway (Kong)
 **Objetivo:** entrada única com TLS, rate limiting e métricas.
-**Tarefas:** instalar o Kong Ingress Controller; certificado mkcert; `Ingress` por serviço; `KongPlugin`/`KongClusterPlugin`; atualizar o Web e a coleção Postman para usar o gateway.
+**Tarefas:** instalar o Kong Ingress Controller; certificado mkcert; `Ingress` por serviço; `KongPlugin`/`KongClusterPlugin`; apontar o Web e as APIs para o gateway (a coleção Postman da Etapa 17 já nasce apontando para ele).
 **Commits (exemplos):**
 ```text
+🔧 chore(kong): adiciona values do helm do kong
+🔧 chore(kong): inclui certificado tls no script de subida
 🧱 build(kong): adiciona ingress das apis
 🧱 build(kong): adiciona ingress do web com afinidade de sessão
 🔒️ build(kong): adiciona rate limiting, cors e limite de corpo
 📈 build(kong): adiciona plugins de correlation-id e prometheus
+🧱 build(k8s): aponta o web para o gateway
 ```
 **Pronto quando:** todas as chamadas passam pelo Kong; 429 ao exceder o limite do login.
 **Apoio:** `wiki:disciplinas/api-gateway`.
@@ -225,12 +235,15 @@ Validação de cada manifesto antes do commit: `kubectl apply -k deploy/k8s/over
 **Tarefas:** instalar kube-prometheus-stack e Jaeger; `ServiceMonitor` por serviço, RabbitMQ e Kong; dashboard JSON; `PrometheusRule`; runbooks; Zabbix opcional; KEDA (`ScaledObject` do Worker e da função).
 **Commits (exemplos):**
 ```text
+🔧 chore(obs): adiciona values do kube-prometheus-stack e do jaeger
+🔧 chore(k8s): adiciona values do helm do keda
 📈 build(obs): adiciona service monitors das aplicações
 📈 build(obs): adiciona coleta de métricas do rabbitmq e do kong
 📈 feat(obs): adiciona dashboard conexão solidária
 📈 feat(obs): adiciona regras de alerta
-📝 docs(obs): adiciona runbooks dos alertas
-🧱 build(k8s): adiciona scaledobjects do keda para worker e função
+🧱 build(k8s): adiciona scaledobject do keda para o worker
+🧱 build(k8s): adiciona deployment e scaledobject da função de recibo
+🧱 build(obs): adiciona perfil zabbix no docker-compose
 ```
 **Pronto quando:** dashboard mostra dados reais durante o k6; trace da doação completo no Jaeger; função escala de 0 a 1 e volta.
 **Apoio:** `dataviz` (opcional), `wiki:disciplinas/monitoramento-acesso`.
@@ -241,8 +254,9 @@ Validação de cada manifesto antes do commit: `kubectl apply -k deploy/k8s/over
 **Commits (exemplos):**
 ```text
 👷 ci: adiciona varredura de segredos com gitleaks
-👷 ci: adiciona build e push das imagens no ghcr
+👷 ci: adiciona build das imagens docker em matriz
 👷 ci: adiciona varredura de vulnerabilidades com trivy
+👷 ci: adiciona push das imagens no ghcr
 👷 ci: adiciona análise com codeql
 🔧 chore: adiciona configuração do dependabot
 ```
@@ -263,12 +277,10 @@ Validação de cada manifesto antes do commit: `kubectl apply -k deploy/k8s/over
 
 ## Etapa 16 — Revisão de segurança e LGPD
 **Objetivo:** nenhuma pendência crítica.
-**Tarefas:** `/security-review` completo; checklist OWASP de [segurança e LGPD](../specs/product/seguranca-e-lgpd.md#checklist-owasp-top-10-revisão-na-etapa-16); registro de tratamento; política de privacidade; conferir logs reais em busca de dados pessoais.
+**Tarefas:** `/security-review` completo; checklist OWASP de [segurança e LGPD](../specs/product/seguranca-e-lgpd.md#checklist-owasp-top-10-revisão-na-etapa-16); conferir logs reais em busca de dados pessoais.
 **Commits (exemplos):**
 ```text
-📝 docs(lgpd): adiciona registro das operações de tratamento
-📝 docs(lgpd): adiciona política de privacidade
-🔒️ fix(...): <correções apontadas na revisão>
+🔒️ fix(<escopo>): <correção de cada achado, com teste de regressão>
 ```
 **Pronto quando:** checklist OWASP e LGPD 100%; gitleaks e Trivy verdes.
 
