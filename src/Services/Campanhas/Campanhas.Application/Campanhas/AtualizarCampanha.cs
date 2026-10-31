@@ -1,5 +1,6 @@
 using Campanhas.Application.Abstracoes;
 using Campanhas.Application.Comum;
+using Campanhas.Application.Transparencia;
 using Campanhas.Domain.Campanhas;
 using Campanhas.Domain.Comum;
 using FluentValidation;
@@ -13,11 +14,13 @@ namespace Campanhas.Application.Campanhas;
 /// <param name="campanhas">Repositório de campanhas.</param>
 /// <param name="validador">Validador do pedido.</param>
 /// <param name="relogio">Relógio no fuso de São Paulo.</param>
+/// <param name="painel">Invalidador do cache do painel.</param>
 /// <param name="log">Logger do caso de uso.</param>
 public sealed partial class AtualizarCampanha(
     ICampanhaRepositorio campanhas,
     IValidator<CampanhaRequest> validador,
     IRelogio relogio,
+    InvalidadorDoPainel painel,
     ILogger<AtualizarCampanha> log)
 {
     /// <summary>
@@ -75,6 +78,7 @@ public sealed partial class AtualizarCampanha(
             return Result.Falha<CampanhaResponse>(ErrosDeCampanha.ConflitoDeVersao);
         }
 
+        await painel.InvalidarAsync(cancelamento);
         LogAtualizada(log, campanha.Id);
         return Result.Sucesso(CampanhaResponse.De(campanha));
     }

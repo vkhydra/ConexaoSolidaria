@@ -1,5 +1,6 @@
 using Campanhas.Api.Endpoints;
 using Campanhas.Application.Campanhas;
+using Campanhas.Application.Transparencia;
 using Campanhas.Infrastructure;
 using ConexaoSolidaria.ServiceDefaults.Autenticacao;
 using ConexaoSolidaria.ServiceDefaults.Erros;
@@ -23,6 +24,7 @@ builder.Services.AddCampanhasInfraestrutura(builder.Configuration);
 builder.Services.AddSingleton<IValidator<CampanhaRequest>, CampanhaRequestValidator>();
 builder.Services.AddSingleton<IValidator<AlterarStatusRequest>, AlterarStatusRequestValidator>();
 builder.Services.AddSingleton<IValidator<ListarCampanhasRequest>, ListarCampanhasRequestValidator>();
+builder.Services.AddSingleton<InvalidadorDoPainel>();
 builder.Services.AddScoped<CriarCampanha>();
 builder.Services.AddScoped<AtualizarCampanha>();
 builder.Services.AddScoped<AlterarStatusCampanha>();

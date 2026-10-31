@@ -1,5 +1,6 @@
 using Campanhas.Application.Abstracoes;
 using Campanhas.Application.Comum;
+using Campanhas.Application.Transparencia;
 using Campanhas.Domain.Campanhas;
 using Campanhas.Domain.Comum;
 using FluentValidation;
@@ -15,12 +16,14 @@ namespace Campanhas.Application.Campanhas;
 /// <param name="validador">Validador do pedido.</param>
 /// <param name="relogio">Relógio no fuso de São Paulo.</param>
 /// <param name="metricas">Métricas de campanhas.</param>
+/// <param name="painel">Invalidador do cache do painel.</param>
 /// <param name="log">Logger do caso de uso.</param>
 public sealed partial class CriarCampanha(
     ICampanhaRepositorio campanhas,
     IValidator<CampanhaRequest> validador,
     IRelogio relogio,
     IMetricasCampanhas metricas,
+    InvalidadorDoPainel painel,
     ILogger<CriarCampanha> log)
 {
     /// <summary>
@@ -52,6 +55,7 @@ public sealed partial class CriarCampanha(
         }
 
         await campanhas.AdicionarAsync(campanha.Valor, cancelamento);
+        await painel.InvalidarAsync(cancelamento);
         metricas.RegistrarCriacao();
         LogCriada(log, campanha.Valor.Id);
         return Result.Sucesso(CampanhaResponse.De(campanha.Valor));

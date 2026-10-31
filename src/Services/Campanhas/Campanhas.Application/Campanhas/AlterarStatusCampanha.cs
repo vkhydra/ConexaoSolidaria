@@ -1,5 +1,6 @@
 using Campanhas.Application.Abstracoes;
 using Campanhas.Application.Comum;
+using Campanhas.Application.Transparencia;
 using Campanhas.Domain.Campanhas;
 using Campanhas.Domain.Comum;
 using FluentValidation;
@@ -38,11 +39,13 @@ public sealed class AlterarStatusRequestValidator : AbstractValidator<AlterarSta
 /// <param name="campanhas">Repositório de campanhas.</param>
 /// <param name="validador">Validador do pedido.</param>
 /// <param name="relogio">Relógio no fuso de São Paulo.</param>
+/// <param name="painel">Invalidador do cache do painel.</param>
 /// <param name="log">Logger do caso de uso.</param>
 public sealed partial class AlterarStatusCampanha(
     ICampanhaRepositorio campanhas,
     IValidator<AlterarStatusRequest> validador,
     IRelogio relogio,
+    InvalidadorDoPainel painel,
     ILogger<AlterarStatusCampanha> log)
 {
     /// <summary>
@@ -90,6 +93,7 @@ public sealed partial class AlterarStatusCampanha(
             return Result.Falha(ErrosDeCampanha.ConflitoDeVersao);
         }
 
+        await painel.InvalidarAsync(cancelamento);
         LogStatusAlterado(log, campanha.Id, destino);
         return Result.Ok();
     }

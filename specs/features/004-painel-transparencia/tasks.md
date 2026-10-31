@@ -15,7 +15,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
   Commit: `✨ feat(campanhas): adiciona consulta do painel com dapper`
 - [X] T003 [H05] `CachePainelHybrid` com `HybridCache` + Redis, chave versionada e remoção — `Campanhas.Infrastructure/Cache/CachePainelHybrid.cs`
   Commit: `⚡️ feat(campanhas): adiciona cache do painel com hybridcache e redis`
-- [ ] T004 [H05] Invalidação do cache ao criar ou alterar campanha — `Campanhas.Application/Campanhas/*`
+- [X] T004 [H05] Invalidação do cache ao criar ou alterar campanha — `Campanhas.Application/Campanhas/*`
   Commit: `⚡️ feat(campanhas): invalida cache do painel ao alterar campanha`
 
 ## Fase 3 — API

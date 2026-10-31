@@ -1,6 +1,7 @@
 using Campanhas.Application.Abstracoes;
 using Campanhas.Application.Campanhas;
 using Campanhas.Application.Comum;
+using Campanhas.Application.Transparencia;
 using Campanhas.Domain.Campanhas;
 using Campanhas.Domain.Comum;
 using Campanhas.UnitTests.Suporte;
@@ -27,6 +28,11 @@ public sealed class AtualizarEStatusTests
     /// Relógio falso fixado em hoje.
     /// </summary>
     private readonly IRelogio _relogio = Substitute.For<IRelogio>();
+
+    /// <summary>
+    /// Cache do painel falso.
+    /// </summary>
+    private readonly ICachePainel _cachePainel = Substitute.For<ICachePainel>();
 
     /// <summary>
     /// Logger da edição.
@@ -74,6 +80,7 @@ public sealed class AtualizarEStatusTests
         resultado.Valor.MetaFinanceira.ShouldBe(12000m);
         await _campanhas.Received(1).SalvarAsync(_campanha, Arg.Any<CancellationToken>());
         _logAtualizar.Mensagens.ShouldHaveSingleItem().ShouldBe($"Campanha atualizada: {_campanha.Id}.");
+        await _cachePainel.Received(1).RemoverAsync(Arg.Any<CancellationToken>());
     }
 
     /// <summary>
@@ -100,6 +107,7 @@ public sealed class AtualizarEStatusTests
 
         resultado.Erro.Codigo.ShouldBe(ErrosDeCampanha.CodigoConflitoDeVersao);
         await _campanhas.DidNotReceive().SalvarAsync(Arg.Any<Campanha>(), Arg.Any<CancellationToken>());
+        await _cachePainel.DidNotReceive().RemoverAsync(Arg.Any<CancellationToken>());
     }
 
     /// <summary>
@@ -175,6 +183,7 @@ public sealed class AtualizarEStatusTests
         _campanha.Status.ShouldBe(esperado);
         await _campanhas.Received(1).SalvarAsync(_campanha, Arg.Any<CancellationToken>());
         _logStatus.Mensagens.ShouldHaveSingleItem().ShouldBe($"Campanha {_campanha.Id} passou para {esperado}.");
+        await _cachePainel.Received(1).RemoverAsync(Arg.Any<CancellationToken>());
     }
 
     /// <summary>
@@ -243,12 +252,21 @@ public sealed class AtualizarEStatusTests
     }
 
     /// <summary>
+    /// Monta o invalidador do painel sobre o cache falso.
+    /// </summary>
+    /// <returns>O invalidador.</returns>
+    private InvalidadorDoPainel Invalidador()
+    {
+        return new InvalidadorDoPainel(_cachePainel, new LoggerCaptura<InvalidadorDoPainel>());
+    }
+
+    /// <summary>
     /// Monta o caso de uso de edição.
     /// </summary>
     /// <returns>O caso de uso.</returns>
     private AtualizarCampanha CriarAtualizar()
     {
-        return new AtualizarCampanha(_campanhas, new CampanhaRequestValidator(), _relogio, _logAtualizar);
+        return new AtualizarCampanha(_campanhas, new CampanhaRequestValidator(), _relogio, Invalidador(), _logAtualizar);
     }
 
     /// <summary>
@@ -257,7 +275,7 @@ public sealed class AtualizarEStatusTests
     /// <returns>O caso de uso.</returns>
     private AlterarStatusCampanha CriarStatus()
     {
-        return new AlterarStatusCampanha(_campanhas, new AlterarStatusRequestValidator(), _relogio, _logStatus);
+        return new AlterarStatusCampanha(_campanhas, new AlterarStatusRequestValidator(), _relogio, Invalidador(), _logStatus);
     }
 
     /// <summary>

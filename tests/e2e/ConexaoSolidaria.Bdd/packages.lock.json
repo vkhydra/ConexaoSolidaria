@@ -91,6 +91,15 @@
           "Testcontainers": "4.16.0"
         }
       },
+      "Testcontainers.Redis": {
+        "type": "Direct",
+        "requested": "[4.16.0, )",
+        "resolved": "4.16.0",
+        "contentHash": "IFYPaYLgM34OTe46kNVsSylcid6wm7zgkiZv3k7Oe6fioPcHByhyPW93fLxIfQIFvDwQcwpELxwRRSDyQmYvoA==",
+        "dependencies": {
+          "Testcontainers": "4.16.0"
+        }
+      },
       "xunit.runner.visualstudio": {
         "type": "Direct",
         "requested": "[4.0.1, )",

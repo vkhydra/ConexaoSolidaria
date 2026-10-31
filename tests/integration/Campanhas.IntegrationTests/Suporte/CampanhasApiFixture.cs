@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using Npgsql;
 using Testcontainers.PostgreSql;
+using Testcontainers.Redis;
 
 namespace Campanhas.IntegrationTests.Suporte;
 
@@ -24,6 +25,11 @@ public sealed class CampanhasApiFixture : WebApplicationFactory<Program>, IAsync
     private readonly PostgreSqlContainer _container = new PostgreSqlBuilder("postgres:17-alpine").Build();
 
     /// <summary>
+    /// Container do Redis, usado pelo cache do painel.
+    /// </summary>
+    private readonly RedisContainer _redis = new RedisBuilder("redis:7-alpine").Build();
+
+    /// <summary>
     /// Par de chaves RSA do JWT, gerado só para os testes.
     /// </summary>
     private readonly RSA _rsa = RSA.Create(2048);
@@ -34,10 +40,28 @@ public sealed class CampanhasApiFixture : WebApplicationFactory<Program>, IAsync
     /// <returns>Tarefa que termina com o banco pronto.</returns>
     public async ValueTask InitializeAsync()
     {
-        await _container.StartAsync();
+        await Task.WhenAll(_container.StartAsync(), _redis.StartAsync());
         using var cliente = CreateClient();
         await using var escopo = Services.CreateAsyncScope();
         await escopo.ServiceProvider.GetRequiredService<CampanhasDbContext>().Database.MigrateAsync();
+    }
+
+    /// <summary>
+    /// Para o Redis, para simular a queda do cache.
+    /// </summary>
+    /// <returns>Tarefa que termina com o Redis parado.</returns>
+    public async Task PararRedisAsync()
+    {
+        await _redis.StopAsync();
+    }
+
+    /// <summary>
+    /// Liga o Redis de novo depois de <see cref="PararRedisAsync"/>.
+    /// </summary>
+    /// <returns>Tarefa que termina com o Redis no ar.</returns>
+    public async Task IniciarRedisAsync()
+    {
+        await _redis.StartAsync();
     }
 
     /// <summary>
@@ -88,6 +112,7 @@ public sealed class CampanhasApiFixture : WebApplicationFactory<Program>, IAsync
     {
         await base.DisposeAsync();
         await _container.DisposeAsync();
+        await _redis.DisposeAsync();
         _rsa.Dispose();
         GC.SuppressFinalize(this);
     }
@@ -99,6 +124,7 @@ public sealed class CampanhasApiFixture : WebApplicationFactory<Program>, IAsync
 
         builder.UseEnvironment("Development");
         builder.UseSetting("ConnectionStrings:Campanhas", _container.GetConnectionString());
+        builder.UseSetting("ConnectionStrings:Redis", _redis.GetConnectionString());
         builder.UseSetting("RabbitMq:Host", "rabbitmq.invalido.local");
         builder.UseSetting("Jwt:ChavePublicaPem", _rsa.ExportSubjectPublicKeyInfoPem());
         builder.ConfigureServices(servicos =>

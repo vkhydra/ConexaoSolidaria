@@ -346,7 +346,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R103** · `004/T003` [H05] `CachePainelHybrid` com `HybridCache` + Redis, chave versionada e remoção — `Campanhas.Infrastructure/Cache/CachePainelHybrid.cs`
   Commit: `⚡️ feat(campanhas): adiciona cache do painel com hybridcache e redis`
   Depende de: R101 (`004/T001`)
-- [ ] **R104** · `004/T004` [H05] Invalidação do cache ao criar ou alterar campanha — `Campanhas.Application/Campanhas/*`
+- [X] **R104** · `004/T004` [H05] Invalidação do cache ao criar ou alterar campanha — `Campanhas.Application/Campanhas/*`
   Commit: `⚡️ feat(campanhas): invalida cache do painel ao alterar campanha`
   Depende de: R103 (`004/T003`)
 - [ ] **R105** · `004/T005` [H05] Endpoint `GET /transparencia/campanhas` com `AllowAnonymous` e `Cache-Control` — `Campanhas.Api/Endpoints/TransparenciaEndpoints.cs`

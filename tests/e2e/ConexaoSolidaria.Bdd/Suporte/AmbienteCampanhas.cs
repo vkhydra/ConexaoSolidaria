@@ -199,6 +199,7 @@ public sealed class AmbienteCampanhas(AmbienteIdentity identidade, RespostaDoCen
         {
             builder.UseEnvironment("Development");
             builder.UseSetting("ConnectionStrings:Campanhas", conexao);
+            builder.UseSetting("ConnectionStrings:Redis", ServidorRedis.Conexao);
             builder.UseSetting("RabbitMq:Host", "rabbitmq.invalido.local");
             builder.UseSetting("Jwt:ChavePublicaPem", identidade.ChavePublicaPem);
             builder.ConfigureServices(servicos =>
