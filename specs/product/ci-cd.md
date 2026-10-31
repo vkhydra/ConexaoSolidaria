@@ -1,6 +1,6 @@
 # 14 — CI/CD (GitHub Actions)
 
-[← README](../../README.md) · Anterior: [13 — Infraestrutura](../../specs/product/infraestrutura.md) · Próximo: [15 — Testes](15-testes.md)
+[← README](../../README.md) · Anterior: [13 — Infraestrutura](infraestrutura.md) · Próximo: [15 — Testes](../../docs/spec/15-testes.md)
 
 Atende ao requisito obrigatório "pipeline acionada a cada push na branch principal que faz .NET build e gera a imagem Docker" e ao bônus "testes de unidade dentro do CI". Referências: `wiki:disciplinas/github-actions`, `wiki:boas-praticas/github-actions`, `wiki:conceitos/ci-cd`.
 
@@ -126,7 +126,7 @@ Configurada na Etapa 14 (`gh api` ou interface do GitHub):
 - Checks obrigatórios: `build-test`, `secret-scan`, `docker` (todas as entradas da matriz), `CodeQL`.
 - Branch atualizada antes do merge.
 - Sem force push e sem exclusão.
-- Merge por **rebase** (preserva os commits atômicos, cada um já validado; ver [17 — Git e commits](17-git-e-commits.md)).
+- Merge por **rebase** (preserva os commits atômicos, cada um já validado; ver [17 — Git e commits](../../docs/spec/17-git-e-commits.md)).
 - Secret scanning e push protection ligados.
 
 ## 14.5 Releases

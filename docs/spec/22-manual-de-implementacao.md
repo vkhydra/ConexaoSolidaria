@@ -273,7 +273,7 @@ az group create -n rg-conexao-solidaria -l brazilsouth
 az deployment group create -g rg-conexao-solidaria -f deploy/azure/main.bicep
 az aks get-credentials -g rg-conexao-solidaria -n <nome-do-aks>
 ```
-Depois, repetir os passos 3 a 9 do modo B usando o overlay `azure` (segredos vêm do Key Vault). O deploy contínuo fica no `cd.yml` ([14.6](14-ci-cd.md#146-cd-opcional-aks)).
+Depois, repetir os passos 3 a 9 do modo B usando o overlay `azure` (segredos vêm do Key Vault). O deploy contínuo fica no `cd.yml` ([14.6](../../specs/product/ci-cd.md#146-cd-opcional-aks)).
 
 Remoção: `az group delete -n rg-conexao-solidaria --yes --no-wait`.
 

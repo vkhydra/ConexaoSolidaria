@@ -148,7 +148,7 @@ git rebase --exec "dotnet build -c Release -warnaserror && dotnet test -c Releas
 O rebase para no primeiro commit que falhar; corrigir com `git commit --amend` e `git rebase --continue`.
 
 ### Camada 3 — CI
-O CI roda em todo push e PR ([14 — CI/CD](14-ci-cd.md)). A `main` é protegida e aceita merge só com CI verde.
+O CI roda em todo push e PR ([14 — CI/CD](../../specs/product/ci-cd.md)). A `main` é protegida e aceita merge só com CI verde.
 
 ### Proibido
 - `git commit --no-verify` e `git push --no-verify`.

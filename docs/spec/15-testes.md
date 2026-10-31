@@ -1,6 +1,6 @@
 # 15 — Testes
 
-[← README](../../README.md) · Anterior: [14 — CI/CD](14-ci-cd.md) · Próximo: [16 — Padrões de código](16-padroes-de-codigo.md)
+[← README](../../README.md) · Anterior: [14 — CI/CD](../../specs/product/ci-cd.md) · Próximo: [16 — Padrões de código](16-padroes-de-codigo.md)
 
 Referências: `wiki:disciplinas/qualidade-software`, `wiki:disciplinas/principios-qualidade`, `wiki:conceitos/piramide-de-testes`, `wiki:conceitos/tdd`, `wiki:conceitos/bdd`, `wiki:conceitos/teste-de-carga`.
 
