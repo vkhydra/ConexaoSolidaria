@@ -169,6 +169,7 @@ spec:
 | `Service` (ClusterIP) | Um por aplicação e banco; comunicação pelo nome (`http://campanhas-api.conexao.svc:80`) |
 | `ConfigMap` | Configuração não sensível por aplicação; `deploy/rabbitmq/definitions.json`; dashboard Grafana |
 | `Secret` | Credenciais; criado por `scripts/k8s-secrets.ps1` (nunca versionado) |
+| `Secret` `ghcr` (docker-registry) | Acesso às imagens privadas do GHCR; referenciado em `imagePullSecrets` pelo overlay `local` (criado à mão, nunca versionado) |
 | `PersistentVolumeClaim` | Via `volumeClaimTemplates` dos StatefulSets (StorageClass padrão do Minikube) |
 | `HorizontalPodAutoscaler` | identity-api e campanhas-api (`behavior.scaleDown.stabilizationWindowSeconds: 120`) |
 | `PodDisruptionBudget` | APIs e web com `minAvailable: 1` |
