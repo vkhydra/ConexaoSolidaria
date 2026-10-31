@@ -296,7 +296,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 
 - [X] **R084** · `002/T001` [H03] `Result` e `Erro` do domínio, com testes — `Campanhas.Domain/Comum/{Result.cs, Erro.cs}`
   Commit: `✨ feat(campanhas): adiciona tipos Result e Erro do domínio`
-- [ ] **R085** · `002/T002` [H03] Value objects `Dinheiro` e `Periodo`, com testes — `Campanhas.Domain/Comum/*`
+- [X] **R085** · `002/T002` [H03] Value objects `Dinheiro` e `Periodo`, com testes — `Campanhas.Domain/Comum/*`
   Commit: `✨ feat(campanhas): adiciona value objects Dinheiro e Periodo`
   Depende de: R084 (`002/T001`)
 - [ ] **R086** · `002/T003` [H03] Agregado `Campanha` com `Criar` e eventos de domínio, com testes — `Campanhas.Domain/Campanhas/*`
