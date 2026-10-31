@@ -82,7 +82,7 @@ Os itens 14 a 19 não são avaliados pelo enunciado; podem ser cortados sem afet
 ## Premissas
 
 - Cada integrante usa Windows, macOS ou Linux, com 16 GB de RAM ou mais para rodar o cluster local ([Pré-requisitos](../../docs/pre-requisitos.md)).
-- O repositório será **público** no GitHub.
+- O repositório fica em `https://github.com/Kulessa/Trabalho`; o enunciado não exige que seja público.
 - A doação é considerada paga no momento do envio (sem gateway de pagamento no escopo).
 - O fuso horário de referência para regras de data é `America/Sao_Paulo`.
 - Valores monetários em reais (BRL), com 2 casas decimais.
