@@ -45,123 +45,27 @@
 }
 ```
 
-## Identity.Api
+## Mapa de endpoints
 
-### `POST /doadores` — público
-```json
-// Requisição
-{
-  "nomeCompleto": "Maria Silva",
-  "email": "maria@exemplo.com",
-  "cpf": "529.982.247-25",
-  "senha": "Senha@123",
-  "aceitePoliticaPrivacidade": true
-}
-// 201 Created — Location: /api/v1/doadores/me
-{
-  "id": "0192f3a1-7c2e-7b4a-9f1e-2b3c4d5e6f70",
-  "nomeCompleto": "Maria Silva",
-  "email": "maria@exemplo.com",
-  "cpfMascarado": "***.982.247-**",
-  "criadoEm": "2026-11-10T14:03:22-03:00"
-}
-```
-Erros: 400 (formato), 409 `doador.email_em_uso` / `doador.cpf_em_uso`.
+Os exemplos de requisição e resposta e a tabela de erros de cada endpoint ficam no contrato da feature correspondente.
 
-### `POST /auth/login` — público
-```json
-// Requisição
-{ "email": "maria@exemplo.com", "senha": "Senha@123" }
-// 200 OK
-{ "accessToken": "eyJhbGciOiJSUzI1NiIs...", "tokenType": "Bearer", "expiresIn": 3600, "role": "Doador" }
-```
-Erros: 400, 401 `auth.credenciais_invalidas`, 429 `auth.bloqueado`.
+| Método e rota | Serviço | Acesso | Contrato |
+|---|---|---|---|
+| `POST /auth/login` | Identity.Api | Público | [001 — Autenticação](../features/001-autenticacao/contracts/api.md) |
+| `POST /doadores` | Identity.Api | Público | [003 — Cadastro de doador](../features/003-cadastro-doador/contracts/api.md) |
+| `GET /doadores/me` | Identity.Api | `Doador` | [008 — Direitos do titular](../features/008-direitos-titular/contracts/api.md) |
+| `DELETE /doadores/me` | Identity.Api | `Doador` | [008 — Direitos do titular](../features/008-direitos-titular/contracts/api.md) |
+| `POST /campanhas` | Campanhas.Api | `GestorONG` | [002 — Gestão de campanhas](../features/002-gestao-campanhas/contracts/api.md) |
+| `GET /campanhas` | Campanhas.Api | `GestorONG` | [002 — Gestão de campanhas](../features/002-gestao-campanhas/contracts/api.md) |
+| `GET /campanhas/{id}` | Campanhas.Api | `GestorONG` | [002 — Gestão de campanhas](../features/002-gestao-campanhas/contracts/api.md) |
+| `PUT /campanhas/{id}` | Campanhas.Api | `GestorONG` | [002 — Gestão de campanhas](../features/002-gestao-campanhas/contracts/api.md) |
+| `PATCH /campanhas/{id}/status` | Campanhas.Api | `GestorONG` | [002 — Gestão de campanhas](../features/002-gestao-campanhas/contracts/api.md) |
+| `GET /transparencia/campanhas` | Campanhas.Api | Público | [004 — Painel de transparência](../features/004-painel-transparencia/contracts/api.md) |
+| `POST /doacoes` | Campanhas.Api | `Doador` | [005 — Doação](../features/005-doacao/contracts/api.md) |
+| `GET /campanhas/busca` | Campanhas.Api | Público | [006 — Busca de campanhas](../features/006-busca-campanhas/contracts/api.md) |
+| `POST /admin/reindexar` | Campanhas.Api | `GestorONG` | [006 — Busca de campanhas](../features/006-busca-campanhas/contracts/api.md) |
 
-### `GET /doadores/me` — Doador
-200 com o mesmo corpo do cadastro, mais `consentimento: { versao, aceitoEm }`.
-
-### `DELETE /doadores/me` — Doador
-204. Erros: 401.
-
-## Campanhas.Api
-
-### `POST /campanhas` — GestorONG
-```json
-// Requisição
-{
-  "titulo": "Natal Solidário",
-  "descricao": "Presentes e ceia para 120 crianças.",
-  "dataInicio": "2026-11-10",
-  "dataFim": "2026-12-24",
-  "metaFinanceira": 10000.00
-}
-// 201 Created — Location: /api/v1/campanhas/0192f3b0-... — ETag: "1"
-{
-  "id": "0192f3b0-1a2b-7c3d-8e4f-5a6b7c8d9e0f",
-  "titulo": "Natal Solidário",
-  "descricao": "Presentes e ceia para 120 crianças.",
-  "dataInicio": "2026-11-10",
-  "dataFim": "2026-12-24",
-  "metaFinanceira": 10000.00,
-  "totalArrecadado": 0.00,
-  "percentualAtingido": 0.00,
-  "status": "Ativa"
-}
-```
-Erros: 400, 401, 403, 422 `campanha.data_fim_passada` / `campanha.meta_invalida` / `campanha.periodo_invalido`.
-
-### `GET /campanhas?status=Ativa&page=1&pageSize=20` — GestorONG
-200 paginado com itens no formato acima.
-
-### `GET /campanhas/{id}` — GestorONG
-200 com `ETag`. Erro: 404 `campanha.nao_encontrada`.
-
-### `PUT /campanhas/{id}` — GestorONG
-Corpo igual ao `POST`; cabeçalho `If-Match: "<versão>"` obrigatório. 204. Erros: 404, 409 `campanha.conflito_de_versao`, 412 sem `If-Match`, 422 `campanha.nao_editavel`.
-
-### `PATCH /campanhas/{id}/status` — GestorONG
-```json
-{ "status": "Cancelada" }
-```
-204. Erros: 404, 422 `campanha.transicao_invalida`.
-
-### `GET /transparencia/campanhas` — público
-```json
-[
-  {
-    "id": "0192f3b0-1a2b-7c3d-8e4f-5a6b7c8d9e0f",
-    "titulo": "Natal Solidário",
-    "metaFinanceira": 10000.00,
-    "totalArrecadado": 150.00,
-    "percentualAtingido": 1.50,
-    "dataFim": "2026-12-24"
-  }
-]
-```
-Cabeçalhos: `Cache-Control: public, max-age=10`. Sem paginação (limite de 100 campanhas ativas, ordenadas por `dataFim`).
-
-### `GET /campanhas/busca?q=natl%20solidaro&page=1&pageSize=10` — público
-```json
-{
-  "items": [
-    { "id": "0192f3b0-...", "titulo": "Natal Solidário", "trecho": "Presentes e <em>ceia</em>...", "relevancia": 3.42, "dataFim": "2026-12-24" }
-  ],
-  "page": 1, "pageSize": 10, "totalItems": 1, "totalPages": 1
-}
-```
-Erros: 400 (`q` fora de 2–100 caracteres), 503 `busca.indisponivel`.
-
-### `POST /doacoes` — Doador
-```json
-// Requisição (cabeçalho opcional Idempotency-Key: 6f1c...)
-{ "idCampanha": "0192f3b0-1a2b-7c3d-8e4f-5a6b7c8d9e0f", "valorDoacao": 150.00 }
-// 202 Accepted
-{ "doacaoId": "0192f3c4-2b3c-7d4e-9f50-6a7b8c9d0e1f", "status": "Recebida", "mensagem": "Doação recebida. O total será atualizado em instantes." }
-```
-Erros: 400, 401, 403, 404 `campanha.nao_encontrada`, 422 `doacao.campanha_nao_ativa`.
-
-### `POST /admin/reindexar` — GestorONG
-202. Reindexa todas as campanhas no Elasticsearch.
+Todas as rotas acima ficam sob a base `https://api.conexao.local/api/v1`.
 
 ## Endpoints técnicos (todos os serviços)
 
@@ -173,6 +77,8 @@ Erros: 400, 401, 403, 404 `campanha.nao_encontrada`, 422 `doacao.campanha_nao_at
 | `/swagger`, `/openapi/v1.json` | Documentação | Sim, só no overlay local |
 
 ## Eventos de integração (contratos v1)
+
+Detalhes de produtor, consumidor e exemplos: [eventos da doação](../features/005-doacao/contracts/eventos.md), [eventos da campanha](../features/002-gestao-campanhas/contracts/eventos.md) e [gatilho do recibo](../features/007-recibo-doacao/contracts/eventos.md).
 
 Projeto `BuildingBlocks.Contracts`, namespace `ConexaoSolidaria.Contracts.V1`. Contratos são `record` imutáveis.
 
