@@ -179,7 +179,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R042** · `009/T007` [H12] Job `testes-integracao` com todos os testes, artefato `cobertura-total` e mínimo de 90% — `.github/workflows/ci.yml`
   Commit: `👷 ci: adiciona testes de integração e cobertura mínima na pipeline`
   Depende de: R038 (`009/T005`), R041 (`009/T006`)
-- [ ] **R043** · `009/T008` [H11] Badge do status da pipeline e seção "Testes e cobertura" no README — `README.md`
+- [X] **R043** · `009/T008` [H11] Badge do status da pipeline e seção "Testes e cobertura" no README — `README.md`
   Commit: `📝 docs: adiciona status da pipeline e cobertura no readme`
   Depende de: R042 (`009/T007`)
 - [ ] **R044** · Atualizar o `CLAUDE.md` com os comandos reais da solução

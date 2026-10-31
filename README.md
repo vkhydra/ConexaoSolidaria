@@ -1,5 +1,7 @@
 # Conexão Solidária
 
+[![CI](https://github.com/Kulessa/Trabalho/actions/workflows/ci.yml/badge.svg)](https://github.com/Kulessa/Trabalho/actions/workflows/ci.yml)
+
 **Atividade Substitutiva da Fase 3** da PósTech FIAP — Arquitetura de Sistemas .NET com Azure: assegurar a qualidade de software de uma API .NET com **testes unitários** (casos de sucesso e de erro) e uma **pipeline de CI que executa os testes e retorna a cobertura** ([feature 009](specs/features/009-ci-testes-cobertura/spec.md)).
 
 A API escolhida é a **Conexão Solidária**, plataforma de doações para a ONG Esperança Solidária, que aplica o conteúdo das 5 fases do curso.
@@ -11,9 +13,10 @@ A API escolhida é a **Conexão Solidária**, plataforma de doações para a ONG
 | Item | Onde |
 |---|---|
 | Testes unitários (xUnit), sucesso e erro | [`tests/unit/`](tests/unit/README.md) |
-| Pipeline de CI (GitHub Actions) | `.github/workflows/ci.yml` — job `testes-unitarios` |
+| Pipeline de CI (GitHub Actions) | [`.github/workflows/ci.yml`](.github/workflows/ci.yml): job `testes-unitarios` (avaliado) e job `testes-integracao` (todos os testes e cobertura mínima de 90%) |
 | Cobertura | Resumo na página de cada execução e artefato `cobertura-testes-unitarios` para download ([contrato da pipeline](specs/features/009-ci-testes-cobertura/contracts/pipeline.md)) |
-| Rodar localmente | `dotnet test --filter Category=Unit` e skill/script `verificar-cobertura` |
+| Rodar localmente | `dotnet test ConexaoSolidaria.slnx -c Release --filter Category=Unit` e `pwsh ./scripts/verificar-cobertura.ps1 -Minimo 90 -ExecutarTestes` (gera o relatório HTML em `coverage/index.html`) |
+| Como ver a cobertura no GitHub | Aba **Actions** → execução do workflow **CI** → resumo da página (tabela de cobertura) e **Artifacts** → `cobertura-testes-unitarios` (baixar e abrir `index.html`) |
 
 ## Funcionalidades da API
 
