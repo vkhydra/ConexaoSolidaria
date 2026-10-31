@@ -1,6 +1,6 @@
 # 21 — Entrega e riscos
 
-[← README](../../README.md) · Anterior: [20 — Plano de execução](20-plano-de-execucao.md) · Próximo: [22 — Manual de implementação](22-manual-de-implementacao.md)
+[← README](../../README.md) · Anterior: [20 — Plano de execução](../plano-de-execucao.md) · Próximo: [22 — Manual de implementação](22-manual-de-implementacao.md)
 
 ## 21.1 Checklist do enunciado (com evidência)
 

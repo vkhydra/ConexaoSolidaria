@@ -2,7 +2,7 @@
 
 [← README](../README.md) · Anterior: [17 — Git e commits](git-e-commits.md) · Próximo: [19 — Skills e MCP](claude-code.md)
 
-Onde cada disciplina do curso é aplicada. Coluna **Etapa** aponta para o [plano de execução](spec/20-plano-de-execucao.md); **Wiki** aponta para `C:\Victor\Fiap\LLMWiki\wiki`.
+Onde cada disciplina do curso é aplicada. Coluna **Etapa** aponta para o [plano de execução](plano-de-execucao.md); **Wiki** aponta para `C:\Victor\Fiap\LLMWiki\wiki`.
 
 Legenda de status: **Obrigatório** (enunciado), **Aplicado** (escolha do projeto para cobrir a fase), **Bônus** (se houver tempo), **Alternativa** (registrada em ADR, não implementada).
 

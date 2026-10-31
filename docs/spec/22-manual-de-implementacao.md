@@ -2,7 +2,7 @@
 
 [← README](../../README.md) · Anterior: [21 — Entrega e riscos](21-entrega-e-riscos.md) · Próximo: [23 — Manual do usuário](23-manual-do-usuario.md)
 
-Passo a passo para colocar o Conexão Solidária no ar a partir de um clone do repositório, em Windows, macOS ou Linux. Público: integrantes do grupo e avaliadores. O código é construído conforme o [plano de execução](20-plano-de-execucao.md); este manual descreve como **implantar e operar** o resultado.
+Passo a passo para colocar o Conexão Solidária no ar a partir de um clone do repositório, em Windows, macOS ou Linux. Público: integrantes do grupo e avaliadores. O código é construído conforme o [plano de execução](../plano-de-execucao.md); este manual descreve como **implantar e operar** o resultado.
 
 Todos os comandos rodam em **PowerShell 7 (`pwsh`)**, igual nos três sistemas. Quando um passo muda por sistema, a diferença aparece numa tabela.
 

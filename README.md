@@ -41,7 +41,7 @@ Detalhes, diagramas e decisões: [docs/spec/07-arquitetura.md](specs/product/arq
 
 ## Como executar localmente
 
-Pré-requisitos em [docs/spec/02-pre-requisitos.md](docs/pre-requisitos.md). O passo a passo de subida está em [docs/spec/13-infraestrutura.md](specs/product/infraestrutura.md) e receberá os comandos finais na Etapa 17 do [plano de execução](docs/spec/20-plano-de-execucao.md).
+Pré-requisitos em [docs/spec/02-pre-requisitos.md](docs/pre-requisitos.md). O passo a passo de subida está em [docs/spec/13-infraestrutura.md](specs/product/infraestrutura.md) e receberá os comandos finais na Etapa 17 do [plano de execução](docs/plano-de-execucao.md).
 
 ## Convenção de commits
 
