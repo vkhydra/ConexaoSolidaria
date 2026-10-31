@@ -53,7 +53,7 @@ O PNG exportado deste diagrama (`docs/arquitetura/arquitetura.png`) é entregáv
 | `Identity.Api` | ASP.NET Core Minimal API | Cadastro, login, JWT, direitos do titular | HTTP 8080 | PostgreSQL |
 | `Campanhas.Api` | ASP.NET Core Minimal API | Campanhas, painel, busca, recebimento de doações, indexação | HTTP 8080 | PostgreSQL, Redis, Elasticsearch, RabbitMQ |
 | `Arrecadacao.Worker` | Worker Service + MassTransit | Processa doações, livro de doações | HTTP 9090 (`/metrics`, health) | PostgreSQL, MongoDB, Redis, RabbitMQ |
-| `Notificacoes.Function` | Azure Functions isolated worker | Recibo de doação | — | RabbitMQ |
+| `Notificacoes.Function` | Azure Functions isolated worker | Recibo de doação ([feature 007](../features/007-recibo-doacao/spec.md)) | — | RabbitMQ, Redis (deduplicação) |
 | `ConexaoSolidaria.Web` | Blazor Web App | Interface | HTTP 8080 | Kong |
 | Kong | Kong Ingress Controller (DB-less) | Entrada única da API | HTTPS 443 | APIs |
 
@@ -110,28 +110,42 @@ sequenceDiagram
 
 ```text
 .
+├── .claude/
+│   ├── settings.json                # permissões e configuração compartilhada do Claude Code
+│   ├── commands/                    # /constitution, /specify, /clarify, /plan, /tasks, /analyze, /implement
+│   ├── agents/                      # architect, implementer, test-writer, reviewer
+│   └── skills/<nome>/SKILL.md       # commit-gitmoji, nova-adr, verificar-cobertura, documentar-xml, ...
 ├── .config/dotnet-tools.json
 ├── .github/
 │   ├── workflows/ci.yml, cd.yml, codeql.yml
+│   ├── ISSUE_TEMPLATE/, pull_request_template.md
 │   └── dependabot.yml
 ├── .husky/                          # hooks de git (Husky.Net)
+├── .vscode/                         # settings, extensions, launch e tasks
 ├── deploy/
 │   ├── docker-compose.yml
-│   ├── .env.example
+│   ├── .env.example                 # modelo; .env e .env.dev são locais e ignorados
 │   ├── helm/                        # values dos charts (kong, keda, kube-prometheus-stack, jaeger)
-│   ├── rabbitmq/definitions.json    # filas e bindings da função
+│   ├── rabbitmq/definitions.json    # fila e binding da função
 │   ├── k8s/
-│   │   ├── base/                    # namespaces, infra, apps, kong, keda
+│   │   ├── base/                    # namespaces, infra, apps, kong, keda, secrets/*.example.yaml
 │   │   └── overlays/{local,azure}/
 │   ├── observability/
 │   │   ├── dashboards/conexao-solidaria.json
 │   │   └── alerts/prometheus-rules.yaml
 │   └── azure/main.bicep             # cloud opcional
 ├── docs/
-│   ├── ROTEIRO-VIDEO.md, spec/
-│   ├── adr/, agil/, ddd/, arquitetura/, lgpd/, postman/
-│   └── justificativa-bancos.md (+ PDF)
-├── scripts/                         # verificar-pre-requisitos.ps1, k8s-secrets.ps1, up.ps1
+│   ├── adr/                         # decisões de arquitetura
+│   ├── runbooks/                    # resposta a alertas
+│   ├── glossary.md, pre-requisitos.md, processo-agil.md, testes.md, padroes-de-codigo.md, git-e-commits.md
+│   ├── plano-de-execucao.md, entrega-e-riscos.md, cobertura-das-fases.md, claude-code.md
+│   ├── manual-de-implementacao.md, manual-do-usuario.md, ROTEIRO-VIDEO.md
+│   └── agil/, ddd/, arquitetura/, lgpd/, postman/, justificativa-bancos.md (+ PDF)
+├── scripts/                         # PowerShell 7: verificar-pre-requisitos, verificar-cobertura, k8s-secrets, up, seed-demo
+├── specs/
+│   ├── constitution.md
+│   ├── product/                     # visão geral e decisões transversais (este arquivo)
+│   └── features/NNN-nome/           # spec, research, plan, data-model, contracts/, tasks
 ├── src/
 │   ├── BuildingBlocks/
 │   │   ├── ConexaoSolidaria.Contracts/
@@ -142,14 +156,14 @@ sequenceDiagram
 │   ├── Functions/Notificacoes.Function/
 │   └── Web/ConexaoSolidaria.Web/
 ├── tests/
-│   ├── Identity.UnitTests/, Identity.IntegrationTests/
-│   ├── Campanhas.UnitTests/, Campanhas.IntegrationTests/
-│   ├── Arrecadacao.Worker.Tests/
-│   ├── ConexaoSolidaria.Bdd/
-│   ├── ConexaoSolidaria.Web.Tests/  # bUnit
-│   └── load/                        # scripts k6
+│   ├── unit/                        # Identity, Campanhas, Arrecadacao.Worker, Notificacoes.Function, Web (bUnit)
+│   ├── integration/                 # Identity, Campanhas, Arrecadacao.Worker (Testcontainers)
+│   ├── contract/                    # ConexaoSolidaria.ContractTests (snapshots de eventos e OpenAPI)
+│   └── e2e/                         # ConexaoSolidaria.Bdd, ConexaoSolidaria.E2ETests (Playwright), load/ (k6)
+├── CLAUDE.md, .mcp.json
 ├── ConexaoSolidaria.slnx
 ├── Directory.Build.props, Directory.Packages.props, global.json
+├── coverlet.runsettings, stylecop.json
 ├── .editorconfig, .gitattributes, .dockerignore, .gitignore
 └── README.md
 ```
@@ -197,14 +211,17 @@ Toda configuração vem de variáveis de ambiente (seção `__` do .NET, ex.: `C
 |---|---|---|
 | `ConnectionStrings__Identity` | Identity.Api | Secret |
 | `ConnectionStrings__Campanhas` | Campanhas.Api, Worker | Secret |
-| `ConnectionStrings__Redis` | Campanhas.Api, Worker | Secret |
+| `ConnectionStrings__Redis` | Campanhas.Api, Worker, Function | Secret |
 | `ConnectionStrings__Mongo` | Worker | Secret |
-| `RabbitMq__Host`, `RabbitMq__Usuario`, `RabbitMq__Senha` | Campanhas.Api, Worker, Function | ConfigMap (host) e Secret (credenciais) |
+| `RabbitMq__Host`, `RabbitMq__Usuario`, `RabbitMq__Senha` | Campanhas.Api, Worker | ConfigMap (host) e Secret (credenciais) |
+| `RabbitMqConnection` | Function | Secret (URI `amqp://` completa, exigida pelo gatilho) |
 | `Elasticsearch__Url`, `Elasticsearch__ApiKey` | Campanhas.Api | ConfigMap e Secret |
 | `Jwt__Issuer`, `Jwt__Audience` | Identity.Api, Campanhas.Api | ConfigMap |
 | `Jwt__ChavePrivadaPem` | Identity.Api | Secret |
 | `Jwt__ChavePublicaPem` | Campanhas.Api | ConfigMap (chave pública não é segredo) |
 | `Cpf__ChaveCifra`, `Cpf__ChaveHash` | Identity.Api | Secret |
+| `Autenticacao__ChaveHashEmail` | Identity.Api | Secret (HMAC do e-mail no controle de tentativas de login) |
+| `Lgpd__VersaoPolitica` | Identity.Api, Web | ConfigMap |
 | `Seed__GestorEmail`, `Seed__GestorSenha` | Identity.Api | Secret |
 | `OTEL_EXPORTER_OTLP_ENDPOINT`, `OTEL_SERVICE_NAME` | Todos | ConfigMap |
 | `ASPNETCORE_ENVIRONMENT` | Todos | ConfigMap |
