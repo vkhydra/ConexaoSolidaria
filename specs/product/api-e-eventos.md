@@ -99,7 +99,7 @@ public sealed record CampanhaAlteradaEvent(
 1. Só adicionar campos opcionais no fim; nunca remover ou renomear.
 2. Mudança incompatível cria `V2` com nome novo, e as duas versões convivem até todos os consumidores migrarem.
 3. Sem dados pessoais: só IDs.
-4. Teste de contrato: serialização JSON de cada evento comparada com um snapshot versionado em `tests/` (quebra o build se o contrato mudar sem intenção).
+4. Teste de contrato: serialização JSON de cada evento comparada com um snapshot versionado em `tests/contract/` (quebra o build se o contrato mudar sem intenção).
 
 ### Topologia no RabbitMQ (MassTransit)
 
