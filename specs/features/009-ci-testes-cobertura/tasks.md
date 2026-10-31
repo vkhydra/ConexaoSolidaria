@@ -12,7 +12,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md). Est
   Commit: `✅ test: adiciona teste de arquitetura das camadas`
 - [ ] T003 [H12] `coverlet.runsettings` com filtros e exclusões — `coverlet.runsettings`
   Commit: `🔧 chore: adiciona configuração de cobertura com coverlet`
-- [ ] T004 [H12] ReportGenerator no manifesto de ferramentas — `.config/dotnet-tools.json`
+- [X] T004 [H12] ReportGenerator no manifesto de ferramentas — `.config/dotnet-tools.json`
   Commit: `🔧 chore: adiciona reportgenerator ao manifesto de ferramentas`
 - [ ] T005 [H12] Script de verificação da cobertura mínima (`-Minimo`, `-ExecutarTestes`) — `scripts/verificar-cobertura.ps1`
   Commit: `🔧 chore: adiciona script de verificação da cobertura mínima de 90%`

@@ -162,7 +162,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Commit: `🥅 feat(defaults): adiciona tratamento global de erros com problem details`
 - [X] **R035** · Manifesto de ferramentas locais (`dotnet-ef`, `husky`)
   Commit: `🔧 chore: adiciona manifesto de ferramentas dotnet`
-- [ ] **R036** · `009/T004` [H12] ReportGenerator no manifesto de ferramentas — `.config/dotnet-tools.json`
+- [X] **R036** · `009/T004` [H12] ReportGenerator no manifesto de ferramentas — `.config/dotnet-tools.json`
   Commit: `🔧 chore: adiciona reportgenerator ao manifesto de ferramentas`
 - [ ] **R037** · `009/T003` [H12] `coverlet.runsettings` com filtros e exclusões — `coverlet.runsettings`
   Commit: `🔧 chore: adiciona configuração de cobertura com coverlet`
