@@ -93,7 +93,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [ ] **R004** · *[manual]* Criar o GitHub Project com colunas, campos e labels do [processo ágil](../docs/processo-agil.md)
 - [ ] **R005** · *[manual]* Criar uma issue por feature (001 a 009) e por tarefa técnica (T01–T04), com link para a `spec.md`; estimar com Planning Poker
 - [ ] **R006** · *[manual]* Revisar cada spec em grupo: `/analyze NNN` e, se houver pendência, `/clarify NNN`
-- [ ] **R007** · Escrever a Definition of Ready em `docs/agil/definition-of-ready.md`
+- [X] **R007** · Escrever a Definition of Ready em `docs/agil/definition-of-ready.md`
   Commit: `📝 docs(agil): adiciona definition of ready`
 - [ ] **R008** · Escrever a Definition of Done em `docs/agil/definition-of-done.md`
   Commit: `📝 docs(agil): adiciona definition of done`
