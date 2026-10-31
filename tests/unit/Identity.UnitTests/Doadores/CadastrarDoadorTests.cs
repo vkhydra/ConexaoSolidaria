@@ -45,6 +45,11 @@ public sealed class CadastrarDoadorTests
     private readonly FakeTimeProvider _relogio = new(new DateTimeOffset(2026, 11, 10, 14, 3, 22, TimeSpan.FromHours(-3)));
 
     /// <summary>
+    /// Métrica de doadores falsa.
+    /// </summary>
+    private readonly IMetricasDoadores _metricas = Substitute.For<IMetricasDoadores>();
+
+    /// <summary>
     /// Logger que guarda as mensagens para conferência.
     /// </summary>
     private readonly LoggerCaptura<CadastrarDoador> _log = new();
@@ -68,6 +73,7 @@ public sealed class CadastrarDoadorTests
             new CadastrarDoadorRequestValidator(),
             _relogio,
             new CadastrarDoadorOpcoes("2026-10"),
+            _metricas,
             _log);
     }
 
@@ -92,6 +98,7 @@ public sealed class CadastrarDoadorTests
                 && u.Id.Valor == resultado.Valor.Id),
             Arg.Any<CancellationToken>());
         _log.Mensagens.ShouldHaveSingleItem().ShouldBe($"Doador cadastrado: {resultado.Valor.Id}.");
+        _metricas.Received(1).RegistrarCadastro();
     }
 
     /// <summary>
@@ -107,6 +114,7 @@ public sealed class CadastrarDoadorTests
 
         resultado.Erro.Codigo.ShouldBe(CadastrarDoador.CodigoEmailEmUso);
         await _usuarios.DidNotReceive().AdicionarAsync(Arg.Any<Usuario>(), Arg.Any<CancellationToken>());
+        _metricas.DidNotReceive().RegistrarCadastro();
     }
 
     /// <summary>
@@ -142,6 +150,7 @@ public sealed class CadastrarDoadorTests
 
         resultado.Erro.Codigo.ShouldBe(codigo);
         _log.Mensagens.ShouldBeEmpty();
+        _metricas.DidNotReceive().RegistrarCadastro();
     }
 
     /// <summary>
@@ -201,7 +210,7 @@ public sealed class CadastrarDoadorTests
     [Fact]
     public async Task ExecutarAsync_VersaoDePoliticaVazia_RecusaConsentimento()
     {
-        var cadastrar = new CadastrarDoador(_usuarios, _cifrador, _hasher, new CadastrarDoadorRequestValidator(), _relogio, new CadastrarDoadorOpcoes(" "), _log);
+        var cadastrar = new CadastrarDoador(_usuarios, _cifrador, _hasher, new CadastrarDoadorRequestValidator(), _relogio, new CadastrarDoadorOpcoes(" "), _metricas, _log);
 
         var resultado = await cadastrar.ExecutarAsync(Pedido(), CancellationToken.None);
 

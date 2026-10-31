@@ -39,6 +39,7 @@ public static class ExtensoesIdentityInfraestrutura
         servicos.AddScoped<ITentativaLoginRepositorio, TentativaLoginRepositorio>();
         servicos.AddSingleton<IHasherSenha, HasherSenhaBcrypt>();
         servicos.AddSingleton<IMetricasLogin, MetricasLoginPrometheus>();
+        servicos.AddSingleton<IMetricasDoadores, MetricasDoadoresPrometheus>();
         servicos.AddSingleton<IHasherEmail>(new HasherEmailHmac(chaveHashEmail));
         servicos.AddSingleton<ICifradorCpf>(new CifradorCpfAesGcm(new CpfOpcoes
         {

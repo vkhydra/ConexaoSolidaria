@@ -17,6 +17,7 @@ namespace Identity.Application.Doadores;
 /// <param name="validador">Validador do pedido.</param>
 /// <param name="relogio">Relógio da aplicação.</param>
 /// <param name="opcoes">Opções do cadastro, com a versão vigente da política de privacidade.</param>
+/// <param name="metricas">Métrica de doadores cadastrados.</param>
 /// <param name="log">Logger; nunca recebe dado pessoal.</param>
 public sealed partial class CadastrarDoador(
     IUsuarioRepositorio usuarios,
@@ -25,6 +26,7 @@ public sealed partial class CadastrarDoador(
     IValidator<CadastrarDoadorRequest> validador,
     TimeProvider relogio,
     CadastrarDoadorOpcoes opcoes,
+    IMetricasDoadores metricas,
     ILogger<CadastrarDoador> log)
 {
     /// <summary>
@@ -89,6 +91,7 @@ public sealed partial class CadastrarDoador(
                 : new Erro(CodigoCpfEmUso, "Este CPF já está cadastrado."));
         }
 
+        metricas.RegistrarCadastro();
         LogCadastrado(log, doador.Valor.Id);
 
         var cadastrado = doador.Valor;
