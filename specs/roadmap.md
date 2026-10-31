@@ -371,7 +371,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 
 **Pronto quando:** Doação aparece no painel em até 5 s; evento duplicado não soma duas vezes; falha permanente vai para a fila de erro; cobertura ≥ 90%.
 
-- [ ] **R110** · `005/T001` [H06] `PodeReceberDoacao` e `RegistrarDoacaoProcessada` no agregado, com testes (antes do início, no período, depois do fim, encerrada) — `Campanhas.Domain/Campanhas/Campanha.cs`
+- [X] **R110** · `005/T001` [H06] `PodeReceberDoacao` e `RegistrarDoacaoProcessada` no agregado, com testes (antes do início, no período, depois do fim, encerrada) — `Campanhas.Domain/Campanhas/Campanha.cs`
   Commit: `✨ feat(campanhas): adiciona regras de doação no agregado Campanha`
 - [ ] **R111** · `005/T002` [H06] `DoacaoRecebidaEvent` e `DoacaoProcessadaEvent` v1 com testes de snapshot — `ConexaoSolidaria.Contracts/V1/*`, `tests/contract/ConexaoSolidaria.ContractTests/*`
   Commit: `🏷️ feat(contracts): adiciona eventos de doação v1`

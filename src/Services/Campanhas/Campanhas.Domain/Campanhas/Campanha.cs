@@ -3,8 +3,8 @@ using Campanhas.Domain.Comum;
 namespace Campanhas.Domain.Campanhas;
 
 /// <summary>
-/// Raiz do agregado de campanha de arrecadação: título, período, meta e situação. O total arrecadado nunca é alterado
-/// por este agregado; só o Arrecadacao.Worker o escreve.
+/// Raiz do agregado de campanha de arrecadação: título, período, meta e situação. O total arrecadado só muda por
+/// <see cref="RegistrarDoacaoProcessada"/>, chamado apenas pelo processamento de doações (Arrecadacao.Worker).
 /// </summary>
 public sealed class Campanha
 {
@@ -37,6 +37,11 @@ public sealed class Campanha
     /// Código do erro de mudança de status que o fluxo não permite.
     /// </summary>
     public const string CodigoTransicaoInvalida = "campanha.transicao_invalida";
+
+    /// <summary>
+    /// Código do erro de valor de doação que não é maior que zero.
+    /// </summary>
+    public const string CodigoDoacaoValorInvalido = "doacao.valor_invalido";
 
     /// <summary>
     /// Tamanho mínimo do título.
@@ -246,6 +251,37 @@ public sealed class Campanha
         }
 
         return Result.Falha(erro);
+    }
+
+    /// <summary>
+    /// Informa se a campanha aceita uma nova doação em um dia: precisa estar ativa e o dia, dentro do período (extremos inclusive).
+    /// </summary>
+    /// <param name="hoje">Data de hoje em São Paulo.</param>
+    /// <returns>Verdadeiro se a doação pode ser aceita.</returns>
+    public bool PodeReceberDoacao(DateOnly hoje)
+    {
+        return Status == StatusCampanha.Ativa && Periodo.Contem(hoje);
+    }
+
+    /// <summary>
+    /// Soma ao total arrecadado uma doação já processada. Vale mesmo se a campanha foi encerrada depois do aceite da doação.
+    /// O Arrecadacao.Worker reproduz esta regra com um <c>UPDATE</c> atômico, sem carregar o agregado.
+    /// </summary>
+    /// <param name="valor">Valor da doação, maior que zero.</param>
+    /// <param name="agora">Instante do processamento.</param>
+    /// <returns>Sucesso ou <c>doacao.valor_invalido</c> se o valor não é maior que zero.</returns>
+    public Result RegistrarDoacaoProcessada(Dinheiro valor, DateTimeOffset agora)
+    {
+        ArgumentNullException.ThrowIfNull(valor);
+
+        if (valor.Valor <= 0m)
+        {
+            return Result.Falha(new Erro(CodigoDoacaoValorInvalido, "O valor da doação deve ser maior que zero."));
+        }
+
+        TotalArrecadado = TotalArrecadado.Somar(valor);
+        AtualizadoEm = agora;
+        return Result.Ok();
     }
 
     /// <summary>
