@@ -37,7 +37,7 @@ Regras completas em `docs/git-e-commits.md`. Resumo obrigatório:
    | 🧱 | `build` | Docker, Kubernetes, Helm |
    | 👷 | `ci` | Pipeline |
 
-   Escopos: `identity`, `campanhas`, `worker`, `notificacoes`, `web`, `contracts`, `defaults`, `k8s`, `kong`, `obs`, `ci`, `specs`, `adr`, `runbooks`, `tests`, `scripts`, `claude`, `vscode`, `mcp`.
+   Escopos: `identity`, `campanhas`, `worker`, `notificacoes`, `web`, `contracts`, `defaults`, `k8s`, `kong`, `obs`, `ci`, `specs`, `adr`, `runbooks`, `ddd`, `agil`, `video`, `tests`, `bdd`, `e2e`, `load`, `lgpd`, `azure`, `scripts`, `claude`, `vscode`, `mcp`.
 4. Se houver arquivo `.cs`, `.csproj`, `.props` ou `.slnx` no commit, valide antes:
    ```bash
    dotnet format --verify-no-changes
