@@ -92,10 +92,6 @@ As funcionalidades (Etapas 4 a 8) seguem o fluxo de Spec-Driven Development: as 
 🎉 chore: cria solução ConexaoSolidaria
 🎉 chore(contracts): cria projeto ConexaoSolidaria.Contracts
 🎉 chore(defaults): cria projeto ConexaoSolidaria.ServiceDefaults
-🔊 feat(defaults): adiciona logs estruturados com serilog
-📈 feat(defaults): adiciona tracing com opentelemetry e endpoint de métricas
-🩺 feat(defaults): adiciona health checks live e ready
-🥅 feat(defaults): adiciona tratamento global de erros com problem details
 🎉 chore(identity): cria projetos Domain, Application, Infrastructure e Api
 🎉 chore(campanhas): cria projetos Domain, Application, Infrastructure, Api e Worker
 🎉 chore(notificacoes): cria projeto Notificacoes.Function
@@ -103,6 +99,10 @@ As funcionalidades (Etapas 4 a 8) seguem o fluxo de Spec-Driven Development: as 
 ✅ test: cria projetos de testes unitários com xunit
 ✅ test: cria projetos de testes de integração, contrato e e2e
 ✅ test: adiciona teste de arquitetura das camadas
+🔊 feat(defaults): adiciona logs estruturados com serilog
+📈 feat(defaults): adiciona tracing com opentelemetry e endpoint de métricas
+🩺 feat(defaults): adiciona health checks live e ready
+🥅 feat(defaults): adiciona tratamento global de erros com problem details
 🔧 chore: adiciona manifesto de ferramentas dotnet
 🔧 chore: adiciona reportgenerator ao manifesto de ferramentas
 🔧 chore: adiciona hooks do husky para build, formato e mensagem
@@ -116,6 +116,7 @@ As funcionalidades (Etapas 4 a 8) seguem o fluxo de Spec-Driven Development: as 
 🔧 chore: adiciona script de verificação de pré-requisitos
 ```
 Cada projeto novo entra na `.slnx` no mesmo commit em que é criado (`dotnet sln add`).
+Os commits `feat(defaults)` vêm depois dos projetos de teste e cada um inclui os testes de sucesso e de erro do que adiciona, para a cobertura já nascer acima de 90%.
 **Pronto quando:** `dotnet build -warnaserror` e `dotnet test` passam local e no CI; commit com mensagem fora do padrão é bloqueado; push e CI com cobertura abaixo de 90% falham; cada execução da pipeline mostra a cobertura no resumo e oferece o artefato `cobertura-testes-unitarios` para download.
 **Apoio:** `/init` (revisar o `CLAUDE.md` existente), `/fewer-permission-prompts`, skills `commit-gitmoji` e `documentar-xml`, MCP Microsoft Learn.
 
