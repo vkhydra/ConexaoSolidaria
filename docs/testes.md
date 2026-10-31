@@ -15,7 +15,7 @@ Referências: `wiki:disciplinas/qualidade-software`, `wiki:disciplinas/principio
 | Integração | Médio | `WebApplicationFactory`, Testcontainers (PostgreSQL, RabbitMQ, Redis, MongoDB, Elasticsearch), MassTransit Test Harness | Endpoints reais, banco real, Outbox, consumidores | `tests/integration/` | CI e `pre-push` |
 | Aceitação (BDD) | Um por cenário Gherkin | Reqnroll + xUnit | Cenários das `spec.md` das features | `tests/e2e/ConexaoSolidaria.Bdd/` | CI |
 | E2E (bônus) | Muito poucos | Playwright | Jornada "doar" no navegador | `tests/e2e/ConexaoSolidaria.E2ETests/` | Manual / agendado |
-| Carga | Poucos | k6 | RNF01–RNF04 | `tests/e2e/load/` | Manual, antes do vídeo |
+| Carga | Poucos | k6 | RNF01–RNF04 | `tests/e2e/load/` | Manual, após a Etapa 11 |
 
 Projetos de teste: `<Projeto>.UnitTests`, `<Projeto>.IntegrationTests`, `ConexaoSolidaria.ContractTests`, `ConexaoSolidaria.Bdd` e `ConexaoSolidaria.E2ETests`. Cada pasta tem um README com o que entra nela.
 
@@ -79,7 +79,7 @@ Pasta `tests/e2e/load/`, execução contra o Kong local:
 
 - `checks` validam status e corpo.
 - Resultado salvo em `tests/e2e/load/results/` (ignorado pelo git) e resumo no README.
-- Durante a carga, observar no Grafana a subida de réplicas (HPA/KEDA): bom material para o vídeo.
+- Durante a carga, observar no Grafana a subida de réplicas (HPA/KEDA).
 
 ## Cobertura (mínimo obrigatório de 90%)
 
