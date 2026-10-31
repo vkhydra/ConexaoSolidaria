@@ -10,7 +10,7 @@ namespace ConexaoSolidaria.Contracts.V1;
 /// <param name="Status">Situação atual (<c>Ativa</c>, <c>Concluida</c> ou <c>Cancelada</c>).</param>
 /// <param name="MetaFinanceira">Meta financeira, com duas casas decimais.</param>
 /// <param name="DataFim">Último dia da campanha.</param>
-/// <param name="Versao">Versão da linha da campanha; cresce a cada alteração, e o consumidor ignora versões antigas.</param>
+/// <param name="Versao">Marcador crescente da alteração (ticks UTC do instante da alteração); o consumidor ignora versões antigas.</param>
 public sealed record CampanhaAlteradaEvent(
     Guid CampanhaId,
     string Titulo,

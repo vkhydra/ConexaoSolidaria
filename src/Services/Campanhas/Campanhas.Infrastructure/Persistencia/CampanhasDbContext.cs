@@ -21,7 +21,7 @@ public sealed class CampanhasDbContext(DbContextOptions<CampanhasDbContext> opco
     /// <param name="opcoes">Construtor de opções a configurar.</param>
     /// <param name="conexao">String de conexão do PostgreSQL.</param>
     /// <returns>O próprio construtor de opções, para encadeamento.</returns>
-    public static DbContextOptionsBuilder<CampanhasDbContext> Configurar(DbContextOptionsBuilder<CampanhasDbContext> opcoes, string conexao)
+    public static DbContextOptionsBuilder Configurar(DbContextOptionsBuilder opcoes, string conexao)
     {
         ArgumentNullException.ThrowIfNull(opcoes);
 

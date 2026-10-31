@@ -12,7 +12,8 @@ public sealed class CampanhasDbContextFactory : IDesignTimeDbContextFactory<Camp
     /// <inheritdoc/>
     public CampanhasDbContext CreateDbContext(string[] args)
     {
-        var opcoes = CampanhasDbContext.Configurar(new DbContextOptionsBuilder<CampanhasDbContext>(), "Host=localhost;Database=campanhas_db");
+        var opcoes = new DbContextOptionsBuilder<CampanhasDbContext>();
+        CampanhasDbContext.Configurar(opcoes, "Host=localhost;Database=campanhas_db");
         return new CampanhasDbContext(opcoes.Options);
     }
 }
