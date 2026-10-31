@@ -21,4 +21,7 @@
     <Project Path="src/Services/Identity/Identity.Domain/Identity.Domain.csproj" />
     <Project Path="src/Services/Identity/Identity.Infrastructure/Identity.Infrastructure.csproj" />
   </Folder>
+  <Folder Name="/src/Web/">
+    <Project Path="src/Web/ConexaoSolidaria.Web/ConexaoSolidaria.Web.csproj" />
+  </Folder>
 </Solution>
