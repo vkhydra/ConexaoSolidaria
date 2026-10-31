@@ -16,7 +16,7 @@ A API escolhida é a **Conexão Solidária**, plataforma de doações da ONG fic
 
 O grupo também aplica na API o conteúdo das 5 fases do curso ([cobertura das fases](../../docs/cobertura-das-fases.md)).
 
-Fontes: `C:\Victor\Fiapiap-pdfs\Trabalho Substitutivoase 3.pdf` e `wiki:fontes/tech-challenge/06-trabalho-substitutivo-fase-3-testes-e-cobertura-ci`.
+Fontes: `C:/Victor/Fiap/fiap-pdfs/Trabalho Substitutivo/fase 3.pdf` e `wiki:fontes/tech-challenge/06-trabalho-substitutivo-fase-3-testes-e-cobertura-ci`.
 
 ## Objetivos
 
