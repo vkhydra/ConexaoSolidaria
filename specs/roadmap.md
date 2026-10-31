@@ -141,7 +141,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Commit: `🎉 chore(identity): cria projetos Domain, Application, Infrastructure e Api`
 - [X] **R025** · Projetos `Campanhas.Domain`, `Application`, `Infrastructure`, `Api` e `Arrecadacao.Worker`
   Commit: `🎉 chore(campanhas): cria projetos Domain, Application, Infrastructure, Api e Worker`
-- [ ] **R026** · Projeto `Notificacoes.Function`
+- [X] **R026** · Projeto `Notificacoes.Function`
   Commit: `🎉 chore(notificacoes): cria projeto Notificacoes.Function`
 - [ ] **R027** · Projeto `ConexaoSolidaria.Web`
   Commit: `🎉 chore(web): cria projeto ConexaoSolidaria.Web`

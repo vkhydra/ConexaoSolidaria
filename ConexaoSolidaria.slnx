@@ -4,6 +4,9 @@
     <Project Path="src/BuildingBlocks/ConexaoSolidaria.Contracts/ConexaoSolidaria.Contracts.csproj" />
     <Project Path="src/BuildingBlocks/ConexaoSolidaria.ServiceDefaults/ConexaoSolidaria.ServiceDefaults.csproj" />
   </Folder>
+  <Folder Name="/src/Functions/">
+    <Project Path="src/Functions/Notificacoes.Function/Notificacoes.Function.csproj" />
+  </Folder>
   <Folder Name="/src/Services/" />
   <Folder Name="/src/Services/Campanhas/">
     <Project Path="src/Services/Campanhas/Arrecadacao.Worker/Arrecadacao.Worker.csproj" />
