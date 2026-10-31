@@ -59,7 +59,7 @@ Toda etapa termina com: `/code-review` → `git rebase --exec` (todo commit comp
 4. Event Storming no Miro (fluxos "criar campanha" e "doar"); exportar PNGs.
 5. Domain Storytelling da doação; exportar PNG.
 6. `docs/ddd/glossario.md` e `docs/ddd/context-map.md`.
-7. ADRs 0001–0016 em `docs/adr/` (um arquivo por ADR, a partir da [seção 08](spec/08-decisoes-arquiteturais.md)).
+7. ADRs 0001–0016 em `docs/adr/` (um arquivo por ADR, a partir da [índice de ADRs](adr/README.md)).
 8. `.github/ISSUE_TEMPLATE/historia.md` e `.github/pull_request_template.md`.
 
 **Commits (exemplos):**
