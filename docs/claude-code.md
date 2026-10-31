@@ -1,6 +1,6 @@
 # 19 — Skills e MCP do Claude Code
 
-[← README](../../README.md) · Anterior: [18 — Cobertura das fases](../cobertura-das-fases.md) · Próximo: [20 — Plano de execução](20-plano-de-execucao.md)
+[← README](../README.md) · Anterior: [18 — Cobertura das fases](cobertura-das-fases.md) · Próximo: [20 — Plano de execução](spec/20-plano-de-execucao.md)
 
 Como o Claude Code apoia cada etapa. **Skills** são comandos com instruções prontas (`/nome`). **MCP** (Model Context Protocol) conecta o Claude Code a ferramentas externas.
 
