@@ -184,7 +184,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Depende de: R042 (`009/T007`)
 - [X] **R044** · Atualizar o `CLAUDE.md` com os comandos reais da solução
   Commit: `📝 docs: atualiza CLAUDE.md com os comandos reais da solução`
-- [ ] **R045** · Script `scripts/verificar-pre-requisitos.ps1`
+- [X] **R045** · Script `scripts/verificar-pre-requisitos.ps1`
   Commit: `🔧 chore: adiciona script de verificação de pré-requisitos`
 - [ ] **R046** · `009/T009` [H12] Verificar a falha da pipeline com um teste quebrado numa branch de teste (não vai para a `main`) e registrar o resultado no PR
   Depende de: R043 (`009/T008`)
