@@ -17,7 +17,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 ## Fase 2 — Aplicação
 
-- [ ] T005 [H01] `ICifradorCpf` e caso de uso `CadastrarDoador` com validador e testes (sucesso, 400, 409 e-mail, 409 CPF) — `Identity.Application/Doadores/*`
+- [X] T005 [H01] `ICifradorCpf` e caso de uso `CadastrarDoador` com validador e testes (sucesso, 400, 409 e-mail, 409 CPF) — `Identity.Application/Doadores/*`
   Commit: `✨ feat(identity): adiciona caso de uso de cadastro de doador`
 
 ## Fase 3 — Infraestrutura

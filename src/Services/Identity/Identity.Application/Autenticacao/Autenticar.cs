@@ -1,5 +1,6 @@
 using FluentValidation;
 using Identity.Application.Abstracoes;
+using Identity.Application.Comum;
 using Identity.Domain.Autenticacao;
 using Identity.Domain.Comum;
 using Identity.Domain.Usuarios;
@@ -34,7 +35,7 @@ public sealed partial class Autenticar(
     /// <summary>
     /// Código do erro de entrada inválida.
     /// </summary>
-    public const string CodigoValidacao = "validacao";
+    public const string CodigoValidacao = ErrosDeValidacao.CodigoValidacao;
 
     /// <summary>
     /// Código do erro de credenciais inválidas.
@@ -64,10 +65,7 @@ public sealed partial class Autenticar(
         var validacao = await validador.ValidateAsync(request, cancelamento);
         if (!validacao.IsValid)
         {
-            var campos = validacao.Errors
-                .GroupBy(e => e.PropertyName.ToLowerInvariant())
-                .ToDictionary(g => g.Key, g => g.Select(e => e.ErrorMessage).ToArray());
-            return Result.Falha<AutenticarResponse>(new Erro(CodigoValidacao, "Dados inválidos.") { Campos = campos });
+            return Result.Falha<AutenticarResponse>(ErrosDeValidacao.Converter(validacao));
         }
 
         var email = Email.Criar(request.Email).Valor;

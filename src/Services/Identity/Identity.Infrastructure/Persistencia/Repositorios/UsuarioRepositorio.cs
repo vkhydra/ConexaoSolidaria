@@ -31,6 +31,20 @@ public sealed class UsuarioRepositorio(IdentityDbContext contexto) : IUsuarioRep
     }
 
     /// <inheritdoc/>
+    public Task<bool> ExisteEmailAsync(Email email, CancellationToken cancelamento)
+    {
+        ArgumentNullException.ThrowIfNull(email);
+
+        return contexto.Usuarios.AnyAsync(u => u.Email == email, cancelamento);
+    }
+
+    /// <inheritdoc/>
+    public Task<bool> ExisteCpfAsync(byte[] cpfHash, CancellationToken cancelamento)
+    {
+        throw new NotSupportedException("A coluna cpf_hash chega com a migration de cadastro de doador (R071).");
+    }
+
+    /// <inheritdoc/>
     public async Task AdicionarAsync(Usuario usuario, CancellationToken cancelamento)
     {
         ArgumentNullException.ThrowIfNull(usuario);

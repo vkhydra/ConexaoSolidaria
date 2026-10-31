@@ -31,6 +31,22 @@ public interface IUsuarioRepositorio
     Task<bool> ExisteGestorAsync(CancellationToken cancelamento);
 
     /// <summary>
+    /// Informa se o e-mail já está em uso.
+    /// </summary>
+    /// <param name="email">E-mail normalizado.</param>
+    /// <param name="cancelamento">Token de cancelamento.</param>
+    /// <returns><c>true</c> se existe um usuário com esse e-mail.</returns>
+    Task<bool> ExisteEmailAsync(Email email, CancellationToken cancelamento);
+
+    /// <summary>
+    /// Informa se o CPF já está em uso, comparando o hash.
+    /// </summary>
+    /// <param name="cpfHash">HMAC-SHA256 do CPF.</param>
+    /// <param name="cancelamento">Token de cancelamento.</param>
+    /// <returns><c>true</c> se existe um usuário com esse CPF.</returns>
+    Task<bool> ExisteCpfAsync(byte[] cpfHash, CancellationToken cancelamento);
+
+    /// <summary>
     /// Adiciona um usuário novo e salva.
     /// </summary>
     /// <param name="usuario">Usuário a gravar.</param>
