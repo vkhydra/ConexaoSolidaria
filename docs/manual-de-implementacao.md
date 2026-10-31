@@ -43,9 +43,11 @@ O primeiro `dotnet restore` (ou `build`) instala os hooks de git do Husky.Net au
    | Variável | Conteúdo | Como gerar |
    |---|---|---|
    | `POSTGRES_PASSWORD`, `MONGO_PASSWORD`, `RABBITMQ_PASSWORD`, `REDIS_PASSWORD`, `ELASTIC_PASSWORD` | Senhas dos serviços de infraestrutura | Comando 1 abaixo |
-   | `Cpf__ChaveCifra`, `Cpf__ChaveHash` | Chaves de 256 bits (Base64) para cifra e hash do CPF | Comando 1 abaixo (uma execução para cada) |
+   | `Cpf__ChaveCifra`, `Cpf__ChaveHash`, `Autenticacao__ChaveHashEmail` | Chaves de 256 bits (Base64) para cifra e hash do CPF e hash do e-mail nas tentativas de login | Comando 1 abaixo (uma execução para cada) |
    | `Jwt__ChavePrivadaPem`, `Jwt__ChavePublicaPem` | Par de chaves RSA 2048 do JWT | Comando 2 abaixo |
    | `Seed__GestorEmail`, `Seed__GestorSenha` | Primeiro usuário `GestorONG` | Escolher; a senha segue a política do RF03 |
+   | `RabbitMqConnection` | URI do RabbitMQ usada pelo gatilho da função (`amqp://usuario:senha@rabbitmq:5672`) | Montar com o usuário e a senha do RabbitMQ |
+   | `Lgpd__VersaoPolitica` | Versão da política de privacidade exibida no cadastro | Valor atual: `2026-10` |
 
    Comando 1 — valor aleatório de 256 bits:
    ```powershell
@@ -59,6 +61,21 @@ O primeiro `dotnet restore` (ou `build`) instala os hooks de git do Husky.Net au
    ```
    No `.env`, as chaves PEM vão numa linha só, com `\n` no lugar das quebras de linha.
 3. Conferir que nada sensível ficou fora do `.gitignore`: `git status` não deve listar `deploy/.env` nem `*.pem`.
+
+## Depuração no VS Code (opcional)
+
+Para depurar os serviços fora de containers, com os bancos no Docker:
+
+1. Copiar `deploy/.env` para `deploy/.env.dev` (ignorado pelo git) e trocar os nomes dos hosts pelos endereços locais (`postgres` → `localhost`, `rabbitmq` → `localhost`, e assim por diante).
+2. No VS Code, rodar a tarefa **infra local (compose)** (`Ctrl+Shift+P` → *Tasks: Run Task*).
+3. Na aba *Run and Debug*, escolher **Backend completo** ou **Sistema completo** (`.vscode/launch.json`).
+
+| Serviço | Endereço na depuração |
+|---|---|
+| Identity.Api | http://localhost:8081/swagger |
+| Campanhas.Api | http://localhost:8082/swagger |
+| Arrecadacao.Worker | http://localhost:9090/metrics |
+| Web | http://localhost:8080 |
 
 ## Modo A — docker-compose
 
