@@ -52,7 +52,7 @@ Ajustar as datas ao prazo de entrega da FIAP. A sprint só termina com o increme
 
 **Campos do Project:** `Sprint` (iteração), `Estimativa` (pontos), `Etapa` (0–19), `Tipo` (história, tarefa técnica, bug, spike).
 
-**Labels:** `rf01`…`rf08`, `infra`, `observabilidade`, `seguranca`, `lgpd`, `docs`, `bonus`, `bug`.
+**Labels:** `feature-001`…`feature-008`, `rf01`…`rf08`, `infra`, `observabilidade`, `seguranca`, `lgpd`, `docs`, `bonus`, `bug`.
 
 **Rastreabilidade:** cada PR cita a issue (`Refs #12` ou `Closes #12`) e cada commit relevante cita a issue no rodapé.
 
@@ -61,7 +61,9 @@ Ajustar as datas ao prazo de entrega da FIAP. A sprint só termina com o increme
 Um item entra em "Pronto" quando:
 
 - [ ] Está escrito como história (`Como <persona>, quero <ação>, para <benefício>`) ou tarefa técnica com objetivo claro.
-- [ ] Tem critérios de aceitação testáveis em Gherkin.
+- [ ] A feature tem `spec.md` em `specs/features/NNN-nome/` sem `[PRECISA ESCLARECER]` (`/specify` e `/clarify`).
+- [ ] Tem critérios de aceitação testáveis em Gherkin na spec.
+- [ ] `plan.md` e `tasks.md` existem e o `/analyze` não aponta achados críticos.
 - [ ] Atende ao INVEST (independente, negociável, valiosa, estimável, pequena, testável).
 - [ ] Está estimado e cabe em até 3 dias de trabalho.
 - [ ] Dependências identificadas.
@@ -79,6 +81,7 @@ Um item só vai para "Concluído" quando:
 - [ ] Revisão de pelo menos um integrante no PR.
 - [ ] Logs, métricas e health checks do que foi criado.
 - [ ] Nenhum dado pessoal em logs ou eventos.
+- [ ] Todas as tarefas do `tasks.md` marcadas `[X]` e `Status` da spec como `Implementada`.
 - [ ] Documentação atualizada (README, spec, ADR quando houver decisão).
 - [ ] Demonstrado rodando localmente.
 
@@ -89,22 +92,22 @@ Um item só vai para "Concluído" quando:
 
 ## Histórias de usuário (backlog inicial)
 
-| ID | História | RF | Pontos (sugestão) |
-|---|---|---|---|
-| H01 | Como visitante, quero me cadastrar como doador, para poder doar | RF03 | 5 |
-| H02 | Como doador ou gestor, quero entrar com e-mail e senha, para acessar minhas funções | RF01 | 5 |
-| H03 | Como gestor, quero criar campanhas com meta e período, para arrecadar | RF02 | 5 |
-| H04 | Como gestor, quero editar, concluir e cancelar campanhas, para mantê-las corretas | RF02 | 3 |
-| H05 | Como visitante, quero ver campanhas ativas e o total arrecadado, para confiar na ONG | RF04 | 3 |
-| H06 | Como doador, quero doar para uma campanha ativa, para ajudar a ONG | RF05 | 8 |
-| H07 | Como gestor, quero que o total seja atualizado automaticamente após cada doação, para acompanhar a meta | RF05 | 8 |
-| H08 | Como visitante, quero buscar campanhas mesmo com erro de digitação, para achá-las rápido | RF06 | 5 |
-| H09 | Como doador, quero receber um recibo da doação, para ter um comprovante | RF07 | 5 |
-| H10 | Como doador, quero ver e apagar meus dados, para exercer meus direitos da LGPD | RF08 | 5 |
-| T01 | Containerizar e orquestrar no Kubernetes | — | 8 |
-| T02 | Dashboard Grafana com métricas reais | — | 5 |
-| T03 | Pipeline de CI com imagem Docker | — | 5 |
-| T04 | API Gateway Kong | — | 5 |
+| ID | História | RF | Feature | Pontos (sugestão) |
+|---|---|---|---|---|
+| H01 | Como visitante, quero me cadastrar como doador, para poder doar | RF03 | [003](../specs/features/003-cadastro-doador/spec.md) | 5 |
+| H02 | Como doador ou gestor, quero entrar com e-mail e senha, para acessar minhas funções | RF01 | [001](../specs/features/001-autenticacao/spec.md) | 5 |
+| H03 | Como gestor, quero criar campanhas com meta e período, para arrecadar | RF02 | [002](../specs/features/002-gestao-campanhas/spec.md) | 5 |
+| H04 | Como gestor, quero editar, concluir e cancelar campanhas, para mantê-las corretas | RF02 | [002](../specs/features/002-gestao-campanhas/spec.md) | 3 |
+| H05 | Como visitante, quero ver campanhas ativas e o total arrecadado, para confiar na ONG | RF04 | [004](../specs/features/004-painel-transparencia/spec.md) | 3 |
+| H06 | Como doador, quero doar para uma campanha ativa, para ajudar a ONG | RF05 | [005](../specs/features/005-doacao/spec.md) | 8 |
+| H07 | Como gestor, quero que o total seja atualizado automaticamente após cada doação, para acompanhar a meta | RF05 | [005](../specs/features/005-doacao/spec.md) | 8 |
+| H08 | Como visitante, quero buscar campanhas mesmo com erro de digitação, para achá-las rápido | RF06 | [006](../specs/features/006-busca-campanhas/spec.md) | 5 |
+| H09 | Como doador, quero receber um recibo da doação, para ter um comprovante | RF07 | [007](../specs/features/007-recibo-doacao/spec.md) | 5 |
+| H10 | Como doador, quero ver e apagar meus dados, para exercer meus direitos da LGPD | RF08 | [008](../specs/features/008-direitos-titular/spec.md) | 5 |
+| T01 | Containerizar e orquestrar no Kubernetes | — | Etapas 10–14 | 8 |
+| T02 | Dashboard Grafana com métricas reais | — | Etapas 10–14 | 5 |
+| T03 | Pipeline de CI com imagem Docker | — | Etapas 10–14 | 5 |
+| T04 | API Gateway Kong | — | Etapas 10–14 | 5 |
 
 ## Métricas do time
 
