@@ -2,7 +2,7 @@
 
 [← README](../../README.md)
 
-Atende ao requisito "Observabilidade (Zabbix e Grafana)" do enunciado e ao conteúdo da Fase 3. Referências: `wiki:disciplinas/monitoramento-acesso`, `wiki:disciplinas/monitoramento-acesso-avancado`, `wiki:conceitos/golden-metrics`, `wiki:conceitos/prometheus-net`, `wiki:conceitos/promql`.
+Aplica o conteúdo de monitoramento da Fase 3 (Prometheus, Grafana, Zabbix e tracing). Referências: `wiki:disciplinas/monitoramento-acesso`, `wiki:disciplinas/monitoramento-acesso-avancado`, `wiki:conceitos/golden-metrics`, `wiki:conceitos/prometheus-net`, `wiki:conceitos/promql`.
 
 ## Visão geral
 
@@ -130,7 +130,7 @@ Resultado esperado no vídeo: um único trace com spans do Kong/API → publica�
 
 ## Zabbix (opcional)
 
-O título do enunciado cita Zabbix; o critério verificável é o Grafana. Opcionalmente:
+O Zabbix é conteúdo da Fase 3; o projeto usa o Grafana como painel principal. Opcionalmente:
 
 1. `docker compose --profile zabbix up -d` sobe Zabbix server, web e banco.
 2. Host "Conexão Solidária" com **cenário web** para `/health/ready` de cada serviço (via `minikube tunnel` ou port-forward).
