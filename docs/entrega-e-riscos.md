@@ -30,6 +30,7 @@
 
 - [ ] Todos os commits no padrão da [git e commits](git-e-commits.md) e compilando (`git rebase --exec` na `main` inteira sem falha).
 - [ ] CI verde na `main`.
+- [ ] As 8 features com `Status: Implementada` e todas as tarefas dos `tasks.md` marcadas.
 - [ ] Nenhum segredo no histórico (gitleaks).
 - [ ] Nenhuma vulnerabilidade crítica corrigível (Trivy).
 - [ ] Cobertura ≥ 90% de linhas e ramos, no total e em cada projeto de `src/` (relatório do último CI da `main`).
@@ -55,7 +56,7 @@ Links:
   - Vídeo: <link>
   - Diagrama de arquitetura: <link para docs/arquitetura/arquitetura.png>
   - Justificativa dos bancos (PDF): <link>
-  - Especificação: <link para docs/spec/>
+  - Especificação: <link para specs/> (constituição, produto e features)
   - Event Storming (Miro): <link>
 ```
 
