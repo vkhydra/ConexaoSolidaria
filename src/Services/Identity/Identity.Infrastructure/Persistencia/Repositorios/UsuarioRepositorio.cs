@@ -2,6 +2,7 @@ using Identity.Application.Abstracoes;
 using Identity.Domain.Usuarios;
 using Identity.Infrastructure.Persistencia.Configuracoes;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 
 namespace Identity.Infrastructure.Persistencia.Repositorios;
 
@@ -49,6 +50,7 @@ public sealed class UsuarioRepositorio(IdentityDbContext contexto, ICifradorCpf 
     }
 
     /// <inheritdoc/>
+    /// <exception cref="UnicidadeVioladaException">Outro usuário gravou o mesmo e-mail ou CPF no mesmo instante.</exception>
     public async Task AdicionarAsync(Usuario usuario, CancellationToken cancelamento)
     {
         ArgumentNullException.ThrowIfNull(usuario);
@@ -60,6 +62,19 @@ public sealed class UsuarioRepositorio(IdentityDbContext contexto, ICifradorCpf 
             entrada.Property<byte[]?>(UsuarioConfiguracao.NomeCpfHash).CurrentValue = cifrador.CalcularHash(usuario.Cpf);
         }
 
-        await contexto.SaveChangesAsync(cancelamento);
+        try
+        {
+            await contexto.SaveChangesAsync(cancelamento);
+        }
+        catch (DbUpdateException excecao) when (excecao.InnerException is PostgresException { SqlState: PostgresErrorCodes.UniqueViolation } pg)
+        {
+            entrada.State = EntityState.Detached;
+            throw pg.ConstraintName switch
+            {
+                "ux_usuarios_email" => new UnicidadeVioladaException(CampoUnico.Email, excecao),
+                "ux_usuarios_cpf_hash" => new UnicidadeVioladaException(CampoUnico.Cpf, excecao),
+                _ => excecao,
+            };
+        }
     }
 }

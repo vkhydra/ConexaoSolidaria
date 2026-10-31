@@ -1,9 +1,9 @@
+using Identity.Application.Abstracoes;
 using Identity.Domain.Autenticacao;
 using Identity.Domain.Usuarios;
 using Identity.Infrastructure.Persistencia.Repositorios;
 using Identity.IntegrationTests.Suporte;
 using Microsoft.EntityFrameworkCore;
-using Npgsql;
 
 namespace Identity.IntegrationTests.Persistencia;
 
@@ -147,12 +147,12 @@ public sealed class RepositoriosTests(BancoIdentityFixture banco) : IClassFixtur
 
         await using var b = banco.CriarContexto();
 
-        var excecao = await Should.ThrowAsync<DbUpdateException>(() => new UsuarioRepositorio(b, banco.Cifrador).AdicionarAsync(Novo(), CancellationToken.None));
-        ((PostgresException)excecao.InnerException!).ConstraintName.ShouldBe("ux_usuarios_cpf_hash");
+        var excecao = await Should.ThrowAsync<UnicidadeVioladaException>(() => new UsuarioRepositorio(b, banco.Cifrador).AdicionarAsync(Novo(), CancellationToken.None));
+        excecao.Campo.ShouldBe(CampoUnico.Cpf);
     }
 
     /// <summary>
-    /// Dado um e-mail já cadastrado, quando outro usuário o usa, então o índice único do banco recusa.
+    /// Dado um e-mail já cadastrado, quando outro usuário o usa, então o índice único do banco recusa e o repositório sinaliza conflito de e-mail.
     /// </summary>
     /// <returns>Tarefa do teste.</returns>
     [Fact]
@@ -167,8 +167,8 @@ public sealed class RepositoriosTests(BancoIdentityFixture banco) : IClassFixtur
 
         await using var b = banco.CriarContexto();
 
-        var excecao = await Should.ThrowAsync<DbUpdateException>(() => new UsuarioRepositorio(b, banco.Cifrador).AdicionarAsync(segundo, CancellationToken.None));
-        ((PostgresException)excecao.InnerException!).SqlState.ShouldBe(PostgresErrorCodes.UniqueViolation);
+        var excecao = await Should.ThrowAsync<UnicidadeVioladaException>(() => new UsuarioRepositorio(b, banco.Cifrador).AdicionarAsync(segundo, CancellationToken.None));
+        excecao.Campo.ShouldBe(CampoUnico.Email);
     }
 
     /// <summary>

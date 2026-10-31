@@ -52,5 +52,6 @@ public interface IUsuarioRepositorio
     /// <param name="usuario">Usuário a gravar.</param>
     /// <param name="cancelamento">Token de cancelamento.</param>
     /// <returns>Tarefa que termina quando o usuário foi gravado.</returns>
+    /// <exception cref="UnicidadeVioladaException">Outro usuário gravou o mesmo e-mail ou CPF no mesmo instante.</exception>
     Task AdicionarAsync(Usuario usuario, CancellationToken cancelamento);
 }

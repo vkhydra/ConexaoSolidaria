@@ -78,7 +78,17 @@ public sealed partial class CadastrarDoador(
             return Result.Falha<CadastrarDoadorResponse>(doador.Erro);
         }
 
-        await usuarios.AdicionarAsync(doador.Valor, cancelamento);
+        try
+        {
+            await usuarios.AdicionarAsync(doador.Valor, cancelamento);
+        }
+        catch (UnicidadeVioladaException excecao)
+        {
+            return Result.Falha<CadastrarDoadorResponse>(excecao.Campo == CampoUnico.Email
+                ? new Erro(CodigoEmailEmUso, "Este e-mail já está cadastrado.")
+                : new Erro(CodigoCpfEmUso, "Este CPF já está cadastrado."));
+        }
+
         LogCadastrado(log, doador.Valor.Id);
 
         var cadastrado = doador.Valor;

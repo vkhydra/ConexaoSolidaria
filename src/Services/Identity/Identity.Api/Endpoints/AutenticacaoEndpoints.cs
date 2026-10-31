@@ -1,4 +1,3 @@
-using ConexaoSolidaria.ServiceDefaults.Erros;
 using Identity.Application.Autenticacao;
 using Microsoft.AspNetCore.Http.HttpResults;
 
@@ -46,18 +45,13 @@ public static class AutenticacaoEndpoints
         var erro = resultado.Erro;
         if (erro.Codigo == Autenticar.CodigoValidacao)
         {
-            return TypedResults.ValidationProblem(
-                erro.Campos!.ToDictionary(c => c.Key, c => c.Value),
-                title: CatalogoDeErros.TituloPara(StatusCodes.Status400BadRequest));
+            return ProblemasHttp.Validacao(erro);
         }
 
         var status = erro.Codigo == Autenticar.CodigoBloqueado
             ? StatusCodes.Status429TooManyRequests
             : StatusCodes.Status401Unauthorized;
 
-        return TypedResults.Problem(
-            title: erro.Mensagem,
-            statusCode: status,
-            extensions: new Dictionary<string, object?> { ["code"] = erro.Codigo });
+        return ProblemasHttp.Regra(erro, status);
     }
 }

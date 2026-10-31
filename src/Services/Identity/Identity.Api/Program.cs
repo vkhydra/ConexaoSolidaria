@@ -6,6 +6,7 @@ using ConexaoSolidaria.ServiceDefaults.Telemetria;
 using FluentValidation;
 using Identity.Api.Endpoints;
 using Identity.Application.Autenticacao;
+using Identity.Application.Doadores;
 using Identity.Infrastructure;
 
 const string Servico = "identity-api";
@@ -22,6 +23,9 @@ builder.Services.AddSingleton(TimeProvider.System);
 builder.Services.AddIdentityInfraestrutura(builder.Configuration);
 builder.Services.AddSingleton<IValidator<AutenticarRequest>, AutenticarRequestValidator>();
 builder.Services.AddScoped<Autenticar>();
+builder.Services.AddSingleton<IValidator<CadastrarDoadorRequest>, CadastrarDoadorRequestValidator>();
+builder.Services.AddSingleton(new CadastrarDoadorOpcoes(builder.Configuration["Lgpd:VersaoPolitica"] ?? "2026-10"));
+builder.Services.AddScoped<CadastrarDoador>();
 
 var app = builder.Build();
 
@@ -32,6 +36,7 @@ app.UseAuthorization();
 app.MapearSaude();
 app.MapearMetricas();
 app.MapearAutenticacao();
+app.MapearDoadores();
 
 app.Run();
 

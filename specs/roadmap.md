@@ -254,7 +254,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Commit: `🔒️ feat(identity): adiciona cifragem e hash do cpf`
 - [X] **R071** · `003/T007` [H01] Configuração EF das colunas de cadastro e migration — `Identity.Infrastructure/Persistencia/*`
   Commit: `🗃️ feat(identity): adiciona colunas de cadastro de doador`
-- [ ] **R072** · `003/T008` [H01] Endpoint `POST /doadores` (`AllowAnonymous`), tratamento de `23505` como 409 — `Identity.Api/Endpoints/DoadoresEndpoints.cs`
+- [X] **R072** · `003/T008` [H01] Endpoint `POST /doadores` (`AllowAnonymous`), tratamento de `23505` como 409 — `Identity.Api/Endpoints/DoadoresEndpoints.cs`
   Commit: `✨ feat(identity): adiciona endpoint de cadastro de doador`
   Depende de: R069 (`003/T005`), R070 (`003/T006`), R071 (`003/T007`)
 - [ ] **R073** · `003/T009` [H01] Métrica `doadores_cadastrados_total` — `Identity.Application/Doadores/CadastrarDoador.cs`

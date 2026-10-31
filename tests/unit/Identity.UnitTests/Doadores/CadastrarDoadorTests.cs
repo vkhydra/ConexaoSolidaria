@@ -125,6 +125,26 @@ public sealed class CadastrarDoadorTests
     }
 
     /// <summary>
+    /// Dados dois cadastros simultâneos, quando o banco recusa o segundo por unicidade, então o conflito vira erro de negócio.
+    /// </summary>
+    /// <param name="campo">Campo em disputa.</param>
+    /// <param name="codigo">Código de erro esperado.</param>
+    /// <returns>Tarefa do teste.</returns>
+    [Theory]
+    [InlineData(CampoUnico.Email, CadastrarDoador.CodigoEmailEmUso)]
+    [InlineData(CampoUnico.Cpf, CadastrarDoador.CodigoCpfEmUso)]
+    public async Task ExecutarAsync_CorridaNoBanco_DevolveConflito(CampoUnico campo, string codigo)
+    {
+        _usuarios.AdicionarAsync(Arg.Any<Usuario>(), Arg.Any<CancellationToken>())
+            .Returns(Task.FromException(new UnicidadeVioladaException(campo, new InvalidOperationException())));
+
+        var resultado = await _cadastrar.ExecutarAsync(Pedido(), CancellationToken.None);
+
+        resultado.Erro.Codigo.ShouldBe(codigo);
+        _log.Mensagens.ShouldBeEmpty();
+    }
+
+    /// <summary>
     /// Dados inválidos (CPF, senha, e-mail, nome ou falta de aceite), quando enviados, então devolve validacao com o campo certo e sem repetir o valor.
     /// </summary>
     /// <param name="campo">Campo esperado no erro.</param>

@@ -29,7 +29,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 ## Fase 4 — API
 
-- [ ] T008 [H01] Endpoint `POST /doadores` (`AllowAnonymous`), tratamento de `23505` como 409 — `Identity.Api/Endpoints/DoadoresEndpoints.cs`
+- [X] T008 [H01] Endpoint `POST /doadores` (`AllowAnonymous`), tratamento de `23505` como 409 — `Identity.Api/Endpoints/DoadoresEndpoints.cs`
   Commit: `✨ feat(identity): adiciona endpoint de cadastro de doador`
 - [ ] T009 [P] [H01] Métrica `doadores_cadastrados_total` — `Identity.Application/Doadores/CadastrarDoador.cs`
   Commit: `📈 feat(identity): adiciona métrica de doadores cadastrados`
