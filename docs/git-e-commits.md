@@ -18,7 +18,7 @@ Regras obrigatórias: **todo arquivo criado tem commit semântico com gitmoji** 
 |---|---|
 | Gitmoji | Emoji Unicode (não `:codigo:`), conforme a tabela 17.2 |
 | Tipo | `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert` |
-| Escopo | Opcional, minúsculo: `identity`, `campanhas`, `worker`, `notificacoes`, `web`, `contracts`, `defaults`, `k8s`, `kong`, `obs`, `ci`, `specs`, `adr`, `runbooks`, `ddd`, `agil`, `video`, `tests`, `scripts`, `claude`, `vscode`, `mcp` |
+| Escopo | Opcional, minúsculo: `identity`, `campanhas`, `worker`, `notificacoes`, `web`, `contracts`, `defaults`, `k8s`, `kong`, `obs`, `ci`, `specs`, `adr`, `runbooks`, `ddd`, `agil`, `video`, `tests`, `bdd`, `e2e`, `load`, `lgpd`, `azure`, `scripts`, `claude`, `vscode`, `mcp` |
 | `!` | Mudança incompatível (contrato de API ou evento) |
 | Descrição | Imperativo, em português, minúscula, sem ponto final, até 72 caracteres |
 | Rodapé | `Refs #12`, `Closes #12`, `BREAKING CHANGE: ...`. **Sem** linha de coautoria (`Co-Authored-By`) |
