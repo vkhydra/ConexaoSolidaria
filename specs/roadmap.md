@@ -149,7 +149,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Commit: `✅ test: cria projetos de testes unitários com xunit`
 - [X] **R029** · Projetos de teste de integração, contrato e e2e (vazios, com os pacotes), já na solução
   Commit: `✅ test: cria projetos de testes de integração, contrato e e2e`
-- [ ] **R030** · `009/T002` [H11] Teste de arquitetura das camadas (passa com as dependências permitidas e acusa dependência proibida) — `tests/unit/*/ArquiteturaTests.cs`
+- [X] **R030** · `009/T002` [H11] Teste de arquitetura das camadas (passa com as dependências permitidas e acusa dependência proibida) — `tests/unit/*/ArquiteturaTests.cs`
   Commit: `✅ test: adiciona teste de arquitetura das camadas`
   Depende de: R028 (`009/T001`)
 - [ ] **R031** · `ServiceDefaults`: logs estruturados com Serilog, com testes de sucesso e de erro

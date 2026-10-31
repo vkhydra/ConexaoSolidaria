@@ -8,7 +8,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md). Est
 
 - [X] T001 [H11] Projetos `tests/unit/*.UnitTests` com xUnit v3, Shouldly e NSubstitute, incluídos na `.slnx` — `tests/unit/*/*.csproj`
   Commit: `✅ test: cria projetos de testes unitários com xunit`
-- [ ] T002 [H11] Teste de arquitetura das camadas (passa com as dependências permitidas e acusa dependência proibida) — `tests/unit/*/ArquiteturaTests.cs`
+- [X] T002 [H11] Teste de arquitetura das camadas (passa com as dependências permitidas e acusa dependência proibida) — `tests/unit/*/ArquiteturaTests.cs`
   Commit: `✅ test: adiciona teste de arquitetura das camadas`
 - [ ] T003 [H12] `coverlet.runsettings` com filtros e exclusões — `coverlet.runsettings`
   Commit: `🔧 chore: adiciona configuração de cobertura com coverlet`
