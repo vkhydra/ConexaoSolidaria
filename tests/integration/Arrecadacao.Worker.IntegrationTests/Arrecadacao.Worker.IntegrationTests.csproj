@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <PackageReference Include="Testcontainers.MongoDb" />
     <PackageReference Include="Testcontainers.PostgreSql" />
     <PackageReference Include="SSH.NET" />
   </ItemGroup>

@@ -68,7 +68,7 @@ Banco `arrecadacao`, coleção `lancamentos_doacao`:
 |---|---|
 | Chave | `_id = doacaoId` (idempotência natural) |
 | Índice | `{ campanhaId: 1, processadaEm: -1 }` |
-| Escrita | `ReplaceOne` com `IsUpsert = true` |
+| Escrita | `UpdateOne` com `$setOnInsert` e `IsUpsert = true`: a reentrega recria o lançamento que faltava, mas nunca altera um que já existe |
 | Valores | `Decimal128` (nunca `double`) |
 
 ## Ciclo de vida da doação

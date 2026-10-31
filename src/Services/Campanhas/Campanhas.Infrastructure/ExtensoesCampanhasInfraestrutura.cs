@@ -1,6 +1,8 @@
 using Campanhas.Application.Abstracoes;
+using Campanhas.Application.Arrecadacao;
 using Campanhas.Application.Doacoes;
 using Campanhas.Application.Transparencia;
+using Campanhas.Infrastructure.Arrecadacao;
 using Campanhas.Infrastructure.Cache;
 using Campanhas.Infrastructure.Idempotencia;
 using Campanhas.Infrastructure.Leitura;
@@ -9,6 +11,7 @@ using Campanhas.Infrastructure.Persistencia;
 using Campanhas.Infrastructure.Persistencia.Repositorios;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Driver;
 using Npgsql;
 
 namespace Campanhas.Infrastructure;
@@ -37,6 +40,28 @@ public static class ExtensoesCampanhasInfraestrutura
         servicos.AddDbContext<CampanhasDbContext>(opcoes => CampanhasDbContext.Configurar(opcoes, conexao));
         servicos.AddSingleton(NpgsqlDataSource.Create(conexao));
         servicos.AddSingleton<IRelogio, RelogioSaoPaulo>();
+        return servicos;
+    }
+
+    /// <summary>
+    /// Registra o registro de arrecadação (PostgreSQL) e o livro de doações (MongoDB, <c>ConnectionStrings:Mongo</c>) do Arrecadacao.Worker.
+    /// </summary>
+    /// <param name="servicos">Coleção de serviços.</param>
+    /// <param name="configuracao">Configuração da aplicação.</param>
+    /// <returns>A própria coleção, para encadeamento.</returns>
+    /// <exception cref="InvalidOperationException">A conexão do MongoDB não foi configurada.</exception>
+    public static IServiceCollection AddCampanhasArrecadacao(this IServiceCollection servicos, IConfiguration configuracao)
+    {
+        ArgumentNullException.ThrowIfNull(servicos);
+        ArgumentNullException.ThrowIfNull(configuracao);
+
+        var mongo = configuracao.GetConnectionString("Mongo")
+            ?? throw new InvalidOperationException("ConnectionStrings:Mongo não foi configurada.");
+
+        servicos.AddSingleton<IMongoClient>(new MongoClient(mongo));
+        servicos.AddSingleton(provedor => provedor.GetRequiredService<IMongoClient>().GetDatabase(LivroDoacoesMongo.NomeBanco));
+        servicos.AddSingleton<ILivroDoacoes, LivroDoacoesMongo>();
+        servicos.AddScoped<IRegistroArrecadacao, RegistroArrecadacaoSql>();
         return servicos;
     }
 

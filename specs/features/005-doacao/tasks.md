@@ -28,7 +28,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
   Commit: `🎉 chore(worker): configura worker com masstransit e health checks`
 - [X] T008 [H07] `ProcessarDoacao` com `RegistroArrecadacaoSql` (transação: idempotência + `UPDATE` + Outbox), com testes — `Campanhas.Application/Arrecadacao/*`, `Campanhas.Infrastructure/Arrecadacao/RegistroArrecadacaoSql.cs`
   Commit: `✨ feat(worker): soma doação ao total com idempotência`
-- [ ] T009 [H07] `LivroDoacoesMongo` com upsert e índice, executado também na reentrega — `Campanhas.Infrastructure/Arrecadacao/LivroDoacoesMongo.cs`
+- [X] T009 [H07] `LivroDoacoesMongo` com upsert e índice, executado também na reentrega — `Campanhas.Infrastructure/Arrecadacao/LivroDoacoesMongo.cs`
   Commit: `✨ feat(worker): adiciona livro de doações no mongodb`
 - [ ] T010 [H07] Invalidação do cache do painel após processar — `Campanhas.Application/Arrecadacao/ProcessarDoacao.cs`
   Commit: `⚡️ feat(worker): invalida cache do painel após processar doação`

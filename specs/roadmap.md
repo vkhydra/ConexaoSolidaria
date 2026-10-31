@@ -391,7 +391,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R117** · `005/T008` [H07] `ProcessarDoacao` com `RegistroArrecadacaoSql` (transação: idempotência + `UPDATE` + Outbox), com testes — `Campanhas.Application/Arrecadacao/*`, `Campanhas.Infrastructure/Arrecadacao/RegistroArrecadacaoSql.cs`
   Commit: `✨ feat(worker): soma doação ao total com idempotência`
   Depende de: R111 (`005/T002`), R113 (`005/T004`), R116 (`005/T007`)
-- [ ] **R118** · `005/T009` [H07] `LivroDoacoesMongo` com upsert e índice, executado também na reentrega — `Campanhas.Infrastructure/Arrecadacao/LivroDoacoesMongo.cs`
+- [X] **R118** · `005/T009` [H07] `LivroDoacoesMongo` com upsert e índice, executado também na reentrega — `Campanhas.Infrastructure/Arrecadacao/LivroDoacoesMongo.cs`
   Commit: `✨ feat(worker): adiciona livro de doações no mongodb`
   Depende de: R117 (`005/T008`)
 - [ ] **R119** · `005/T010` [H07] Invalidação do cache do painel após processar — `Campanhas.Application/Arrecadacao/ProcessarDoacao.cs`

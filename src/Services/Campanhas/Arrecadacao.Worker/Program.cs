@@ -1,6 +1,5 @@
 using Campanhas.Application.Arrecadacao;
 using Campanhas.Infrastructure;
-using Campanhas.Infrastructure.Arrecadacao;
 using Campanhas.Infrastructure.Mensageria;
 using ConexaoSolidaria.ServiceDefaults.Logs;
 using ConexaoSolidaria.ServiceDefaults.Saude;
@@ -22,7 +21,7 @@ builder.AddSaude();
 
 builder.Services.AddSingleton(TimeProvider.System);
 builder.Services.AddCampanhasPersistencia(builder.Configuration);
-builder.Services.AddScoped<IRegistroArrecadacao, RegistroArrecadacaoSql>();
+builder.Services.AddCampanhasArrecadacao(builder.Configuration);
 builder.Services.AddScoped<ProcessarDoacao>();
 builder.Services.AddCampanhasMensageria(builder.Configuration);
 

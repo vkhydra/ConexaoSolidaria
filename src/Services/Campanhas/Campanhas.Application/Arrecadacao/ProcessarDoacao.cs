@@ -20,9 +20,10 @@ public sealed record DoacaoProcessadaResultado(bool JaProcessada, DateTimeOffset
 /// chegue de novo. As falhas de negócio (valor inválido, campanha inexistente) são permanentes e não adiantam retentativa.
 /// </summary>
 /// <param name="registro">Porta que soma a doação ao total.</param>
+/// <param name="livro">Livro de doações, gravado também na reentrega para completar um processamento interrompido.</param>
 /// <param name="relogio">Relógio no fuso de São Paulo.</param>
 /// <param name="log">Logger do caso de uso.</param>
-public sealed partial class ProcessarDoacao(IRegistroArrecadacao registro, IRelogio relogio, ILogger<ProcessarDoacao> log)
+public sealed partial class ProcessarDoacao(IRegistroArrecadacao registro, ILivroDoacoes livro, IRelogio relogio, ILogger<ProcessarDoacao> log)
 {
     /// <summary>
     /// Executa o processamento.
@@ -53,6 +54,12 @@ public sealed partial class ProcessarDoacao(IRegistroArrecadacao registro, IRelo
                 LogProcessada(log, doacao.DoacaoId, doacao.CampanhaId);
                 break;
         }
+
+        // O livro fica fora da transação do PostgreSQL (não há transação entre os dois bancos). Por isso é gravado sempre,
+        // inclusive na reentrega: se a primeira tentativa caiu depois do COMMIT, a retentativa completa o livro.
+        await livro.RegistrarAsync(
+            new LancamentoDoacao(doacao.DoacaoId, doacao.CampanhaId, doacao.DoadorId, doacao.Valor, registrada.TotalArrecadado!.Value, doacao.OcorridoEm, registrada.ProcessadaEm!.Value),
+            cancelamento);
 
         return Result.Sucesso(new DoacaoProcessadaResultado(
             registrada.Situacao == SituacaoRegistro.JaProcessada,

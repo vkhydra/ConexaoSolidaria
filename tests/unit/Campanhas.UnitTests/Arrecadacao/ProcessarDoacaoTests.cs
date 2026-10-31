@@ -24,6 +24,11 @@ public sealed class ProcessarDoacaoTests
     private readonly IRegistroArrecadacao _registro = Substitute.For<IRegistroArrecadacao>();
 
     /// <summary>
+    /// Livro de doações falso.
+    /// </summary>
+    private readonly ILivroDoacoes _livro = Substitute.For<ILivroDoacoes>();
+
+    /// <summary>
     /// Relógio falso fixo em <see cref="_agora"/>.
     /// </summary>
     private readonly IRelogio _relogio = Substitute.For<IRelogio>();
@@ -52,6 +57,9 @@ public sealed class ProcessarDoacaoTests
         resultado.Valor.JaProcessada.ShouldBeFalse();
         resultado.Valor.TotalArrecadado.ShouldBe(1150m);
         resultado.Valor.ProcessadaEm.ShouldBe(_agora);
+        await _livro.Received(1).RegistrarAsync(
+            new LancamentoDoacao(doacao.DoacaoId, doacao.CampanhaId, doacao.DoadorId, 150m, 1150m, doacao.OcorridoEm, _agora),
+            Arg.Any<CancellationToken>());
     }
 
     /// <summary>
@@ -70,6 +78,24 @@ public sealed class ProcessarDoacaoTests
         resultado.EhSucesso.ShouldBeTrue();
         resultado.Valor.JaProcessada.ShouldBeTrue();
         resultado.Valor.ProcessadaEm.ShouldBe(primeira);
+        await _livro.Received(1).RegistrarAsync(
+            Arg.Is<LancamentoDoacao>(l => l.DoacaoId == doacao.DoacaoId && l.ProcessadaEm == primeira && l.TotalAposLancamento == 1150m),
+            Arg.Any<CancellationToken>());
+    }
+
+    /// <summary>
+    /// Dado que o livro falha depois de o total ter sido somado, quando a doação é processada, então a exceção sobe para
+    /// a retentativa, que na reentrega completa o livro.
+    /// </summary>
+    /// <returns>Tarefa do teste.</returns>
+    [Fact]
+    public async Task Processar_LivroIndisponivel_PropagaAExcecao()
+    {
+        var doacao = NovaDoacao(150m);
+        _registro.RegistrarAsync(doacao, _agora, Arg.Any<CancellationToken>()).Returns(new ResultadoRegistro(SituacaoRegistro.Registrada, _agora, 150m));
+        _livro.RegistrarAsync(Arg.Any<LancamentoDoacao>(), Arg.Any<CancellationToken>()).Returns(Task.FromException(new TimeoutException()));
+
+        await Should.ThrowAsync<TimeoutException>(() => Criar().ExecutarAsync(doacao, CancellationToken.None));
     }
 
     /// <summary>
@@ -85,6 +111,7 @@ public sealed class ProcessarDoacaoTests
         var resultado = await Criar().ExecutarAsync(doacao, CancellationToken.None);
 
         resultado.Erro.Codigo.ShouldBe(ErrosDeCampanha.CodigoNaoEncontrada);
+        await _livro.DidNotReceive().RegistrarAsync(Arg.Any<LancamentoDoacao>(), Arg.Any<CancellationToken>());
     }
 
     /// <summary>
@@ -132,7 +159,7 @@ public sealed class ProcessarDoacaoTests
     /// <returns>O caso de uso.</returns>
     private ProcessarDoacao Criar()
     {
-        return new ProcessarDoacao(_registro, _relogio, NullLogger<ProcessarDoacao>.Instance);
+        return new ProcessarDoacao(_registro, _livro, _relogio, NullLogger<ProcessarDoacao>.Instance);
     }
 
     /// <summary>
