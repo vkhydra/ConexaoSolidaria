@@ -64,7 +64,7 @@ Depende de `testes-unitarios`. Mesmos passos de preparação, mais:
 | Labels OCI | `org.opencontainers.image.source`, `revision`, `version` |
 | Scan | Trivy na imagem carregada localmente (`severity: CRITICAL`, `ignore-unfixed: true`, `exit-code: 1`); SARIF enviado para a aba Security |
 | Push | Só se `github.event_name == 'push'` (na `main` ou tag); em PR a imagem é construída e escaneada, mas não publicada |
-| Registry | `ghcr.io/<owner>/conexao-solidaria/<servico>`; login com `GITHUB_TOKEN` |
+| Registry | `ghcr.io/kulessa/trabalho/<servico>` (nome do GHCR sempre em minúsculas); login com `GITHUB_TOKEN`; pacotes herdam a visibilidade do repositório |
 
 ### Modelo de `ci.yml` (trecho)
 ```yaml
@@ -198,6 +198,9 @@ Versionamento semântico: `MAJOR` para contrato incompatível (API ou evento), `
 
 ## Demonstração no vídeo
 
-1. Alterar um texto pequeno, commit no padrão (`📝 docs: ...`) e push na `main`.
-2. Mostrar o workflow rodando: jobs, testes, resumo de cobertura.
-3. Mostrar a imagem nova com a tag `sha-<commit>` no GHCR.
+Segue os blocos 4 e 5 do [roteiro do vídeo](../../docs/ROTEIRO-VIDEO.md). Como a `main` é protegida, a pipeline é disparada por um **pull request** com um commit pequeno ou pelo botão **Run workflow** (`workflow_dispatch`).
+
+1. Mostrar o `ci.yml` e os passos do job `testes-unitarios`.
+2. Acompanhar a execução até os passos ficarem verdes.
+3. Mostrar o resumo de cobertura na página da execução.
+4. Baixar o artefato `cobertura-testes-unitarios` e abrir o `index.html`.
