@@ -3,6 +3,7 @@ using Identity.Application.Abstracoes;
 using Identity.Domain.Usuarios;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Identity.IntegrationTests.Suporte;
@@ -49,6 +50,16 @@ public sealed class IdentityApiFixture : WebApplicationFactory<Program>, IAsyncL
         var gestor = Usuario.CriarGestor(Email.Criar(email).Valor, hash, DateTimeOffset.UtcNow).Valor;
         await escopo.ServiceProvider.GetRequiredService<IUsuarioRepositorio>().AdicionarAsync(gestor, CancellationToken.None);
         return email;
+    }
+
+    /// <summary>
+    /// Conta os gestores gravados no banco.
+    /// </summary>
+    /// <returns>Quantidade de usuários com o papel de gestor.</returns>
+    public async Task<int> ContarGestoresAsync()
+    {
+        await using var contexto = _banco.CriarContexto();
+        return await contexto.Usuarios.CountAsync(u => u.Role == Role.GestorONG);
     }
 
     /// <summary>

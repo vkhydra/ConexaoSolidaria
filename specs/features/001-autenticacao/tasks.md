@@ -47,7 +47,7 @@ Formato: `- [ ] Tnnn [P] [história] descrição — arquivo(s)`, seguido do com
 
 ## Fase 6 — Testes de integração e aceitação
 
-- [ ] T014 [H02] Testes de integração: 200, 401 (dois casos), 429, 401 sem token, 403 role errada — `tests/integration/Identity.IntegrationTests/AutenticacaoTests.cs`
+- [X] T014 [H02] Testes de integração: 200, 401 (dois casos), 429, 401 sem token, seed idempotente; o 403 por role já é testado no ServiceDefaults e entra aqui quando a Identity tiver a primeira rota protegida por papel — `tests/integration/Identity.IntegrationTests/AutenticacaoTests.cs`
   Commit: `✅ test(identity): adiciona testes de integração do login`
 - [ ] T015 [H02] Cenários Gherkin da spec automatizados — `tests/e2e/ConexaoSolidaria.Bdd/Features/001-autenticacao.feature` e steps
   Commit: `✅ test(bdd): adiciona cenários de autenticação`

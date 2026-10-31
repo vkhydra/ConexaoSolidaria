@@ -230,7 +230,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Commit: `🌱 chore(identity): adiciona seed do gestor por variáveis de ambiente`
 - [X] **R060** · `001/T013` [H02] Métrica `logins_total{resultado}` e logs sem e-mail — `Identity.Application/Autenticacao/Autenticar.cs`
   Commit: `📈 feat(identity): adiciona métrica de logins`
-- [ ] **R061** · `001/T014` [H02] Testes de integração: 200, 401 (dois casos), 429, 401 sem token, 403 role errada — `tests/integration/Identity.IntegrationTests/AutenticacaoTests.cs`
+- [X] **R061** · `001/T014` [H02] Testes de integração: 200, 401 (dois casos), 429, 401 sem token, seed idempotente; o 403 por role já é testado no ServiceDefaults e entra aqui quando a Identity tiver a primeira rota protegida por papel — `tests/integration/Identity.IntegrationTests/AutenticacaoTests.cs`
   Commit: `✅ test(identity): adiciona testes de integração do login`
   Depende de: R057 (`001/T010`), R058 (`001/T011`), R059 (`001/T012`)
 - [ ] **R062** · `001/T015` [H02] Cenários Gherkin da spec automatizados — `tests/e2e/ConexaoSolidaria.Bdd/Features/001-autenticacao.feature` e steps
