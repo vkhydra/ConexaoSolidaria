@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Npgsql;
 using Serilog.Core;
 using Serilog.Events;
 
@@ -77,6 +78,30 @@ public sealed class IdentityApiFixture : WebApplicationFactory<Program>, IAsyncL
     }
 
     /// <summary>
+    /// Lê as colunas pessoais de um usuário direto do banco, sem passar pelo modelo do EF.
+    /// </summary>
+    /// <param name="id">Identificador do usuário.</param>
+    /// <returns>Nome, e-mail, CPF cifrado, hash do CPF, hash da senha e data da anonimização como estão nas colunas.</returns>
+    public async Task<ColunasPessoais> LerColunasPessoaisAsync(Guid id)
+    {
+        await using var conexao = new NpgsqlConnection(_banco.StringConexao);
+        await conexao.OpenAsync();
+        await using var comando = new NpgsqlCommand(
+            "SELECT nome_completo, email, cpf_cifrado, cpf_hash, senha_hash, anonimizado_em FROM usuarios WHERE id = @id",
+            conexao);
+        comando.Parameters.AddWithValue("id", id);
+        await using var leitor = await comando.ExecuteReaderAsync();
+        await leitor.ReadAsync();
+        return new ColunasPessoais(
+            leitor.GetString(0),
+            leitor.GetString(1),
+            leitor.IsDBNull(2) ? null : (byte[])leitor[2],
+            leitor.IsDBNull(3) ? null : (byte[])leitor[3],
+            leitor.IsDBNull(4) ? null : leitor.GetString(4),
+            leitor.IsDBNull(5) ? null : leitor.GetFieldValue<DateTimeOffset>(5));
+    }
+
+    /// <summary>
     /// Conta os gestores gravados no banco.
     /// </summary>
     /// <returns>Quantidade de usuários com o papel de gestor.</returns>
@@ -145,3 +170,14 @@ public sealed class IdentityApiFixture : WebApplicationFactory<Program>, IAsyncL
         }
     }
 }
+
+/// <summary>
+/// Colunas pessoais de um usuário, como estão no banco.
+/// </summary>
+/// <param name="NomeCompleto">Coluna <c>nome_completo</c>.</param>
+/// <param name="Email">Coluna <c>email</c>.</param>
+/// <param name="CpfCifrado">Coluna <c>cpf_cifrado</c>.</param>
+/// <param name="CpfHash">Coluna <c>cpf_hash</c>.</param>
+/// <param name="SenhaHash">Coluna <c>senha_hash</c>.</param>
+/// <param name="AnonimizadoEm">Coluna <c>anonimizado_em</c>.</param>
+public sealed record ColunasPessoais(string NomeCompleto, string Email, byte[]? CpfCifrado, byte[]? CpfHash, string? SenhaHash, DateTimeOffset? AnonimizadoEm);

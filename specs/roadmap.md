@@ -277,7 +277,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R080** · `008/T004` [H10] Log de auditoria `TitularAnonimizado` e métrica `titulares_anonimizados_total` — `Identity.Application/Titular/AnonimizarMeusDados.cs`
   Commit: `🔊 feat(identity): adiciona auditoria da anonimização do titular`
   Depende de: R079 (`008/T003`)
-- [ ] **R081** · `008/T005` [H10] Testes de integração: 200 com CPF mascarado, 204, colunas anonimizadas no banco, login seguinte 401, `/me` com token antigo 401, e-mail reutilizável — `tests/integration/Identity.IntegrationTests/TitularTests.cs`
+- [X] **R081** · `008/T005` [H10] Testes de integração: 200 com CPF mascarado, 204, colunas anonimizadas no banco, login seguinte 401, `/me` com token antigo 401, e-mail reutilizável — `tests/integration/Identity.IntegrationTests/TitularTests.cs`
   Commit: `✅ test(identity): adiciona testes de integração dos direitos do titular`
   Depende de: R079 (`008/T003`)
 - [ ] **R082** · `008/T006` [H10] Cenários Gherkin (inclui total da campanha mantido) — `tests/e2e/ConexaoSolidaria.Bdd/Features/008-direitos-titular.feature`
