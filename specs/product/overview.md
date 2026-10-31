@@ -1,6 +1,6 @@
 # 01 — Visão geral e escopo
 
-[← README](../../README.md) · Próximo: [02 — Pré-requisitos](../../docs/spec/02-pre-requisitos.md)
+[← README](../../README.md) · Próximo: [02 — Pré-requisitos](../../docs/pre-requisitos.md)
 
 ## 1.1 Contexto
 
@@ -74,7 +74,7 @@ Fonte: `wiki:fontes/tech-challenge/05-hackathon-fase-5-conexao-solidaria`.
 
 ## 1.5 Premissas
 
-- Cada integrante usa Windows, macOS ou Linux, com 16 GB de RAM ou mais para rodar o cluster local ([02 — Pré-requisitos](../../docs/spec/02-pre-requisitos.md)).
+- Cada integrante usa Windows, macOS ou Linux, com 16 GB de RAM ou mais para rodar o cluster local ([02 — Pré-requisitos](../../docs/pre-requisitos.md)).
 - O repositório será **público** no GitHub.
 - A doação é considerada paga no momento do envio (o enunciado não pede gateway de pagamento).
 - O fuso horário de referência para regras de data é `America/Sao_Paulo`.

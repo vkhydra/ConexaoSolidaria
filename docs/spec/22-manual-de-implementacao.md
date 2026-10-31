@@ -16,7 +16,7 @@ Todos os comandos rodam em **PowerShell 7 (`pwsh`)**, igual nos três sistemas. 
 
 ## 22.2 Antes de começar
 
-- [ ] Pré-requisitos instalados e verificados ([02 — Pré-requisitos](02-pre-requisitos.md)).
+- [ ] Pré-requisitos instalados e verificados ([02 — Pré-requisitos](../pre-requisitos.md)).
 - [ ] Docker em execução (`docker version` mostra `Server`).
 - [ ] Pelo menos 14 GB de memória livre para o modo B.
 - [ ] Portas livres no modo A: 5432, 6379, 5672, 15672, 9200, 27017, 16686, 8080, 8081, 8082, 9090.
@@ -292,7 +292,7 @@ Remoção: `az group delete -n rg-conexao-solidaria --yes --no-wait`.
 
 | Sintoma | Causa provável | Como resolver |
 |---|---|---|
-| Pods em `Pending` | Memória insuficiente no Minikube | `kubectl describe pod <pod>`; conferir 12 GB no Minikube e a memória do Docker ([02](02-pre-requisitos.md)) |
+| Pods em `Pending` | Memória insuficiente no Minikube | `kubectl describe pod <pod>`; conferir 12 GB no Minikube e a memória do Docker ([02](../pre-requisitos.md)) |
 | Elasticsearch em `CrashLoopBackOff` | `vm.max_map_count` baixo (Linux) | Passo 5 da seção 2.6 e `kubectl delete pod -n infra -l app.kubernetes.io/name=elasticsearch` |
 | `ImagePullBackOff` | Tag inexistente no GHCR ou nome errado | `kubectl describe pod`; conferir a tag `sha-*` no GHCR ou usar build local (passo 6) |
 | `https://app.conexao.local` não abre | Túnel parado ou `hosts` sem a linha | Passo 2 aberto em outro terminal; passo 8 |

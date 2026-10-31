@@ -33,7 +33,7 @@ Toda etapa termina com: `/code-review` → `git rebase --exec` (todo commit comp
 
 ## Etapa 0 — Pré-requisitos
 **Objetivo:** máquina e contas prontas.
-**Tarefas:** seguir [02 — Pré-requisitos](02-pre-requisitos.md) integralmente.
+**Tarefas:** seguir [02 — Pré-requisitos](../pre-requisitos.md) integralmente.
 **Commits:** nenhum.
 **Pronto quando:** todos os comandos de verificação respondem sem erro e o Minikube sobe com o nó `Ready`.
 
