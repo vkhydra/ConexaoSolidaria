@@ -27,7 +27,7 @@ Legenda de status: **Obrigatório** (enunciado), **Aplicado** (escolha do projet
 | | Event Storming | Fluxos "criar campanha" e "doar" no Miro | Aplicado | 2 | `conceitos/event-storming` |
 | | Domain Storytelling | História da doação | Aplicado | 2 | `conceitos/domain-storytelling` |
 | | Linguagem ubíqua | Glossário da [seção 01](../../specs/product/overview.md) | Aplicado | 2 | `conceitos/linguagem-ubiqua` |
-| | Requisitos, DoR, DoD | [Seção 03](03-processo-agil.md) | Aplicado | 2 | `conceitos/definition-of-ready` |
+| | Requisitos, DoR, DoD | [Seção 03](../processo-agil.md) | Aplicado | 2 | `conceitos/definition-of-ready` |
 | EF Core | Code First, Fluent API | `IEntityTypeConfiguration<T>` | Aplicado | 4, 5 | `conceitos/code-first` |
 | | Migrations | Migration bundle em Job | Aplicado | 4, 5, 11 | `conceitos/migrations` |
 | | Performance | `AsNoTracking`, projeção, índices | Aplicado | 5 | `conceitos/otimizacao-de-performance-ef-core` |

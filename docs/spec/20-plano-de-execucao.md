@@ -53,7 +53,7 @@ Toda etapa termina com: `/code-review` → `git rebase --exec` (todo commit comp
 ## Etapa 2 — Planejamento ágil e DDD
 **Objetivo:** backlog pronto, domínio modelado, decisões registradas.
 **Tarefas:**
-1. GitHub Project com colunas, campos e labels da [seção 03](03-processo-agil.md).
+1. GitHub Project com colunas, campos e labels da [seção 03](../processo-agil.md).
 2. Issues H01–H10 e T01–T04 com critérios Gherkin; estimar com Planning Poker.
 3. `docs/agil/definition-of-ready.md` e `docs/agil/definition-of-done.md`.
 4. Event Storming no Miro (fluxos "criar campanha" e "doar"); exportar PNGs.

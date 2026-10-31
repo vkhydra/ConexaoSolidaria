@@ -1,6 +1,6 @@
 # 04 — Requisitos funcionais
 
-[← README](../../README.md) · Anterior: [03 — Processo ágil](03-processo-agil.md) · Próximo: [05 — Requisitos não funcionais](../../specs/product/requisitos-nao-funcionais.md)
+[← README](../../README.md) · Anterior: [03 — Processo ágil](../processo-agil.md) · Próximo: [05 — Requisitos não funcionais](../../specs/product/requisitos-nao-funcionais.md)
 
 Cada requisito traz regras, validações, respostas e critérios de aceitação em Gherkin. Os cenários viram arquivos `.feature` em `tests/*.Bdd/Features/` ([15 — Testes](15-testes.md)). Os contratos HTTP completos estão em [09 — API e eventos](../../specs/product/api-e-eventos.md).
 
