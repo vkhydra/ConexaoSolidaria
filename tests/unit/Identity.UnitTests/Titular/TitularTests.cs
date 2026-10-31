@@ -1,6 +1,7 @@
 using Identity.Application.Abstracoes;
 using Identity.Application.Titular;
 using Identity.Domain.Usuarios;
+using Identity.UnitTests.Suporte;
 using Microsoft.Extensions.Time.Testing;
 
 namespace Identity.UnitTests.Titular;
@@ -15,6 +16,16 @@ public sealed class TitularTests
     /// Repositório de usuários falso.
     /// </summary>
     private readonly IUsuarioRepositorio _usuarios = Substitute.For<IUsuarioRepositorio>();
+
+    /// <summary>
+    /// Métricas de doadores falsas.
+    /// </summary>
+    private readonly IMetricasDoadores _metricas = Substitute.For<IMetricasDoadores>();
+
+    /// <summary>
+    /// Logger de auditoria que guarda as mensagens para conferência.
+    /// </summary>
+    private readonly LoggerCaptura<AnonimizarMeusDados> _log = new();
 
     /// <summary>
     /// Relógio controlado pelo teste.
@@ -105,12 +116,29 @@ public sealed class TitularTests
     [Fact]
     public async Task AnonimizarMeusDados_DoadorAtivo_AnonimizaEGrava()
     {
-        var resultado = await new AnonimizarMeusDados(_usuarios, _relogio).ExecutarAsync(_doador.Id, CancellationToken.None);
+        var resultado = await CriarAnonimizador().ExecutarAsync(_doador.Id, CancellationToken.None);
 
         resultado.EhSucesso.ShouldBeTrue();
         _doador.EstaAnonimizado.ShouldBeTrue();
         _doador.AnonimizadoEm.ShouldBe(_relogio.GetUtcNow());
         await _usuarios.Received(1).SalvarAsync(_doador, Arg.Any<CancellationToken>());
+        _metricas.Received(1).RegistrarAnonimizacao();
+    }
+
+    /// <summary>
+    /// Dada uma anonimização, quando concluída, então o log de auditoria tem só ação, identificador e data, sem dado pessoal.
+    /// </summary>
+    /// <returns>Tarefa do teste.</returns>
+    [Fact]
+    public async Task AnonimizarMeusDados_Concluida_RegistraAuditoriaSemDadosPessoais()
+    {
+        await CriarAnonimizador().ExecutarAsync(_doador.Id, CancellationToken.None);
+
+        var mensagem = _log.Mensagens.ShouldHaveSingleItem();
+        mensagem.ShouldStartWith($"TitularAnonimizado: {_doador.Id.Valor} em ");
+        mensagem.ShouldNotContain("Maria");
+        mensagem.ShouldNotContain("exemplo.com");
+        mensagem.ShouldNotContain("52998224725");
     }
 
     /// <summary>
@@ -130,9 +158,20 @@ public sealed class TitularTests
             id = _doador.Id;
         }
 
-        var resultado = await new AnonimizarMeusDados(_usuarios, _relogio).ExecutarAsync(id, CancellationToken.None);
+        var resultado = await CriarAnonimizador().ExecutarAsync(id, CancellationToken.None);
 
         resultado.Erro.Codigo.ShouldBe(ErrosDoTitular.CodigoNaoAutenticado);
         await _usuarios.DidNotReceive().SalvarAsync(Arg.Any<Usuario>(), Arg.Any<CancellationToken>());
+        _metricas.DidNotReceive().RegistrarAnonimizacao();
+        _log.Mensagens.ShouldBeEmpty();
+    }
+
+    /// <summary>
+    /// Monta o caso de uso de anonimização com os dublês do teste.
+    /// </summary>
+    /// <returns>O caso de uso.</returns>
+    private AnonimizarMeusDados CriarAnonimizador()
+    {
+        return new AnonimizarMeusDados(_usuarios, _relogio, _metricas, _log);
     }
 }

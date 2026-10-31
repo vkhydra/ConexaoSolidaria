@@ -18,7 +18,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 - [X] T003 [H10] Endpoints `GET` e `DELETE /doadores/me` com policy `Doador` e `Cache-Control: no-store` — `Identity.Api/Endpoints/TitularEndpoints.cs`
   Commit: `✨ feat(identity): adiciona endpoints de acesso e anonimização do titular`
-- [ ] T004 [P] [H10] Log de auditoria `TitularAnonimizado` e métrica `titulares_anonimizados_total` — `Identity.Application/Titular/AnonimizarMeusDados.cs`
+- [X] T004 [P] [H10] Log de auditoria `TitularAnonimizado` e métrica `titulares_anonimizados_total` — `Identity.Application/Titular/AnonimizarMeusDados.cs`
   Commit: `🔊 feat(identity): adiciona auditoria da anonimização do titular`
 
 ## Fase 4 — Testes de integração e aceitação

@@ -274,7 +274,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R079** · `008/T003` [H10] Endpoints `GET` e `DELETE /doadores/me` com policy `Doador` e `Cache-Control: no-store` — `Identity.Api/Endpoints/TitularEndpoints.cs`
   Commit: `✨ feat(identity): adiciona endpoints de acesso e anonimização do titular`
   Depende de: R078 (`008/T002`)
-- [ ] **R080** · `008/T004` [H10] Log de auditoria `TitularAnonimizado` e métrica `titulares_anonimizados_total` — `Identity.Application/Titular/AnonimizarMeusDados.cs`
+- [X] **R080** · `008/T004` [H10] Log de auditoria `TitularAnonimizado` e métrica `titulares_anonimizados_total` — `Identity.Application/Titular/AnonimizarMeusDados.cs`
   Commit: `🔊 feat(identity): adiciona auditoria da anonimização do titular`
   Depende de: R079 (`008/T003`)
 - [ ] **R081** · `008/T005` [H10] Testes de integração: 200 com CPF mascarado, 204, colunas anonimizadas no banco, login seguinte 401, `/me` com token antigo 401, e-mail reutilizável — `tests/integration/Identity.IntegrationTests/TitularTests.cs`

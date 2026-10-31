@@ -4,7 +4,7 @@ using Prometheus;
 namespace Identity.Infrastructure;
 
 /// <summary>
-/// Métrica <c>doadores_cadastrados_total</c> no Prometheus, sem rótulos.
+/// Métricas <c>doadores_cadastrados_total</c> e <c>titulares_anonimizados_total</c> no Prometheus, sem rótulos.
 /// </summary>
 public sealed class MetricasDoadoresPrometheus : IMetricasDoadores
 {
@@ -12,6 +12,11 @@ public sealed class MetricasDoadoresPrometheus : IMetricasDoadores
     /// Contador de doadores cadastrados.
     /// </summary>
     private readonly Counter _cadastrados;
+
+    /// <summary>
+    /// Contador de titulares anonimizados.
+    /// </summary>
+    private readonly Counter _anonimizados;
 
     /// <summary>
     /// Cria o contador no registro padrão do Prometheus.
@@ -30,11 +35,18 @@ public sealed class MetricasDoadoresPrometheus : IMetricasDoadores
         ArgumentNullException.ThrowIfNull(fabrica);
 
         _cadastrados = fabrica.CreateCounter("doadores_cadastrados_total", "Doadores cadastrados com sucesso.");
+        _anonimizados = fabrica.CreateCounter("titulares_anonimizados_total", "Titulares que tiveram o cadastro anonimizado.");
     }
 
     /// <inheritdoc/>
     public void RegistrarCadastro()
     {
         _cadastrados.Inc();
+    }
+
+    /// <inheritdoc/>
+    public void RegistrarAnonimizacao()
+    {
+        _anonimizados.Inc();
     }
 }

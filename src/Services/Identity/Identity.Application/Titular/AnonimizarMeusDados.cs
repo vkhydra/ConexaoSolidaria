@@ -1,6 +1,7 @@
 using Identity.Application.Abstracoes;
 using Identity.Domain.Comum;
 using Identity.Domain.Usuarios;
+using Microsoft.Extensions.Logging;
 
 namespace Identity.Application.Titular;
 
@@ -10,7 +11,13 @@ namespace Identity.Application.Titular;
 /// </summary>
 /// <param name="usuarios">Repositório de usuários.</param>
 /// <param name="relogio">Relógio da aplicação.</param>
-public sealed class AnonimizarMeusDados(IUsuarioRepositorio usuarios, TimeProvider relogio)
+/// <param name="metricas">Métricas de doadores.</param>
+/// <param name="log">Logger de auditoria; recebe só o identificador, a ação e a data.</param>
+public sealed partial class AnonimizarMeusDados(
+    IUsuarioRepositorio usuarios,
+    TimeProvider relogio,
+    IMetricasDoadores metricas,
+    ILogger<AnonimizarMeusDados> log)
 {
     /// <summary>
     /// Executa a anonimização.
@@ -26,8 +33,21 @@ public sealed class AnonimizarMeusDados(IUsuarioRepositorio usuarios, TimeProvid
             return Result.Falha(ErrosDoTitular.NaoAutenticado);
         }
 
-        usuario.Anonimizar(relogio.GetUtcNow());
+        var agora = relogio.GetUtcNow();
+        usuario.Anonimizar(agora);
         await usuarios.SalvarAsync(usuario, cancelamento);
+
+        metricas.RegistrarAnonimizacao();
+        LogTitularAnonimizado(log, usuario.Id, agora);
         return Result.Ok();
     }
+
+    /// <summary>
+    /// Registra a auditoria da anonimização: ação, identificador e data, sem nenhum dado pessoal.
+    /// </summary>
+    /// <param name="log">Logger de auditoria.</param>
+    /// <param name="usuarioId">Identificador do titular.</param>
+    /// <param name="em">Data e hora da anonimização.</param>
+    [LoggerMessage(Level = LogLevel.Information, Message = "TitularAnonimizado: {UsuarioId} em {Em:o}.")]
+    private static partial void LogTitularAnonimizado(ILogger log, UsuarioId usuarioId, DateTimeOffset em);
 }
