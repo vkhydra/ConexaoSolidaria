@@ -221,7 +221,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R056** · `001/T009` [H02] Repositórios EF Core com testes de integração (Testcontainers) — `Identity.Infrastructure/Persistencia/Repositorios/*`
   Commit: `🗃️ feat(identity): adiciona repositórios de usuário e tentativas`
   Depende de: R053 (`001/T006`)
-- [ ] **R057** · `001/T010` [H02] `AddAutenticacaoJwt()` com policies `GestorONG`, `Doador` e `FallbackPolicy`, com testes — `ConexaoSolidaria.ServiceDefaults/Autenticacao/*`
+- [X] **R057** · `001/T010` [H02] `AddAutenticacaoJwt()` com policies `GestorONG`, `Doador` e `FallbackPolicy`, com testes — `ConexaoSolidaria.ServiceDefaults/Autenticacao/*`
   Commit: `🛂 feat(defaults): adiciona validação de jwt e policies por role`
 - [ ] **R058** · `001/T011` [H02] Endpoint `POST /auth/login` com `TypedResults` e `ProblemDetails` — `Identity.Api/Endpoints/AutenticacaoEndpoints.cs`
   Commit: `✨ feat(identity): adiciona endpoint de login`

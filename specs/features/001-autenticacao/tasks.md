@@ -33,7 +33,7 @@ Formato: `- [ ] Tnnn [P] [história] descrição — arquivo(s)`, seguido do com
 
 ## Fase 4 — Validação do token em todos os serviços
 
-- [ ] T010 [H02] `AddAutenticacaoJwt()` com policies `GestorONG`, `Doador` e `FallbackPolicy`, com testes — `ConexaoSolidaria.ServiceDefaults/Autenticacao/*`
+- [X] T010 [H02] `AddAutenticacaoJwt()` com policies `GestorONG`, `Doador` e `FallbackPolicy`, com testes — `ConexaoSolidaria.ServiceDefaults/Autenticacao/*`
   Commit: `🛂 feat(defaults): adiciona validação de jwt e policies por role`
 
 ## Fase 5 — API

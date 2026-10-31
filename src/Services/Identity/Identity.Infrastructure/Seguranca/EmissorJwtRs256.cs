@@ -60,7 +60,7 @@ public sealed class EmissorJwtRs256 : IEmissorToken, IDisposable
         {
             _rsa.ImportFromPem(opcoes.ChavePrivadaPem);
         }
-        catch (CryptographicException)
+        catch (Exception excecao) when (excecao is CryptographicException or ArgumentException)
         {
             _rsa.Dispose();
             throw new ArgumentException("A chave privada do JWT não é um PEM RSA válido.", nameof(opcoes));
