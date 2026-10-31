@@ -63,4 +63,4 @@ Cortar de cima para baixo. **Nunca cortar** a feature 009 nem os testes de suces
 4. Kubernetes, Kong e KEDA (a API roda com docker-compose)
 5. Busca (006) e recibo (007)
 6. Frontend Blazor (a API é demonstrada pelo Swagger)
-7. Features 004 e 008 (mantendo 001, 002, 003 e 005 como API testada)
+7. Feature 008 (mantendo 001 a 005 como API testada; a 005 depende da 004)
