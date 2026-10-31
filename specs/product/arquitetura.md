@@ -140,7 +140,7 @@ sequenceDiagram
 │   ├── glossary.md, pre-requisitos.md, processo-agil.md, testes.md, padroes-de-codigo.md, git-e-commits.md
 │   ├── plano-de-execucao.md, entrega-e-riscos.md, cobertura-das-fases.md, claude-code.md
 │   ├── manual-de-implementacao.md, manual-do-usuario.md, ROTEIRO-VIDEO.md
-│   └── agil/, ddd/, arquitetura/, lgpd/, postman/, justificativa-bancos.md (+ PDF)
+│   └── agil/, ddd/, arquitetura/, lgpd/, postman/, justificativa-bancos.md
 ├── scripts/                         # PowerShell 7: verificar-pre-requisitos, verificar-cobertura, k8s-secrets, up, seed-demo
 ├── specs/
 │   ├── constitution.md
