@@ -44,7 +44,7 @@ flowchart LR
   idapi & campapi & worker & fn -. traces OTLP .-> jaeger
 ```
 
-O PNG exportado deste diagrama (`docs/arquitetura/arquitetura.png`) é entregável do Hackathon.
+O PNG exportado deste diagrama (`docs/arquitetura/arquitetura.png`) é usado no README e no vídeo.
 
 ## Componentes
 
