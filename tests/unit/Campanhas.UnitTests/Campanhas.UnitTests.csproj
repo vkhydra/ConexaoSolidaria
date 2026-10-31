@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Services\Campanhas\Campanhas.Domain\Campanhas.Domain.csproj" />
+    <ProjectReference Include="..\..\..\src\Services\Campanhas\Campanhas.Application\Campanhas.Application.csproj" />
+    <ProjectReference Include="..\..\..\src\Services\Campanhas\Campanhas.Infrastructure\Campanhas.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\src\Services\Campanhas\Campanhas.Api\Campanhas.Api.csproj" />
+  </ItemGroup>
+
+</Project>

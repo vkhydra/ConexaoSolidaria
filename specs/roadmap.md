@@ -145,7 +145,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Commit: `🎉 chore(notificacoes): cria projeto Notificacoes.Function`
 - [X] **R027** · Projeto `ConexaoSolidaria.Web`
   Commit: `🎉 chore(web): cria projeto ConexaoSolidaria.Web`
-- [ ] **R028** · `009/T001` [H11] Projetos `tests/unit/*.UnitTests` com xUnit v3, Shouldly e NSubstitute, incluídos na `.slnx` — `tests/unit/*/*.csproj`
+- [X] **R028** · `009/T001` [H11] Projetos `tests/unit/*.UnitTests` com xUnit v3, Shouldly e NSubstitute, incluídos na `.slnx` — `tests/unit/*/*.csproj`
   Commit: `✅ test: cria projetos de testes unitários com xunit`
 - [ ] **R029** · Projetos de teste de integração, contrato e e2e (vazios, com os pacotes), já na solução
   Commit: `✅ test: cria projetos de testes de integração, contrato e e2e`

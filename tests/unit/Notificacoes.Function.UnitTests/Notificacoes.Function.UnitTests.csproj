@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Functions\Notificacoes.Function\Notificacoes.Function.csproj" />
+  </ItemGroup>
+
+</Project>

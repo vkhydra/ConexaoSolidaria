@@ -24,4 +24,13 @@
   <Folder Name="/src/Web/">
     <Project Path="src/Web/ConexaoSolidaria.Web/ConexaoSolidaria.Web.csproj" />
   </Folder>
+  <Folder Name="/tests/" />
+  <Folder Name="/tests/unit/">
+    <Project Path="tests/unit/Arrecadacao.Worker.UnitTests/Arrecadacao.Worker.UnitTests.csproj" />
+    <Project Path="tests/unit/Campanhas.UnitTests/Campanhas.UnitTests.csproj" />
+    <Project Path="tests/unit/ConexaoSolidaria.ServiceDefaults.UnitTests/ConexaoSolidaria.ServiceDefaults.UnitTests.csproj" />
+    <Project Path="tests/unit/ConexaoSolidaria.Web.UnitTests/ConexaoSolidaria.Web.UnitTests.csproj" />
+    <Project Path="tests/unit/Identity.UnitTests/Identity.UnitTests.csproj" />
+    <Project Path="tests/unit/Notificacoes.Function.UnitTests/Notificacoes.Function.UnitTests.csproj" />
+  </Folder>
 </Solution>
