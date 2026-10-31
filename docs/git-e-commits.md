@@ -18,7 +18,7 @@ Regras obrigatórias: **todo arquivo criado tem commit semântico com gitmoji** 
 |---|---|
 | Gitmoji | Emoji Unicode (não `:codigo:`), conforme a tabela 17.2 |
 | Tipo | `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert` |
-| Escopo | Opcional, minúsculo: `identity`, `campanhas`, `worker`, `notificacoes`, `web`, `contracts`, `defaults`, `k8s`, `kong`, `obs`, `ci`, `spec`, `adr`, `ddd`, `agil`, `video` |
+| Escopo | Opcional, minúsculo: `identity`, `campanhas`, `worker`, `notificacoes`, `web`, `contracts`, `defaults`, `k8s`, `kong`, `obs`, `ci`, `specs`, `adr`, `runbooks`, `ddd`, `agil`, `video`, `tests`, `scripts`, `claude`, `vscode`, `mcp` |
 | `!` | Mudança incompatível (contrato de API ou evento) |
 | Descrição | Imperativo, em português, minúscula, sem ponto final, até 72 caracteres |
 | Rodapé | `Refs #12`, `Closes #12`, `BREAKING CHANGE: ...`. **Sem** linha de coautoria (`Co-Authored-By`) |
@@ -120,7 +120,7 @@ Instalação (Etapa 3): `dotnet new tool-manifest`, `dotnet tool install Husky`,
       "name": "mensagem",
       "group": "commit-msg",
       "command": "pwsh",
-      "args": ["-NoProfile", "-File", ".husky/scripts/validar-mensagem.ps1", "${args}"]
+      "args": ["-NoProfile", "-File", "scripts/validar-mensagem-commit.ps1", "${args}"]
     },
     {
       "name": "testes-e-cobertura",
@@ -132,7 +132,7 @@ Instalação (Etapa 3): `dotnet new tool-manifest`, `dotnet tool install Husky`,
 }
 ```
 
-`.husky/scripts/validar-mensagem.ps1` valida a primeira linha com a expressão regular:
+`scripts/validar-mensagem-commit.ps1` valida a primeira linha com a expressão regular:
 ```text
 ^\S+ (feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\([a-z0-9-]+\))?!?: \S.{0,71}$
 ```
@@ -183,4 +183,10 @@ Refs #
 
 ## Histórico já existente
 
-Os commits de especificação (Etapa 1) seguem este padrão e só alteram documentação.
+Os commits de especificação e de configuração (Etapa 1) seguem este padrão e só alteram documentação e configuração. Os commits anteriores à decisão de não usar coautoria mantêm a linha `Co-Authored-By`; o histórico não é reescrito.
+
+## Commits feitos com o Claude Code
+
+- A skill `commit-gitmoji` (`.claude/skills/commit-gitmoji/SKILL.md`) aplica estas regras.
+- `.claude/settings.json` define `attribution` vazio, para que nenhum commit ou PR receba linha de coautoria.
+- O comando `/implement` faz um commit por tarefa do `tasks.md`, com a mensagem já escrita na tarefa.
