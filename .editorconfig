@@ -76,15 +76,8 @@ dotnet_diagnostic.CA1305.severity = none
 dotnet_diagnostic.CA1307.severity = none
 dotnet_diagnostic.CA1308.severity = none
 
-# StyleCop: só as regras de documentação ficam ligadas (todo tipo e membro com <summary>)
-dotnet_analyzer_diagnostic.category-StyleCop.CSharp.SpacingRules.severity = none
-dotnet_analyzer_diagnostic.category-StyleCop.CSharp.ReadabilityRules.severity = none
-dotnet_analyzer_diagnostic.category-StyleCop.CSharp.OrderingRules.severity = none
-dotnet_analyzer_diagnostic.category-StyleCop.CSharp.NamingRules.severity = none
-dotnet_analyzer_diagnostic.category-StyleCop.CSharp.MaintainabilityRules.severity = none
-dotnet_analyzer_diagnostic.category-StyleCop.CSharp.LayoutRules.severity = none
-dotnet_analyzer_diagnostic.category-StyleCop.CSharp.SpecialRules.severity = none
-dotnet_analyzer_diagnostic.category-StyleCop.CSharp.DocumentationRules.severity = none
+# StyleCop: só as regras de documentação ficam ligadas (todo tipo e membro com <summary>).
+# As demais categorias são desligadas no .globalconfig.
 dotnet_diagnostic.SA1600.severity = error
 dotnet_diagnostic.SA1601.severity = error
 dotnet_diagnostic.SA1602.severity = error
