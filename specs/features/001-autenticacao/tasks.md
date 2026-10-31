@@ -17,7 +17,7 @@ Formato: `- [ ] Tnnn [P] [história] descrição — arquivo(s)`, seguido do com
 
 - [X] T004 [H02] Interfaces `IUsuarioRepositorio`, `IHasherEmail`, `IEmissorToken`, `ITentativaLoginRepositorio` — `Identity.Application/Abstracoes/*` (`IHasherSenha` ficou no domínio, porque `Usuario.VerificarSenha` a usa)
   Commit: `🏷️ feat(identity): adiciona abstrações de autenticação`
-- [ ] T005 [H02] Caso de uso `Autenticar` com validador e testes (sucesso, senha errada, e-mail inexistente com tempo constante, bloqueado, anonimizado) — `Identity.Application/Autenticacao/*`
+- [X] T005 [H02] Caso de uso `Autenticar` com validador e testes (sucesso, senha errada, e-mail inexistente com tempo constante, bloqueado, anonimizado) — `Identity.Application/Autenticacao/*`
   Commit: `✨ feat(identity): adiciona caso de uso de autenticação`
 
 ## Fase 3 — Infraestrutura
