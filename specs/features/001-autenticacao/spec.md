@@ -6,7 +6,7 @@
 |---|---|
 | Branch | `feat/001-autenticacao` |
 | Status | Especificada |
-| Origem | Enunciado, requisito 1 (RF01) |
+| Origem | Requisito do domínio da API (RF01); testado conforme a [feature 009](../009-ci-testes-cobertura/spec.md) |
 | História | H02 |
 | Prioridade | P1 (bloqueia todas as funcionalidades protegidas) |
 | Serviço | `Identity.Api` (emite o token); todos os serviços validam |
