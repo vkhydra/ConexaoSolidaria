@@ -68,7 +68,7 @@ Detalhes: [11 — Segurança e LGPD](seguranca-e-lgpd.md).
 | RNF31 | Dashboard Grafana com métricas reais (requisições, latência, erros, CPU e memória, doações, fila) |
 | RNF32 | Alertas para erros 5xx, mensagens na DLQ e pods reiniciando |
 
-Detalhes: [12 — Observabilidade](../../docs/spec/12-observabilidade.md).
+Detalhes: [12 — Observabilidade](observabilidade.md).
 
 ## 5.7 SLOs (indicativos)
 

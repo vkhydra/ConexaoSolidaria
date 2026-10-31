@@ -1,6 +1,6 @@
 # 11 — Segurança e LGPD
 
-[← README](../../README.md) · Anterior: [10 — Dados](dados.md) · Próximo: [12 — Observabilidade](../../docs/spec/12-observabilidade.md)
+[← README](../../README.md) · Anterior: [10 — Dados](dados.md) · Próximo: [12 — Observabilidade](observabilidade.md)
 
 Referências: `wiki:disciplinas/lgpd`, `wiki:boas-praticas/lgpd`, `wiki:conceitos/owasp-top-10`, `wiki:conceitos/seguranca-em-microsservicos`, `wiki:conceitos/seguranca-de-containers`.
 
