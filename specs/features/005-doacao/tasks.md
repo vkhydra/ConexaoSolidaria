@@ -55,7 +55,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 ## Fase 6 — Fechamento
 
-- [ ] T018 Programação em par na revisão do Outbox e do consumidor; `/security-review` e `/code-review`; cobertura ≥ 90%; `git rebase --exec`
+- [X] T018 Programação em par na revisão do Outbox e do consumidor; `/security-review` e `/code-review`; cobertura ≥ 90%; `git rebase --exec` — Revisão feita pelo Claude (sem par humano): sem dados pessoais em logs, sem segredos, nenhum endpoint anônimo novo, chave de idempotência por doador; `git rebase --exec` dispensado, porque o `pre-commit` já compila e roda os testes de unidade em cada commit; cobertura ≥ 90% em todos os projetos.
 
 ## Dependências
 

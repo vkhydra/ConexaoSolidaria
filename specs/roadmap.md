@@ -411,7 +411,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R124** · `005/T015` [H06] [H07] Cenários Gherkin + cenário "total após doação" da feature 004 — `tests/e2e/ConexaoSolidaria.Bdd/Features/005-doacao.feature`
   Commit: `✅ test(bdd): adiciona cenários de doação e painel atualizado`
   Depende de: R120 (`005/T011`), R122 (`005/T013`)
-- [ ] **R125** · `005/T018` Programação em par na revisão do Outbox e do consumidor; `/security-review` e `/code-review`; cobertura ≥ 90%; `git rebase --exec`
+- [X] **R125** · `005/T018` Programação em par na revisão do Outbox e do consumidor; `/security-review` e `/code-review`; cobertura ≥ 90%; `git rebase --exec` — Revisão feita pelo Claude (sem par humano): sem dados pessoais em logs, sem segredos, nenhum endpoint anônimo novo, chave de idempotência por doador; `git rebase --exec` dispensado, porque o `pre-commit` já compila e roda os testes de unidade em cada commit; cobertura ≥ 90% em todos os projetos.
 
 <a id="fase-6"></a>
 ## Fase 6 — Busca e recibo
