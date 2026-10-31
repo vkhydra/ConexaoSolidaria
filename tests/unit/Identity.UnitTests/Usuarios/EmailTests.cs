@@ -104,4 +104,18 @@ public sealed class EmailTests
         Should.Throw<InvalidOperationException>(() => falha.Valor);
         Should.Throw<InvalidOperationException>(() => sucesso.Erro);
     }
+
+    /// <summary>
+    /// Dado um identificador de usuário, quando o e-mail anônimo é criado, então segue o formato anonimo+id@invalid e é exclusivo do usuário.
+    /// </summary>
+    [Fact]
+    public void Anonimo_Usuario_GeraEmailExclusivoNoDominioInvalid()
+    {
+        var id = UsuarioId.Novo();
+
+        var email = Email.Anonimo(id);
+
+        email.Valor.ShouldBe($"anonimo+{id.Valor}@invalid");
+        email.ShouldNotBe(Email.Anonimo(UsuarioId.Novo()));
+    }
 }

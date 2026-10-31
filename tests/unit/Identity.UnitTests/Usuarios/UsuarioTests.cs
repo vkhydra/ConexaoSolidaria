@@ -114,30 +114,88 @@ public sealed class UsuarioTests
     }
 
     /// <summary>
-    /// Dado um usuário anonimizado ou sem hash de senha, quando a senha é conferida, então nunca autentica nem consulta o hasher.
+    /// Dado um usuário sem hash de senha, quando a senha é conferida, então nunca autentica nem consulta o hasher.
     /// </summary>
-    /// <param name="anonimizado">Se o cadastro foi anonimizado.</param>
-    /// <param name="semHash">Se o hash da senha foi apagado.</param>
-    [Theory]
-    [InlineData(true, false)]
-    [InlineData(false, true)]
-    public void VerificarSenha_AnonimizadoOuSemHash_DevolveFalso(bool anonimizado, bool semHash)
+    [Fact]
+    public void VerificarSenha_SemHash_DevolveFalso()
     {
         var gestor = Usuario.CriarGestor(Email.Criar("gestor@ong.org").Valor, "hash-bcrypt", _agora).Valor;
         var hasher = Substitute.For<IHasherSenha>();
         hasher.Verificar(Arg.Any<string>(), Arg.Any<string>()).Returns(true);
-        if (anonimizado)
-        {
-            typeof(Usuario).GetProperty(nameof(Usuario.AnonimizadoEm))!.SetValue(gestor, _agora);
-        }
-
-        if (semHash)
-        {
-            typeof(Usuario).GetProperty(nameof(Usuario.SenhaHash))!.SetValue(gestor, null);
-        }
+        typeof(Usuario).GetProperty(nameof(Usuario.SenhaHash))!.SetValue(gestor, null);
 
         gestor.VerificarSenha("qualquer", hasher).ShouldBeFalse();
         hasher.DidNotReceive().Verificar(Arg.Any<string>(), Arg.Any<string>());
+    }
+
+    /// <summary>
+    /// Dado um doador, quando o cadastro é anonimizado, então nome, e-mail, CPF e senha deixam de identificar e o resto fica.
+    /// </summary>
+    [Fact]
+    public void Anonimizar_Doador_RemoveDadosPessoaisEMantemOResto()
+    {
+        var doador = NovoDoador();
+        var id = doador.Id;
+        var consentimento = doador.Consentimento;
+        var agora = _agora.AddDays(30);
+
+        doador.Anonimizar(agora);
+
+        doador.NomeCompleto.ShouldBe(Usuario.NomeAnonimizado);
+        doador.Email.Valor.ShouldBe($"anonimo+{id.Valor}@invalid");
+        doador.Cpf.ShouldBeNull();
+        doador.SenhaHash.ShouldBeNull();
+        doador.AnonimizadoEm.ShouldBe(agora);
+        doador.EstaAnonimizado.ShouldBeTrue();
+        doador.Id.ShouldBe(id);
+        doador.Role.ShouldBe(Role.Doador);
+        doador.CriadoEm.ShouldBe(_agora);
+        doador.Consentimento.ShouldBe(consentimento);
+    }
+
+    /// <summary>
+    /// Dado um cadastro já anonimizado, quando a anonimização é repetida, então nada muda, nem a data.
+    /// </summary>
+    [Fact]
+    public void Anonimizar_Repetido_NaoAlteraNada()
+    {
+        var doador = NovoDoador();
+        doador.Anonimizar(_agora.AddDays(1));
+
+        doador.Anonimizar(_agora.AddDays(2));
+
+        doador.AnonimizadoEm.ShouldBe(_agora.AddDays(1));
+        doador.Email.Valor.ShouldStartWith("anonimo+");
+    }
+
+    /// <summary>
+    /// Dado um cadastro anonimizado, quando a senha antiga é conferida, então nunca autentica nem consulta o hasher.
+    /// </summary>
+    [Fact]
+    public void VerificarSenha_AposAnonimizar_DevolveFalso()
+    {
+        var doador = NovoDoador();
+        var hasher = Substitute.For<IHasherSenha>();
+        hasher.Verificar(Arg.Any<string>(), Arg.Any<string>()).Returns(true);
+        doador.Anonimizar(_agora);
+
+        doador.VerificarSenha("Senha@123", hasher).ShouldBeFalse();
+        hasher.DidNotReceive().Verificar(Arg.Any<string>(), Arg.Any<string>());
+    }
+
+    /// <summary>
+    /// Cria um doador válido para os testes de anonimização.
+    /// </summary>
+    /// <returns>O doador cadastrado.</returns>
+    private static Usuario NovoDoador()
+    {
+        return Usuario.CadastrarDoador(
+            "Maria Silva",
+            Email.Criar("maria@exemplo.com").Valor,
+            Cpf.Criar("529.982.247-25").Valor,
+            "hash-bcrypt",
+            Consentimento.Criar(true, "2026-10", _agora).Valor,
+            _agora).Valor;
     }
 
     /// <summary>

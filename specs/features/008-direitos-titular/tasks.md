@@ -6,7 +6,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 ## Fase 1 — Domínio (TDD)
 
-- [ ] T001 [H10] `Usuario.Anonimizar` idempotente, com testes (anonimizar, repetir, senha após anonimizar) — `Identity.Domain/Usuarios/Usuario.cs`
+- [X] T001 [H10] `Usuario.Anonimizar` idempotente, com testes (anonimizar, repetir, senha após anonimizar) — `Identity.Domain/Usuarios/Usuario.cs`
   Commit: `✨ feat(identity): adiciona anonimização do usuário`
 
 ## Fase 2 — Aplicação

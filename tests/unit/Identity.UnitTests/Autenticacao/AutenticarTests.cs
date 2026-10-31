@@ -1,4 +1,3 @@
-using System.Reflection;
 using Identity.Application.Abstracoes;
 using Identity.Application.Autenticacao;
 using Identity.Domain.Autenticacao;
@@ -174,8 +173,7 @@ public sealed class AutenticarTests
     [Fact]
     public async Task ExecutarAsync_UsuarioAnonimizado_Recusa()
     {
-        typeof(Usuario).GetProperty(nameof(Usuario.AnonimizadoEm), BindingFlags.Public | BindingFlags.Instance)!
-            .SetValue(_usuario, _relogio.GetUtcNow());
+        _usuario.Anonimizar(_relogio.GetUtcNow());
 
         var resultado = await _autenticar.ExecutarAsync(new AutenticarRequest(_emailTexto, _senhaCorreta), CancellationToken.None);
 

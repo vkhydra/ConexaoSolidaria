@@ -47,6 +47,17 @@ public sealed partial record Email
         return Result.Sucesso(new Email(texto.ToLowerInvariant()));
     }
 
+    /// <summary>
+    /// Cria o e-mail de um usuário anonimizado (<c>anonimo+&lt;id&gt;@invalid</c>), que não identifica ninguém e mantém a unicidade da coluna.
+    /// O domínio <c>invalid</c> é reservado pela RFC 2606, então nunca recebe mensagens.
+    /// </summary>
+    /// <param name="id">Identificador do usuário anonimizado.</param>
+    /// <returns>O e-mail anônimo, exclusivo daquele usuário.</returns>
+    public static Email Anonimo(UsuarioId id)
+    {
+        return new Email($"anonimo+{id.Valor}@invalid");
+    }
+
     /// <inheritdoc/>
     public override string ToString()
     {

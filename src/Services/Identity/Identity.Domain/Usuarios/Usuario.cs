@@ -18,6 +18,11 @@ public sealed class Usuario
     public const string NomeDoGestorInicial = "Gestor da ONG";
 
     /// <summary>
+    /// Nome gravado no lugar do nome de quem teve o cadastro anonimizado.
+    /// </summary>
+    public const string NomeAnonimizado = "Doador anonimizado";
+
+    /// <summary>
     /// Código do erro de nome completo inválido.
     /// </summary>
     public const string CodigoNomeInvalido = "usuario.nome_invalido";
@@ -161,6 +166,26 @@ public sealed class Usuario
         }
 
         return Result.Sucesso(new Usuario(UsuarioId.Novo(), nome, email, senhaHash, Role.Doador, agora, cpf, consentimento));
+    }
+
+    /// <summary>
+    /// Anonimiza o cadastro (direito de eliminação da LGPD): troca o nome e o e-mail por valores que não identificam ninguém e
+    /// remove CPF e senha. O identificador, o papel, a data de cadastro e o consentimento ficam, para a prestação de contas.
+    /// Repetir a chamada não altera nada.
+    /// </summary>
+    /// <param name="agora">Data e hora da anonimização.</param>
+    public void Anonimizar(DateTimeOffset agora)
+    {
+        if (EstaAnonimizado)
+        {
+            return;
+        }
+
+        NomeCompleto = NomeAnonimizado;
+        Email = Email.Anonimo(Id);
+        Cpf = null;
+        SenhaHash = null;
+        AnonimizadoEm = agora;
     }
 
     /// <summary>
