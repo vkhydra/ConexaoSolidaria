@@ -200,7 +200,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 
 **Pronto quando:** Cenários das features 001, 003 e 008 passando; `/security-review` sem pendências críticas; cobertura ≥ 90% nos projetos de Identity.
 
-- [ ] **R048** · `001/T001` [H02] Value object `Email` com normalização e validação, com testes — `Identity.Domain/Usuarios/Email.cs`, `tests/unit/Identity.UnitTests/Usuarios/EmailTests.cs`
+- [X] **R048** · `001/T001` [H02] Value object `Email` com normalização e validação, com testes — `Identity.Domain/Usuarios/Email.cs`, `tests/unit/Identity.UnitTests/Usuarios/EmailTests.cs`
   Commit: `✨ feat(identity): adiciona value object Email`
 - [ ] **R049** · `001/T002` [H02] `Role`, `UsuarioId` e agregado `Usuario` com `CriarGestor` e `VerificarSenha`, com testes — `Identity.Domain/Usuarios/*`
   Commit: `✨ feat(identity): adiciona agregado Usuario com verificação de senha`
