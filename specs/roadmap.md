@@ -422,7 +422,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 
 **Pronto quando:** Cenários das features 006 e 007 passando; spike do gatilho RabbitMQ registrado; cobertura ≥ 90%.
 
-- [ ] **R126** · `006/T001` [H08] `IBuscaCampanhas`, `IIndiceCampanhas`, `BuscaResponse` e caso de uso `BuscarCampanhas` com testes (validação de `q`, paginação, indisponível) — `Campanhas.Application/Busca/*`
+- [X] **R126** · `006/T001` [H08] `IBuscaCampanhas`, `IIndiceCampanhas`, `BuscaResponse` e caso de uso `BuscarCampanhas` com testes (validação de `q`, paginação, indisponível) — `Campanhas.Application/Busca/*`
   Commit: `✨ feat(campanhas): adiciona caso de uso de busca de campanhas`
 - [ ] **R127** · `006/T002` [H08] Mapeamento `CampanhaAlteradaEvent` → documento, com testes — `Campanhas.Application/Busca/*`
   Commit: `✨ feat(campanhas): adiciona mapeamento de campanha para o índice`
