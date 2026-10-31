@@ -25,7 +25,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 - [X] T005 [H10] Testes de integração: 200 com CPF mascarado, 204, colunas anonimizadas no banco, login seguinte 401, `/me` com token antigo 401, e-mail reutilizável — `tests/integration/Identity.IntegrationTests/TitularTests.cs`
   Commit: `✅ test(identity): adiciona testes de integração dos direitos do titular`
-- [ ] T006 [H10] Cenários Gherkin (inclui total da campanha mantido) — `tests/e2e/ConexaoSolidaria.Bdd/Features/008-direitos-titular.feature`
+- [X] T006 [H10] Cenários Gherkin (inclui total da campanha mantido) (o cenário que depende de doação fica com `@ignore` e é liberado em R124) — `tests/e2e/ConexaoSolidaria.Bdd/Features/008-direitos-titular.feature`
   Commit: `✅ test(bdd): adiciona cenários de direitos do titular`
 
 ## Fase 5 — Interface

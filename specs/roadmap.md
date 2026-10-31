@@ -280,7 +280,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R081** · `008/T005` [H10] Testes de integração: 200 com CPF mascarado, 204, colunas anonimizadas no banco, login seguinte 401, `/me` com token antigo 401, e-mail reutilizável — `tests/integration/Identity.IntegrationTests/TitularTests.cs`
   Commit: `✅ test(identity): adiciona testes de integração dos direitos do titular`
   Depende de: R079 (`008/T003`)
-- [ ] **R082** · `008/T006` [H10] Cenários Gherkin (inclui total da campanha mantido) — `tests/e2e/ConexaoSolidaria.Bdd/Features/008-direitos-titular.feature`
+- [X] **R082** · `008/T006` [H10] Cenários Gherkin (inclui total da campanha mantido) (o cenário que depende de doação fica com `@ignore` e é liberado em R124) — `tests/e2e/ConexaoSolidaria.Bdd/Features/008-direitos-titular.feature`
   Commit: `✅ test(bdd): adiciona cenários de direitos do titular`
   Depende de: R081 (`008/T005`)
 - [ ] **R083** · `008/T008` `/security-review` (foco LGPD) e `/code-review`; cobertura ≥ 90%; `git rebase --exec`

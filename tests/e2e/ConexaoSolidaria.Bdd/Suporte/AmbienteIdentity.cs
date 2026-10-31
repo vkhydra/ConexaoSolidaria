@@ -112,6 +112,53 @@ public sealed class AmbienteIdentity : IDisposable
     }
 
     /// <summary>
+    /// Faz login e passa a enviar o token em todas as chamadas seguintes do cenário.
+    /// </summary>
+    /// <param name="email">E-mail do doador.</param>
+    /// <param name="senha">Senha do doador.</param>
+    /// <returns>Tarefa que termina com o token em uso.</returns>
+    public async Task AutenticarAsync(string email, string senha)
+    {
+        await LoginAsync(email, senha);
+        var token = await LerCampoAsync("accessToken");
+        var cliente = await ObterClienteAsync();
+        cliente.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+    }
+
+    /// <summary>
+    /// Consulta <c>GET /api/v1/doadores/me</c> com o token em uso e guarda a resposta.
+    /// </summary>
+    /// <returns>Tarefa que termina com a resposta guardada.</returns>
+    public async Task ConsultarMeusDadosAsync()
+    {
+        Resposta = await (await ObterClienteAsync()).GetAsync("/api/v1/doadores/me");
+    }
+
+    /// <summary>
+    /// Chama <c>DELETE /api/v1/doadores/me</c> com o token em uso e guarda a resposta.
+    /// </summary>
+    /// <returns>Tarefa que termina com a resposta guardada.</returns>
+    public async Task ExcluirMeusDadosAsync()
+    {
+        Resposta = await (await ObterClienteAsync()).DeleteAsync("/api/v1/doadores/me");
+    }
+
+    /// <summary>
+    /// Lê um campo de texto dentro de um objeto do JSON da última resposta.
+    /// </summary>
+    /// <param name="objeto">Nome do objeto em camelCase.</param>
+    /// <param name="campo">Nome do campo dentro do objeto.</param>
+    /// <returns>O valor em texto, ou nulo se não existe.</returns>
+    public async Task<string?> LerCampoAninhadoAsync(string objeto, string campo)
+    {
+        var texto = await Resposta!.Content.ReadAsStringAsync();
+        using var documento = JsonDocument.Parse(texto);
+        return documento.RootElement.TryGetProperty(objeto, out var filho) && filho.TryGetProperty(campo, out var valor)
+            ? valor.ToString()
+            : null;
+    }
+
+    /// <summary>
     /// Lê um campo de texto do JSON da última resposta.
     /// </summary>
     /// <param name="campo">Nome do campo em camelCase.</param>
