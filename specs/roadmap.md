@@ -121,7 +121,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 
 - [X] **R015** · SDK fixado em `global.json`
   Commit: `🔧 chore: adiciona global.json com SDK 10`
-- [ ] **R016** · Estilo de código e severidades dos analisadores em `.editorconfig`
+- [X] **R016** · Estilo de código e severidades dos analisadores em `.editorconfig`
   Commit: `🔧 chore: adiciona .editorconfig`
 - [ ] **R017** · Fim de linha e arquivos binários em `.gitattributes`
   Commit: `🔧 chore: adiciona .gitattributes`
