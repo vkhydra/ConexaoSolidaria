@@ -10,7 +10,7 @@ namespace Campanhas.Api.Endpoints;
 public static class CampanhasEndpoints
 {
     /// <summary>
-    /// Mapeia criação, listagem e detalhe de campanhas.
+    /// Mapeia criação, listagem, detalhe, edição (com <c>If-Match</c>) e mudança de status de campanhas.
     /// </summary>
     /// <param name="rotas">Construtor de rotas da aplicação.</param>
     /// <returns>O próprio construtor de rotas, para encadeamento.</returns>
@@ -22,6 +22,8 @@ public static class CampanhasEndpoints
         grupo.MapPost("/", CriarAsync);
         grupo.MapGet("/", ListarAsync);
         grupo.MapGet("/{id:guid}", ObterAsync);
+        grupo.MapPut("/{id:guid}", AtualizarAsync);
+        grupo.MapPatch("/{id:guid}/status", AlterarStatusAsync);
         return rotas;
     }
 
@@ -58,6 +60,59 @@ public static class CampanhasEndpoints
     {
         var resultado = await listar.ExecutarAsync(new ListarCampanhasRequest(status, page ?? 1, pageSize ?? 20), cancelamento);
         return resultado.EhSucesso ? TypedResults.Ok(resultado.Valor) : ProblemasHttp.Para(resultado.Erro);
+    }
+
+    /// <summary>
+    /// Edita a campanha com concorrência otimista: 204 com o novo <c>ETag</c>, ou 400, 404, 409, 412 ou 422.
+    /// </summary>
+    /// <param name="id">Identificador da campanha.</param>
+    /// <param name="request">Corpo do pedido.</param>
+    /// <param name="atualizar">Caso de uso de edição.</param>
+    /// <param name="requisicao">Requisição HTTP, para ler o cabeçalho <c>If-Match</c>.</param>
+    /// <param name="resposta">Resposta HTTP, para o cabeçalho ETag.</param>
+    /// <param name="cancelamento">Token de cancelamento da requisição.</param>
+    /// <returns>A resposta HTTP correspondente ao resultado.</returns>
+    private static async Task<IResult> AtualizarAsync(
+        Guid id,
+        CampanhaRequest request,
+        AtualizarCampanha atualizar,
+        HttpRequest requisicao,
+        HttpResponse resposta,
+        CancellationToken cancelamento)
+    {
+        var resultado = await atualizar.ExecutarAsync(new CampanhaId(id), LerIfMatch(requisicao), request, cancelamento);
+        if (resultado.EhFalha)
+        {
+            return ProblemasHttp.Para(resultado.Erro);
+        }
+
+        resposta.Headers.ETag = ProblemasHttp.ETag(resultado.Valor.Versao);
+        return TypedResults.NoContent();
+    }
+
+    /// <summary>
+    /// Conclui ou cancela a campanha: 204, ou 400, 404, 409 ou 422.
+    /// </summary>
+    /// <param name="id">Identificador da campanha.</param>
+    /// <param name="request">Corpo com o status de destino.</param>
+    /// <param name="alterar">Caso de uso de mudança de status.</param>
+    /// <param name="cancelamento">Token de cancelamento da requisição.</param>
+    /// <returns>A resposta HTTP correspondente ao resultado.</returns>
+    private static async Task<IResult> AlterarStatusAsync(Guid id, AlterarStatusRequest request, AlterarStatusCampanha alterar, CancellationToken cancelamento)
+    {
+        var resultado = await alterar.ExecutarAsync(new CampanhaId(id), request, cancelamento);
+        return resultado.EhSucesso ? TypedResults.NoContent() : ProblemasHttp.Para(resultado.Erro);
+    }
+
+    /// <summary>
+    /// Lê a versão do cabeçalho <c>If-Match</c> (por exemplo, <c>"3"</c>).
+    /// </summary>
+    /// <param name="requisicao">Requisição HTTP.</param>
+    /// <returns>A versão, ou nulo se o cabeçalho não existe ou não é um número.</returns>
+    private static uint? LerIfMatch(HttpRequest requisicao)
+    {
+        var valor = requisicao.Headers.IfMatch.ToString().Trim().Trim('"');
+        return uint.TryParse(valor, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out var versao) ? versao : null;
     }
 
     /// <summary>

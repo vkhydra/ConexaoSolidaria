@@ -326,7 +326,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R095** · `002/T012` [H03] Endpoints `POST`, `GET` (lista e detalhe) com policy `GestorONG` — `Campanhas.Api/Endpoints/CampanhasEndpoints.cs`
   Commit: `✨ feat(campanhas): adiciona endpoints de criação e consulta de campanhas`
   Depende de: R094 (`002/T011`)
-- [ ] **R096** · `002/T013` [H04] Endpoints `PUT` com `ETag`/`If-Match` e `PATCH /status` — `Campanhas.Api/Endpoints/CampanhasEndpoints.cs`
+- [X] **R096** · `002/T013` [H04] Endpoints `PUT` com `ETag`/`If-Match` e `PATCH /status` — `Campanhas.Api/Endpoints/CampanhasEndpoints.cs`
   Commit: `✨ feat(campanhas): adiciona endpoints de edição e status com etag`
   Depende de: R095 (`002/T012`)
 - [ ] **R097** · `002/T014` [H03] Métrica `campanhas_criadas_total` — `Campanhas.Application/Campanhas/CriarCampanha.cs`
