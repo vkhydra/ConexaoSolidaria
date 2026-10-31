@@ -57,6 +57,109 @@ public sealed class DoacoesTests(CampanhasApiFixture api) : IClassFixture<Campan
     }
 
     /// <summary>
+    /// Dado um pedido fora do formato (valor zero, três casas, acima do limite ou campanha mal formada), quando enviado, então
+    /// recebe 400 e nada vai para o Outbox.
+    /// </summary>
+    /// <param name="corpo">Corpo JSON enviado.</param>
+    /// <returns>Tarefa do teste.</returns>
+    [Theory]
+    [InlineData("""{"idCampanha":"0192f3b0-1a2b-7c3d-8e4f-5a6b7c8d9e0f","valorDoacao":0}""")]
+    [InlineData("""{"idCampanha":"0192f3b0-1a2b-7c3d-8e4f-5a6b7c8d9e0f","valorDoacao":10.005}""")]
+    [InlineData("""{"idCampanha":"0192f3b0-1a2b-7c3d-8e4f-5a6b7c8d9e0f","valorDoacao":1000000.01}""")]
+    [InlineData("""{"idCampanha":"0192f3b0-1a2b-7c3d-8e4f-5a6b7c8d9e0f"}""")]
+    [InlineData("""{"idCampanha":"nao-e-um-guid","valorDoacao":10}""")]
+    [InlineData("""{}""")]
+    public async Task Receber_PedidoInvalido_Devolve400(string corpo)
+    {
+        using var doador = Cliente("Doador");
+        using var conteudo = new StringContent(corpo, System.Text.Encoding.UTF8, "application/json");
+
+        var resposta = await doador.PostAsync(_rota, conteudo, TestContext.Current.CancellationToken);
+
+        resposta.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+    }
+
+    /// <summary>
+    /// Dado um pedido sem valor, quando enviado, então o erro 400 aponta o campo valorDoacao.
+    /// </summary>
+    /// <returns>Tarefa do teste.</returns>
+    [Fact]
+    public async Task Receber_ValorAusente_Devolve400ComOCampo()
+    {
+        using var doador = Cliente("Doador");
+
+        var resposta = await doador.PostAsJsonAsync(_rota, new { idCampanha = Guid.NewGuid() }, TestContext.Current.CancellationToken);
+
+        resposta.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+        var erro = await resposta.Content.ReadFromJsonAsync<JsonElement>(TestContext.Current.CancellationToken);
+        erro.GetProperty("code").GetString().ShouldBe("validacao");
+        erro.GetProperty("errors").EnumerateObject().Select(p => p.Name).ShouldBe(["valorDoacao"]);
+    }
+
+    /// <summary>
+    /// Dado um chamador sem token ou com papel de gestor, quando doa, então recebe 401 ou 403.
+    /// </summary>
+    /// <returns>Tarefa do teste.</returns>
+    [Fact]
+    public async Task Receber_SemTokenOuPapelErrado_Devolve401Ou403()
+    {
+        using var anonimo = api.CreateClient();
+        using var gestor = Cliente("GestorONG");
+        var corpo = new { idCampanha = Guid.NewGuid(), valorDoacao = 10m };
+
+        (await anonimo.PostAsJsonAsync(_rota, corpo, TestContext.Current.CancellationToken)).StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
+        (await gestor.PostAsJsonAsync(_rota, corpo, TestContext.Current.CancellationToken)).StatusCode.ShouldBe(HttpStatusCode.Forbidden);
+    }
+
+    /// <summary>
+    /// Dada uma campanha inexistente, quando o doador doa, então recebe 404 campanha.nao_encontrada e nada vai para o Outbox.
+    /// </summary>
+    /// <returns>Tarefa do teste.</returns>
+    [Fact]
+    public async Task Receber_CampanhaInexistente_Devolve404()
+    {
+        using var doador = Cliente("Doador");
+        var campanhaId = Guid.NewGuid();
+
+        var resposta = await doador.PostAsJsonAsync(_rota, new { idCampanha = campanhaId, valorDoacao = 10m }, TestContext.Current.CancellationToken);
+
+        resposta.StatusCode.ShouldBe(HttpStatusCode.NotFound);
+        (await resposta.Content.ReadFromJsonAsync<JsonElement>(TestContext.Current.CancellationToken)).GetProperty("code").GetString().ShouldBe("campanha.nao_encontrada");
+        (await api.LerOutboxAsync(campanhaId)).ShouldBeEmpty();
+    }
+
+    /// <summary>
+    /// Dada uma campanha concluída, cancelada ou fora do período, quando o doador doa, então recebe 422
+    /// doacao.campanha_nao_ativa e nenhum evento de doação vai para o Outbox.
+    /// </summary>
+    /// <param name="situacao">Situação que torna a campanha inapta.</param>
+    /// <returns>Tarefa do teste.</returns>
+    [Theory]
+    [InlineData("Concluida")]
+    [InlineData("Cancelada")]
+    [InlineData("Encerrada")]
+    public async Task Receber_CampanhaInapta_Devolve422SemOutbox(string situacao)
+    {
+        var campanhaId = await CriarCampanhaAsync();
+        if (situacao == "Encerrada")
+        {
+            await api.ExecutarSqlAsync("UPDATE campanhas SET data_inicio = data_inicio - 40, data_fim = data_fim - 40 WHERE id = @id", ("id", campanhaId));
+        }
+        else
+        {
+            using var gestor = Cliente("GestorONG");
+            (await gestor.PatchAsJsonAsync($"/api/v1/campanhas/{campanhaId}/status", new { status = situacao }, TestContext.Current.CancellationToken)).StatusCode.ShouldBe(HttpStatusCode.NoContent);
+        }
+
+        using var doador = Cliente("Doador");
+        var resposta = await doador.PostAsJsonAsync(_rota, new { idCampanha = campanhaId, valorDoacao = 10m }, TestContext.Current.CancellationToken);
+
+        resposta.StatusCode.ShouldBe(HttpStatusCode.UnprocessableEntity);
+        (await resposta.Content.ReadFromJsonAsync<JsonElement>(TestContext.Current.CancellationToken)).GetProperty("code").GetString().ShouldBe("doacao.campanha_nao_ativa");
+        (await api.LerOutboxAsync(campanhaId)).Count(m => m.Contains("doacaoId", StringComparison.Ordinal)).ShouldBe(0);
+    }
+
+    /// <summary>
     /// Dada a mesma Idempotency-Key com o mesmo corpo, quando o doador repete o pedido, então recebe o mesmo doacaoId
     /// e só um evento fica no Outbox.
     /// </summary>

@@ -39,7 +39,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 ## Fase 4 — Testes de integração e aceitação
 
-- [ ] T013 [H06] Testes de integração da API: 202 grava Outbox, 400, 403, 404, 422 sem Outbox, `Idempotency-Key` — `tests/integration/Campanhas.IntegrationTests/DoacoesTests.cs`
+- [X] T013 [H06] Testes de integração da API: 202 grava Outbox, 400, 403, 404, 422 sem Outbox, `Idempotency-Key` — `tests/integration/Campanhas.IntegrationTests/DoacoesTests.cs`
   Commit: `✅ test(campanhas): adiciona testes de integração da doação`
 - [ ] T014 [H07] Testes do Worker: soma, duplicata, livro na reentrega, falha transitória, falha permanente → `_error`, soma do livro = total — `tests/integration/Arrecadacao.Worker.IntegrationTests/*`
   Commit: `✅ test(worker): adiciona testes de reentrega e falha permanente`

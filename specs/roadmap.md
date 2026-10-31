@@ -402,7 +402,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Depende de: R119 (`005/T010`)
 - [X] **R121** · `005/T012` [H07] Métricas de doação na API e no Worker — `Campanhas.Application/Doacoes/*`, `Campanhas.Application/Arrecadacao/*`
   Commit: `📈 feat(worker): adiciona métricas de doações recebidas e processadas`
-- [ ] **R122** · `005/T013` [H06] Testes de integração da API: 202 grava Outbox, 400, 403, 404, 422 sem Outbox, `Idempotency-Key` — `tests/integration/Campanhas.IntegrationTests/DoacoesTests.cs`
+- [X] **R122** · `005/T013` [H06] Testes de integração da API: 202 grava Outbox, 400, 403, 404, 422 sem Outbox, `Idempotency-Key` — `tests/integration/Campanhas.IntegrationTests/DoacoesTests.cs`
   Commit: `✅ test(campanhas): adiciona testes de integração da doação`
   Depende de: R114 (`005/T005`)
 - [ ] **R123** · `005/T014` [H07] Testes do Worker: soma, duplicata, livro na reentrega, falha transitória, falha permanente → `_error`, soma do livro = total — `tests/integration/Arrecadacao.Worker.IntegrationTests/*`
