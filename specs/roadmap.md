@@ -137,7 +137,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Commit: `🎉 chore(contracts): cria projeto ConexaoSolidaria.Contracts`
 - [X] **R023** · Projeto `ConexaoSolidaria.ServiceDefaults`, já na solução
   Commit: `🎉 chore(defaults): cria projeto ConexaoSolidaria.ServiceDefaults`
-- [ ] **R024** · Projetos `Identity.Domain`, `Application`, `Infrastructure` e `Api`
+- [X] **R024** · Projetos `Identity.Domain`, `Application`, `Infrastructure` e `Api`
   Commit: `🎉 chore(identity): cria projetos Domain, Application, Infrastructure e Api`
 - [ ] **R025** · Projetos `Campanhas.Domain`, `Application`, `Infrastructure`, `Api` e `Arrecadacao.Worker`
   Commit: `🎉 chore(campanhas): cria projetos Domain, Application, Infrastructure, Api e Worker`
