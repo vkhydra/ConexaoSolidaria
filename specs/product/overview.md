@@ -18,7 +18,7 @@ Fonte: `wiki:fontes/tech-challenge/05-hackathon-fase-5-conexao-solidaria`.
 
 | # | Objetivo | Como é medido |
 |---|---|---|
-| O1 | Atender todos os requisitos obrigatórios do Hackathon | Checklist em [21 — Entrega e riscos](../../docs/spec/21-entrega-e-riscos.md) 100% marcado |
+| O1 | Atender todos os requisitos obrigatórios do Hackathon | Checklist em [21 — Entrega e riscos](../../docs/entrega-e-riscos.md) 100% marcado |
 | O2 | Aplicar o conteúdo das 5 fases do curso | Matriz em [18 — Cobertura das fases](../../docs/cobertura-das-fases.md) |
 | O3 | Seguir as boas práticas da LLMWiki | Checklists das seções 10 a 17 marcados |
 | O4 | Manter todo commit compilável e no padrão | Hooks locais e CI verdes ([17 — Git e commits](../../docs/git-e-commits.md)) |

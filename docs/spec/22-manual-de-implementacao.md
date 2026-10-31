@@ -1,6 +1,6 @@
 # 22 — Manual de implementação
 
-[← README](../../README.md) · Anterior: [21 — Entrega e riscos](21-entrega-e-riscos.md) · Próximo: [23 — Manual do usuário](23-manual-do-usuario.md)
+[← README](../../README.md) · Anterior: [21 — Entrega e riscos](../entrega-e-riscos.md) · Próximo: [23 — Manual do usuário](23-manual-do-usuario.md)
 
 Passo a passo para colocar o Conexão Solidária no ar a partir de um clone do repositório, em Windows, macOS ou Linux. Público: integrantes do grupo e avaliadores. O código é construído conforme o [plano de execução](../plano-de-execucao.md); este manual descreve como **implantar e operar** o resultado.
 

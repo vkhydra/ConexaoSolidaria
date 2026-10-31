@@ -1,6 +1,6 @@
 # 20 — Plano de execução
 
-[← README](../README.md) · Anterior: [19 — Skills e MCP](claude-code.md) · Próximo: [21 — Entrega e riscos](spec/21-entrega-e-riscos.md)
+[← README](../README.md) · Anterior: [19 — Skills e MCP](claude-code.md) · Próximo: [21 — Entrega e riscos](entrega-e-riscos.md)
 
 Do ambiente pronto até a entrega. Cada etapa traz: **objetivo**, **tarefas**, **commits** (na ordem, um por arquivo ou pelo menor conjunto que compila — [seção 17.3](git-e-commits.md#173-granularidade)), **pronto quando** e **apoio** (skills, MCP, wiki).
 
@@ -402,7 +402,7 @@ Validação de cada manifesto antes do commit: `kubectl apply -k deploy/k8s/over
 ## Etapa 19 — Conclusão
 **Objetivo:** entrega final.
 **Tarefas:**
-1. Checklist de [21 — Entrega e riscos](spec/21-entrega-e-riscos.md) 100%.
+1. Checklist de [21 — Entrega e riscos](entrega-e-riscos.md) 100%.
 2. `git tag -a v1.0.0` + push; CI publica as imagens `1.0.0`; `gh release create v1.0.0 --generate-notes`.
 3. Confirmar repositório público e README funcionando.
 4. Apagar recursos de cloud, se houver.
