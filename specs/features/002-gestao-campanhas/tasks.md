@@ -10,7 +10,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
   Commit: `✨ feat(campanhas): adiciona tipos Result e Erro do domínio`
 - [X] T002 [H03] Value objects `Dinheiro` e `Periodo`, com testes — `Campanhas.Domain/Comum/*`
   Commit: `✨ feat(campanhas): adiciona value objects Dinheiro e Periodo`
-- [ ] T003 [H03] Agregado `Campanha` com `Criar` e eventos de domínio, com testes — `Campanhas.Domain/Campanhas/*`
+- [X] T003 [H03] Agregado `Campanha` com `Criar` e eventos de domínio, com testes — `Campanhas.Domain/Campanhas/*`
   Commit: `✨ feat(campanhas): adiciona agregado Campanha com regras de criação`
 - [ ] T004 [H04] `Atualizar`, `Concluir` e `Cancelar` com testes das transições — `Campanhas.Domain/Campanhas/Campanha.cs`
   Commit: `✨ feat(campanhas): adiciona edição e transições de status da campanha`
