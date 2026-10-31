@@ -171,7 +171,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Depende de: R037 (`009/T003`), R036 (`009/T004`)
 - [X] **R039** · Script `scripts/validar-mensagem-commit.ps1` (regex do guia de commits e lista de gitmojis)
   Commit: `🔧 chore: adiciona script de validação da mensagem de commit`
-- [ ] **R040** · Hooks do Husky.Net: `pre-commit` (formato, build, testes de unidade), `commit-msg` e `pre-push` (cobertura mínima de 90%)
+- [X] **R040** · Hooks do Husky.Net: `pre-commit` (formato, build, testes de unidade), `commit-msg` e `pre-push` (cobertura mínima de 90%)
   Commit: `🔧 chore: adiciona hooks do husky para build, formato e mensagem`
 - [ ] **R041** · `009/T006` [H11] Workflow `ci.yml` com gatilhos `push`, `pull_request` e `workflow_dispatch` e job `testes-unitarios` (build, testes `Category=Unit`, cobertura, resumo e artefatos) — `.github/workflows/ci.yml`
   Commit: `👷 ci: adiciona pipeline com testes unitários e cobertura`

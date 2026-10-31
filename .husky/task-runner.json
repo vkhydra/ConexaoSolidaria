@@ -1,0 +1,40 @@
+{
+  "$schema": "https://alirezanet.github.io/Husky.Net/schema.json",
+  "tasks": [
+    {
+      "name": "formato",
+      "group": "pre-commit",
+      "command": "dotnet",
+      "args": ["format", "ConexaoSolidaria.slnx", "--verify-no-changes", "--no-restore", "--include", "${staged}"],
+      "include": ["**/*.cs"]
+    },
+    {
+      "name": "build",
+      "group": "pre-commit",
+      "command": "dotnet",
+      "args": ["build", "ConexaoSolidaria.slnx", "-c", "Release", "-warnaserror"],
+      "include": ["**/*.cs", "**/*.razor", "**/*.csproj", "**/*.props", "**/*.targets", "**/*.slnx", "global.json", ".editorconfig", ".globalconfig", "stylecop.json", "**/packages.lock.json"],
+      "filteringRule": "staged"
+    },
+    {
+      "name": "testes-unidade",
+      "group": "pre-commit",
+      "command": "dotnet",
+      "args": ["test", "ConexaoSolidaria.slnx", "-c", "Release", "--no-build", "--filter", "Category=Unit"],
+      "include": ["**/*.cs", "**/*.razor", "**/*.csproj", "**/*.props", "**/*.targets", "**/*.slnx", "global.json", ".editorconfig", ".globalconfig", "stylecop.json", "**/packages.lock.json"],
+      "filteringRule": "staged"
+    },
+    {
+      "name": "mensagem",
+      "group": "commit-msg",
+      "command": "pwsh",
+      "args": ["-NoProfile", "-File", "scripts/validar-mensagem-commit.ps1", "${args}"]
+    },
+    {
+      "name": "testes-e-cobertura",
+      "group": "pre-push",
+      "command": "pwsh",
+      "args": ["-NoProfile", "-File", "scripts/verificar-cobertura.ps1", "-Minimo", "90", "-ExecutarTestes"]
+    }
+  ]
+}
