@@ -8,7 +8,7 @@ Formato: `- [ ] Tnnn [P] [história] descrição — arquivo(s)`, seguido do com
 
 - [X] T001 [H02] Value object `Email` com normalização e validação, com testes — `Identity.Domain/Usuarios/Email.cs`, `tests/unit/Identity.UnitTests/Usuarios/EmailTests.cs`
   Commit: `✨ feat(identity): adiciona value object Email`
-- [ ] T002 [H02] `Role`, `UsuarioId` e agregado `Usuario` com `CriarGestor` e `VerificarSenha`, com testes — `Identity.Domain/Usuarios/*`
+- [X] T002 [H02] `Role`, `UsuarioId` e agregado `Usuario` com `CriarGestor` e `VerificarSenha`, com testes — `Identity.Domain/Usuarios/*`
   Commit: `✨ feat(identity): adiciona agregado Usuario com verificação de senha`
 - [ ] T003 [P] [H02] Entidade `TentativaLogin` com janela de 15 min e bloqueio na 5ª falha, com testes — `Identity.Domain/Autenticacao/TentativaLogin.cs`
   Commit: `✨ feat(identity): adiciona controle de tentativas de login`
