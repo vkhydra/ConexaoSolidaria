@@ -2,13 +2,13 @@
 
 [← README](../../README.md)
 
-Atende ao requisito obrigatório "pipeline acionada a cada push na branch principal que faz .NET build e gera a imagem Docker" e ao bônus "testes de unidade dentro do CI". Referências: `wiki:disciplinas/github-actions`, `wiki:boas-praticas/github-actions`, `wiki:conceitos/ci-cd`.
+Atende ao requisito avaliado do trabalho substitutivo — **pipeline que executa os testes unitários e retorna a cobertura** ([feature 009](../features/009-ci-testes-cobertura/spec.md)) — e aplica o conteúdo de CI/CD da Fase 4 (imagens Docker, varreduras, deploy opcional). Referências: `wiki:disciplinas/github-actions`, `wiki:boas-praticas/github-actions`, `wiki:conceitos/ci-cd`.
 
 ## Workflows
 
 | Arquivo | Gatilho | Objetivo |
 |---|---|---|
-| `.github/workflows/ci.yml` | `push` e `pull_request` na `main`; tags `v*`; `workflow_dispatch` | Formato, build, testes, cobertura, scans, imagens Docker |
+| `.github/workflows/ci.yml` | `push` e `pull_request` na `main`; tags `v*`; `workflow_dispatch` | Testes unitários com cobertura (avaliado), testes completos, scans, imagens Docker |
 | `.github/workflows/codeql.yml` | `push`/`pull_request` na `main` e semanal | Análise estática de segurança (C#) |
 | `.github/workflows/cd.yml` | `workflow_run` do CI concluído com sucesso na `main` + `workflow_dispatch` | **Opcional**: deploy no AKS |
 | `.github/dependabot.yml` | Semanal | Atualizar NuGet, GitHub Actions e imagens Docker |
@@ -17,7 +17,8 @@ Atende ao requisito obrigatório "pipeline acionada a cada push na branch princi
 
 ```mermaid
 flowchart LR
-  A[push / PR] --> B[build-test]
+  A[push / PR / manual] --> U[testes-unitarios<br/>cobertura + artefato]
+  U --> B[testes-integracao<br/>cobertura total ≥ 90%]
   A --> C[secret-scan]
   B --> D[docker<br/>matriz por serviço]
   C --> D
@@ -26,7 +27,7 @@ flowchart LR
   E -- não --> G[só build e scan]
 ```
 
-### Job `build-test`
+### Job `testes-unitarios` (requisito avaliado)
 | Passo | Comando / action | Falha quando |
 |---|---|---|
 | Checkout | `actions/checkout` | — |
@@ -35,11 +36,21 @@ flowchart LR
 | Restore | `dotnet restore --locked-mode` | Lock file desatualizado |
 | Formato | `dotnet format --verify-no-changes --no-restore` | Código fora do `.editorconfig` |
 | Build | `dotnet build -c Release --no-restore -warnaserror` | Erro ou aviso |
+| Testes unitários | `dotnet test -c Release --no-build --filter Category=Unit --settings coverlet.runsettings --collect "XPlat Code Coverage" --logger trx --results-directory TestResults/unit` | Teste falhando |
+| Relatório | `dotnet reportgenerator -reports:"TestResults/unit/**/coverage.cobertura.xml" -targetdir:coverage/unit -reporttypes:"Html;Cobertura;JsonSummary;MarkdownSummaryGithub" -title:"Cobertura — testes unitários"` | — |
+| Cobertura no resumo | `cat coverage/unit/SummaryGithub.md >> $GITHUB_STEP_SUMMARY` | — |
+| Artefatos (download) | `actions/upload-artifact` com `if: always()`: `cobertura-testes-unitarios` (`coverage/unit`) e `resultados-testes-unitarios` (`TestResults/unit/**/*.trx`), `retention-days: 14` | — |
+
+### Job `testes-integracao`
+Depende de `testes-unitarios`. Mesmos passos de preparação, mais:
+
+| Passo | Comando / action | Falha quando |
+|---|---|---|
 | Pacotes vulneráveis | `dotnet list package --vulnerable --include-transitive` + verificação da saída | Vulnerabilidade alta ou crítica |
-| Testes | `dotnet test -c Release --no-build --settings coverlet.runsettings --collect "XPlat Code Coverage" --logger trx --results-directory TestResults` | Teste falhando (Testcontainers usa o Docker do runner) |
-| Relatório de cobertura | `dotnet reportgenerator -reports:"TestResults/**/coverage.cobertura.xml" -targetdir:coverage -reporttypes:"Html;JsonSummary;MarkdownSummaryGithub"` e `cat coverage/SummaryGithub.md >> $GITHUB_STEP_SUMMARY` | — |
-| Cobertura mínima | `pwsh ./scripts/verificar-cobertura.ps1 -Minimo 90` | Linhas ou ramos abaixo de 90% no total ou em algum projeto de `src/` |
-| Artefatos | `actions/upload-artifact` (`TestResults`, `coverage`) com `retention-days: 14` | — |
+| Todos os testes | `dotnet test -c Release --no-build --settings coverlet.runsettings --collect "XPlat Code Coverage" --logger trx --results-directory TestResults/all` | Teste falhando (Testcontainers usa o Docker do runner) |
+| Relatório | `dotnet reportgenerator -reports:"TestResults/all/**/coverage.cobertura.xml" -targetdir:coverage/all -reporttypes:"Html;JsonSummary;MarkdownSummaryGithub" -title:"Cobertura total"` | — |
+| Cobertura mínima | `pwsh ./scripts/verificar-cobertura.ps1 -Minimo 90 -Relatorio coverage/all/Summary.json` | Linhas ou ramos abaixo de 90% no total ou em algum projeto de `src/` |
+| Artefatos | `cobertura-total` e `resultados-testes`, `retention-days: 14` | — |
 
 ### Job `secret-scan`
 `actions/checkout` com `fetch-depth: 0` + gitleaks. Falha se houver segredo em qualquer commit.
@@ -71,9 +82,9 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build-test:
+  testes-unitarios:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@<sha>        # v4
       - uses: actions/setup-dotnet@<sha>    # v4
@@ -85,14 +96,48 @@ jobs:
       - run: dotnet restore --locked-mode
       - run: dotnet format --verify-no-changes --no-restore
       - run: dotnet build -c Release --no-restore -warnaserror
-      - run: dotnet test -c Release --no-build --settings coverlet.runsettings --collect "XPlat Code Coverage" --logger trx --results-directory TestResults
-      - run: dotnet reportgenerator -reports:"TestResults/**/coverage.cobertura.xml" -targetdir:coverage -reporttypes:"Html;JsonSummary;MarkdownSummaryGithub"
-      - run: cat coverage/SummaryGithub.md >> "$GITHUB_STEP_SUMMARY"
-      - run: pwsh ./scripts/verificar-cobertura.ps1 -Minimo 90
-      # ... upload dos artefatos (if: always())
+      - name: Testes unitários com cobertura
+        run: >
+          dotnet test -c Release --no-build --filter Category=Unit
+          --settings coverlet.runsettings --collect "XPlat Code Coverage"
+          --logger trx --results-directory TestResults/unit
+      - name: Relatório de cobertura
+        if: always()
+        run: >
+          dotnet reportgenerator -reports:"TestResults/unit/**/coverage.cobertura.xml"
+          -targetdir:coverage/unit -reporttypes:"Html;Cobertura;JsonSummary;MarkdownSummaryGithub"
+          -title:"Cobertura — testes unitários"
+      - name: Cobertura no resumo da execução
+        if: always()
+        run: cat coverage/unit/SummaryGithub.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Publicar cobertura para download
+        if: always()
+        uses: actions/upload-artifact@<sha>   # v4
+        with:
+          name: cobertura-testes-unitarios
+          path: coverage/unit
+          retention-days: 14
+      - name: Publicar resultados dos testes
+        if: always()
+        uses: actions/upload-artifact@<sha>   # v4
+        with:
+          name: resultados-testes-unitarios
+          path: TestResults/unit/**/*.trx
+          retention-days: 14
+
+  testes-integracao:
+    needs: testes-unitarios
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      # checkout, setup-dotnet, restore e build como acima
+      - run: dotnet test -c Release --no-build --settings coverlet.runsettings --collect "XPlat Code Coverage" --logger trx --results-directory TestResults/all
+      - run: dotnet reportgenerator -reports:"TestResults/all/**/coverage.cobertura.xml" -targetdir:coverage/all -reporttypes:"Html;JsonSummary;MarkdownSummaryGithub" -title:"Cobertura total"
+      - run: pwsh ./scripts/verificar-cobertura.ps1 -Minimo 90 -Relatorio coverage/all/Summary.json
+      # ... upload de cobertura-total e resultados-testes (if: always())
 
   docker:
-    needs: [build-test, secret-scan]
+    needs: [testes-integracao, secret-scan]
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
@@ -123,7 +168,7 @@ jobs:
 Configurada na Etapa 14 (`gh api` ou interface do GitHub):
 
 - PR obrigatório para merge, com 1 aprovação.
-- Checks obrigatórios: `build-test`, `secret-scan`, `docker` (todas as entradas da matriz), `CodeQL`.
+- Checks obrigatórios: `testes-unitarios`, `testes-integracao`, `secret-scan`, `docker` (todas as entradas da matriz), `CodeQL`.
 - Branch atualizada antes do merge.
 - Sem force push e sem exclusão.
 - Merge por **rebase** (preserva os commits atômicos, cada um já validado; ver [Git e commits](../../docs/git-e-commits.md)).
