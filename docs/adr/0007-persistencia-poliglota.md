@@ -3,6 +3,7 @@
 - **Status:** Aceito
 - **Data:** 2026-10-30
 - **Decisores:** equipe do projeto
+- **Errata (2026-10-30):** contexto corrigido para o escopo do trabalho substitutivo ([ADR 0018](0018-escopo-trabalho-substitutivo.md)); a decisão não mudou.
 
 ## Contexto
 
@@ -18,7 +19,7 @@ Só PostgreSQL (com `tsvector` para busca e tabela de auditoria): mais simples, 
 
 ## Consequências
 
-Mais componentes para operar; justificativa formal no PDF exigido pelo enunciado.
+Mais componentes para operar; justificativa formal em `docs/justificativa-bancos.md`.
 
 ## Referências
 
