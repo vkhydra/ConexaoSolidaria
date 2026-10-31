@@ -99,6 +99,69 @@ namespace Campanhas.Infrastructure.Persistencia.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Campanhas.Infrastructure.Persistencia.Entidades.ChaveIdempotencia", b =>
+                {
+                    b.Property<string>("Chave")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("chave");
+
+                    b.Property<Guid>("DoadorId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("doador_id");
+
+                    b.Property<DateTimeOffset>("CriadaEm")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("criada_em");
+
+                    b.Property<Guid>("DoacaoId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("doacao_id");
+
+                    b.Property<byte[]>("HashCorpo")
+                        .IsRequired()
+                        .HasColumnType("bytea")
+                        .HasColumnName("hash_corpo");
+
+                    b.HasKey("Chave", "DoadorId")
+                        .HasName("pk_chaves_idempotencia");
+
+                    b.HasIndex("CriadaEm")
+                        .HasDatabaseName("ix_chaves_idempotencia_criada_em");
+
+                    b.ToTable("chaves_idempotencia", (string)null);
+                });
+
+            modelBuilder.Entity("Campanhas.Infrastructure.Persistencia.Entidades.DoacaoProcessada", b =>
+                {
+                    b.Property<Guid>("DoacaoId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("doacao_id");
+
+                    b.Property<Guid>("CampanhaId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("campanha_id");
+
+                    b.Property<DateTimeOffset>("ProcessadaEm")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("processada_em");
+
+                    b.Property<decimal>("Valor")
+                        .HasColumnType("numeric(18,2)")
+                        .HasColumnName("valor");
+
+                    b.HasKey("DoacaoId")
+                        .HasName("pk_doacoes_processadas");
+
+                    b.HasIndex("CampanhaId")
+                        .HasDatabaseName("ix_doacoes_processadas_campanha_id");
+
+                    b.ToTable("doacoes_processadas", null, t =>
+                        {
+                            t.HasCheckConstraint("ck_doacoes_processadas_valor", "valor > 0");
+                        });
+                });
+
             modelBuilder.Entity("MassTransit.EntityFrameworkCoreIntegration.InboxState", b =>
                 {
                     b.Property<long>("Id")
@@ -315,6 +378,16 @@ namespace Campanhas.Infrastructure.Persistencia.Migrations
                         .HasDatabaseName("ix_outbox_state_created");
 
                     b.ToTable("outbox_state", (string)null);
+                });
+
+            modelBuilder.Entity("Campanhas.Infrastructure.Persistencia.Entidades.DoacaoProcessada", b =>
+                {
+                    b.HasOne("Campanhas.Domain.Campanhas.Campanha", null)
+                        .WithMany()
+                        .HasForeignKey("CampanhaId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_doacoes_processadas_campanhas_campanha_id");
                 });
 
             modelBuilder.Entity("MassTransit.EntityFrameworkCoreIntegration.OutboxMessage", b =>

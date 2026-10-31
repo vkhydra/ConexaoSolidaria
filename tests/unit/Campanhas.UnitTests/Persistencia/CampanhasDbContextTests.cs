@@ -1,6 +1,7 @@
 using Campanhas.Domain.Campanhas;
 using Campanhas.Domain.Comum;
 using Campanhas.Infrastructure.Persistencia;
+using Campanhas.Infrastructure.Persistencia.Entidades;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -69,6 +70,42 @@ public sealed class CampanhasDbContextTests
     }
 
     /// <summary>
+    /// Dado o modelo do contexto, quando consultado, então <c>doacoes_processadas</c> tem a doação como chave, a restrição de valor
+    /// e a chave estrangeira para a campanha.
+    /// </summary>
+    [Fact]
+    public void Modelo_DoacaoProcessada_MapeiaChaveRestricaoEChaveEstrangeira()
+    {
+        var tipo = _modelo.FindEntityType(typeof(DoacaoProcessada))!;
+
+        tipo.GetTableName().ShouldBe("doacoes_processadas");
+        tipo.FindPrimaryKey()!.Properties.Single().GetColumnName().ShouldBe("doacao_id");
+        tipo.GetProperties().Select(p => p.GetColumnName()).ShouldBe(["doacao_id", "campanha_id", "valor", "processada_em"], ignoreOrder: true);
+        tipo.GetCheckConstraints().Select(c => c.Name).ShouldBe(["ck_doacoes_processadas_valor"]);
+        tipo.GetForeignKeys().Single().PrincipalEntityType.ClrType.ShouldBe(typeof(Campanha));
+        tipo.FindProperty(nameof(DoacaoProcessada.Valor))!.GetColumnType().ShouldBe("numeric(18,2)");
+        ((DateTimeOffset)tipo.FindProperty(nameof(DoacaoProcessada.ProcessadaEm))!.GetValueConverter()!
+            .ConvertToProvider(new DateTimeOffset(2026, 11, 10, 9, 0, 0, TimeSpan.FromHours(-3)))!).Offset.ShouldBe(TimeSpan.Zero);
+    }
+
+    /// <summary>
+    /// Dado o modelo do contexto, quando consultado, então <c>chaves_idempotencia</c> tem chave composta por chave e doador.
+    /// </summary>
+    [Fact]
+    public void Modelo_ChaveIdempotencia_MapeiaChaveCompostaEColunas()
+    {
+        var tipo = _modelo.FindEntityType(typeof(ChaveIdempotencia))!;
+
+        tipo.GetTableName().ShouldBe("chaves_idempotencia");
+        tipo.FindPrimaryKey()!.Properties.Select(p => p.GetColumnName()).ShouldBe(["chave", "doador_id"]);
+        tipo.GetProperties().Select(p => p.GetColumnName()).ShouldBe(["chave", "doador_id", "doacao_id", "hash_corpo", "criada_em"], ignoreOrder: true);
+        tipo.FindProperty(nameof(ChaveIdempotencia.Chave))!.GetMaxLength().ShouldBe(100);
+        tipo.FindProperty(nameof(ChaveIdempotencia.HashCorpo))!.GetColumnType().ShouldBe("bytea");
+        ((DateTimeOffset)tipo.FindProperty(nameof(ChaveIdempotencia.CriadaEm))!.GetValueConverter()!
+            .ConvertToProvider(new DateTimeOffset(2026, 11, 10, 9, 0, 0, TimeSpan.FromHours(-3)))!).Offset.ShouldBe(TimeSpan.Zero);
+    }
+
+    /// <summary>
     /// Dados valores do domínio, quando convertidos para o banco e de volta, então identificador, dinheiro e instantes não mudam.
     /// </summary>
     [Fact]
@@ -100,5 +137,7 @@ public sealed class CampanhasDbContextTests
     {
         Should.Throw<ArgumentNullException>(() => CampanhasDbContext.Configurar(null!, "Host=localhost"));
         Should.Throw<ArgumentNullException>(() => new Infrastructure.Persistencia.Configuracoes.CampanhaConfiguracao().Configure(null!));
+        Should.Throw<ArgumentNullException>(() => new Infrastructure.Persistencia.Configuracoes.DoacaoProcessadaConfiguracao().Configure(null!));
+        Should.Throw<ArgumentNullException>(() => new Infrastructure.Persistencia.Configuracoes.ChaveIdempotenciaConfiguracao().Configure(null!));
     }
 }

@@ -15,7 +15,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 - [X] T003 [H06] Caso de uso `ReceberDoacao` com validador e testes (202, 404, 422, total não alterado) — `Campanhas.Application/Doacoes/*`
   Commit: `✨ feat(campanhas): adiciona caso de uso de recebimento de doação`
-- [ ] T004 [H06] Tabelas `doacoes_processadas` e `chaves_idempotencia` na migration — `Campanhas.Infrastructure/Persistencia/*`
+- [X] T004 [H06] Tabelas `doacoes_processadas` e `chaves_idempotencia` na migration — `Campanhas.Infrastructure/Persistencia/*`
   Commit: `🗃️ feat(campanhas): adiciona tabelas de idempotência de doações`
 - [ ] T005 [H06] Endpoint `POST /doacoes` com policy `Doador` e Outbox — `Campanhas.Api/Endpoints/DoacoesEndpoints.cs`
   Commit: `✨ feat(campanhas): adiciona recebimento de doação com outbox`

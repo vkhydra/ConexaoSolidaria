@@ -378,7 +378,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R112** · `005/T003` [H06] Caso de uso `ReceberDoacao` com validador e testes (202, 404, 422, total não alterado) — `Campanhas.Application/Doacoes/*`
   Commit: `✨ feat(campanhas): adiciona caso de uso de recebimento de doação`
   Depende de: R110 (`005/T001`)
-- [ ] **R113** · `005/T004` [H06] Tabelas `doacoes_processadas` e `chaves_idempotencia` na migration — `Campanhas.Infrastructure/Persistencia/*`
+- [X] **R113** · `005/T004` [H06] Tabelas `doacoes_processadas` e `chaves_idempotencia` na migration — `Campanhas.Infrastructure/Persistencia/*`
   Commit: `🗃️ feat(campanhas): adiciona tabelas de idempotência de doações`
 - [ ] **R114** · `005/T005` [H06] Endpoint `POST /doacoes` com policy `Doador` e Outbox — `Campanhas.Api/Endpoints/DoacoesEndpoints.cs`
   Commit: `✨ feat(campanhas): adiciona recebimento de doação com outbox`

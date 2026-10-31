@@ -1,4 +1,5 @@
 using Campanhas.Domain.Campanhas;
+using Campanhas.Infrastructure.Persistencia.Entidades;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,6 +15,16 @@ public sealed class CampanhasDbContext(DbContextOptions<CampanhasDbContext> opco
     /// Obtém as campanhas (tabela <c>campanhas</c>).
     /// </summary>
     public DbSet<Campanha> Campanhas => Set<Campanha>();
+
+    /// <summary>
+    /// Obtém as doações já somadas ao total (tabela <c>doacoes_processadas</c>).
+    /// </summary>
+    public DbSet<DoacaoProcessada> DoacoesProcessadas => Set<DoacaoProcessada>();
+
+    /// <summary>
+    /// Obtém as chaves de idempotência das doações (tabela <c>chaves_idempotencia</c>).
+    /// </summary>
+    public DbSet<ChaveIdempotencia> ChavesIdempotencia => Set<ChaveIdempotencia>();
 
     /// <summary>
     /// Aplica as opções comuns do contexto: PostgreSQL e nomes em <c>snake_case</c>.
