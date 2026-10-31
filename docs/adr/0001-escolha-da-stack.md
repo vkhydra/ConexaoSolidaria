@@ -12,7 +12,7 @@ O trabalho substitutivo da Fase 3 pede uma API .NET com testes unitários e uma 
 A stack precisa:
 
 - rodar inteira numa máquina de 16 GB com Windows, macOS ou Linux;
-- ter licença livre (repositório público, sem custo);
+- ter licença livre (sem custo de uso);
 - ser a ensinada no curso, sempre que houver opção.
 
 ## Decisão
