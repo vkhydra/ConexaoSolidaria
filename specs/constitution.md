@@ -2,7 +2,7 @@
 
 [← README](../README.md)
 
-**Versão:** 1.0.0 · **Ratificada em:** 2026-10-30 · **Última alteração:** 2026-10-30
+**Versão:** 1.0.1 · **Ratificada em:** 2026-10-30 · **Última alteração:** 2026-10-30
 
 Princípios inegociáveis do projeto. Valem para todo código, spec, teste, manifesto e documento. O comando `/plan` verifica cada princípio (seção "Verificação da constituição" do `plan.md`), e o `/analyze` e o agente `reviewer` apontam violações. Em conflito entre este arquivo e qualquer outro documento, vale este arquivo.
 
@@ -69,7 +69,7 @@ Palavras-chave: **DEVE** e **NÃO DEVE** são obrigatórias; **DEVERIA** admite 
 - Dados pessoais (nome, e-mail, CPF) **NÃO DEVEM** aparecer em logs, métricas, traces, eventos ou mensagens de erro; só IDs.
 - Segredos **NÃO DEVEM** estar no código, em YAML versionado, em imagens ou em prompts; vêm de variáveis de ambiente e Secrets.
 - Senha só como hash BCrypt; CPF cifrado (AES-GCM) com hash HMAC para unicidade.
-- Coleta mínima: só os dados exigidos pelo enunciado ([segurança e LGPD](product/seguranca-e-lgpd.md)).
+- Coleta mínima: só os dados necessários às funcionalidades especificadas ([segurança e LGPD](product/seguranca-e-lgpd.md)).
 
 **Verificação:** `/security-review`, gitleaks, Trivy, CodeQL e checklist OWASP.
 
