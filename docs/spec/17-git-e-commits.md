@@ -138,7 +138,7 @@ Instalação (Etapa 3): `dotnet new tool-manifest`, `dotnet tool install Husky`,
 ```
 e confere se o primeiro símbolo está na lista da tabela 17.2. Commits gerados pelo git (`Merge`, `Revert`) são aceitos.
 
-No `pre-push`, `scripts/verificar-cobertura.ps1 -ExecutarTestes` roda todos os testes com cobertura, gera o relatório e bloqueia o push se a cobertura ficar abaixo de 90% ([15.7](15-testes.md)).
+No `pre-push`, `scripts/verificar-cobertura.ps1 -ExecutarTestes` roda todos os testes com cobertura, gera o relatório e bloqueia o push se a cobertura ficar abaixo de 90% ([15.7](../testes.md)).
 
 ### Camada 2 — Verificação de cada commit antes do PR
 ```powershell

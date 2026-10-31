@@ -1,6 +1,6 @@
 # 15 — Testes
 
-[← README](../../README.md) · Anterior: [14 — CI/CD](../../specs/product/ci-cd.md) · Próximo: [16 — Padrões de código](16-padroes-de-codigo.md)
+[← README](../README.md) · Anterior: [14 — CI/CD](../specs/product/ci-cd.md) · Próximo: [16 — Padrões de código](spec/16-padroes-de-codigo.md)
 
 Referências: `wiki:disciplinas/qualidade-software`, `wiki:disciplinas/principios-qualidade`, `wiki:conceitos/piramide-de-testes`, `wiki:conceitos/tdd`, `wiki:conceitos/bdd`, `wiki:conceitos/teste-de-carga`.
 
@@ -60,7 +60,7 @@ Como todo commit precisa compilar e passar nos testes, o teste e a implementaç�
 ## 15.5 BDD (Reqnroll)
 
 - Projeto `tests/ConexaoSolidaria.Bdd` com `Features/*.feature` em português (`# language: pt`).
-- Um arquivo por RF, com os cenários de [04 — Requisitos funcionais](04-requisitos-funcionais.md).
+- Um arquivo por RF, com os cenários de [04 — Requisitos funcionais](spec/04-requisitos-funcionais.md).
 - Steps declarativos ("o doador doa 150.00"), sem detalhes de HTTP no texto.
 - Steps chamam as APIs reais em memória (`WebApplicationFactory`) com infraestrutura em Testcontainers.
 - Relatório de execução publicado como artefato do CI.
@@ -83,12 +83,12 @@ Pasta `tests/load/`, execução contra o Kong local:
 
 | Item | Definição |
 |---|---|
-| Meta | **≥ 90% de linhas e ≥ 90% de ramos**, no total da solução **e** em cada projeto de `src/` ([RNF34](../../specs/product/requisitos-nao-funcionais.md)) |
+| Meta | **≥ 90% de linhas e ≥ 90% de ramos**, no total da solução **e** em cada projeto de `src/` ([RNF34](../specs/product/requisitos-nao-funcionais.md)) |
 | Coleta | `coverlet.collector` (`--collect "XPlat Code Coverage"`) com `--settings coverlet.runsettings` |
 | Soma | Unidade, integração, BDD e bUnit somados pelo ReportGenerator em um único `coverage/Summary.json` |
 | Relatório | HTML como artefato do CI; resumo Markdown no `GITHUB_STEP_SUMMARY` |
 | Verificação | `scripts/verificar-cobertura.ps1 -Minimo 90` lê o `Summary.json` e termina com erro (exit 1) se o total ou algum projeto ficar abaixo de 90% em linhas ou ramos, listando quais |
-| Onde é obrigatória | Hook `pre-push` ([17.4](17-git-e-commits.md)) e job `build-test` do CI; PR com cobertura abaixo da meta não faz merge |
+| Onde é obrigatória | Hook `pre-push` ([17.4](spec/17-git-e-commits.md)) e job `build-test` do CI; PR com cobertura abaixo da meta não faz merge |
 | Fora da medição | Projetos de teste, `**/Migrations/*.cs`, `**/Program.cs`, código gerado (`*.g.cs`, `GeneratedCodeAttribute`, arquivos do Reqnroll) |
 | `[ExcludeFromCodeCoverage]` | Só com `Justification` preenchida e aprovada no PR; nunca para fugir da meta |
 
@@ -127,7 +127,7 @@ Relatório navegável em `coverage/index.html` (pasta ignorada pelo git).
 | `*.Domain` | Testes de unidade com TDD (15.3) |
 | `*.Application` | Testes de unidade dos casos de uso com fakes das interfaces |
 | `*.Infrastructure` | Testes de integração com Testcontainers (repositórios, Outbox, cifragem, Elasticsearch, MongoDB, Redis) |
-| `*.Api` | Testes de integração com `WebApplicationFactory` e cenários BDD (todos os códigos de status de [09](../../specs/product/api-e-eventos.md)) |
+| `*.Api` | Testes de integração com `WebApplicationFactory` e cenários BDD (todos os códigos de status de [09](../specs/product/api-e-eventos.md)) |
 | `Arrecadacao.Worker` | MassTransit Test Harness + Testcontainers (sucesso, duplicata, falha transitória, falha permanente) |
 | `Notificacoes.Function` | Testes de unidade da função (envelope, deduplicação, log mascarado) |
 | `ConexaoSolidaria.Web` | bUnit em todos os componentes e páginas (estados de carregando, sucesso, erro e sem permissão) |

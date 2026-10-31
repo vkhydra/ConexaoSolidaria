@@ -247,7 +247,7 @@ k6 run -e BASE_URL=https://api.conexao.local tests/load/painel.js
 k6 run -e BASE_URL=https://api.conexao.local tests/load/doacao.js
 k6 run -e BASE_URL=https://api.conexao.local tests/load/busca.js
 ```
-Os testes de integração precisam do Docker ligado (Testcontainers). Detalhes em [15 — Testes](15-testes.md).
+Os testes de integração precisam do Docker ligado (Testcontainers). Detalhes em [15 — Testes](../testes.md).
 
 ## 22.9 Atualizar uma versão (Rolling Update)
 

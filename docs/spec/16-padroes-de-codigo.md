@@ -1,6 +1,6 @@
 # 16 — Padrões de código
 
-[← README](../../README.md) · Anterior: [15 — Testes](15-testes.md) · Próximo: [17 — Git e commits](17-git-e-commits.md)
+[← README](../../README.md) · Anterior: [15 — Testes](../testes.md) · Próximo: [17 — Git e commits](17-git-e-commits.md)
 
 Referências: `wiki:disciplinas/solid`, `wiki:boas-praticas/solid`, `wiki:boas-praticas/api-dotnet`, `wiki:boas-praticas/efcore`, `wiki:boas-praticas/microsservicos`.
 
@@ -13,7 +13,7 @@ Referências: `wiki:disciplinas/solid`, `wiki:boas-praticas/solid`, `wiki:boas-p
 | `Directory.Packages.props` | `ManagePackageVersionsCentrally true`; todas as versões fixas aqui |
 | `.editorconfig` | Estilo C# (namespaces por arquivo, `var` quando o tipo é evidente, chaves sempre, nomes `_camelCase` para campos privados), severidades dos analisadores |
 | `.gitattributes` | `* text=auto eol=lf`; `*.ps1 eol=crlf`; binários marcados |
-| `coverlet.runsettings` | Filtros e exclusões da cobertura ([15.7](15-testes.md)) |
+| `coverlet.runsettings` | Filtros e exclusões da cobertura ([15.7](../testes.md)) |
 | `stylecop.json` | Regras de documentação XML do StyleCop ([16.7](#167-documentação-xml-summary)) |
 | `.config/dotnet-tools.json` | `dotnet-ef`, `husky`, `dotnet-reportgenerator-globaltool` |
 

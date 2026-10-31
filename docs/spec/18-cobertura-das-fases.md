@@ -32,7 +32,7 @@ Legenda de status: **Obrigatório** (enunciado), **Aplicado** (escolha do projet
 | | Migrations | Migration bundle em Job | Aplicado | 4, 5, 11 | `conceitos/migrations` |
 | | Performance | `AsNoTracking`, projeção, índices | Aplicado | 5 | `conceitos/otimizacao-de-performance-ef-core` |
 | | Concorrência | `xmin` + `If-Match` | Aplicado | 5 | `boas-praticas/efcore` |
-| Princípios de qualidade | Pirâmide de testes | [Seção 15](15-testes.md) | Aplicado | 4–9 | `conceitos/piramide-de-testes` |
+| Princípios de qualidade | Pirâmide de testes | [Seção 15](../testes.md) | Aplicado | 4–9 | `conceitos/piramide-de-testes` |
 | | Testes de UI | bUnit; Playwright | Aplicado / Bônus | 8 | `conceitos/automacao-de-testes-ui` |
 | Qualidade de software | Testes de unidade | xUnit | Bônus do enunciado | 4–6 | `conceitos/teste-de-unidade` |
 | | TDD | Domínio | Aplicado | 4, 5 | `conceitos/tdd` |
