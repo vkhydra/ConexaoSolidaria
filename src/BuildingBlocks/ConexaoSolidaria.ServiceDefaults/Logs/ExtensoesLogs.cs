@@ -1,5 +1,6 @@
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Serilog.Events;
 using Serilog.Formatting.Compact;
@@ -27,7 +28,7 @@ public static class ExtensoesLogs
         builder.Host.UseSerilog((contexto, servicos, configuracao) => configuracao
             .ConfigurarPadrao(servico, ObterVersao(), contexto.HostingEnvironment.EnvironmentName)
             .ReadFrom.Services(servicos)
-            .WriteTo.Console(new RenderedCompactJsonFormatter()));
+            .WriteTo.Console(new RenderedCompactJsonFormatter()), preserveStaticLogger: true);
 
         return builder;
     }
@@ -36,7 +37,7 @@ public static class ExtensoesLogs
     /// Registra um log por requisição HTTP, sem as sondas de saúde e de métricas.
     /// </summary>
     /// <param name="app">Aplicação web.</param>
-    /// <param name="logger">Logger a usar; se for nulo, usa o logger global configurado por <see cref="AddLogsEstruturados"/>.</param>
+    /// <param name="logger">Logger a usar; se for nulo, usa o logger do próprio host, configurado por <see cref="AddLogsEstruturados"/>.</param>
     /// <returns>A própria aplicação, para encadeamento.</returns>
     public static WebApplication UsarLogsDeRequisicoes(this WebApplication app, Serilog.ILogger? logger = null)
     {
@@ -45,7 +46,7 @@ public static class ExtensoesLogs
         app.UseSerilogRequestLogging(opcoes =>
         {
             opcoes.GetLevel = NivelRequisicao.Obter;
-            opcoes.Logger = logger;
+            opcoes.Logger = logger ?? app.Services.GetRequiredService<Serilog.ILogger>();
         });
         return app;
     }

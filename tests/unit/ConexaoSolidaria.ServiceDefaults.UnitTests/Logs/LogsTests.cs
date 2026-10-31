@@ -227,6 +227,27 @@ public sealed class LogsTests
     }
 
     /// <summary>
+    /// Dado o log de requisições sem logger explícito, quando uma rota é chamada, então o logger do host registra a requisição.
+    /// </summary>
+    /// <returns>Tarefa assíncrona do teste.</returns>
+    [Fact]
+    public async Task UsarLogsDeRequisicoes_SemLoggerExplicito_UsaOLoggerDoHost()
+    {
+        var sink = new SinkEmMemoria();
+        var builder = AplicacaoDeTeste.CriarConstrutor();
+        builder.Services.AddSingleton<Serilog.Core.ILogEventSink>(sink);
+        builder.AddLogsEstruturados("web-de-teste");
+        await using var app = builder.Build();
+        app.UsarLogsDeRequisicoes();
+        app.MapGet("/negocio", () => Results.Ok());
+        await app.StartAsync(TestContext.Current.CancellationToken);
+
+        await app.GetTestClient().GetAsync("/negocio", TestContext.Current.CancellationToken);
+
+        sink.Eventos.ShouldContain(e => e.MessageTemplate.Text.Contains("HTTP", StringComparison.Ordinal));
+    }
+
+    /// <summary>
     /// Dadas uma rota de negócio e uma sonda, quando o log de requisições está ligado, então só a rota de negócio é logada.
     /// </summary>
     /// <returns>Tarefa assíncrona do teste.</returns>
