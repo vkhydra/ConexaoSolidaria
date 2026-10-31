@@ -6,6 +6,8 @@ Esta seção é a base do **PDF de justificativa dos bancos** exigido pelo enunc
 
 ## Visão geral
 
+Este documento reúne os bancos e as regras comuns. O modelo de dados de cada funcionalidade (entidades, regras e tabelas usadas) está no `data-model.md` da feature em [`specs/features/`](../features/).
+
 | Banco | Versão | Dono | Papel | Modelo de consistência |
 |---|---|---|---|---|
 | PostgreSQL | 17 | Identity | Usuários | ACID |
@@ -43,7 +45,7 @@ Tabela `usuarios`:
 | `criado_em` | `timestamptz` | NOT NULL |
 | `anonimizado_em` | `timestamptz` | NULL |
 
-Tabela `tentativas_login` (bloqueio por força bruta): `email_hash` (PK), `falhas`, `bloqueado_ate`.
+Tabela `tentativas_login` (bloqueio por força bruta): `email_hash` (PK, HMAC com `Autenticacao__ChaveHashEmail`), `falhas`, `janela_inicio`, `bloqueado_ate` ([feature 001](../features/001-autenticacao/data-model.md)).
 
 ## PostgreSQL — `campanhas_db`
 
@@ -73,7 +75,7 @@ Tabela `doacoes_processadas` (idempotência do Worker):
 | `valor` | `numeric(18,2)` | NOT NULL, CHECK (`> 0`) |
 | `processada_em` | `timestamptz` | NOT NULL |
 
-Tabela `chaves_idempotencia` (cabeçalho `Idempotency-Key` da API): `chave` + `doador_id` (PK composta), `doacao_id`, `criada_em`; registros com mais de 24 h removidos por tarefa agendada.
+Tabela `chaves_idempotencia` (cabeçalho `Idempotency-Key` da API): `chave` + `doador_id` (PK composta), `doacao_id`, `hash_corpo`, `criada_em`; registros com mais de 24 h removidos por tarefa agendada ([feature 005](../features/005-doacao/data-model.md)).
 
 Tabelas do MassTransit: `inbox_state`, `outbox_message`, `outbox_state` (criadas por migration via `AddInboxStateEntity`, `AddOutboxMessageEntity`, `AddOutboxStateEntity`).
 
@@ -94,7 +96,7 @@ RETURNING total_arrecadado;                                -- vai no DoacaoProce
 ```sql
 SELECT id, titulo, meta_financeira AS MetaFinanceira, total_arrecadado AS TotalArrecadado, data_fim AS DataFim
   FROM campanhas
- WHERE status = 'Ativa' AND data_fim >= @Hoje
+ WHERE status = 'Ativa' AND data_inicio <= @Hoje AND data_fim >= @Hoje
  ORDER BY data_fim
  LIMIT 100;
 ```
@@ -137,6 +139,7 @@ Banco `arrecadacao`, coleção `lancamentos_doacao`:
 | Chave | Conteúdo | Expiração | Quem remove |
 |---|---|---|---|
 | `conexao:transparencia:v1:campanhas-ativas` | JSON da resposta do painel | 30 s (L2 Redis), 5 s (L1 em memória) | Worker após cada doação; Campanhas.Api ao criar/alterar campanha |
+| `conexao:recibos:v1:<doacaoId>` | `1` (deduplicação do recibo) | 7 dias | Expira sozinha ([feature 007](../features/007-recibo-doacao/data-model.md)) |
 
 - Implementação: `HybridCache` (.NET) com Redis como cache distribuído: protege contra *cache stampede* e mantém cópia local curta.
 - Cache-aside: se o Redis falhar, a API consulta o banco e registra `Warning` (o cache é descartável).
