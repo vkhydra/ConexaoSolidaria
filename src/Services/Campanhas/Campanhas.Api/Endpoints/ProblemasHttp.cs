@@ -12,7 +12,7 @@ namespace Campanhas.Api.Endpoints;
 public static class ProblemasHttp
 {
     /// <summary>
-    /// Escolhe o status HTTP de um erro de negócio: 400 validação, 404 inexistente, 409 conflito de versão,
+    /// Escolhe o status HTTP de um erro de negócio: 400 validação, 404 inexistente, 409 conflito de versão ou reindexação em andamento,
     /// 412 versão ausente, 503 busca indisponível e 422 para as demais regras.
     /// </summary>
     /// <param name="erro">Erro de negócio.</param>
@@ -28,6 +28,7 @@ public static class ProblemasHttp
             ErrosDeCampanha.CodigoConflitoDeVersao => StatusCodes.Status409Conflict,
             ErrosDeCampanha.CodigoVersaoObrigatoria => StatusCodes.Status412PreconditionFailed,
             ErrosDeBusca.CodigoIndisponivel => StatusCodes.Status503ServiceUnavailable,
+            ErrosDeBusca.CodigoReindexacaoEmAndamento => StatusCodes.Status409Conflict,
             _ => StatusCodes.Status422UnprocessableEntity,
         };
     }

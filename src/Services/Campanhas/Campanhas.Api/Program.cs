@@ -41,6 +41,7 @@ builder.Services.AddScoped<ObterCampanha>();
 builder.Services.AddScoped<ObterPainelTransparencia>();
 builder.Services.AddScoped<ReceberDoacao>();
 builder.Services.AddScoped<BuscarCampanhas>();
+builder.Services.AddSingleton<Reindexar>();
 
 var app = builder.Build();
 
@@ -54,6 +55,7 @@ app.MapearCampanhas();
 app.MapearTransparencia();
 app.MapearDoacoes();
 app.MapearBusca();
+app.MapearAdmin();
 
 app.Run();
 

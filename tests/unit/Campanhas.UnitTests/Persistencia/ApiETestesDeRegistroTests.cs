@@ -29,6 +29,8 @@ public sealed class ApiETestesDeRegistroTests
     [InlineData("campanha.meta_invalida", 422)]
     [InlineData("campanha.nao_editavel", 422)]
     [InlineData("campanha.transicao_invalida", 422)]
+    [InlineData("busca.indisponivel", 503)]
+    [InlineData("busca.reindexacao_em_andamento", 409)]
     public void StatusDe_CadaErro_SegueOContrato(string codigo, int status)
     {
         ProblemasHttp.StatusDe(new Erro(codigo, "m")).ShouldBe(status);

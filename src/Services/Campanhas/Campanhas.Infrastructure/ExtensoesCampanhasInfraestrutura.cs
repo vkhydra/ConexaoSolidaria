@@ -103,7 +103,7 @@ public static class ExtensoesCampanhasInfraestrutura
     /// <summary>
     /// Registra o cliente do Elasticsearch (<c>Elasticsearch:Endereco</c>, com <c>Elasticsearch:ApiKey</c> ou
     /// <c>Elasticsearch:Usuario</c> e <c>Elasticsearch:Senha</c> quando há autenticação, e <c>Elasticsearch:ImpressaoDigital</c>,
-    /// o SHA-256 do certificado, quando o servidor usa certificado autoassinado) e as portas de busca e de indexação.
+    /// o SHA-256 do certificado, quando o servidor usa certificado autoassinado) e as portas de busca, de indexação e de reindexação.
     /// </summary>
     /// <param name="servicos">Coleção de serviços.</param>
     /// <param name="configuracao">Configuração da aplicação.</param>
@@ -139,6 +139,8 @@ public static class ExtensoesCampanhasInfraestrutura
         servicos.AddSingleton(new ElasticsearchClient(opcoes));
         servicos.AddSingleton<IIndiceCampanhas, IndiceCampanhasElasticsearch>();
         servicos.AddSingleton<IBuscaCampanhas, BuscaCampanhasElasticsearch>();
+        servicos.AddSingleton<IGerenciadorDeIndice, GerenciadorDeIndiceElasticsearch>();
+        servicos.AddSingleton<IFonteDeCampanhas, FonteDeCampanhasDapper>();
         return servicos;
     }
 

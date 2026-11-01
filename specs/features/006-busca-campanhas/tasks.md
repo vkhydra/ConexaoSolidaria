@@ -26,7 +26,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
   Commit: `✨ feat(campanhas): adiciona consumidor de indexação de campanhas`
 - [X] T007 [H08] Endpoint `GET /campanhas/busca` (`AllowAnonymous`) com 503 em falha — `Campanhas.Api/Endpoints/BuscaEndpoints.cs`
   Commit: `✨ feat(campanhas): adiciona endpoint de busca de campanhas`
-- [ ] T008 [H08] Endpoint `POST /admin/reindexar` (`GestorONG`) com troca de alias — `Campanhas.Api/Endpoints/AdminEndpoints.cs`, `Campanhas.Application/Busca/Reindexar.cs`
+- [X] T008 [H08] Endpoint `POST /admin/reindexar` (`GestorONG`) com troca de alias — `Campanhas.Api/Endpoints/AdminEndpoints.cs`, `Campanhas.Application/Busca/Reindexar.cs`
   Commit: `✨ feat(campanhas): adiciona reindexação de campanhas`
 - [ ] T009 [P] [H08] Health check `Degraded` e métricas de busca — `Campanhas.Api/Program.cs`, `Campanhas.Application/Busca/*`
   Commit: `🩺 feat(campanhas): adiciona health check e métricas da busca`

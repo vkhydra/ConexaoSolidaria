@@ -1,4 +1,3 @@
-using System.Data;
 using Campanhas.Application.Transparencia;
 using Dapper;
 using Npgsql;
@@ -40,26 +39,5 @@ public sealed class CampanhaLeituraDapper(NpgsqlDataSource fonte) : ICampanhaLei
         await using var conexao = await fonte.OpenConnectionAsync(cancelamento);
         var linhas = await conexao.QueryAsync<CampanhaDoPainel>(new CommandDefinition(_sqlPainel, new { Hoje = hoje }, cancellationToken: cancelamento));
         return [.. linhas];
-    }
-
-    /// <summary>
-    /// Ensina o Dapper a enviar e a ler datas (<c>date</c> do PostgreSQL) como <see cref="DateOnly"/>.
-    /// </summary>
-    private sealed class ConversorDeDateOnly : SqlMapper.TypeHandler<DateOnly>
-    {
-        /// <inheritdoc/>
-        public override void SetValue(IDbDataParameter parameter, DateOnly value)
-        {
-            ArgumentNullException.ThrowIfNull(parameter);
-
-            parameter.DbType = DbType.Date;
-            parameter.Value = value.ToDateTime(TimeOnly.MinValue);
-        }
-
-        /// <inheritdoc/>
-        public override DateOnly Parse(object value)
-        {
-            return value is DateOnly data ? data : DateOnly.FromDateTime((DateTime)value);
-        }
     }
 }
