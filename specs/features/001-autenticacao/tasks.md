@@ -54,7 +54,7 @@ Formato: `- [ ] Tnnn [P] [história] descrição — arquivo(s)`, seguido do com
 
 ## Fase 7 — Interface
 
-- [ ] T016 [H02] Página `/entrar`, cookie de autenticação no servidor e `DelegatingHandler` que anexa o JWT, com testes bUnit — `ConexaoSolidaria.Web/Components/Pages/Entrar.razor(.cs)`
+- [X] T016 [H02] Página `/entrar`, cookie de autenticação no servidor e `DelegatingHandler` que anexa o JWT, com testes bUnit — `ConexaoSolidaria.Web/Components/Pages/Entrar.razor(.cs)`
   Commit: `🛂 feat(web): adiciona login e sessão autenticada`
 
 ## Fase 8 — Fechamento

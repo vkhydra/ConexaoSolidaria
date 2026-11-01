@@ -1,4 +1,5 @@
 using ConexaoSolidaria.Web.Components;
+using ConexaoSolidaria.Web.Servicos;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +8,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 builder.Services.AddCascadingAuthenticationState();
+builder.Services.AddServicosDaApi(builder.Configuration);
 builder.Services.AddAuthorization();
 builder.Services
     .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -25,6 +27,8 @@ app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseAntiforgery();
+
+app.MapearSessao();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();

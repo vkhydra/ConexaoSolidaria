@@ -1,0 +1,23 @@
+@page "/entrar"
+
+<PageTitle>Entrar</PageTitle>
+<h1>Entrar</h1>
+
+<EditForm Model="Modelo" FormName="entrar" OnValidSubmit="EnviarAsync" class="formulario" method="post">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    @if (Mensagem is not null)
+    {
+        <p role="alert" class="erro" data-teste="mensagem">@Mensagem</p>
+    }
+    <label>
+        E-mail
+        <InputText type="email" @bind-Value="Modelo!.Email" autocomplete="username" />
+    </label>
+    <label>
+        Senha
+        <InputText type="password" @bind-Value="Modelo!.Senha" autocomplete="current-password" />
+    </label>
+    <button type="submit" class="primario">Entrar</button>
+</EditForm>
+<p>Ainda não tem conta? <a href="/cadastro">Criar conta</a></p>
