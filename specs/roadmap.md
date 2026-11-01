@@ -483,7 +483,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 
 - [X] **R146** · Escrever o registro das operações de tratamento em `docs/lgpd/registro-de-tratamento.md`
   Commit: `📝 docs(lgpd): adiciona registro das operações de tratamento`
-- [ ] **R147** · Escrever a política de privacidade em `docs/lgpd/politica-de-privacidade.md` (a página de cadastro precisa apontar para ela)
+- [X] **R147** · Escrever a política de privacidade em `docs/lgpd/politica-de-privacidade.md` (a página de cadastro precisa apontar para ela)
   Commit: `📝 docs(lgpd): adiciona política de privacidade`
 - [ ] **R148** · Layout, menu por perfil (`<AuthorizeView>`) e página de erro, com testes bUnit
   Commit: `💄 feat(web): adiciona layout e navegação`
