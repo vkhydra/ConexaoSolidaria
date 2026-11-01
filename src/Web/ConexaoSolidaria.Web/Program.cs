@@ -1,6 +1,12 @@
+using ConexaoSolidaria.ServiceDefaults.Saude;
 using ConexaoSolidaria.Web.Components;
 using ConexaoSolidaria.Web.Servicos;
 using Microsoft.AspNetCore.Authentication.Cookies;
+
+if (SondaDeContainer.Solicitada(args))
+{
+    return await SondaDeContainer.ExecutarAsync();
+}
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,8 +27,11 @@ builder.Services
         opcoes.SlidingExpiration = false;
     });
 
+builder.Services.AddHealthChecks();
+
 var app = builder.Build();
 
+app.MapearSaude();
 app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
@@ -34,6 +43,7 @@ app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
 app.Run();
+return 0;
 
 /// <summary>
 /// Ponto de entrada da interface web, exposto para os testes.
