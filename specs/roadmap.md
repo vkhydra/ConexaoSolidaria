@@ -554,7 +554,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Commit: `🧱 build(campanhas): adiciona dockerfile multi-stage da campanhas-api`
 - [X] **R167** · Dockerfile do `arrecadacao-worker`
   Commit: `🧱 build(worker): adiciona dockerfile multi-stage do worker`
-- [ ] **R168** · Dockerfile do `web`
+- [X] **R168** · Dockerfile do `web`
   Commit: `🧱 build(web): adiciona dockerfile multi-stage do web`
 - [ ] **R169** · `007/T007` [H09] Dockerfile da função — `src/Functions/Notificacoes.Function/Dockerfile`
   ↪ Adiada da feature para a Fase 9: as imagens são feitas todas juntas.
