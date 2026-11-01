@@ -1,0 +1,61 @@
+{
+  "exchanges": [
+    {
+      "name": "ConexaoSolidaria.Contracts.V1:DoacaoProcessadaEvent",
+      "vhost": "/",
+      "type": "fanout",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    },
+    {
+      "name": "notificacoes-recibo_error",
+      "vhost": "/",
+      "type": "fanout",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    }
+  ],
+  "queues": [
+    {
+      "name": "notificacoes-recibo",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-queue-type": "classic",
+        "x-dead-letter-exchange": "notificacoes-recibo_error"
+      }
+    },
+    {
+      "name": "notificacoes-recibo_error",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-queue-type": "classic"
+      }
+    }
+  ],
+  "bindings": [
+    {
+      "source": "ConexaoSolidaria.Contracts.V1:DoacaoProcessadaEvent",
+      "vhost": "/",
+      "destination": "notificacoes-recibo",
+      "destination_type": "queue",
+      "routing_key": "",
+      "arguments": {}
+    },
+    {
+      "source": "notificacoes-recibo_error",
+      "vhost": "/",
+      "destination": "notificacoes-recibo_error",
+      "destination_type": "queue",
+      "routing_key": "",
+      "arguments": {}
+    }
+  ]
+}

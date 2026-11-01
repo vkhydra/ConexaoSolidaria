@@ -464,7 +464,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R142** · `007/T005` [H09] `Program.cs`, `host.json` e função `EmitirRecibo` com gatilho RabbitMQ e OpenTelemetry — `Notificacoes.Function/*`
   Commit: `✨ feat(notificacoes): adiciona função de recibo com gatilho rabbitmq`
   Depende de: R139 (`007/T002`), R140 (`007/T003`), R141 (`007/T004`)
-- [ ] **R143** · `007/T006` [H09] Fila `notificacoes-recibo`, binding e DLQ em `definitions.json` — `deploy/rabbitmq/definitions.json`
+- [X] **R143** · `007/T006` [H09] Fila `notificacoes-recibo`, binding e DLQ em `definitions.json` — `deploy/rabbitmq/definitions.json`
   Commit: `🔧 chore(notificacoes): adiciona definição da fila de recibos`
   Depende de: R142 (`007/T005`)
 - [ ] **R144** · `007/T009` [H09] Cenário Gherkin do recibo (captura de log no ambiente de teste) — `tests/e2e/ConexaoSolidaria.Bdd/Features/007-recibo-doacao.feature`
