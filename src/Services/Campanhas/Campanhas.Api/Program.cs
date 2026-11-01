@@ -16,6 +16,11 @@ using FluentValidation;
 using MassTransit;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
+if (SondaDeContainer.Solicitada(args))
+{
+    return await SondaDeContainer.ExecutarAsync();
+}
+
 const string Servico = "campanhas-api";
 
 var builder = WebApplication.CreateBuilder(args);
@@ -60,6 +65,7 @@ app.MapearBusca();
 app.MapearAdmin();
 
 app.Run();
+return 0;
 
 /// <summary>
 /// Ponto de entrada da Campanhas.Api, exposto para os testes de integração.
