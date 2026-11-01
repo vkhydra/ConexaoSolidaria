@@ -27,7 +27,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 ## Fase 3 — Empacotamento e escala
 
-- [ ] T007 [H09] Dockerfile da função — `src/Functions/Notificacoes.Function/Dockerfile`
+- [X] T007 [H09] Dockerfile da função — `src/Functions/Notificacoes.Function/Dockerfile`
   Commit: `🧱 build(notificacoes): adiciona dockerfile da função`
 - [ ] T008 [H09] Deployment com 0 réplicas, `ScaledObject` (0–3, fila > 10, cooldown 60 s) e `TriggerAuthentication` — `deploy/k8s/base/apps/notificacoes-function/*`
   Commit: `🧱 build(k8s): adiciona deployment e scaledobject da função de recibo`
