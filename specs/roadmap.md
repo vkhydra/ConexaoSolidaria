@@ -76,6 +76,20 @@ flowchart LR
 | M4 — Plataforma | Fim da Fase 14 (R224) | Containers, Kubernetes, gateway, carga, observabilidade e CI/CD completo |
 | M5 — Entrega | Fim da Fase 19 (R251) | Vídeo publicado e entrega registrada |
 
+## Escopo avaliado pelo enunciado
+
+O enunciado da [Atividade Substitutiva da Fase 3](../docs/adr/0018-escopo-trabalho-substitutivo.md) (`fase 3.pdf`) pede **quatro coisas**; o restante do roadmap é complementar e entra na [ordem de corte](../docs/entrega-e-riscos.md#ordem-de-corte-se-faltar-tempo).
+
+| # | O que o enunciado exige | Onde no roadmap | Situação (2026-11-01) |
+|---|---|---|---|
+| 1 | Uma API .NET com funcionalidades testáveis (métodos, serviços ou controladores) | Fases 3 a 6 (Identity.Api, Campanhas.Api, Worker e função) | Feito |
+| 2 | Testes unitários em xUnit, com **casos de sucesso e cenários de erro** | Fases 2 a 8 (TDD em cada tarefa), R162 | Feito: todos os projetos ≥ 90% de linhas e ramos (total 99,3% / 95,6%) |
+| 3 | Pipeline de CI (GitHub Actions) que **roda os testes unitários** | Fase 2 (R015 a R047) | Workflow pronto e commitado; falta **R046** e **R047** (conferir a execução no GitHub) |
+| 4 | Pipeline que **retorna a cobertura**, com download do relatório | Fase 2 (artefato `cobertura-testes-unitarios`) | Pronto no workflow; confirmar pelo **R047** |
+| 5 | **Vídeo** mostrando os passos funcionando, com mais de um teste | Fase 18 (R240 a R244) e Fase 19 (R245 a R251) | Pendente |
+
+**Caminho mínimo para a entrega:** Fases 1 a 8 (feitas), **R046 e R047**, e depois Fases 17, 18 e 19. As Fases 9 a 15 (containers, Kubernetes, gateway, carga, observabilidade, CI/CD complementar e nuvem) aplicam o conteúdo das outras fases do curso por escolha do grupo e **não são exigidas pelo enunciado**; a Fase 16 (segurança e LGPD) é conferência final.
+
 Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e riscos](../docs/entrega-e-riscos.md#ordem-de-corte-se-faltar-tempo). **As Fases 1, 2 e as fases de features (3 a 6) nunca são cortadas**: elas entregam o requisito avaliado.
 
 <a id="fase-1"></a>
