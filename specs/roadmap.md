@@ -457,7 +457,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R139** · `007/T002` [H09] `LeitorEnvelopeMassTransit` com testes (envelope válido, tipo errado, JSON inválido) — `Notificacoes.Function/Recibos/LeitorEnvelopeMassTransit.cs`
   Commit: `✨ feat(notificacoes): adiciona leitor do envelope do masstransit`
   Depende de: R138 (`007/T001`)
-- [ ] **R140** · `007/T003` [H09] `EmissorRecibo` com teste do conteúdo do log (sem dados pessoais) — `Notificacoes.Function/Recibos/EmissorRecibo.cs`
+- [X] **R140** · `007/T003` [H09] `EmissorRecibo` com teste do conteúdo do log (sem dados pessoais) — `Notificacoes.Function/Recibos/EmissorRecibo.cs`
   Commit: `✨ feat(notificacoes): adiciona emissor de recibo em log estruturado`
 - [ ] **R141** · `007/T004` [H09] `IDeduplicadorRecibos` e `DeduplicadorRecibosRedis` com teste de integração — `Notificacoes.Function/Recibos/*`
   Commit: `✨ feat(notificacoes): adiciona deduplicação de recibos no redis`
