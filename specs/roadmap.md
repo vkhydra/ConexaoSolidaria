@@ -546,7 +546,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 
 **Pronto quando:** `docker compose up -d` e o script de dados de demonstração resultam em doação de ponta a ponta funcionando.
 
-- [ ] **R164** · `.dockerignore`
+- [X] **R164** · `.dockerignore`
   Commit: `🙈 chore: adiciona .dockerignore`
 - [ ] **R165** · Dockerfile da `identity-api`, com estágio `migrator`
   Commit: `🧱 build(identity): adiciona dockerfile multi-stage da identity-api`
