@@ -50,7 +50,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 ## Fase 5 — Interface
 
-- [ ] T017 [H06] Página `/campanhas/{id}/doar` (`InteractiveServer`) com botão desabilitado durante o envio, `Idempotency-Key` por tentativa e mensagem de processamento, com testes bUnit — `ConexaoSolidaria.Web/Components/Pages/Doar.razor(.cs)`
+- [X] T017 [H06] Página `/campanhas/{id}/doar` (`InteractiveServer`) com botão desabilitado durante o envio, `Idempotency-Key` por tentativa e mensagem de processamento, com testes bUnit — `ConexaoSolidaria.Web/Components/Pages/Doar.razor(.cs)`
   Commit: `✨ feat(web): adiciona fluxo de doação`
 
 ## Fase 6 — Fechamento

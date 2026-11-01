@@ -1,0 +1,39 @@
+@page "/campanhas/{Id:guid}/doar"
+@attribute [Authorize(Roles = "Doador")]
+@rendermode ModosDeRenderizacao.InterativoSemPrerender
+@using ConexaoSolidaria.Web.Servicos
+
+<PageTitle>Doar</PageTitle>
+<h1>Doar@(Titulo is null ? string.Empty : $" para {Titulo}")</h1>
+
+@if (Recibo is not null)
+{
+    <div role="status" data-teste="sucesso">
+        <p class="sucesso">Doação recebida. O total será atualizado em instantes.</p>
+        <p>Número da doação: <strong data-teste="numero">@Recibo.DoacaoId</strong></p>
+        <p><a href="/transparencia">Ver o painel de transparência</a></p>
+    </div>
+}
+else
+{
+    <EditForm Model="Modelo" OnValidSubmit="DoarAsync" class="formulario">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        @if (Mensagens.Count > 0)
+        {
+            <ul role="alert" class="erro" data-teste="mensagens">
+                @foreach (var mensagem in Mensagens)
+                {
+                    <li>@mensagem</li>
+                }
+            </ul>
+        }
+        <label>
+            Valor da doação (R$)
+            <InputNumber @bind-Value="Modelo.Valor" step="0.01" min="0.01" />
+        </label>
+        <p>Valor maior que zero, até R$ 1.000.000,00, com até 2 casas decimais.</p>
+        <button type="submit" class="primario" disabled="@Enviando">@(Enviando ? "Enviando…" : "Confirmar doação")</button>
+    </EditForm>
+}
+<p><a href="/transparencia">Voltar</a></p>

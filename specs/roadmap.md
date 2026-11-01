@@ -509,7 +509,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   ↪ Adiada da feature para a Fase 7: depende do layout e da navegação do Blazor.
   Commit: `✨ feat(web): adiciona gestão de campanhas para gestor`
   Depende de: R095 (`002/T012`)
-- [ ] **R155** · `005/T017` [H06] Página `/campanhas/{id}/doar` (`InteractiveServer`) com botão desabilitado durante o envio, `Idempotency-Key` por tentativa e mensagem de processamento, com testes bUnit — `ConexaoSolidaria.Web/Components/Pages/Doar.razor(.cs)`
+- [X] **R155** · `005/T017` [H06] Página `/campanhas/{id}/doar` (`InteractiveServer`) com botão desabilitado durante o envio, `Idempotency-Key` por tentativa e mensagem de processamento, com testes bUnit — `ConexaoSolidaria.Web/Components/Pages/Doar.razor(.cs)`
   ↪ Adiada da feature para a Fase 7: depende do layout e da navegação do Blazor.
   Commit: `✨ feat(web): adiciona fluxo de doação`
   Depende de: R114 (`005/T005`)
