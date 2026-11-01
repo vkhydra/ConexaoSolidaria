@@ -18,7 +18,10 @@
   - O corpo é JSON com `messageType` (lista, com `urn:message:ConexaoSolidaria.Contracts.V1:DoacaoProcessadaEvent`), `message` (campos em camelCase) e `headers` (vazio).
   - **`decimal` vai como texto** (`"valor": "150"`), então o leitor precisa aceitar números escritos como string (`JsonNumberHandling.AllowReadingFromString`).
   - **`traceparent` não vem em `headers` do envelope**: o MassTransit o grava só no cabeçalho AMQP. Com o parâmetro `string`, a função não o enxerga; a continuidade do trace fica a cargo da instrumentação do gatilho, e o recibo leva o `traceId` do próprio span da função. O contrato abaixo foi corrigido.
-  - **Não validado:** a execução do host da função (gatilho RabbitMQ entregando o `string`), porque o Azure Functions Core Tools (`func`) não está instalado e o Docker estava indisponível. A hipótese segue a documentação do gatilho (parâmetros `string`, `byte[]` ou POCO). Validar ao empacotar a função (T007) e na Fase 9.
+  - **Host validado (2026-11-01):** com o Core Tools 4.15.2, RabbitMQ 4, Redis 7 e Azurite em containers, o host `func start` executou o `EmitirRecibo` com o gatilho recebendo o envelope como `string`. Três mensagens publicadas na fila `notificacoes-recibo` (a mesma doação duas vezes e um tipo desconhecido) terminaram em `Succeeded`, as filas `notificacoes-recibo` e `notificacoes-recibo_error` ficaram vazias e o Redis guardou uma só chave `conexao:recibos:v1:<doacaoId>` com TTL de 7 dias. Código do spike não foi para a `main`.
+  - **A fila precisa existir antes do host:** sem ela o gatilho falha no índice (`NOT_FOUND - no queue`) e a função fica desabilitada; por isso `deploy/rabbitmq/definitions.json` deve ser carregado antes de subir a função (compose e Kubernetes).
+  - **Armazenamento:** o host exige `AzureWebJobsStorage` (Azurite localmente); a imagem e o Deployment precisam desse segredo ou de um armazenamento equivalente.
+  - **Logs:** com `telemetryMode` `OpenTelemetry` os logs `ReciboEmitido` etc. saem pelo OTLP e não aparecem no console do host; a conferência é pelo coletor e pelo Redis.
 
 ## R3 — Deduplicação sem banco próprio
 
