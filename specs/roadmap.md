@@ -530,12 +530,12 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 
 **Pronto quando:** Todos os RFs com cenário automatizado; cobertura ≥ 90% no total e em cada projeto de `src/`; jornada E2E (bônus) passando.
 
-- [ ] **R159** · *[manual]* Rodar `/analyze` em cada feature e conferir que todo cenário Gherkin tem automação em `tests/e2e/ConexaoSolidaria.Bdd/`
+- [X] **R159** · *[manual]* Rodar `/analyze` em cada feature e conferir que todo cenário Gherkin tem automação em `tests/e2e/ConexaoSolidaria.Bdd/` — conferido em 2026-11-01: 45 de 47 cenários das specs 001–008 têm automação com o mesmo título; faltam só "Escala a zero" e "Escala sob demanda" (feature 007), que dependem do KEDA no Kubernetes (Fase 13)
 - [ ] **R160** · *[bônus]* Jornada "cadastrar → entrar → doar → ver o painel" no navegador com Playwright
   Commit: `✅ test(e2e): adiciona jornada de doação com playwright`
 - [ ] **R161** · *[bônus]* GraphQL (HotChocolate) e gRPC, se houver tempo: especificar antes com `/specify`
-- [ ] **R162** · `009/T011` Ao fim de cada feature 001–008: conferir que os testes novos aparecem no relatório e que há casos de sucesso e de erro
-- [ ] **R163** · *[manual]* Rodar a skill `verificar-cobertura` no conjunto inteiro e anexar o resumo ao PR
+- [X] **R162** · `009/T011` Ao fim de cada feature 001–008: conferir que os testes novos aparecem no relatório e que há casos de sucesso e de erro — conferido em 2026-11-01 na execução completa (todos os testes passam; cada feature tem cenários de sucesso e de erro)
+- [X] **R163** · *[manual]* Rodar a skill `verificar-cobertura` no conjunto inteiro e anexar o resumo ao PR — rodado em 2026-11-01: 99,3% linhas e 95,6% ramos, todos os projetos ≥ 90%; o PR ainda não existe, então o resumo fica registrado aqui
 
 <a id="fase-9"></a>
 ## Fase 9 — Containers

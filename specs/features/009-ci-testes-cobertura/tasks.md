@@ -30,7 +30,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md). Est
 
 - [ ] T009 [H12] Verificar a falha da pipeline com um teste quebrado numa branch de teste (não vai para a `main`) e registrar o resultado no PR
 - [ ] T010 [H11] Executar a pipeline manualmente, baixar o artefato e conferir o relatório HTML
-- [ ] T011 Ao fim de cada feature 001–008: conferir que os testes novos aparecem no relatório e que há casos de sucesso e de erro
+- [X] T011 Ao fim de cada feature 001–008: conferir que os testes novos aparecem no relatório e que há casos de sucesso e de erro
 
 ## Dependências
 
