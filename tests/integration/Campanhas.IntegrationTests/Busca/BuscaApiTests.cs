@@ -24,6 +24,11 @@ public sealed class BuscaApiTests(CampanhasApiComBuscaFixture api, Elasticsearch
     private const string _rota = "/api/v1/campanhas/busca";
 
     /// <summary>
+    /// Opções para ler o envelope do MassTransit, que grava o <c>decimal</c> como texto.
+    /// </summary>
+    private static readonly JsonSerializerOptions _opcoesDoEnvelope = new(JsonSerializerDefaults.Web) { NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowReadingFromString };
+
+    /// <summary>
     /// Dada uma campanha indexada, quando um visitante sem token busca com erro de digitação, então recebe 200 com o item e o destaque.
     /// </summary>
     /// <returns>Tarefa que termina com as verificações feitas.</returns>
@@ -90,6 +95,55 @@ public sealed class BuscaApiTests(CampanhasApiComBuscaFixture api, Elasticsearch
 
         resposta.StatusCode.ShouldBe(HttpStatusCode.OK);
     }
+
+    /// <summary>
+    /// Dada uma campanha criada e depois cancelada pela API, quando os eventos do Outbox são entregues ao índice na ordem, então
+    /// ela aparece na busca após a criação e some após o cancelamento.
+    /// </summary>
+    /// <returns>Tarefa que termina com as verificações feitas.</returns>
+    [Fact]
+    public async Task Buscar_CampanhaCriadaECanceladaPelaApi_AparecePoisSome()
+    {
+        var ct = TestContext.Current.CancellationToken;
+        var prefixo = Guid.NewGuid().ToString("N")[..8];
+        var hoje = DateOnly.FromDateTime(TimeZoneInfo.ConvertTime(DateTimeOffset.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("America/Sao_Paulo")).DateTime);
+        using var gestor = api.CreateClient();
+        gestor.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", api.GerarToken("GestorONG"));
+        using var visitante = api.CreateClient();
+        var criada = await gestor.PostAsJsonAsync("/api/v1/campanhas", new { titulo = $"{prefixo} Páscoa Feliz", descricao = "Chocolates", dataInicio = hoje, dataFim = hoje.AddDays(30), metaFinanceira = 5000 }, ct);
+        var id = (await criada.Content.ReadFromJsonAsync<JsonElement>(ct)).GetProperty("id").GetGuid();
+
+        await EntregarEventosAsync(id, 1);
+        var aposCriar = await visitante.GetFromJsonAsync<JsonElement>($"{_rota}?q={prefixo}%20pascoa", ct);
+        (await gestor.PatchAsJsonAsync($"/api/v1/campanhas/{id}/status", new { status = "Cancelada" }, ct)).EnsureSuccessStatusCode();
+        await EntregarEventosAsync(id, 2);
+        var aposCancelar = await visitante.GetFromJsonAsync<JsonElement>($"{_rota}?q={prefixo}%20pascoa", ct);
+
+        aposCriar.GetProperty("items").EnumerateArray().Select(i => i.GetProperty("id").GetGuid()).ShouldContain(id);
+        aposCancelar.GetProperty("items").EnumerateArray().Select(i => i.GetProperty("id").GetGuid()).ShouldNotContain(id);
+    }
+
+    /// <summary>
+    /// Entrega ao índice os primeiros eventos do Outbox da campanha, como o consumidor faria ao receber da fila.
+    /// </summary>
+    /// <param name="id">Identificador da campanha.</param>
+    /// <param name="quantidade">Quantidade de eventos já gravados no Outbox que devem ser entregues.</param>
+    /// <returns>Tarefa que termina com os eventos gravados no índice e visíveis à busca.</returns>
+    private async Task EntregarEventosAsync(Guid id, int quantidade)
+    {
+        var ct = TestContext.Current.CancellationToken;
+        var corpos = await api.LerOutboxAsync(id);
+        corpos.Count.ShouldBe(quantidade);
+        var evento = JsonSerializer.Deserialize<EnvelopeDeEvento>(corpos[^1], _opcoesDoEnvelope)!.Message;
+        await api.Services.GetRequiredService<IIndiceCampanhas>().GravarAsync(CampanhaIndexada.De(evento), ct);
+        await elasticsearch.Cliente.Indices.RefreshAsync(MapeamentoIndice.NomeAlias, ct);
+    }
+
+    /// <summary>
+    /// Envelope do MassTransit gravado no Outbox, com a mensagem de alteração da campanha.
+    /// </summary>
+    /// <param name="Message">Evento publicado.</param>
+    private sealed record EnvelopeDeEvento(ConexaoSolidaria.Contracts.V1.CampanhaAlteradaEvent Message);
 
     /// <summary>
     /// Grava uma campanha ativa direto no índice e a deixa pesquisável.
