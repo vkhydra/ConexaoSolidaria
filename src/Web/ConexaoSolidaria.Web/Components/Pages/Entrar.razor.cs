@@ -41,6 +41,12 @@ public partial class Entrar
     public string? Retorno { get; set; }
 
     /// <summary>
+    /// Obtém ou define se a pessoa acabou de criar a conta (parâmetro <c>cadastrado</c>), para mostrar o aviso.
+    /// </summary>
+    [SupplyParameterFromQuery(Name = "cadastrado")]
+    public bool Cadastrado { get; set; }
+
+    /// <summary>
     /// Obtém ou define os dados do formulário.
     /// </summary>
     [SupplyParameterFromForm]

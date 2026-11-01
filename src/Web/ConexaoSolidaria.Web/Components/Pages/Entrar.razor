@@ -2,6 +2,10 @@
 
 <PageTitle>Entrar</PageTitle>
 <h1>Entrar</h1>
+@if (Cadastrado)
+{
+    <p class="sucesso" data-teste="cadastrado">Conta criada. Entre para continuar.</p>
+}
 
 <EditForm Model="Modelo" FormName="entrar" OnValidSubmit="EnviarAsync" class="formulario" method="post">
     <DataAnnotationsValidator />

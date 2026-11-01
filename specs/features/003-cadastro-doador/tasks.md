@@ -43,7 +43,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 ## Fase 6 — Interface
 
-- [ ] T012 [H01] Página `/cadastro` com `EditForm`, validação, link para a política e testes bUnit — `ConexaoSolidaria.Web/Components/Pages/Cadastro.razor(.cs)`
+- [X] T012 [H01] Página `/cadastro` com `EditForm`, validação, link para a política e testes bUnit — `ConexaoSolidaria.Web/Components/Pages/Cadastro.razor(.cs)`
   Commit: `✨ feat(web): adiciona cadastro de doador`
 
 ## Fase 7 — Fechamento

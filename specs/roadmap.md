@@ -493,7 +493,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   ↪ Adiada da feature para a Fase 7: depende do layout e da navegação do Blazor.
   Commit: `🛂 feat(web): adiciona login e sessão autenticada`
   Depende de: R058 (`001/T011`)
-- [ ] **R151** · `003/T012` [H01] Página `/cadastro` com `EditForm`, validação, link para a política e testes bUnit — `ConexaoSolidaria.Web/Components/Pages/Cadastro.razor(.cs)`
+- [X] **R151** · `003/T012` [H01] Página `/cadastro` com `EditForm`, validação, link para a política e testes bUnit — `ConexaoSolidaria.Web/Components/Pages/Cadastro.razor(.cs)`
   ↪ Adiada da feature para a Fase 7: depende do layout e da navegação do Blazor.
   Commit: `✨ feat(web): adiciona cadastro de doador`
   Depende de: R072 (`003/T008`)

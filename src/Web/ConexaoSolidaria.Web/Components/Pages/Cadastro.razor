@@ -1,0 +1,41 @@
+@page "/cadastro"
+
+<PageTitle>Criar conta</PageTitle>
+<h1>Criar conta de doador</h1>
+
+<EditForm Model="Modelo" FormName="cadastro" OnValidSubmit="EnviarAsync" class="formulario" method="post">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    @if (Mensagens.Count > 0)
+    {
+        <ul role="alert" class="erro" data-teste="mensagens">
+            @foreach (var mensagem in Mensagens)
+            {
+                <li>@mensagem</li>
+            }
+        </ul>
+    }
+    <label>
+        Nome completo
+        <InputText @bind-Value="Modelo!.NomeCompleto" autocomplete="name" />
+    </label>
+    <label>
+        E-mail
+        <InputText type="email" @bind-Value="Modelo!.Email" autocomplete="email" />
+    </label>
+    <label>
+        CPF
+        <InputText @bind-Value="Modelo!.Cpf" inputmode="numeric" autocomplete="off" />
+    </label>
+    <label>
+        Senha
+        <InputText type="password" @bind-Value="Modelo!.Senha" autocomplete="new-password" />
+    </label>
+    <p>A senha deve ter de 8 a 64 caracteres, com letra, número e caractere especial (como @@, # ou !).</p>
+    <label>
+        <InputCheckbox @bind-Value="Modelo!.AceitePolitica" />
+        Li e aceito a <a href="/politica-de-privacidade" target="_blank" rel="noopener">política de privacidade</a>
+    </label>
+    <button type="submit" class="primario">Cadastrar</button>
+</EditForm>
+<p>Já tem conta? <a href="/entrar">Entrar</a></p>
