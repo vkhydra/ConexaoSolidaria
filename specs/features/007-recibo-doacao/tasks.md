@@ -6,7 +6,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 ## Fase 0 — Spike (time-box 1 dia)
 
-- [ ] T001 [H09] Spike: gatilho RabbitMQ no isolated worker lendo o envelope do MassTransit; registrar o resultado em [research.md](research.md) (R2 e R4). Código do spike não vai para a `main`.
+- [X] T001 [H09] Spike: gatilho RabbitMQ no isolated worker lendo o envelope do MassTransit; registrar o resultado em [research.md](research.md) (R2 e R4). Código do spike não vai para a `main`.
   Commit: `📝 docs(specs): registra resultado do spike da função de recibo`
 
 ## Fase 1 — Testes e núcleo (TDD)

@@ -452,7 +452,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Commit: `✅ test(bdd): adiciona cenários de busca de campanhas`
   Depende de: R135 (`006/T010`)
 - [ ] **R137** · `006/T014` `/code-review`; cobertura ≥ 90%; `git rebase --exec` antes do PR
-- [ ] **R138** · `007/T001` [H09] Spike: gatilho RabbitMQ no isolated worker lendo o envelope do MassTransit; registrar o resultado em [research.md](features/007-recibo-doacao/research.md) (R2 e R4). Código do spike não vai para a `main`.
+- [X] **R138** · `007/T001` [H09] Spike: gatilho RabbitMQ no isolated worker lendo o envelope do MassTransit; registrar o resultado em [research.md](features/007-recibo-doacao/research.md) (R2 e R4). Código do spike não vai para a `main`.
   Commit: `📝 docs(specs): registra resultado do spike da função de recibo`
 - [ ] **R139** · `007/T002` [H09] `LeitorEnvelopeMassTransit` com testes (envelope válido, tipo errado, JSON inválido) — `Notificacoes.Function/Recibos/LeitorEnvelopeMassTransit.cs`
   Commit: `✨ feat(notificacoes): adiciona leitor do envelope do masstransit`

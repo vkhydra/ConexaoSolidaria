@@ -22,8 +22,8 @@ public async Task ExecutarAsync(
 |---|---|
 | Fila | `notificacoes-recibo` |
 | Conexão | `RabbitMqConnection` (variável de ambiente, vinda de Secret) |
-| Formato | Envelope do MassTransit: `{"messageId", "headers", "message": {...}}` |
-| Rastreamento | `headers.traceparent` continua o trace da doação |
+| Formato | Envelope do MassTransit: `{"messageId", "messageType": [...], "headers", "message": {...}}`; `decimal` vem como texto |
+| Rastreamento | `traceparent` vai no cabeçalho AMQP (não no envelope); a instrumentação do gatilho continua o trace quando disponível |
 | Falha | Exceção → retentativa pelo runtime → `notificacoes-recibo_error` |
 
 ## Garantias
