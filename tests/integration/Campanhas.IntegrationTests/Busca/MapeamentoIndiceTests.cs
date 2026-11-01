@@ -8,7 +8,8 @@ namespace Campanhas.IntegrationTests.Busca;
 /// Testes da criação do índice de campanhas num Elasticsearch real: alias, analisador em português e idempotência.
 /// </summary>
 [Trait("Category", "Integration")]
-public sealed class MapeamentoIndiceTests(ElasticsearchFixture elasticsearch) : IClassFixture<ElasticsearchFixture>
+[Collection(ColecaoElasticsearch.Nome)]
+public sealed class MapeamentoIndiceTests(ElasticsearchFixture elasticsearch)
 {
     /// <summary>
     /// Dado um Elasticsearch vazio, quando o alias é garantido duas vezes, então o índice inicial nasce uma vez com o alias.

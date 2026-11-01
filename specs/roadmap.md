@@ -431,7 +431,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R129** · `006/T004` [H08] `IndiceCampanhasElasticsearch` (upsert com versão externa) — `Campanhas.Infrastructure/Busca/IndiceCampanhasElasticsearch.cs`
   Commit: `✨ feat(campanhas): adiciona indexação de campanhas no elasticsearch`
   Depende de: R126 (`006/T001`), R127 (`006/T002`), R128 (`006/T003`)
-- [ ] **R130** · `006/T005` [H08] `BuscaCampanhasElasticsearch` com fuzzy, pesos, filtro e destaque — `Campanhas.Infrastructure/Busca/BuscaCampanhasElasticsearch.cs`
+- [X] **R130** · `006/T005` [H08] `BuscaCampanhasElasticsearch` com fuzzy, pesos, filtro e destaque — `Campanhas.Infrastructure/Busca/BuscaCampanhasElasticsearch.cs`
   Commit: `✨ feat(campanhas): adiciona busca fuzzy de campanhas`
   Depende de: R126 (`006/T001`), R127 (`006/T002`)
 - [ ] **R131** · `006/T006` [H08] `IndexarCampanhaConsumer` na fila `indexar-campanha` com retentativas — `Campanhas.Api/Consumidores/IndexarCampanhaConsumer.cs`

@@ -37,7 +37,7 @@ public sealed class IndiceCampanhasElasticsearch(ElasticsearchClient cliente) : 
             return ResultadoIndexacao.VersaoAntiga;
         }
 
-        FalhasDoElasticsearch.ExigirSucesso(resposta, "indexar campanha");
+        FalhasDoElasticsearch.ExigirSucesso(resposta.ApiCallDetails, "indexar campanha");
         return ResultadoIndexacao.Indexada;
     }
 

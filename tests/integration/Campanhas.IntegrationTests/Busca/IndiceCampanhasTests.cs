@@ -9,7 +9,8 @@ namespace Campanhas.IntegrationTests.Busca;
 /// Testes da gravação de campanhas no índice do Elasticsearch: versão externa, substituição e falhas.
 /// </summary>
 [Trait("Category", "Integration")]
-public sealed class IndiceCampanhasTests(ElasticsearchFixture elasticsearch) : IClassFixture<ElasticsearchFixture>
+[Collection(ColecaoElasticsearch.Nome)]
+public sealed class IndiceCampanhasTests(ElasticsearchFixture elasticsearch)
 {
     /// <summary>
     /// Dado um documento novo, quando gravado, então é indexado e fica legível no alias.

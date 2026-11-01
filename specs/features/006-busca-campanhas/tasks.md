@@ -17,7 +17,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
   Commit: `🗃️ feat(campanhas): adiciona índice de campanhas no elasticsearch`
 - [X] T004 [H08] `IndiceCampanhasElasticsearch` (upsert com versão externa) — `Campanhas.Infrastructure/Busca/IndiceCampanhasElasticsearch.cs`
   Commit: `✨ feat(campanhas): adiciona indexação de campanhas no elasticsearch`
-- [ ] T005 [H08] `BuscaCampanhasElasticsearch` com fuzzy, pesos, filtro e destaque — `Campanhas.Infrastructure/Busca/BuscaCampanhasElasticsearch.cs`
+- [X] T005 [H08] `BuscaCampanhasElasticsearch` com fuzzy, pesos, filtro e destaque — `Campanhas.Infrastructure/Busca/BuscaCampanhasElasticsearch.cs`
   Commit: `✨ feat(campanhas): adiciona busca fuzzy de campanhas`
 
 ## Fase 3 — API e consumidor

@@ -14,6 +14,7 @@ public sealed class ElasticsearchFixture : IAsyncLifetime
     /// </summary>
     private readonly ElasticsearchContainer _container = new ElasticsearchBuilder("docker.elastic.co/elasticsearch/elasticsearch:9.2.0")
         .WithEnvironment("ES_JAVA_OPTS", "-Xms512m -Xmx512m")
+        .WithEnvironment("action.destructive_requires_name", "false")
         .Build();
 
     /// <summary>

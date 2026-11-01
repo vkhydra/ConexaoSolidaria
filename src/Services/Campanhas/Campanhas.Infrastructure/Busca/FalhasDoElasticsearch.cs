@@ -1,5 +1,5 @@
 using Campanhas.Application.Busca;
-using Elastic.Transport.Products.Elasticsearch;
+using Elastic.Transport;
 
 namespace Campanhas.Infrastructure.Busca;
 
@@ -22,23 +22,23 @@ internal static class FalhasDoElasticsearch
     /// <summary>
     /// Garante que a resposta foi bem-sucedida, convertendo a falha na exceção adequada.
     /// </summary>
-    /// <param name="resposta">Resposta do Elasticsearch.</param>
+    /// <param name="detalhes">Detalhes da chamada ao Elasticsearch (<c>ApiCallDetails</c> da resposta).</param>
     /// <param name="operacao">Descrição curta da operação, usada na mensagem (sem dados pessoais).</param>
     /// <exception cref="BuscaIndisponivelException">O Elasticsearch não respondeu ou respondeu 429 ou 5xx.</exception>
     /// <exception cref="InvalidOperationException">O Elasticsearch recusou a requisição (4xx).</exception>
-    public static void ExigirSucesso(ElasticsearchResponse resposta, string operacao)
+    public static void ExigirSucesso(ApiCallDetails detalhes, string operacao)
     {
-        ArgumentNullException.ThrowIfNull(resposta);
+        ArgumentNullException.ThrowIfNull(detalhes);
 
-        if (resposta.IsValidResponse)
+        if (detalhes.HasSuccessfulStatusCode)
         {
             return;
         }
 
-        var status = resposta.ApiCallDetails.HttpStatusCode;
+        var status = detalhes.HttpStatusCode;
         if (EhIndisponibilidade(status))
         {
-            throw new BuscaIndisponivelException($"O Elasticsearch não atendeu a operação '{operacao}' (HTTP {status?.ToString() ?? "sem resposta"}).", resposta.ApiCallDetails.OriginalException ?? new HttpRequestException());
+            throw new BuscaIndisponivelException($"O Elasticsearch não atendeu a operação '{operacao}' (HTTP {status?.ToString() ?? "sem resposta"}).", detalhes.OriginalException ?? new HttpRequestException());
         }
 
         throw new InvalidOperationException($"O Elasticsearch recusou a operação '{operacao}' (HTTP {status}).");
