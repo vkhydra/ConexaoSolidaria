@@ -428,7 +428,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Commit: `✨ feat(campanhas): adiciona mapeamento de campanha para o índice`
 - [X] **R128** · `006/T003` [H08] Criação do índice `campanhas-v1` com analyzer `pt_br` e alias `campanhas` — `Campanhas.Infrastructure/Busca/MapeamentoIndice.cs`
   Commit: `🗃️ feat(campanhas): adiciona índice de campanhas no elasticsearch`
-- [ ] **R129** · `006/T004` [H08] `IndiceCampanhasElasticsearch` (upsert com versão externa) — `Campanhas.Infrastructure/Busca/IndiceCampanhasElasticsearch.cs`
+- [X] **R129** · `006/T004` [H08] `IndiceCampanhasElasticsearch` (upsert com versão externa) — `Campanhas.Infrastructure/Busca/IndiceCampanhasElasticsearch.cs`
   Commit: `✨ feat(campanhas): adiciona indexação de campanhas no elasticsearch`
   Depende de: R126 (`006/T001`), R127 (`006/T002`), R128 (`006/T003`)
 - [ ] **R130** · `006/T005` [H08] `BuscaCampanhasElasticsearch` com fuzzy, pesos, filtro e destaque — `Campanhas.Infrastructure/Busca/BuscaCampanhasElasticsearch.cs`

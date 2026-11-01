@@ -1,3 +1,4 @@
+using Campanhas.Application.Busca;
 using Elastic.Clients.Elasticsearch;
 using Elastic.Transport;
 
@@ -70,6 +71,7 @@ public static class MapeamentoIndice
     /// <param name="comAlias">Se o índice já nasce com o alias <see cref="NomeAlias"/>.</param>
     /// <param name="cancelamento">Token de cancelamento.</param>
     /// <returns>Tarefa que termina com o índice criado ou já existente.</returns>
+    /// <exception cref="BuscaIndisponivelException">O Elasticsearch não respondeu.</exception>
     /// <exception cref="InvalidOperationException">O Elasticsearch recusou a criação por outro motivo que não a existência prévia.</exception>
     public static async Task CriarIndiceAsync(ElasticsearchClient cliente, string nomeIndice, bool comAlias, CancellationToken cancelamento)
     {
@@ -82,9 +84,17 @@ public static class MapeamentoIndice
             PostData.String(CorpoDaCriacao(comAlias)),
             cancellationToken: cancelamento);
 
-        if (!resposta.ApiCallDetails.HasSuccessfulStatusCode && !resposta.Body.Contains("resource_already_exists_exception", StringComparison.Ordinal))
+        if (!resposta.ApiCallDetails.HasSuccessfulStatusCode)
         {
-            throw new InvalidOperationException($"O Elasticsearch recusou a criação do índice {nomeIndice} (HTTP {resposta.ApiCallDetails.HttpStatusCode}).");
+            if (FalhasDoElasticsearch.EhIndisponibilidade(resposta.ApiCallDetails.HttpStatusCode))
+            {
+                throw new BuscaIndisponivelException($"O Elasticsearch não criou o índice {nomeIndice}.", resposta.ApiCallDetails.OriginalException ?? new HttpRequestException());
+            }
+
+            if (!resposta.Body.Contains("resource_already_exists_exception", StringComparison.Ordinal))
+            {
+                throw new InvalidOperationException($"O Elasticsearch recusou a criação do índice {nomeIndice} (HTTP {resposta.ApiCallDetails.HttpStatusCode}).");
+            }
         }
     }
 
@@ -94,11 +104,17 @@ public static class MapeamentoIndice
     /// <param name="cliente">Cliente do Elasticsearch.</param>
     /// <param name="cancelamento">Token de cancelamento.</param>
     /// <returns>Tarefa que termina com o alias pronto.</returns>
+    /// <exception cref="BuscaIndisponivelException">O Elasticsearch não respondeu.</exception>
     public static async Task GarantirAliasAsync(ElasticsearchClient cliente, CancellationToken cancelamento)
     {
         ArgumentNullException.ThrowIfNull(cliente);
 
         var existe = await cliente.Indices.ExistsAliasAsync(NomeAlias, cancelamento);
+        if (FalhasDoElasticsearch.EhIndisponibilidade(existe.ApiCallDetails.HttpStatusCode))
+        {
+            throw new BuscaIndisponivelException("O Elasticsearch não respondeu à consulta do alias.", existe.ApiCallDetails.OriginalException ?? new HttpRequestException());
+        }
+
         if (!existe.Exists)
         {
             await CriarIndiceAsync(cliente, NomeIndiceInicial, comAlias: true, cancelamento);

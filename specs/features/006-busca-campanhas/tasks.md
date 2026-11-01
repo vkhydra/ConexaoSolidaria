@@ -15,7 +15,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 - [X] T003 [H08] Criação do índice `campanhas-v1` com analyzer `pt_br` e alias `campanhas` — `Campanhas.Infrastructure/Busca/MapeamentoIndice.cs`
   Commit: `🗃️ feat(campanhas): adiciona índice de campanhas no elasticsearch`
-- [ ] T004 [H08] `IndiceCampanhasElasticsearch` (upsert com versão externa) — `Campanhas.Infrastructure/Busca/IndiceCampanhasElasticsearch.cs`
+- [X] T004 [H08] `IndiceCampanhasElasticsearch` (upsert com versão externa) — `Campanhas.Infrastructure/Busca/IndiceCampanhasElasticsearch.cs`
   Commit: `✨ feat(campanhas): adiciona indexação de campanhas no elasticsearch`
 - [ ] T005 [H08] `BuscaCampanhasElasticsearch` com fuzzy, pesos, filtro e destaque — `Campanhas.Infrastructure/Busca/BuscaCampanhasElasticsearch.cs`
   Commit: `✨ feat(campanhas): adiciona busca fuzzy de campanhas`
