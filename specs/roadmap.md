@@ -497,7 +497,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   ↪ Adiada da feature para a Fase 7: depende do layout e da navegação do Blazor.
   Commit: `✨ feat(web): adiciona cadastro de doador`
   Depende de: R072 (`003/T008`)
-- [ ] **R152** · `004/T010` [H05] Página `/transparencia` (SSR estático) com barra de progresso e aviso de atualização, com testes bUnit — `ConexaoSolidaria.Web/Components/Pages/Transparencia.razor(.cs)`
+- [X] **R152** · `004/T010` [H05] Página `/transparencia` (SSR estático) com barra de progresso e aviso de atualização, com testes bUnit — `ConexaoSolidaria.Web/Components/Pages/Transparencia.razor(.cs)`
   ↪ Adiada da feature para a Fase 7: depende do layout e da navegação do Blazor.
   Commit: `✨ feat(web): adiciona página de transparência`
   Depende de: R105 (`004/T005`)

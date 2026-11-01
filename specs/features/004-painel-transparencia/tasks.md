@@ -36,7 +36,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 ## Fase 5 — Interface
 
-- [ ] T010 [H05] Página `/transparencia` (SSR estático) com barra de progresso e aviso de atualização, com testes bUnit — `ConexaoSolidaria.Web/Components/Pages/Transparencia.razor(.cs)`
+- [X] T010 [H05] Página `/transparencia` (SSR estático) com barra de progresso e aviso de atualização, com testes bUnit — `ConexaoSolidaria.Web/Components/Pages/Transparencia.razor(.cs)`
   Commit: `✨ feat(web): adiciona página de transparência`
 
 ## Fase 6 — Fechamento

@@ -1,0 +1,32 @@
+@page "/transparencia"
+@using System.Globalization
+@using ConexaoSolidaria.Web.Servicos
+
+<PageTitle>Painel de transparência</PageTitle>
+<h1>Painel de transparência</h1>
+<p class="aviso" data-teste="aviso">O valor arrecadado é atualizado em até alguns segundos depois de cada doação. Recarregue a página para ver o total mais recente.</p>
+
+@if (Mensagem is not null)
+{
+    <p role="alert" class="erro" data-teste="mensagem">@Mensagem</p>
+}
+else if (Itens is not null && Itens.Count == 0)
+{
+    <p data-teste="vazio">Não há campanhas ativas no momento.</p>
+}
+else if (Itens is not null)
+{
+    <ul class="cartoes">
+        @foreach (var item in Itens)
+        {
+            <li class="cartao" data-teste="campanha">
+                <h2>@item.Titulo</h2>
+                <p>Meta: <strong>@Formatacao.Moeda(item.MetaFinanceira)</strong></p>
+                <p>Arrecadado: <strong>@Formatacao.Moeda(item.TotalArrecadado)</strong></p>
+                <progress value="@Math.Min(item.PercentualAtingido, 100m).ToString(CultureInfo.InvariantCulture)" max="100" aria-label="Percentual da meta atingido">@Formatacao.Percentual(item.PercentualAtingido)</progress>
+                <p>@Formatacao.Percentual(item.PercentualAtingido) da meta · termina em @Formatacao.Data(item.DataFim)</p>
+                <p><a href="/campanhas/@item.Id/doar">Doar</a></p>
+            </li>
+        }
+    </ul>
+}
