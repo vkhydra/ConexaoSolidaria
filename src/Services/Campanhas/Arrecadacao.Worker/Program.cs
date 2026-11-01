@@ -8,6 +8,11 @@ using ConexaoSolidaria.ServiceDefaults.Saude;
 using ConexaoSolidaria.ServiceDefaults.Telemetria;
 using MassTransit;
 
+if (SondaDeContainer.Solicitada(args))
+{
+    return await SondaDeContainer.ExecutarAsync();
+}
+
 const string Servico = "arrecadacao-worker";
 
 var builder = WebApplication.CreateBuilder(args);
@@ -38,6 +43,7 @@ app.MapearSaude();
 app.MapearMetricas();
 
 app.Run();
+return 0;
 
 /// <summary>
 /// Ponto de entrada do Arrecadacao.Worker, exposto para os testes.
