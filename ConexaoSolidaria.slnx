@@ -36,6 +36,7 @@
     <Project Path="tests/integration/Arrecadacao.Worker.IntegrationTests/Arrecadacao.Worker.IntegrationTests.csproj" />
     <Project Path="tests/integration/Campanhas.IntegrationTests/Campanhas.IntegrationTests.csproj" />
     <Project Path="tests/integration/Identity.IntegrationTests/Identity.IntegrationTests.csproj" />
+    <Project Path="tests/integration/Notificacoes.Function.IntegrationTests/Notificacoes.Function.IntegrationTests.csproj" />
   </Folder>
   <Folder Name="/tests/unit/">
     <Project Path="tests/unit/Arrecadacao.Worker.UnitTests/Arrecadacao.Worker.UnitTests.csproj" />

@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- "Function" é palavra-chave do Visual Basic (CA1716), mas é o nome do projeto definido pela arquitetura; o código do repositório é só C#. -->
+    <NoWarn>$(NoWarn);CA1716</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Testcontainers.Redis" />
+    <PackageReference Include="SSH.NET" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Functions\Notificacoes.Function\Notificacoes.Function.csproj" />
+  </ItemGroup>
+
+</Project>

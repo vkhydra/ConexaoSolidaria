@@ -459,7 +459,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Depende de: R138 (`007/T001`)
 - [X] **R140** · `007/T003` [H09] `EmissorRecibo` com teste do conteúdo do log (sem dados pessoais) — `Notificacoes.Function/Recibos/EmissorRecibo.cs`
   Commit: `✨ feat(notificacoes): adiciona emissor de recibo em log estruturado`
-- [ ] **R141** · `007/T004` [H09] `IDeduplicadorRecibos` e `DeduplicadorRecibosRedis` com teste de integração — `Notificacoes.Function/Recibos/*`
+- [X] **R141** · `007/T004` [H09] `IDeduplicadorRecibos` e `DeduplicadorRecibosRedis` com teste de integração — `Notificacoes.Function/Recibos/*`
   Commit: `✨ feat(notificacoes): adiciona deduplicação de recibos no redis`
 - [ ] **R142** · `007/T005` [H09] `Program.cs`, `host.json` e função `EmitirRecibo` com gatilho RabbitMQ e OpenTelemetry — `Notificacoes.Function/*`
   Commit: `✨ feat(notificacoes): adiciona função de recibo com gatilho rabbitmq`

@@ -15,7 +15,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
   Commit: `✨ feat(notificacoes): adiciona leitor do envelope do masstransit`
 - [X] T003 [H09] `EmissorRecibo` com teste do conteúdo do log (sem dados pessoais) — `Notificacoes.Function/Recibos/EmissorRecibo.cs`
   Commit: `✨ feat(notificacoes): adiciona emissor de recibo em log estruturado`
-- [ ] T004 [H09] `IDeduplicadorRecibos` e `DeduplicadorRecibosRedis` com teste de integração — `Notificacoes.Function/Recibos/*`
+- [X] T004 [H09] `IDeduplicadorRecibos` e `DeduplicadorRecibosRedis` com teste de integração — `Notificacoes.Function/Recibos/*`
   Commit: `✨ feat(notificacoes): adiciona deduplicação de recibos no redis`
 
 ## Fase 2 — Função
