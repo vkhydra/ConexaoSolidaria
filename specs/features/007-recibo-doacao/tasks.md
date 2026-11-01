@@ -20,7 +20,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 ## Fase 2 — Função
 
-- [ ] T005 [H09] `Program.cs`, `host.json` e função `EmitirRecibo` com gatilho RabbitMQ e OpenTelemetry — `Notificacoes.Function/*`
+- [X] T005 [H09] `Program.cs`, `host.json` e função `EmitirRecibo` com gatilho RabbitMQ e OpenTelemetry — `Notificacoes.Function/*`
   Commit: `✨ feat(notificacoes): adiciona função de recibo com gatilho rabbitmq`
 - [ ] T006 [H09] Fila `notificacoes-recibo`, binding e DLQ em `definitions.json` — `deploy/rabbitmq/definitions.json`
   Commit: `🔧 chore(notificacoes): adiciona definição da fila de recibos`

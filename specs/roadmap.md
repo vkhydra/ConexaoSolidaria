@@ -461,7 +461,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Commit: `✨ feat(notificacoes): adiciona emissor de recibo em log estruturado`
 - [X] **R141** · `007/T004` [H09] `IDeduplicadorRecibos` e `DeduplicadorRecibosRedis` com teste de integração — `Notificacoes.Function/Recibos/*`
   Commit: `✨ feat(notificacoes): adiciona deduplicação de recibos no redis`
-- [ ] **R142** · `007/T005` [H09] `Program.cs`, `host.json` e função `EmitirRecibo` com gatilho RabbitMQ e OpenTelemetry — `Notificacoes.Function/*`
+- [X] **R142** · `007/T005` [H09] `Program.cs`, `host.json` e função `EmitirRecibo` com gatilho RabbitMQ e OpenTelemetry — `Notificacoes.Function/*`
   Commit: `✨ feat(notificacoes): adiciona função de recibo com gatilho rabbitmq`
   Depende de: R139 (`007/T002`), R140 (`007/T003`), R141 (`007/T004`)
 - [ ] **R143** · `007/T006` [H09] Fila `notificacoes-recibo`, binding e DLQ em `definitions.json` — `deploy/rabbitmq/definitions.json`
