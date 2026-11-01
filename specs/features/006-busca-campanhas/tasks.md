@@ -35,7 +35,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 - [X] T010 [H08] Testes de integração: indexa ao criar, erro de digitação, pesos, ignora cancelada, evento fora de ordem, 503 com Elasticsearch parado — `tests/integration/Campanhas.IntegrationTests/BuscaTests.cs`
   Commit: `✅ test(campanhas): adiciona testes de integração da busca`
-- [ ] T011 [H08] Cenários Gherkin automatizados — `tests/e2e/ConexaoSolidaria.Bdd/Features/006-busca-campanhas.feature`
+- [X] T011 [H08] Cenários Gherkin automatizados — `tests/e2e/ConexaoSolidaria.Bdd/Features/006-busca-campanhas.feature`
   Commit: `✅ test(bdd): adiciona cenários de busca de campanhas`
 - [ ] T012 [P] [H08] Script k6 com 30 VUs, termos com erro de digitação e threshold p95 < 400 ms — `tests/e2e/load/busca.js`
   Commit: `✅ test(load): adiciona teste de carga da busca com k6`

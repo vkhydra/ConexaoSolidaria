@@ -20,6 +20,15 @@ public sealed class RelogioDoCenario : TimeProvider
         _agora = agora;
     }
 
+    /// <summary>
+    /// Avança o instante atual do cenário.
+    /// </summary>
+    /// <param name="intervalo">Tempo a avançar.</param>
+    public void Avancar(TimeSpan intervalo)
+    {
+        _agora += intervalo;
+    }
+
     /// <inheritdoc/>
     public override DateTimeOffset GetUtcNow()
     {

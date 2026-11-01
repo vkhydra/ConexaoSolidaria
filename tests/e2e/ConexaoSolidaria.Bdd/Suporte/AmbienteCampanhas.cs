@@ -2,6 +2,7 @@ using System.Globalization;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
+using Campanhas.Application.Busca;
 using Campanhas.Infrastructure.Persistencia;
 using ConexaoSolidaria.Contracts.V1;
 using Microsoft.AspNetCore.Hosting;
@@ -37,6 +38,16 @@ public sealed class AmbienteCampanhas(AmbienteIdentity identidade, RespostaDoCen
     private readonly Dictionary<string, Guid> _idsPorTitulo = [];
 
     /// <summary>
+    /// Opções para ler o envelope do MassTransit, que grava o <c>decimal</c> como texto.
+    /// </summary>
+    private static readonly JsonSerializerOptions _opcoesDoEnvelope = new(JsonSerializerDefaults.Web) { NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowReadingFromString };
+
+    /// <summary>
+    /// Quantidade de eventos de campanha do Outbox já entregues ao índice de busca.
+    /// </summary>
+    private int _eventosEntregues;
+
+    /// <summary>
     /// String de conexão do banco do cenário.
     /// </summary>
     private string? _conexao;
@@ -56,6 +67,18 @@ public sealed class AmbienteCampanhas(AmbienteIdentity identidade, RespostaDoCen
     /// Precisa ser definido antes da primeira chamada à API.
     /// </summary>
     public bool RedisForaDoAr { get; set; }
+
+    /// <summary>
+    /// Obtém ou define se a busca do cenário usa o Elasticsearch real do container; por padrão a API aponta para um endereço
+    /// inalcançável. Precisa ser definido antes da primeira chamada à API.
+    /// </summary>
+    public bool UsarElasticsearch { get; set; }
+
+    /// <summary>
+    /// Obtém ou define se o Elasticsearch do cenário deve estar fora do ar (endereço inalcançável), mesmo com <see cref="UsarElasticsearch"/>.
+    /// Precisa ser definido antes da primeira chamada à API.
+    /// </summary>
+    public bool ElasticsearchForaDoAr { get; set; }
 
     /// <summary>
     /// Obtém o identificador da última campanha criada pelo cenário.
@@ -179,6 +202,15 @@ public sealed class AmbienteCampanhas(AmbienteIdentity identidade, RespostaDoCen
     }
 
     /// <summary>
+    /// Avança o relógio da API do cenário. Alterações no mesmo instante teriam a mesma versão de busca e a segunda seria ignorada.
+    /// </summary>
+    /// <param name="intervalo">Tempo a avançar.</param>
+    public void AvancarRelogio(TimeSpan intervalo)
+    {
+        _relogio.Avancar(intervalo);
+    }
+
+    /// <summary>
     /// Passa a enviar o token informado em todas as chamadas; nulo remove a autenticação.
     /// </summary>
     /// <param name="token">JWT, ou nulo para chamar sem token.</param>
@@ -208,6 +240,92 @@ public sealed class AmbienteCampanhas(AmbienteIdentity identidade, RespostaDoCen
             _idsPorTitulo[titulo] = UltimaCampanhaId.Value;
             _versoes["1"] = respostaDoCenario.Resposta.Headers.ETag!.Tag;
         }
+    }
+
+    /// <summary>
+    /// Cria uma campanha com a descrição informada, pela API, e exige sucesso. Serve de pré-condição dos cenários de busca.
+    /// </summary>
+    /// <param name="titulo">Título.</param>
+    /// <param name="descricao">Descrição.</param>
+    /// <returns>Tarefa que termina com a campanha criada.</returns>
+    public async Task CriarComDescricaoAsync(string titulo, string descricao)
+    {
+        var cliente = await ObterClienteAsync();
+        var resposta = await cliente.PostAsJsonAsync("/api/v1/campanhas", new
+        {
+            titulo,
+            descricao,
+            dataInicio = "2026-11-10",
+            dataFim = "2026-12-24",
+            metaFinanceira = 10000m,
+        });
+        resposta.EnsureSuccessStatusCode();
+        var corpo = JsonDocument.Parse(await resposta.Content.ReadAsStringAsync()).RootElement;
+        UltimaCampanhaId = corpo.GetProperty("id").GetGuid();
+        _idsPorTitulo[titulo] = UltimaCampanhaId.Value;
+    }
+
+    /// <summary>
+    /// Entrega ao índice de busca os eventos <c>CampanhaAlteradaEvent</c> que a API gravou no Outbox e ainda não foram entregues,
+    /// na ordem de gravação. Faz o papel do RabbitMQ e do <c>IndexarCampanhaConsumer</c>, que aqui não rodam.
+    /// </summary>
+    /// <returns>Tarefa que termina com os eventos no índice e visíveis à busca.</returns>
+    public async Task EntregarEventosDeBuscaAsync()
+    {
+        await ObterClienteAsync();
+        if (!UsarElasticsearch || ElasticsearchForaDoAr)
+        {
+            return;
+        }
+
+        var eventos = new List<CampanhaAlteradaEvent>();
+        await using (var conexao = new NpgsqlConnection(_conexao))
+        {
+            await conexao.OpenAsync();
+            await using var comando = new NpgsqlCommand("SELECT body FROM outbox_message ORDER BY sequence_number", conexao);
+            await using var leitor = await comando.ExecuteReaderAsync();
+            while (await leitor.ReadAsync())
+            {
+                using var documento = JsonDocument.Parse(leitor.GetString(0));
+                var mensagem = documento.RootElement.GetProperty("message");
+                if (mensagem.TryGetProperty("titulo", out _))
+                {
+                    eventos.Add(mensagem.Deserialize<CampanhaAlteradaEvent>(_opcoesDoEnvelope)!);
+                }
+            }
+        }
+
+        var indice = _api!.Services.GetRequiredService<IIndiceCampanhas>();
+        foreach (var evento in eventos.Skip(_eventosEntregues))
+        {
+            await indice.GravarAsync(CampanhaIndexada.De(evento), CancellationToken.None);
+        }
+
+        _eventosEntregues = eventos.Count;
+        await ServidorElasticsearch.AtualizarIndiceAsync();
+    }
+
+    /// <summary>
+    /// Busca campanhas como visitante, sem token, e guarda a resposta.
+    /// </summary>
+    /// <param name="texto">Texto procurado.</param>
+    /// <returns>Tarefa que termina com a resposta guardada.</returns>
+    public async Task BuscarAsync(string texto)
+    {
+        await ObterClienteAsync();
+        using var visitante = _api!.CreateClient();
+        respostaDoCenario.Resposta = await visitante.GetAsync($"/api/v1/campanhas/busca?q={Uri.EscapeDataString(texto)}");
+    }
+
+    /// <summary>
+    /// Lê os títulos dos itens da última resposta de busca, na ordem devolvida.
+    /// </summary>
+    /// <returns>Os títulos.</returns>
+    public async Task<IReadOnlyList<string>> LerTitulosDaBuscaAsync()
+    {
+        var texto = await respostaDoCenario.Resposta!.Content.ReadAsStringAsync();
+        using var documento = JsonDocument.Parse(texto);
+        return [.. documento.RootElement.GetProperty("items").EnumerateArray().Select(i => i.GetProperty("titulo").GetString()!)];
     }
 
     /// <summary>
@@ -381,13 +499,20 @@ public sealed class AmbienteCampanhas(AmbienteIdentity identidade, RespostaDoCen
             await contexto.Database.MigrateAsync();
         }
 
+        IReadOnlyDictionary<string, string> elasticsearch = UsarElasticsearch && !ElasticsearchForaDoAr
+            ? await ServidorElasticsearch.PrepararAsync()
+            : new Dictionary<string, string> { ["Elasticsearch:Endereco"] = "http://127.0.0.1:1" };
         _api = new WebApplicationFactory<Program>().WithWebHostBuilder(builder =>
         {
             builder.UseEnvironment("Development");
             builder.UseSetting("ConnectionStrings:Campanhas", conexao);
             builder.UseSetting("ConnectionStrings:Redis", RedisForaDoAr ? "localhost:1,abortConnect=false,connectTimeout=300,syncTimeout=300" : ServidorRedis.Conexao);
             builder.UseSetting("RabbitMq:Host", "rabbitmq.invalido.local");
-            builder.UseSetting("Elasticsearch:Endereco", "http://127.0.0.1:1");
+            foreach (var (chave, valor) in elasticsearch)
+            {
+                builder.UseSetting(chave, valor);
+            }
+
             builder.UseSetting("Jwt:ChavePublicaPem", identidade.ChavePublicaPem);
             builder.ConfigureServices(servicos =>
             {

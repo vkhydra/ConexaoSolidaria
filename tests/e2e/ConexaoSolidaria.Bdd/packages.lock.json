@@ -82,6 +82,15 @@
         "resolved": "1.1.118",
         "contentHash": "Onx6ovGSqXSK07n/0eM3ZusiNdB6cIlJdabQhWGgJp3Vooy9AaLS/tigeybOJAobqbtggTamoWndz72JscZBvw=="
       },
+      "Testcontainers.Elasticsearch": {
+        "type": "Direct",
+        "requested": "[4.16.0, )",
+        "resolved": "4.16.0",
+        "contentHash": "HhsmeNpoEvIOp+5rZFBcEypCkgDUR0T0ezQeNa8K5Ey6ezye0IhhklRKLcE9D1wgYd5GDwBS+Guov4+p4qEorw==",
+        "dependencies": {
+          "Testcontainers": "4.16.0"
+        }
+      },
       "Testcontainers.MongoDb": {
         "type": "Direct",
         "requested": "[4.16.0, )",

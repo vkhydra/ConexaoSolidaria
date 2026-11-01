@@ -448,7 +448,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R135** · `006/T010` [H08] Testes de integração: indexa ao criar, erro de digitação, pesos, ignora cancelada, evento fora de ordem, 503 com Elasticsearch parado — `tests/integration/Campanhas.IntegrationTests/BuscaTests.cs`
   Commit: `✅ test(campanhas): adiciona testes de integração da busca`
   Depende de: R132 (`006/T007`)
-- [ ] **R136** · `006/T011` [H08] Cenários Gherkin automatizados — `tests/e2e/ConexaoSolidaria.Bdd/Features/006-busca-campanhas.feature`
+- [X] **R136** · `006/T011` [H08] Cenários Gherkin automatizados — `tests/e2e/ConexaoSolidaria.Bdd/Features/006-busca-campanhas.feature`
   Commit: `✅ test(bdd): adiciona cenários de busca de campanhas`
   Depende de: R135 (`006/T010`)
 - [ ] **R137** · `006/T014` `/code-review`; cobertura ≥ 90%; `git rebase --exec` antes do PR
