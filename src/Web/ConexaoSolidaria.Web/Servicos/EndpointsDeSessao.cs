@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Antiforgery;
 namespace ConexaoSolidaria.Web.Servicos;
 
 /// <summary>
-/// Endpoint que encerra a sessão (<c>POST /sair</c>), chamado pelo botão Sair do menu.
+/// Endpoints que encerram a sessão: <c>POST /sair</c> (botão Sair do menu) e <c>GET /sessao-encerrada</c> (depois de excluir os dados).
 /// </summary>
 public static class EndpointsDeSessao
 {
     /// <summary>
-    /// Mapeia <c>POST /sair</c>.
+    /// Mapeia <c>POST /sair</c> e <c>GET /sessao-encerrada</c>.
     /// </summary>
     /// <param name="rotas">Construtor de rotas da aplicação.</param>
     /// <returns>O próprio construtor de rotas, para encadeamento.</returns>
@@ -17,6 +17,7 @@ public static class EndpointsDeSessao
         ArgumentNullException.ThrowIfNull(rotas);
 
         rotas.MapPost("/sair", SairAsync).AllowAnonymous();
+        rotas.MapGet("/sessao-encerrada", EncerrarAposExclusaoAsync).AllowAnonymous();
         return rotas;
     }
 
@@ -41,5 +42,18 @@ public static class EndpointsDeSessao
 
         await sessao.SairAsync(contexto);
         return TypedResults.Redirect("/");
+    }
+
+    /// <summary>
+    /// Apaga o cookie e volta ao início com o aviso de conta excluída. Só encerra a sessão (não altera dados), então é seguro
+    /// responder a um GET.
+    /// </summary>
+    /// <param name="contexto">Contexto HTTP da requisição.</param>
+    /// <param name="sessao">Serviço de sessão.</param>
+    /// <returns>Redirecionamento ao início.</returns>
+    public static async Task<IResult> EncerrarAposExclusaoAsync(HttpContext contexto, IServicoDeSessao sessao)
+    {
+        await sessao.SairAsync(contexto);
+        return TypedResults.Redirect("/?excluida=true");
     }
 }

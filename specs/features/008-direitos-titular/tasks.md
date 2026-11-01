@@ -30,7 +30,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 ## Fase 5 — Interface
 
-- [ ] T007 [H10] Página `/meus-dados` com confirmação antes de excluir e saída da sessão após 204, com testes bUnit — `ConexaoSolidaria.Web/Components/Pages/MeusDados.razor(.cs)`
+- [X] T007 [H10] Página `/meus-dados` com confirmação antes de excluir e saída da sessão após 204, com testes bUnit — `ConexaoSolidaria.Web/Components/Pages/MeusDados.razor(.cs)`
   Commit: `✨ feat(web): adiciona página de dados do titular`
 
 ## Fase 6 — Fechamento

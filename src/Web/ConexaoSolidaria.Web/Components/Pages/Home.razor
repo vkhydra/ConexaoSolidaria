@@ -2,6 +2,10 @@
 
 <PageTitle>Conexão Solidária</PageTitle>
 <h1>Conexão Solidária</h1>
+@if (Excluida)
+{
+    <p class="sucesso" role="status" data-teste="excluida">Seus dados foram excluídos e a sessão foi encerrada.</p>
+}
 <p>Plataforma de doações da ONG Esperança Solidária. Veja para onde vai cada real e doe para uma campanha ativa.</p>
 
 <section aria-labelledby="titulo-busca">
@@ -29,3 +33,11 @@
         </section>
     </NotAuthorized>
 </AuthorizeView>
+
+@code {
+    /// <summary>
+    /// Obtém ou define se a pessoa acabou de excluir os próprios dados (parâmetro <c>excluida</c>), para mostrar o aviso.
+    /// </summary>
+    [SupplyParameterFromQuery(Name = "excluida")]
+    public bool Excluida { get; set; }
+}

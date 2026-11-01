@@ -1,0 +1,48 @@
+@page "/meus-dados"
+@attribute [Authorize(Roles = "Doador")]
+@rendermode ModosDeRenderizacao.InterativoSemPrerender
+@using ConexaoSolidaria.Web.Servicos
+
+<PageTitle>Meus dados</PageTitle>
+<h1>Meus dados</h1>
+
+@if (Mensagem is not null)
+{
+    <p role="alert" class="erro" data-teste="mensagem">@Mensagem</p>
+}
+
+@if (Dados is null && Mensagem is null)
+{
+    <p>Carregando…</p>
+}
+else if (Dados is not null)
+{
+    <dl data-teste="dados">
+        <dt>Nome</dt>
+        <dd>@Dados.NomeCompleto</dd>
+        <dt>E-mail</dt>
+        <dd>@Dados.Email</dd>
+        <dt>CPF</dt>
+        <dd>@Dados.CpfMascarado</dd>
+        <dt>Cadastro em</dt>
+        <dd>@Dados.CriadoEm.ToString("dd/MM/yyyy HH:mm", System.Globalization.CultureInfo.GetCultureInfo("pt-BR"))</dd>
+        <dt>Política de privacidade aceita</dt>
+        <dd>versão @Dados.Consentimento.Versao</dd>
+    </dl>
+
+    @if (!Confirmando)
+    {
+        <button type="button" class="perigo" data-teste="excluir" @onclick="PedirConfirmacao">Excluir meus dados</button>
+    }
+    else
+    {
+        <div role="alertdialog" aria-labelledby="titulo-exclusao" data-teste="confirmacao">
+            <p id="titulo-exclusao">
+                Excluir seus dados? Nome, e-mail, CPF e senha serão apagados e seu login deixará de funcionar. As doações já feitas
+                continuam somadas nas campanhas, sem nenhum dado que identifique você. Isso não pode ser desfeito.
+            </p>
+            <button type="button" class="perigo" data-teste="confirmar" disabled="@Excluindo" @onclick="ExcluirAsync">Sim, excluir meus dados</button>
+            <button type="button" data-teste="desistir" @onclick="Desistir">Voltar</button>
+        </div>
+    }
+}

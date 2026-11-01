@@ -513,7 +513,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   ↪ Adiada da feature para a Fase 7: depende do layout e da navegação do Blazor.
   Commit: `✨ feat(web): adiciona fluxo de doação`
   Depende de: R114 (`005/T005`)
-- [ ] **R156** · `008/T007` [H10] Página `/meus-dados` com confirmação antes de excluir e saída da sessão após 204, com testes bUnit — `ConexaoSolidaria.Web/Components/Pages/MeusDados.razor(.cs)`
+- [X] **R156** · `008/T007` [H10] Página `/meus-dados` com confirmação antes de excluir e saída da sessão após 204, com testes bUnit — `ConexaoSolidaria.Web/Components/Pages/MeusDados.razor(.cs)`
   ↪ Adiada da feature para a Fase 7: depende do layout e da navegação do Blazor.
   Commit: `✨ feat(web): adiciona página de dados do titular`
   Depende de: R079 (`008/T003`)
