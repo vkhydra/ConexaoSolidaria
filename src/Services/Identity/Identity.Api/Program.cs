@@ -10,6 +10,11 @@ using Identity.Application.Doadores;
 using Identity.Application.Titular;
 using Identity.Infrastructure;
 
+if (SondaDeContainer.Solicitada(args))
+{
+    return await SondaDeContainer.ExecutarAsync();
+}
+
 const string Servico = "identity-api";
 
 var builder = WebApplication.CreateBuilder(args);
@@ -43,6 +48,7 @@ app.MapearDoadores();
 app.MapearTitular();
 
 app.Run();
+return 0;
 
 /// <summary>
 /// Ponto de entrada da Identity.Api, exposto para os testes de integração.
