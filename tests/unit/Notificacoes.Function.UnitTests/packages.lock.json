@@ -551,9 +551,13 @@
           "xunit.v3.runner.common": "[4.0.2]"
         }
       },
+      "conexaosolidaria.contracts": {
+        "type": "Project"
+      },
       "notificacoes.function": {
         "type": "Project",
         "dependencies": {
+          "ConexaoSolidaria.Contracts": "[1.0.0, )",
           "Microsoft.Azure.Functions.Worker": "[2.52.0, )",
           "Microsoft.Azure.Functions.Worker.Extensions.RabbitMQ": "[2.1.0, )",
           "Microsoft.Azure.Functions.Worker.Sdk": "[2.1.0, )"

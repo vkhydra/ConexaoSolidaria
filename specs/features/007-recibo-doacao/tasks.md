@@ -11,7 +11,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 ## Fase 1 — Testes e núcleo (TDD)
 
-- [ ] T002 [H09] `LeitorEnvelopeMassTransit` com testes (envelope válido, tipo errado, JSON inválido) — `Notificacoes.Function/Recibos/LeitorEnvelopeMassTransit.cs`
+- [X] T002 [H09] `LeitorEnvelopeMassTransit` com testes (envelope válido, tipo errado, JSON inválido) — `Notificacoes.Function/Recibos/LeitorEnvelopeMassTransit.cs`
   Commit: `✨ feat(notificacoes): adiciona leitor do envelope do masstransit`
 - [ ] T003 [H09] `EmissorRecibo` com teste do conteúdo do log (sem dados pessoais) — `Notificacoes.Function/Recibos/EmissorRecibo.cs`
   Commit: `✨ feat(notificacoes): adiciona emissor de recibo em log estruturado`
