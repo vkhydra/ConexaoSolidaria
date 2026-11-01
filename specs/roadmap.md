@@ -434,7 +434,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R130** · `006/T005` [H08] `BuscaCampanhasElasticsearch` com fuzzy, pesos, filtro e destaque — `Campanhas.Infrastructure/Busca/BuscaCampanhasElasticsearch.cs`
   Commit: `✨ feat(campanhas): adiciona busca fuzzy de campanhas`
   Depende de: R126 (`006/T001`), R127 (`006/T002`)
-- [ ] **R131** · `006/T006` [H08] `IndexarCampanhaConsumer` na fila `indexar-campanha` com retentativas — `Campanhas.Api/Consumidores/IndexarCampanhaConsumer.cs`
+- [X] **R131** · `006/T006` [H08] `IndexarCampanhaConsumer` na fila `indexar-campanha` com retentativas — `Campanhas.Api/Consumidores/IndexarCampanhaConsumer.cs`
   Commit: `✨ feat(campanhas): adiciona consumidor de indexação de campanhas`
   Depende de: R129 (`006/T004`)
 - [ ] **R132** · `006/T007` [H08] Endpoint `GET /campanhas/busca` (`AllowAnonymous`) com 503 em falha — `Campanhas.Api/Endpoints/BuscaEndpoints.cs`

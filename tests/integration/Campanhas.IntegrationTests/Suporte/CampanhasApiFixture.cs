@@ -156,6 +156,7 @@ public sealed class CampanhasApiFixture : WebApplicationFactory<Program>, IAsync
         builder.UseSetting("ConnectionStrings:Campanhas", _container.GetConnectionString());
         builder.UseSetting("ConnectionStrings:Redis", _redis.GetConnectionString());
         builder.UseSetting("RabbitMq:Host", "rabbitmq.invalido.local");
+        builder.UseSetting("Elasticsearch:Endereco", "http://127.0.0.1:1");
         builder.UseSetting("Jwt:ChavePublicaPem", _rsa.ExportSubjectPublicKeyInfoPem());
         builder.ConfigureServices(servicos =>
         {

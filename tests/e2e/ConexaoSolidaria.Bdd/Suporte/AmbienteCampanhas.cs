@@ -387,6 +387,7 @@ public sealed class AmbienteCampanhas(AmbienteIdentity identidade, RespostaDoCen
             builder.UseSetting("ConnectionStrings:Campanhas", conexao);
             builder.UseSetting("ConnectionStrings:Redis", RedisForaDoAr ? "localhost:1,abortConnect=false,connectTimeout=300,syncTimeout=300" : ServidorRedis.Conexao);
             builder.UseSetting("RabbitMq:Host", "rabbitmq.invalido.local");
+            builder.UseSetting("Elasticsearch:Endereco", "http://127.0.0.1:1");
             builder.UseSetting("Jwt:ChavePublicaPem", identidade.ChavePublicaPem);
             builder.ConfigureServices(servicos =>
             {

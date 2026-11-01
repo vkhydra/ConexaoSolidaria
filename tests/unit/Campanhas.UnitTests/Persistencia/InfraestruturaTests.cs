@@ -1,7 +1,9 @@
 using Campanhas.Application.Arrecadacao;
+using Campanhas.Application.Busca;
 using Campanhas.Domain.Campanhas;
 using Campanhas.Domain.Comum;
 using Campanhas.Infrastructure;
+using Campanhas.Infrastructure.Busca;
 using Campanhas.Infrastructure.Mensageria;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -133,5 +135,53 @@ public sealed class InfraestruturaTests
 
         retorno.ShouldBeSameAs(servicos);
         servicos.Count.ShouldBeGreaterThan(0);
+    }
+
+    /// <summary>
+    /// Dado o endereço do Elasticsearch, com chave de API, com usuário e senha ou sem autenticação, quando a busca é registrada,
+    /// então o cliente e as portas de busca e de indexação são resolvidos.
+    /// </summary>
+    /// <param name="autenticacao">Forma de autenticação: <c>chave</c>, <c>basica</c>, <c>basica-sem-senha</c> ou <c>nenhuma</c>.</param>
+    [Theory]
+    [InlineData("chave")]
+    [InlineData("basica")]
+    [InlineData("basica-sem-senha")]
+    [InlineData("nenhuma")]
+    public void AddCampanhasBusca_ComEndereco_RegistraClienteEPortas(string autenticacao)
+    {
+        var valores = new Dictionary<string, string?> { ["Elasticsearch:Endereco"] = "http://elasticsearch.local:9200" };
+        if (autenticacao == "chave")
+        {
+            valores["Elasticsearch:ApiKey"] = "chave-de-teste";
+        }
+        else if (autenticacao.StartsWith("basica", StringComparison.Ordinal))
+        {
+            valores["Elasticsearch:Usuario"] = "app";
+            if (autenticacao == "basica")
+            {
+                valores["Elasticsearch:Senha"] = "segredo-de-teste";
+            }
+        }
+
+        var servicos = new ServiceCollection();
+
+        servicos.AddCampanhasBusca(new ConfigurationBuilder().AddInMemoryCollection(valores).Build());
+
+        using var provedor = servicos.BuildServiceProvider();
+        provedor.GetRequiredService<IIndiceCampanhas>().ShouldBeOfType<IndiceCampanhasElasticsearch>();
+        provedor.GetRequiredService<IBuscaCampanhas>().ShouldBeOfType<BuscaCampanhasElasticsearch>();
+    }
+
+    /// <summary>
+    /// Dado o endereço do Elasticsearch ausente ou argumentos nulos, quando a busca é registrada, então a aplicação não sobe.
+    /// </summary>
+    [Fact]
+    public void AddCampanhasBusca_ConfiguracaoInvalida_LancaExcecao()
+    {
+        var semEndereco = new ConfigurationBuilder().Build();
+
+        Should.Throw<InvalidOperationException>(() => new ServiceCollection().AddCampanhasBusca(semEndereco));
+        Should.Throw<ArgumentNullException>(() => ExtensoesCampanhasInfraestrutura.AddCampanhasBusca(null!, semEndereco));
+        Should.Throw<ArgumentNullException>(() => new ServiceCollection().AddCampanhasBusca(null!));
     }
 }

@@ -52,24 +52,6 @@ public sealed class ElasticsearchFixture : IAsyncLifetime
     }
 
     /// <summary>
-    /// Para o container, para simular a queda do Elasticsearch.
-    /// </summary>
-    /// <returns>Tarefa que termina com o container parado.</returns>
-    public async Task PararAsync()
-    {
-        await _container.StopAsync();
-    }
-
-    /// <summary>
-    /// Liga o container de novo depois de <see cref="PararAsync"/>.
-    /// </summary>
-    /// <returns>Tarefa que termina com o Elasticsearch no ar.</returns>
-    public async Task IniciarAsync()
-    {
-        await _container.StartAsync();
-    }
-
-    /// <summary>
     /// Remove o container.
     /// </summary>
     /// <returns>Tarefa que termina com o container removido.</returns>

@@ -1,14 +1,19 @@
 using Campanhas.Application.Abstracoes;
 using Campanhas.Application.Arrecadacao;
+using Campanhas.Application.Busca;
 using Campanhas.Application.Doacoes;
 using Campanhas.Application.Transparencia;
 using Campanhas.Infrastructure.Arrecadacao;
+using Campanhas.Infrastructure.Busca;
 using Campanhas.Infrastructure.Cache;
 using Campanhas.Infrastructure.Idempotencia;
 using Campanhas.Infrastructure.Leitura;
 using Campanhas.Infrastructure.Mensageria;
 using Campanhas.Infrastructure.Persistencia;
 using Campanhas.Infrastructure.Persistencia.Repositorios;
+using Elastic.Clients.Elasticsearch;
+using Elastic.Transport;
+using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
@@ -72,9 +77,10 @@ public static class ExtensoesCampanhasInfraestrutura
     /// </summary>
     /// <param name="servicos">Coleção de serviços.</param>
     /// <param name="configuracao">Configuração da aplicação.</param>
+    /// <param name="configurarMensageria">Registro extra do MassTransit, por exemplo dos consumidores da API; nulo quando não há.</param>
     /// <returns>A própria coleção, para encadeamento.</returns>
-    /// <exception cref="InvalidOperationException">A string de conexão ou o host do RabbitMQ não foi configurado.</exception>
-    public static IServiceCollection AddCampanhasInfraestrutura(this IServiceCollection servicos, IConfiguration configuracao)
+    /// <exception cref="InvalidOperationException">A string de conexão, o host do RabbitMQ ou o endereço do Elasticsearch não foi configurado.</exception>
+    public static IServiceCollection AddCampanhasInfraestrutura(this IServiceCollection servicos, IConfiguration configuracao, Action<IBusRegistrationConfigurator>? configurarMensageria = null)
     {
         ArgumentNullException.ThrowIfNull(servicos);
         ArgumentNullException.ThrowIfNull(configuracao);
@@ -88,8 +94,44 @@ public static class ExtensoesCampanhasInfraestrutura
         servicos.AddSingleton<IMetricasCampanhas, MetricasCampanhasPrometheus>();
         servicos.AddSingleton<IMetricasDoacoes, MetricasDoacoesPrometheus>();
         servicos.AddCampanhasCache(configuracao);
-        servicos.AddCampanhasMensageria(configuracao);
+        servicos.AddCampanhasBusca(configuracao);
+        servicos.AddCampanhasMensageria(configuracao, configurarMensageria);
 
+        return servicos;
+    }
+
+    /// <summary>
+    /// Registra o cliente do Elasticsearch (<c>Elasticsearch:Endereco</c>, com <c>Elasticsearch:ApiKey</c> ou
+    /// <c>Elasticsearch:Usuario</c> e <c>Elasticsearch:Senha</c> quando há autenticação) e as portas de busca e de indexação.
+    /// </summary>
+    /// <param name="servicos">Coleção de serviços.</param>
+    /// <param name="configuracao">Configuração da aplicação.</param>
+    /// <returns>A própria coleção, para encadeamento.</returns>
+    /// <exception cref="InvalidOperationException">O endereço do Elasticsearch não foi configurado.</exception>
+    public static IServiceCollection AddCampanhasBusca(this IServiceCollection servicos, IConfiguration configuracao)
+    {
+        ArgumentNullException.ThrowIfNull(servicos);
+        ArgumentNullException.ThrowIfNull(configuracao);
+
+        var endereco = configuracao["Elasticsearch:Endereco"]
+            ?? throw new InvalidOperationException("Elasticsearch:Endereco não foi configurado.");
+        var apiKey = configuracao["Elasticsearch:ApiKey"];
+        var usuario = configuracao["Elasticsearch:Usuario"];
+        var senha = configuracao["Elasticsearch:Senha"];
+
+        var opcoes = new ElasticsearchClientSettings(new Uri(endereco)).RequestTimeout(TimeSpan.FromSeconds(5));
+        if (!string.IsNullOrWhiteSpace(apiKey))
+        {
+            opcoes.Authentication(new ApiKey(apiKey));
+        }
+        else if (!string.IsNullOrWhiteSpace(usuario))
+        {
+            opcoes.Authentication(new BasicAuthentication(usuario, senha ?? string.Empty));
+        }
+
+        servicos.AddSingleton(new ElasticsearchClient(opcoes));
+        servicos.AddSingleton<IIndiceCampanhas, IndiceCampanhasElasticsearch>();
+        servicos.AddSingleton<IBuscaCampanhas, BuscaCampanhasElasticsearch>();
         return servicos;
     }
 

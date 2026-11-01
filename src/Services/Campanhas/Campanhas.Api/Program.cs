@@ -1,14 +1,17 @@
+using Campanhas.Api.Consumidores;
 using Campanhas.Api.Endpoints;
 using Campanhas.Application.Campanhas;
 using Campanhas.Application.Doacoes;
 using Campanhas.Application.Transparencia;
 using Campanhas.Infrastructure;
+using Campanhas.Infrastructure.Mensageria;
 using ConexaoSolidaria.ServiceDefaults.Autenticacao;
 using ConexaoSolidaria.ServiceDefaults.Erros;
 using ConexaoSolidaria.ServiceDefaults.Logs;
 using ConexaoSolidaria.ServiceDefaults.Saude;
 using ConexaoSolidaria.ServiceDefaults.Telemetria;
 using FluentValidation;
+using MassTransit;
 
 const string Servico = "campanhas-api";
 
@@ -21,7 +24,8 @@ builder.AddTratamentoErros();
 builder.AddAutenticacaoJwt();
 
 builder.Services.AddSingleton(TimeProvider.System);
-builder.Services.AddCampanhasInfraestrutura(builder.Configuration);
+builder.Services.AddSingleton(PoliticaDeRetentativa.Padrao);
+builder.Services.AddCampanhasInfraestrutura(builder.Configuration, registro => registro.AddConsumer<IndexarCampanhaConsumer, IndexarCampanhaConsumerDefinition>());
 builder.Services.AddSingleton<IValidator<CampanhaRequest>, CampanhaRequestValidator>();
 builder.Services.AddSingleton<IValidator<AlterarStatusRequest>, AlterarStatusRequestValidator>();
 builder.Services.AddSingleton<IValidator<ListarCampanhasRequest>, ListarCampanhasRequestValidator>();

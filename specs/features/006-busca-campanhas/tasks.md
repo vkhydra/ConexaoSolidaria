@@ -22,7 +22,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 ## Fase 3 — API e consumidor
 
-- [ ] T006 [H08] `IndexarCampanhaConsumer` na fila `indexar-campanha` com retentativas — `Campanhas.Api/Consumidores/IndexarCampanhaConsumer.cs`
+- [X] T006 [H08] `IndexarCampanhaConsumer` na fila `indexar-campanha` com retentativas — `Campanhas.Api/Consumidores/IndexarCampanhaConsumer.cs`
   Commit: `✨ feat(campanhas): adiciona consumidor de indexação de campanhas`
 - [ ] T007 [H08] Endpoint `GET /campanhas/busca` (`AllowAnonymous`) com 503 em falha — `Campanhas.Api/Endpoints/BuscaEndpoints.cs`
   Commit: `✨ feat(campanhas): adiciona endpoint de busca de campanhas`

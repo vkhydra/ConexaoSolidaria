@@ -73,6 +73,7 @@ public sealed class ApiETestesDeRegistroTests
                 ["ConnectionStrings:Campanhas"] = "Host=localhost;Database=campanhas_db",
                 ["ConnectionStrings:Redis"] = "localhost:6379",
                 ["RabbitMq:Host"] = "rabbit.local",
+                ["Elasticsearch:Endereco"] = "http://elasticsearch.local:9200",
             })
             .Build();
         var servicos = new ServiceCollection().AddSingleton(TimeProvider.System).AddLogging();
