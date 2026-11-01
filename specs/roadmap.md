@@ -481,7 +481,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 
 **Pronto quando:** Fluxo completo pelo navegador (cadastrar, entrar, ver painel, buscar, gerir campanhas, doar, ver e apagar os próprios dados); testes bUnit passando; cobertura do `Web` ≥ 90%.
 
-- [ ] **R146** · Escrever o registro das operações de tratamento em `docs/lgpd/registro-de-tratamento.md`
+- [X] **R146** · Escrever o registro das operações de tratamento em `docs/lgpd/registro-de-tratamento.md`
   Commit: `📝 docs(lgpd): adiciona registro das operações de tratamento`
 - [ ] **R147** · Escrever a política de privacidade em `docs/lgpd/politica-de-privacidade.md` (a página de cadastro precisa apontar para ela)
   Commit: `📝 docs(lgpd): adiciona política de privacidade`
