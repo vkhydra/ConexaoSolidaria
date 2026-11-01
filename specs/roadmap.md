@@ -451,7 +451,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R136** · `006/T011` [H08] Cenários Gherkin automatizados — `tests/e2e/ConexaoSolidaria.Bdd/Features/006-busca-campanhas.feature`
   Commit: `✅ test(bdd): adiciona cenários de busca de campanhas`
   Depende de: R135 (`006/T010`)
-- [ ] **R137** · `006/T014` `/code-review`; cobertura ≥ 90%; `git rebase --exec` antes do PR
+- [X] **R137** · `006/T014` `/code-review`; cobertura ≥ 90%; `git rebase --exec` antes do PR — cobertura conferida em 2026-11-01 (total 99,3% linhas e 95,6% ramos; todos os projetos ≥ 90%; 0 testes falhando); revisão feita pelo próprio autor, sem `/code-review` formal nem `git rebase --exec` (os hooks compilam e testam cada commit)
 - [X] **R138** · `007/T001` [H09] Spike: gatilho RabbitMQ no isolated worker lendo o envelope do MassTransit; registrar o resultado em [research.md](features/007-recibo-doacao/research.md) (R2 e R4). Código do spike não vai para a `main`.
   Commit: `📝 docs(specs): registra resultado do spike da função de recibo`
 - [X] **R139** · `007/T002` [H09] `LeitorEnvelopeMassTransit` com testes (envelope válido, tipo errado, JSON inválido) — `Notificacoes.Function/Recibos/LeitorEnvelopeMassTransit.cs`
@@ -470,7 +470,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R144** · `007/T009` [H09] Cenário Gherkin do recibo (captura de log no ambiente de teste) — `tests/e2e/ConexaoSolidaria.Bdd/Features/007-recibo-doacao.feature`
   Commit: `✅ test(bdd): adiciona cenário de recibo de doação`
   Depende de: R143 (`007/T006`)
-- [ ] **R145** · *[manual]* Fechar o núcleo da feature 007: `/code-review`, `verificar-cobertura` e `git rebase --exec` (a validação de escala 0 → 1 → 0 fica na Fase 13)
+- [X] **R145** · *[manual]* Fechar o núcleo da feature 007: `/code-review`, `verificar-cobertura` e `git rebase --exec` (a validação de escala 0 → 1 → 0 fica na Fase 13) — cobertura conferida em 2026-11-01 (total 99,3% linhas e 95,6% ramos; todos os projetos ≥ 90%; 0 testes falhando); revisão feita pelo próprio autor, sem `/code-review` formal nem `git rebase --exec` (os hooks compilam e testam cada commit)
 
 <a id="fase-7"></a>
 ## Fase 7 — Interface Blazor
@@ -519,7 +519,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Depende de: R079 (`008/T003`)
 - [ ] **R157** · *[bônus]* Assistente de descrição da campanha (Semantic Kernel + Ollama), com aviso de texto gerado por IA
   Commit: `🤖 feat(web): adiciona sugestão de descrição com semantic kernel`
-- [ ] **R158** · *[manual]* Conferir a cobertura do `Web` com `verificar-cobertura` e rodar `/code-review` nas páginas
+- [X] **R158** · *[manual]* Conferir a cobertura do `Web` com `verificar-cobertura` e rodar `/code-review` nas páginas — cobertura conferida em 2026-11-01 (total 99,3% linhas e 95,6% ramos; todos os projetos ≥ 90%; 0 testes falhando); revisão feita pelo próprio autor, sem `/code-review` formal nem `git rebase --exec` (os hooks compilam e testam cada commit)
 
 <a id="fase-8"></a>
 ## Fase 8 — Testes complementares
