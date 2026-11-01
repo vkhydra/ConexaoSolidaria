@@ -548,7 +548,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 
 - [X] **R164** · `.dockerignore`
   Commit: `🙈 chore: adiciona .dockerignore`
-- [ ] **R165** · Dockerfile da `identity-api`, com estágio `migrator`
+- [X] **R165** · Dockerfile da `identity-api`, com estágio `migrator`
   Commit: `🧱 build(identity): adiciona dockerfile multi-stage da identity-api`
 - [ ] **R166** · Dockerfile da `campanhas-api`, com estágio `migrator`
   Commit: `🧱 build(campanhas): adiciona dockerfile multi-stage da campanhas-api`
