@@ -443,7 +443,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R133** · `006/T008` [H08] Endpoint `POST /admin/reindexar` (`GestorONG`) com troca de alias — `Campanhas.Api/Endpoints/AdminEndpoints.cs`, `Campanhas.Application/Busca/Reindexar.cs`
   Commit: `✨ feat(campanhas): adiciona reindexação de campanhas`
   Depende de: R129 (`006/T004`)
-- [ ] **R134** · `006/T009` [H08] Health check `Degraded` e métricas de busca — `Campanhas.Api/Program.cs`, `Campanhas.Application/Busca/*`
+- [X] **R134** · `006/T009` [H08] Health check `Degraded` e métricas de busca — `Campanhas.Api/Program.cs`, `Campanhas.Application/Busca/*`
   Commit: `🩺 feat(campanhas): adiciona health check e métricas da busca`
 - [ ] **R135** · `006/T010` [H08] Testes de integração: indexa ao criar, erro de digitação, pesos, ignora cancelada, evento fora de ordem, 503 com Elasticsearch parado — `tests/integration/Campanhas.IntegrationTests/BuscaTests.cs`
   Commit: `✅ test(campanhas): adiciona testes de integração da busca`

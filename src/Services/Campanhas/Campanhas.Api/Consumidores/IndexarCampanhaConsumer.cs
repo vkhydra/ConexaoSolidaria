@@ -10,13 +10,18 @@ namespace Campanhas.Api.Consumidores;
 /// documento mais novo. Falhas do Elasticsearch sobem como exceção e entram na política de retentativa.
 /// </summary>
 /// <param name="indice">Porta de escrita no índice de busca.</param>
-public sealed class IndexarCampanhaConsumer(IIndiceCampanhas indice) : IConsumer<CampanhaAlteradaEvent>
+/// <param name="metricas">Métricas da busca.</param>
+public sealed class IndexarCampanhaConsumer(IIndiceCampanhas indice, IMetricasBusca metricas) : IConsumer<CampanhaAlteradaEvent>
 {
     /// <inheritdoc/>
     public async Task Consume(ConsumeContext<CampanhaAlteradaEvent> context)
     {
         ArgumentNullException.ThrowIfNull(context);
 
-        await indice.GravarAsync(CampanhaIndexada.De(context.Message), context.CancellationToken);
+        var resultado = await indice.GravarAsync(CampanhaIndexada.De(context.Message), context.CancellationToken);
+        if (resultado == ResultadoIndexacao.Indexada)
+        {
+            metricas.RegistrarIndexada();
+        }
     }
 }

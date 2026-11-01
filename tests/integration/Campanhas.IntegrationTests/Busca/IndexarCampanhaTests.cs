@@ -108,6 +108,7 @@ public sealed class IndexarCampanhaTests(ElasticsearchFixture elasticsearch)
             .AddSingleton(elasticsearch.CriarCliente())
             .AddSingleton<IIndiceCampanhas, IndiceCampanhasElasticsearch>()
             .AddSingleton<IBuscaCampanhas, BuscaCampanhasElasticsearch>()
+            .AddSingleton<IMetricasBusca, MetricasBuscaPrometheus>()
             .AddSingleton(new PoliticaDeRetentativa(2, [TimeSpan.FromMilliseconds(500), TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(4)]))
             .AddMassTransitTestHarness(registro =>
             {

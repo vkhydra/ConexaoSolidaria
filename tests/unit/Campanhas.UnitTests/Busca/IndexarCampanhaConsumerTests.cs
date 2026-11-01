@@ -26,6 +26,11 @@ public sealed class IndexarCampanhaConsumerTests
     private readonly IIndiceCampanhas _indice = Substitute.For<IIndiceCampanhas>();
 
     /// <summary>
+    /// Métricas falsas.
+    /// </summary>
+    private readonly IMetricasBusca _metricas = Substitute.For<IMetricasBusca>();
+
+    /// <summary>
     /// Dado um evento de alteração, quando consumido, então o documento é gravado no índice com a versão do evento.
     /// </summary>
     /// <returns>Tarefa que termina com as verificações feitas.</returns>
@@ -42,6 +47,25 @@ public sealed class IndexarCampanhaConsumerTests
         await EsperarChamadasAsync(1);
         await _indice.Received(1).GravarAsync(CampanhaIndexada.De(_evento), Arg.Any<CancellationToken>());
         (await harness.Published.Any<Fault<CampanhaAlteradaEvent>>(TestContext.Current.CancellationToken)).ShouldBeFalse();
+        _metricas.Received(1).RegistrarIndexada();
+    }
+
+    /// <summary>
+    /// Dado um evento antigo (o índice já tem versão igual ou mais nova), quando consumido, então a campanha não é contada como indexada.
+    /// </summary>
+    /// <returns>Tarefa que termina com as verificações feitas.</returns>
+    [Fact]
+    public async Task Consumir_VersaoAntiga_NaoContaComoIndexada()
+    {
+        _indice.GravarAsync(Arg.Any<CampanhaIndexada>(), Arg.Any<CancellationToken>()).Returns(ResultadoIndexacao.VersaoAntiga);
+        await using var provedor = CriarProvedor();
+        var harness = provedor.GetRequiredService<ITestHarness>();
+        await harness.Start();
+
+        await harness.Bus.Publish(_evento, TestContext.Current.CancellationToken);
+
+        await EsperarChamadasAsync(1);
+        _metricas.DidNotReceive().RegistrarIndexada();
     }
 
     /// <summary>
@@ -118,6 +142,7 @@ public sealed class IndexarCampanhaConsumerTests
         return new ServiceCollection()
             .AddLogging()
             .AddSingleton(_indice)
+            .AddSingleton(_metricas)
             .AddSingleton(new PoliticaDeRetentativa(2, [TimeSpan.FromMilliseconds(100), TimeSpan.FromMilliseconds(200)]))
             .AddMassTransitTestHarness(registro =>
             {

@@ -139,6 +139,7 @@ public static class ExtensoesCampanhasInfraestrutura
         servicos.AddSingleton(new ElasticsearchClient(opcoes));
         servicos.AddSingleton<IIndiceCampanhas, IndiceCampanhasElasticsearch>();
         servicos.AddSingleton<IBuscaCampanhas, BuscaCampanhasElasticsearch>();
+        servicos.AddSingleton<IMetricasBusca, MetricasBuscaPrometheus>();
         servicos.AddSingleton<IGerenciadorDeIndice, GerenciadorDeIndiceElasticsearch>();
         servicos.AddSingleton<IFonteDeCampanhas, FonteDeCampanhasDapper>();
         return servicos;

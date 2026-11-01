@@ -50,7 +50,8 @@ public sealed class BuscarCampanhasRequestValidator : AbstractValidator<BuscarCa
 /// </summary>
 /// <param name="busca">Porta de consulta ao índice.</param>
 /// <param name="validador">Validador do pedido.</param>
-public sealed class BuscarCampanhas(IBuscaCampanhas busca, IValidator<BuscarCampanhasRequest> validador)
+/// <param name="metricas">Métricas da busca.</param>
+public sealed class BuscarCampanhas(IBuscaCampanhas busca, IValidator<BuscarCampanhasRequest> validador, IMetricasBusca metricas)
 {
     /// <summary>
     /// Executa a busca.
@@ -72,10 +73,12 @@ public sealed class BuscarCampanhas(IBuscaCampanhas busca, IValidator<BuscarCamp
         {
             var pagina = await busca.BuscarAsync(request.Q!.Trim(), request.Page, request.PageSize, cancelamento);
             var totalDePaginas = (int)Math.Ceiling(pagina.Total / (double)request.PageSize);
+            metricas.RegistrarBusca(pagina.Total > 0 ? ResultadoDaBusca.Ok : ResultadoDaBusca.Vazio);
             return Result.Sucesso(new BuscaResponse(pagina.Itens, request.Page, request.PageSize, pagina.Total, totalDePaginas));
         }
         catch (BuscaIndisponivelException)
         {
+            metricas.RegistrarBusca(ResultadoDaBusca.Indisponivel);
             return Result.Falha<BuscaResponse>(ErrosDeBusca.Indisponivel);
         }
     }

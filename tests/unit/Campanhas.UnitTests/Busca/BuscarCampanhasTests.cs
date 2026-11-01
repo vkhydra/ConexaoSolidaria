@@ -16,6 +16,11 @@ public sealed class BuscarCampanhasTests
     private readonly IBuscaCampanhas _busca = Substitute.For<IBuscaCampanhas>();
 
     /// <summary>
+    /// Métricas falsas.
+    /// </summary>
+    private readonly IMetricasBusca _metricas = Substitute.For<IMetricasBusca>();
+
+    /// <summary>
     /// Caso de uso sob teste, com o validador real.
     /// </summary>
     private readonly BuscarCampanhas _caso;
@@ -25,7 +30,7 @@ public sealed class BuscarCampanhasTests
     /// </summary>
     public BuscarCampanhasTests()
     {
-        _caso = new BuscarCampanhas(_busca, new BuscarCampanhasRequestValidator());
+        _caso = new BuscarCampanhas(_busca, new BuscarCampanhasRequestValidator(), _metricas);
     }
 
     /// <summary>
@@ -47,6 +52,7 @@ public sealed class BuscarCampanhasTests
         resultado.Valor.PageSize.ShouldBe(10);
         resultado.Valor.TotalItems.ShouldBe(11);
         resultado.Valor.TotalPages.ShouldBe(2);
+        _metricas.Received(1).RegistrarBusca(ResultadoDaBusca.Ok);
     }
 
     /// <summary>
@@ -63,6 +69,7 @@ public sealed class BuscarCampanhasTests
         resultado.EhSucesso.ShouldBeTrue();
         resultado.Valor.Items.ShouldBeEmpty();
         resultado.Valor.TotalPages.ShouldBe(0);
+        _metricas.Received(1).RegistrarBusca(ResultadoDaBusca.Vazio);
     }
 
     /// <summary>
@@ -121,6 +128,7 @@ public sealed class BuscarCampanhasTests
 
         resultado.EhFalha.ShouldBeTrue();
         resultado.Erro.Codigo.ShouldBe(ErrosDeBusca.CodigoIndisponivel);
+        _metricas.Received(1).RegistrarBusca(ResultadoDaBusca.Indisponivel);
     }
 
     /// <summary>

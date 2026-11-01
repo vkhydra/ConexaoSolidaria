@@ -1,5 +1,6 @@
 using Campanhas.Api.Consumidores;
 using Campanhas.Api.Endpoints;
+using Campanhas.Api.Saude;
 using Campanhas.Application.Busca;
 using Campanhas.Application.Campanhas;
 using Campanhas.Application.Doacoes;
@@ -13,6 +14,7 @@ using ConexaoSolidaria.ServiceDefaults.Saude;
 using ConexaoSolidaria.ServiceDefaults.Telemetria;
 using FluentValidation;
 using MassTransit;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 const string Servico = "campanhas-api";
 
@@ -20,7 +22,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.AddLogsEstruturados(Servico);
 builder.AddTelemetria(Servico);
-builder.AddSaude();
+builder.AddSaude().AddCheck<ElasticsearchHealthCheck>(ElasticsearchHealthCheck.Nome, HealthStatus.Degraded, [ExtensoesSaude.EtiquetaProntidao]);
 builder.AddTratamentoErros();
 builder.AddAutenticacaoJwt();
 
