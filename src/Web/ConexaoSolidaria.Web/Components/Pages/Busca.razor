@@ -1,0 +1,62 @@
+@page "/busca"
+@using ConexaoSolidaria.Web.Servicos
+
+<PageTitle>Buscar campanhas</PageTitle>
+<h1>Buscar campanhas</h1>
+
+<form method="get" action="/busca" class="formulario" role="search">
+    <label>
+        Buscar
+        <input type="search" name="q" value="@Q" minlength="2" maxlength="100" required placeholder="Ex.: natal solidário" />
+    </label>
+    <button type="submit" class="primario">Buscar</button>
+</form>
+
+@if (Mensagem is not null)
+{
+    <p role="alert" class="erro" data-teste="mensagem">@Mensagem</p>
+}
+else if (Resultado is not null && Resultado.Items.Count == 0)
+{
+    <p data-teste="vazio">Nenhuma campanha encontrada para esta busca.</p>
+}
+else if (Resultado is not null)
+{
+    <p data-teste="total">@Resultado.TotalItems resultado(s)</p>
+    <ul class="cartoes">
+        @foreach (var item in Resultado.Items)
+        {
+            <li class="cartao" data-teste="resultado">
+                <h2>@item.Titulo</h2>
+                @if (TrechoDestacado.Segmentar(item.Trecho).Count > 0)
+                {
+                    <p data-teste="trecho">
+                        @foreach (var segmento in TrechoDestacado.Segmentar(item.Trecho))
+                        {
+                            if (segmento.Destaque)
+                            {
+                                <mark>@segmento.Texto</mark>
+                            }
+                            else
+                            {
+                                @segmento.Texto
+                            }
+                        }
+                    </p>
+                }
+                <p>Termina em @Formatacao.Data(item.DataFim)</p>
+                <p><a href="/campanhas/@item.Id/doar">Doar</a></p>
+            </li>
+        }
+    </ul>
+    <nav aria-label="Paginação">
+        @if (Resultado.Page > 1)
+        {
+            <a data-teste="anterior" href="/busca?q=@Uri.EscapeDataString(Q ?? string.Empty)&page=@(Resultado.Page - 1)">Anterior</a>
+        }
+        @if (Resultado.Page < Resultado.TotalPages)
+        {
+            <a data-teste="proxima" href="/busca?q=@Uri.EscapeDataString(Q ?? string.Empty)&page=@(Resultado.Page + 1)">Próxima</a>
+        }
+    </nav>
+}

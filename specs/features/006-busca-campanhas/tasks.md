@@ -42,7 +42,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 ## Fase 5 — Interface
 
-- [ ] T013 [H08] Página `/busca` com trecho destacado sanitizado e mensagem de indisponibilidade, com testes bUnit — `ConexaoSolidaria.Web/Components/Pages/Busca.razor(.cs)`
+- [X] T013 [H08] Página `/busca` com trecho destacado sanitizado e mensagem de indisponibilidade, com testes bUnit — `ConexaoSolidaria.Web/Components/Pages/Busca.razor(.cs)`
   Commit: `✨ feat(web): adiciona busca de campanhas`
 
 ## Fase 6 — Fechamento

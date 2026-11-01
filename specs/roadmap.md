@@ -501,7 +501,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   ↪ Adiada da feature para a Fase 7: depende do layout e da navegação do Blazor.
   Commit: `✨ feat(web): adiciona página de transparência`
   Depende de: R105 (`004/T005`)
-- [ ] **R153** · `006/T013` [H08] Página `/busca` com trecho destacado sanitizado e mensagem de indisponibilidade, com testes bUnit — `ConexaoSolidaria.Web/Components/Pages/Busca.razor(.cs)`
+- [X] **R153** · `006/T013` [H08] Página `/busca` com trecho destacado sanitizado e mensagem de indisponibilidade, com testes bUnit — `ConexaoSolidaria.Web/Components/Pages/Busca.razor(.cs)`
   ↪ Adiada da feature para a Fase 7: depende do layout e da navegação do Blazor.
   Commit: `✨ feat(web): adiciona busca de campanhas`
   Depende de: R132 (`006/T007`)
