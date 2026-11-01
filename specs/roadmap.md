@@ -487,7 +487,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Commit: `📝 docs(lgpd): adiciona política de privacidade`
 - [X] **R148** · Layout, menu por perfil (`<AuthorizeView>`) e página de erro, com testes bUnit
   Commit: `💄 feat(web): adiciona layout e navegação`
-- [ ] **R149** · Página inicial com acesso ao painel e à busca, com testes bUnit
+- [X] **R149** · Página inicial com acesso ao painel e à busca, com testes bUnit
   Commit: `💄 feat(web): adiciona página inicial`
 - [ ] **R150** · `001/T016` [H02] Página `/entrar`, cookie de autenticação no servidor e `DelegatingHandler` que anexa o JWT, com testes bUnit — `ConexaoSolidaria.Web/Components/Pages/Entrar.razor(.cs)`
   ↪ Adiada da feature para a Fase 7: depende do layout e da navegação do Blazor.

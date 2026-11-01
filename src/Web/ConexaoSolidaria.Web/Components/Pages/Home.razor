@@ -1,0 +1,31 @@
+@page "/"
+
+<PageTitle>Conexão Solidária</PageTitle>
+<h1>Conexão Solidária</h1>
+<p>Plataforma de doações da ONG Esperança Solidária. Veja para onde vai cada real e doe para uma campanha ativa.</p>
+
+<section aria-labelledby="titulo-busca">
+    <h2 id="titulo-busca">Encontre uma campanha</h2>
+    <form method="get" action="/busca" class="formulario" role="search">
+        <label>
+            Buscar
+            <input type="search" name="q" minlength="2" maxlength="100" required placeholder="Ex.: natal solidário" />
+        </label>
+        <button type="submit" class="primario">Buscar</button>
+    </form>
+</section>
+
+<section aria-labelledby="titulo-painel">
+    <h2 id="titulo-painel">Acompanhe as campanhas</h2>
+    <p>O painel de transparência mostra a meta e o total arrecadado de cada campanha ativa.</p>
+    <p><a href="/transparencia">Ver o painel de transparência</a></p>
+</section>
+
+<AuthorizeView>
+    <NotAuthorized>
+        <section aria-labelledby="titulo-conta">
+            <h2 id="titulo-conta">Quer doar?</h2>
+            <p><a href="/cadastro">Crie sua conta</a> ou <a href="/entrar">entre</a> para doar.</p>
+        </section>
+    </NotAuthorized>
+</AuthorizeView>
