@@ -2,6 +2,7 @@ using Arrecadacao.Worker.Consumidores;
 using Campanhas.Application.Abstracoes;
 using Campanhas.Application.Arrecadacao;
 using Campanhas.Application.Transparencia;
+using Campanhas.Infrastructure.Mensageria;
 using ConexaoSolidaria.Contracts.V1;
 using MassTransit;
 using MassTransit.Testing;

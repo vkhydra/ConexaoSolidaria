@@ -1,3 +1,4 @@
+using Campanhas.Infrastructure.Mensageria;
 using Campanhas.Infrastructure.Persistencia;
 using MassTransit;
 

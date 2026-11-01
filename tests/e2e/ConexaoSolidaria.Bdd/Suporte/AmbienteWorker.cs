@@ -150,7 +150,7 @@ public sealed class AmbienteWorker(AmbienteCampanhas campanhas) : IAsyncDisposab
         servicos.AddCampanhasCache(configuracao);
         servicos.AddSingleton<InvalidadorDoPainel>();
         servicos.AddSingleton<IMetricasArrecadacao, MetricasDoacoesPrometheus>();
-        servicos.AddSingleton(new WorkerApp::Arrecadacao.Worker.Consumidores.PoliticaDeRetentativa(2, [TimeSpan.FromMilliseconds(100), TimeSpan.FromMilliseconds(200)]));
+        servicos.AddSingleton(new PoliticaDeRetentativa(2, [TimeSpan.FromMilliseconds(100), TimeSpan.FromMilliseconds(200)]));
         servicos.AddScoped<ProcessarDoacao>();
         servicos.AddMassTransitTestHarness(registro =>
         {

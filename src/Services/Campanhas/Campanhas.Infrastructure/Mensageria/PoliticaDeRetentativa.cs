@@ -1,8 +1,8 @@
-namespace Arrecadacao.Worker.Consumidores;
+namespace Campanhas.Infrastructure.Mensageria;
 
 /// <summary>
-/// Política de retentativa do consumidor de doações: tentativas imediatas e, depois, reentregas atrasadas. Esgotadas, a
-/// mensagem vai para a fila <c>doacao-recebida_error</c>.
+/// Política de retentativa dos consumidores: tentativas imediatas e, depois, reentregas atrasadas. Esgotadas, a
+/// mensagem vai para a fila <c>{fila}_error</c>.
 /// </summary>
 /// <param name="Imediatas">Quantidade de retentativas imediatas.</param>
 /// <param name="Intervalos">Espera de cada reentrega atrasada, em ordem.</param>
