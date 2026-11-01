@@ -1,0 +1,63 @@
+@page "/gestao/campanhas"
+@attribute [Authorize(Roles = "GestorONG")]
+@rendermode ModosDeRenderizacao.InterativoSemPrerender
+@using ConexaoSolidaria.Web.Servicos
+
+<PageTitle>Gestão de campanhas</PageTitle>
+<h1>Gestão de campanhas</h1>
+
+<p><a href="/gestao/campanhas/nova">Nova campanha</a></p>
+
+<label>
+    Status
+    <select @onchange="MudarFiltroAsync" data-teste="filtro">
+        <option value="" selected="@(Filtro is null)">Todos</option>
+        <option value="Ativa" selected="@(Filtro == "Ativa")">Ativa</option>
+        <option value="Concluida" selected="@(Filtro == "Concluida")">Concluída</option>
+        <option value="Cancelada" selected="@(Filtro == "Cancelada")">Cancelada</option>
+    </select>
+</label>
+
+@if (Mensagem is not null)
+{
+    <p role="alert" class="erro" data-teste="mensagem">@Mensagem</p>
+}
+else if (Pagina is null)
+{
+    <p>Carregando…</p>
+}
+else if (Pagina.Items.Count == 0)
+{
+    <p data-teste="vazio">Nenhuma campanha encontrada.</p>
+}
+else
+{
+    <table>
+        <thead>
+            <tr><th>Título</th><th>Status</th><th>Término</th><th>Meta</th><th>Arrecadado</th><th></th></tr>
+        </thead>
+        <tbody>
+            @foreach (var campanha in Pagina.Items)
+            {
+                <tr data-teste="linha">
+                    <td>@campanha.Titulo</td>
+                    <td>@campanha.Status</td>
+                    <td>@Formatacao.Data(campanha.DataFim)</td>
+                    <td>@Formatacao.Moeda(campanha.MetaFinanceira)</td>
+                    <td>@Formatacao.Moeda(campanha.TotalArrecadado)</td>
+                    <td><a href="/gestao/campanhas/@campanha.Id">Abrir</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <nav aria-label="Paginação">
+        @if (Pagina.Page > 1)
+        {
+            <button type="button" data-teste="anterior" @onclick="() => IrParaAsync(Pagina.Page - 1)">Anterior</button>
+        }
+        @if (Pagina.Page < Pagina.TotalPages)
+        {
+            <button type="button" data-teste="proxima" @onclick="() => IrParaAsync(Pagina.Page + 1)">Próxima</button>
+        }
+    </nav>
+}

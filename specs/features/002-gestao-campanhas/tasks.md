@@ -56,7 +56,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 ## Fase 7 — Interface
 
-- [ ] T017 [H03] [H04] Páginas `/gestao/campanhas`, `/gestao/campanhas/nova` e `/gestao/campanhas/{id}` com `<AuthorizeView Roles="GestorONG">` e testes bUnit — `ConexaoSolidaria.Web/Components/Pages/Gestao/*`
+- [X] T017 [H03] [H04] Páginas `/gestao/campanhas`, `/gestao/campanhas/nova` e `/gestao/campanhas/{id}` com `<AuthorizeView Roles="GestorONG">` e testes bUnit — `ConexaoSolidaria.Web/Components/Pages/Gestao/*`
   Commit: `✨ feat(web): adiciona gestão de campanhas para gestor`
 
 ## Fase 8 — Fechamento

@@ -1,0 +1,58 @@
+@page "/gestao/campanhas/{Id:guid}"
+@attribute [Authorize(Roles = "GestorONG")]
+@rendermode ModosDeRenderizacao.InterativoSemPrerender
+@using ConexaoSolidaria.Web.Servicos
+
+<PageTitle>Campanha</PageTitle>
+<h1>Campanha</h1>
+
+@if (MensagemDeCarga is not null)
+{
+    <p role="alert" class="erro" data-teste="carga">@MensagemDeCarga</p>
+}
+else if (Atual is null)
+{
+    <p>Carregando…</p>
+}
+else
+{
+    <p data-teste="resumo">Status: <strong>@Atual.Status</strong> · arrecadado @Formatacao.Moeda(Atual.TotalArrecadado) de @Formatacao.Moeda(Atual.MetaFinanceira) (@Formatacao.Percentual(Atual.PercentualAtingido))</p>
+
+    @if (Aviso is not null)
+    {
+        <p class="sucesso" data-teste="aviso">@Aviso</p>
+    }
+
+    @if (Atual.Status == "Ativa")
+    {
+        <FormularioDeCampanha Modelo="Modelo" Mensagens="Mensagens" Enviando="Enviando" TextoDoBotao="Salvar alterações" OnEnviar="SalvarAsync" />
+
+        @if (Confirmando is null)
+        {
+            <p>
+                <button type="button" data-teste="concluir" @onclick='() => Confirmar("Concluida")'>Concluir</button>
+                <button type="button" data-teste="cancelar" class="perigo" @onclick='() => Confirmar("Cancelada")'>Cancelar campanha</button>
+            </p>
+        }
+        else
+        {
+            <div role="alertdialog" aria-labelledby="titulo-confirmacao" data-teste="confirmacao">
+                <p id="titulo-confirmacao">
+                    @(Confirmando == "Concluida" ? "Concluir" : "Cancelar") esta campanha? A mudança não pode ser desfeita e a campanha sai do painel e da busca.
+                </p>
+                <button type="button" class="perigo" data-teste="confirmar" disabled="@Enviando" @onclick="AlterarStatusAsync">Confirmar</button>
+                <button type="button" data-teste="desistir" @onclick="Desistir">Voltar</button>
+            </div>
+        }
+    }
+    else
+    {
+        <p data-teste="nao-editavel">A campanha não pode ser editada: só campanhas ativas são editáveis.</p>
+        <ul>
+            <li>@Atual.Titulo</li>
+            <li>@Atual.Descricao</li>
+            <li>@Formatacao.Data(Atual.DataInicio) a @Formatacao.Data(Atual.DataFim)</li>
+        </ul>
+    }
+}
+<p><a href="/gestao/campanhas">Voltar à lista</a></p>

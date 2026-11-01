@@ -505,7 +505,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   ↪ Adiada da feature para a Fase 7: depende do layout e da navegação do Blazor.
   Commit: `✨ feat(web): adiciona busca de campanhas`
   Depende de: R132 (`006/T007`)
-- [ ] **R154** · `002/T017` [H03] [H04] Páginas `/gestao/campanhas`, `/gestao/campanhas/nova` e `/gestao/campanhas/{id}` com `<AuthorizeView Roles="GestorONG">` e testes bUnit — `ConexaoSolidaria.Web/Components/Pages/Gestao/*`
+- [X] **R154** · `002/T017` [H03] [H04] Páginas `/gestao/campanhas`, `/gestao/campanhas/nova` e `/gestao/campanhas/{id}` com `<AuthorizeView Roles="GestorONG">` e testes bUnit — `ConexaoSolidaria.Web/Components/Pages/Gestao/*`
   ↪ Adiada da feature para a Fase 7: depende do layout e da navegação do Blazor.
   Commit: `✨ feat(web): adiciona gestão de campanhas para gestor`
   Depende de: R095 (`002/T012`)

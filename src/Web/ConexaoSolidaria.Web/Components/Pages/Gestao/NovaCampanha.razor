@@ -1,0 +1,9 @@
+@page "/gestao/campanhas/nova"
+@attribute [Authorize(Roles = "GestorONG")]
+@rendermode ModosDeRenderizacao.InterativoSemPrerender
+
+<PageTitle>Nova campanha</PageTitle>
+<h1>Nova campanha</h1>
+
+<FormularioDeCampanha Modelo="Modelo" Mensagens="Mensagens" Enviando="Enviando" TextoDoBotao="Salvar" OnEnviar="SalvarAsync" />
+<p><a href="/gestao/campanhas">Voltar à lista</a></p>

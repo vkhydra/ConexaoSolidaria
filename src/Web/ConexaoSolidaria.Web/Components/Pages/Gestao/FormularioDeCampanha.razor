@@ -1,0 +1,66 @@
+<EditForm Model="Modelo" OnValidSubmit="OnEnviar" class="formulario">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    @if (Mensagens.Count > 0)
+    {
+        <ul role="alert" class="erro" data-teste="mensagens">
+            @foreach (var mensagem in Mensagens)
+            {
+                <li>@mensagem</li>
+            }
+        </ul>
+    }
+    <label>
+        Título
+        <InputText @bind-Value="Modelo.Titulo" />
+    </label>
+    <label>
+        Descrição
+        <InputTextArea @bind-Value="Modelo.Descricao" rows="5" />
+    </label>
+    <label>
+        Data de início
+        <InputDate @bind-Value="Modelo.DataInicio" />
+    </label>
+    <label>
+        Data de término
+        <InputDate @bind-Value="Modelo.DataFim" />
+    </label>
+    <label>
+        Meta financeira (R$)
+        <InputNumber @bind-Value="Modelo.MetaFinanceira" step="0.01" />
+    </label>
+    <button type="submit" class="primario" disabled="@Enviando">@TextoDoBotao</button>
+</EditForm>
+
+@code {
+    /// <summary>
+    /// Obtém ou define os dados do formulário.
+    /// </summary>
+    [Parameter, EditorRequired]
+    public ModeloDeCampanha Modelo { get; set; } = default!;
+
+    /// <summary>
+    /// Obtém ou define o texto do botão de envio.
+    /// </summary>
+    [Parameter]
+    public string TextoDoBotao { get; set; } = "Salvar";
+
+    /// <summary>
+    /// Obtém ou define as mensagens de erro da última tentativa.
+    /// </summary>
+    [Parameter]
+    public IReadOnlyList<string> Mensagens { get; set; } = [];
+
+    /// <summary>
+    /// Obtém ou define se o envio está em andamento (desabilita o botão).
+    /// </summary>
+    [Parameter]
+    public bool Enviando { get; set; }
+
+    /// <summary>
+    /// Obtém ou define o que acontece quando o formulário válido é enviado.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnEnviar { get; set; }
+}
