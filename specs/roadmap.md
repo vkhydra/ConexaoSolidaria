@@ -552,7 +552,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Commit: `🧱 build(identity): adiciona dockerfile multi-stage da identity-api`
 - [X] **R166** · Dockerfile da `campanhas-api`, com estágio `migrator`
   Commit: `🧱 build(campanhas): adiciona dockerfile multi-stage da campanhas-api`
-- [ ] **R167** · Dockerfile do `arrecadacao-worker`
+- [X] **R167** · Dockerfile do `arrecadacao-worker`
   Commit: `🧱 build(worker): adiciona dockerfile multi-stage do worker`
 - [ ] **R168** · Dockerfile do `web`
   Commit: `🧱 build(web): adiciona dockerfile multi-stage do web`
