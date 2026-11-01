@@ -18,7 +18,7 @@ namespace Campanhas.IntegrationTests.Suporte;
 /// Sobe a Campanhas.Api inteira (pipeline real, PostgreSQL em container e chaves JWT geradas na hora) para os testes de HTTP.
 /// Os serviços em segundo plano do MassTransit ficam desligados: o evento permanece em <c>outbox_message</c> para ser conferido.
 /// </summary>
-public sealed class CampanhasApiFixture : WebApplicationFactory<Program>, IAsyncLifetime
+public class CampanhasApiFixture : WebApplicationFactory<Program>, IAsyncLifetime
 {
     /// <summary>
     /// Container do PostgreSQL.
@@ -34,6 +34,11 @@ public sealed class CampanhasApiFixture : WebApplicationFactory<Program>, IAsync
     /// Par de chaves RSA do JWT, gerado só para os testes.
     /// </summary>
     private readonly RSA _rsa = RSA.Create(2048);
+
+    /// <summary>
+    /// Obtém as configurações <c>Elasticsearch:*</c> que a API usa; por padrão um endereço inalcançável, que simula a busca fora do ar.
+    /// </summary>
+    protected virtual IReadOnlyDictionary<string, string> ConfiguracaoElasticsearch { get; } = new Dictionary<string, string> { ["Elasticsearch:Endereco"] = "http://127.0.0.1:1" };
 
     /// <summary>
     /// Sobe o banco antes da API.
@@ -156,7 +161,11 @@ public sealed class CampanhasApiFixture : WebApplicationFactory<Program>, IAsync
         builder.UseSetting("ConnectionStrings:Campanhas", _container.GetConnectionString());
         builder.UseSetting("ConnectionStrings:Redis", _redis.GetConnectionString());
         builder.UseSetting("RabbitMq:Host", "rabbitmq.invalido.local");
-        builder.UseSetting("Elasticsearch:Endereco", "http://127.0.0.1:1");
+        foreach (var (chave, valor) in ConfiguracaoElasticsearch)
+        {
+            builder.UseSetting(chave, valor);
+        }
+
         builder.UseSetting("Jwt:ChavePublicaPem", _rsa.ExportSubjectPublicKeyInfoPem());
         builder.ConfigureServices(servicos =>
         {

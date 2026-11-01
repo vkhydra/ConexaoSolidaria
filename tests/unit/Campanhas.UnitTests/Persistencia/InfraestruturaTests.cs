@@ -141,16 +141,21 @@ public sealed class InfraestruturaTests
     /// Dado o endereço do Elasticsearch, com chave de API, com usuário e senha ou sem autenticação, quando a busca é registrada,
     /// então o cliente e as portas de busca e de indexação são resolvidos.
     /// </summary>
-    /// <param name="autenticacao">Forma de autenticação: <c>chave</c>, <c>basica</c>, <c>basica-sem-senha</c> ou <c>nenhuma</c>.</param>
+    /// <param name="autenticacao">Forma de autenticação: <c>chave</c>, <c>basica</c>, <c>basica-sem-senha</c>, <c>impressao</c> (certificado fixado) ou <c>nenhuma</c>.</param>
     [Theory]
     [InlineData("chave")]
     [InlineData("basica")]
     [InlineData("basica-sem-senha")]
     [InlineData("nenhuma")]
+    [InlineData("impressao")]
     public void AddCampanhasBusca_ComEndereco_RegistraClienteEPortas(string autenticacao)
     {
         var valores = new Dictionary<string, string?> { ["Elasticsearch:Endereco"] = "http://elasticsearch.local:9200" };
-        if (autenticacao == "chave")
+        if (autenticacao == "impressao")
+        {
+            valores["Elasticsearch:ImpressaoDigital"] = "AB:CD:EF:01:23:45:67:89:AB:CD:EF:01:23:45:67:89:AB:CD:EF:01:23:45:67:89:AB:CD:EF:01:23:45:67:89";
+        }
+        else if (autenticacao == "chave")
         {
             valores["Elasticsearch:ApiKey"] = "chave-de-teste";
         }

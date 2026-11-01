@@ -1,3 +1,4 @@
+using Campanhas.Application.Busca;
 using Campanhas.Application.Campanhas;
 using Campanhas.Application.Comum;
 using Campanhas.Domain.Comum;
@@ -12,7 +13,7 @@ public static class ProblemasHttp
 {
     /// <summary>
     /// Escolhe o status HTTP de um erro de negócio: 400 validação, 404 inexistente, 409 conflito de versão,
-    /// 412 versão ausente e 422 para as demais regras.
+    /// 412 versão ausente, 503 busca indisponível e 422 para as demais regras.
     /// </summary>
     /// <param name="erro">Erro de negócio.</param>
     /// <returns>O status HTTP correspondente.</returns>
@@ -26,6 +27,7 @@ public static class ProblemasHttp
             ErrosDeCampanha.CodigoNaoEncontrada => StatusCodes.Status404NotFound,
             ErrosDeCampanha.CodigoConflitoDeVersao => StatusCodes.Status409Conflict,
             ErrosDeCampanha.CodigoVersaoObrigatoria => StatusCodes.Status412PreconditionFailed,
+            ErrosDeBusca.CodigoIndisponivel => StatusCodes.Status503ServiceUnavailable,
             _ => StatusCodes.Status422UnprocessableEntity,
         };
     }

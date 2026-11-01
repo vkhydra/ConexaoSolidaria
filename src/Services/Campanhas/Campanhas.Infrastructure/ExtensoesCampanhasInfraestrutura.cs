@@ -102,7 +102,8 @@ public static class ExtensoesCampanhasInfraestrutura
 
     /// <summary>
     /// Registra o cliente do Elasticsearch (<c>Elasticsearch:Endereco</c>, com <c>Elasticsearch:ApiKey</c> ou
-    /// <c>Elasticsearch:Usuario</c> e <c>Elasticsearch:Senha</c> quando há autenticação) e as portas de busca e de indexação.
+    /// <c>Elasticsearch:Usuario</c> e <c>Elasticsearch:Senha</c> quando há autenticação, e <c>Elasticsearch:ImpressaoDigital</c>,
+    /// o SHA-256 do certificado, quando o servidor usa certificado autoassinado) e as portas de busca e de indexação.
     /// </summary>
     /// <param name="servicos">Coleção de serviços.</param>
     /// <param name="configuracao">Configuração da aplicação.</param>
@@ -118,6 +119,7 @@ public static class ExtensoesCampanhasInfraestrutura
         var apiKey = configuracao["Elasticsearch:ApiKey"];
         var usuario = configuracao["Elasticsearch:Usuario"];
         var senha = configuracao["Elasticsearch:Senha"];
+        var impressaoDigital = configuracao["Elasticsearch:ImpressaoDigital"];
 
         var opcoes = new ElasticsearchClientSettings(new Uri(endereco)).RequestTimeout(TimeSpan.FromSeconds(5));
         if (!string.IsNullOrWhiteSpace(apiKey))
@@ -127,6 +129,11 @@ public static class ExtensoesCampanhasInfraestrutura
         else if (!string.IsNullOrWhiteSpace(usuario))
         {
             opcoes.Authentication(new BasicAuthentication(usuario, senha ?? string.Empty));
+        }
+
+        if (!string.IsNullOrWhiteSpace(impressaoDigital))
+        {
+            opcoes.CertificateFingerprint(impressaoDigital.Replace(":", string.Empty, StringComparison.Ordinal));
         }
 
         servicos.AddSingleton(new ElasticsearchClient(opcoes));

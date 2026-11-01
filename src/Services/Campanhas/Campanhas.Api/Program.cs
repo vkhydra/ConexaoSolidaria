@@ -1,5 +1,6 @@
 using Campanhas.Api.Consumidores;
 using Campanhas.Api.Endpoints;
+using Campanhas.Application.Busca;
 using Campanhas.Application.Campanhas;
 using Campanhas.Application.Doacoes;
 using Campanhas.Application.Transparencia;
@@ -30,6 +31,7 @@ builder.Services.AddSingleton<IValidator<CampanhaRequest>, CampanhaRequestValida
 builder.Services.AddSingleton<IValidator<AlterarStatusRequest>, AlterarStatusRequestValidator>();
 builder.Services.AddSingleton<IValidator<ListarCampanhasRequest>, ListarCampanhasRequestValidator>();
 builder.Services.AddSingleton<IValidator<DoacaoRequest>, DoacaoRequestValidator>();
+builder.Services.AddSingleton<IValidator<BuscarCampanhasRequest>, BuscarCampanhasRequestValidator>();
 builder.Services.AddSingleton<InvalidadorDoPainel>();
 builder.Services.AddScoped<CriarCampanha>();
 builder.Services.AddScoped<AtualizarCampanha>();
@@ -38,6 +40,7 @@ builder.Services.AddScoped<ListarCampanhas>();
 builder.Services.AddScoped<ObterCampanha>();
 builder.Services.AddScoped<ObterPainelTransparencia>();
 builder.Services.AddScoped<ReceberDoacao>();
+builder.Services.AddScoped<BuscarCampanhas>();
 
 var app = builder.Build();
 
@@ -50,6 +53,7 @@ app.MapearMetricas();
 app.MapearCampanhas();
 app.MapearTransparencia();
 app.MapearDoacoes();
+app.MapearBusca();
 
 app.Run();
 
