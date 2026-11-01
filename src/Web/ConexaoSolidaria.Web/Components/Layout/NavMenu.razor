@@ -1,0 +1,25 @@
+<header class="topo">
+    <a class="marca" href="/">Conexão Solidária</a>
+    <nav aria-label="Principal">
+        <a href="/transparencia">Transparência</a>
+        <a href="/busca">Buscar</a>
+        <AuthorizeView>
+            <Authorized>
+                <AuthorizeView Roles="GestorONG" Context="gestor">
+                    <a href="/gestao/campanhas">Gestão</a>
+                </AuthorizeView>
+                <AuthorizeView Roles="Doador" Context="doador">
+                    <a href="/meus-dados">Meus dados</a>
+                </AuthorizeView>
+                <form method="post" action="/sair" class="sair">
+                    <AntiforgeryToken />
+                    <button type="submit">Sair (@context.User.Identity?.Name)</button>
+                </form>
+            </Authorized>
+            <NotAuthorized>
+                <a href="/entrar">Entrar</a>
+                <a href="/cadastro">Criar conta</a>
+            </NotAuthorized>
+        </AuthorizeView>
+    </nav>
+</header>

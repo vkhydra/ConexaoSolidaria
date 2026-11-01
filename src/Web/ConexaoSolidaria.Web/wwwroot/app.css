@@ -1,0 +1,63 @@
+:root {
+    --cor-fundo: #f7f7f5;
+    --cor-texto: #1d2a24;
+    --cor-marca: #1f7a4d;
+    --cor-marca-escura: #14573a;
+    --cor-borda: #d5dad6;
+    --cor-erro: #a32727;
+    --cor-aviso: #8a5a00;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--cor-fundo);
+    color: var(--cor-texto);
+    line-height: 1.5;
+}
+
+.topo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: var(--cor-marca);
+}
+
+.topo a, .topo button { color: #fff; }
+.marca { font-weight: 700; font-size: 1.15rem; text-decoration: none; }
+.topo nav { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
+.sair { display: inline; margin: 0; }
+.sair button { background: none; border: 1px solid #fff; border-radius: 4px; padding: 0.25rem 0.6rem; cursor: pointer; font: inherit; }
+
+.conteudo { max-width: 60rem; margin: 0 auto; padding: 1.5rem 1rem; }
+.rodape { max-width: 60rem; margin: 0 auto; padding: 1rem; font-size: 0.875rem; border-top: 1px solid var(--cor-borda); }
+
+a { color: var(--cor-marca-escura); }
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid #0b57d0; outline-offset: 2px; }
+
+.cartoes { display: grid; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); gap: 1rem; padding: 0; list-style: none; }
+.cartao { background: #fff; border: 1px solid var(--cor-borda); border-radius: 8px; padding: 1rem; }
+.cartao h2 { margin-top: 0; font-size: 1.1rem; }
+
+progress { width: 100%; height: 1rem; }
+
+form.formulario { display: grid; gap: 0.75rem; max-width: 28rem; }
+form.formulario label { display: grid; gap: 0.25rem; font-weight: 600; }
+input, select, textarea { font: inherit; padding: 0.45rem; border: 1px solid var(--cor-borda); border-radius: 4px; }
+button.primario { background: var(--cor-marca); color: #fff; border: 0; border-radius: 4px; padding: 0.55rem 1rem; font: inherit; cursor: pointer; }
+button.primario:disabled { opacity: 0.6; cursor: not-allowed; }
+button.perigo { background: var(--cor-erro); color: #fff; border: 0; border-radius: 4px; padding: 0.55rem 1rem; font: inherit; cursor: pointer; }
+
+.erro, .validation-message { color: var(--cor-erro); }
+.aviso { color: var(--cor-aviso); }
+.sucesso { color: var(--cor-marca-escura); font-weight: 600; }
+
+table { border-collapse: collapse; width: 100%; background: #fff; }
+th, td { border: 1px solid var(--cor-borda); padding: 0.5rem; text-align: left; }
+
+mark, em { background: #fff3b0; font-style: normal; }

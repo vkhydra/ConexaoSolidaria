@@ -1,0 +1,16 @@
+<Router AppAssembly="typeof(Program).Assembly">
+    <Found Context="rota">
+        <AuthorizeRouteView RouteData="rota" DefaultLayout="typeof(Layout.MainLayout)">
+            <NotAuthorized>
+                <p role="alert" class="aviso">Você não tem permissão para esta página. <a href="/entrar">Entrar</a></p>
+            </NotAuthorized>
+        </AuthorizeRouteView>
+        <FocusOnNavigate RouteData="rota" Selector="h1" />
+    </Found>
+    <NotFound>
+        <LayoutView Layout="typeof(Layout.MainLayout)">
+            <h1>Página não encontrada</h1>
+            <p>O endereço que você abriu não existe. <a href="/">Voltar ao início</a></p>
+        </LayoutView>
+    </NotFound>
+</Router>

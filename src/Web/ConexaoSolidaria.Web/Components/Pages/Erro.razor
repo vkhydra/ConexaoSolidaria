@@ -1,0 +1,18 @@
+@page "/erro"
+
+<PageTitle>Algo deu errado</PageTitle>
+<h1>Algo deu errado</h1>
+<p>Não foi possível concluir o que você pediu. Tente de novo em instantes.</p>
+@if (!string.IsNullOrWhiteSpace(CodigoDeRastreio))
+{
+    <p>Se o problema continuar, informe este código à equipe: <strong data-teste="rastreio">@CodigoDeRastreio</strong></p>
+}
+<p><a href="/">Voltar ao início</a></p>
+
+@code {
+    /// <summary>
+    /// Obtém ou define o código de rastreio (trace) mostrado ao usuário para a equipe encontrar o problema.
+    /// </summary>
+    [SupplyParameterFromQuery(Name = "rastreio")]
+    public string? CodigoDeRastreio { get; set; }
+}
