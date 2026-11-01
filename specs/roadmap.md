@@ -467,7 +467,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 - [X] **R143** · `007/T006` [H09] Fila `notificacoes-recibo`, binding e DLQ em `definitions.json` — `deploy/rabbitmq/definitions.json`
   Commit: `🔧 chore(notificacoes): adiciona definição da fila de recibos`
   Depende de: R142 (`007/T005`)
-- [ ] **R144** · `007/T009` [H09] Cenário Gherkin do recibo (captura de log no ambiente de teste) — `tests/e2e/ConexaoSolidaria.Bdd/Features/007-recibo-doacao.feature`
+- [X] **R144** · `007/T009` [H09] Cenário Gherkin do recibo (captura de log no ambiente de teste) — `tests/e2e/ConexaoSolidaria.Bdd/Features/007-recibo-doacao.feature`
   Commit: `✅ test(bdd): adiciona cenário de recibo de doação`
   Depende de: R143 (`007/T006`)
 - [ ] **R145** · *[manual]* Fechar o núcleo da feature 007: `/code-review`, `verificar-cobertura` e `git rebase --exec` (a validação de escala 0 → 1 → 0 fica na Fase 13)

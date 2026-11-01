@@ -43,6 +43,11 @@ public sealed class AmbienteWorker(AmbienteCampanhas campanhas) : IAsyncDisposab
     private readonly IMongoDatabase _livro = new MongoClient(ServidorMongo.Conexao).GetDatabase($"arrecadacao_{Guid.NewGuid():N}");
 
     /// <summary>
+    /// Envelopes dos <c>DoacaoProcessadaEvent</c> entregues pelo Outbox do Worker, como a Notificacoes.Function os receberia.
+    /// </summary>
+    private readonly ColetaDeProcessadas _coleta = new();
+
+    /// <summary>
     /// Provedor de serviços do Worker, criado na primeira entrega.
     /// </summary>
     private ServiceProvider? _provedor;
@@ -86,6 +91,20 @@ public sealed class AmbienteWorker(AmbienteCampanhas campanhas) : IAsyncDisposab
         }
 
         await harness.InactivityTask;
+    }
+
+    /// <summary>
+    /// Espera o Outbox do Worker entregar o <c>DoacaoProcessadaEvent</c> da doação e devolve o envelope JSON do MassTransit,
+    /// exatamente como a fila <c>notificacoes-recibo</c> o entregaria à função.
+    /// </summary>
+    /// <param name="doacaoId">Identificador da doação.</param>
+    /// <returns>O corpo do envelope.</returns>
+    public async Task<string> ObterEnvelopeProcessadoAsync(Guid doacaoId)
+    {
+        var harness = await ObterHarnessAsync();
+        using var prazo = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+        (await harness.Consumed.Any<DoacaoProcessadaEvent>(e => e.Context.Message.DoacaoId == doacaoId, prazo.Token)).ShouldBeTrue();
+        return _coleta.Envelopes[doacaoId];
     }
 
     /// <summary>
@@ -152,10 +171,12 @@ public sealed class AmbienteWorker(AmbienteCampanhas campanhas) : IAsyncDisposab
         servicos.AddSingleton<IMetricasArrecadacao, MetricasDoacoesPrometheus>();
         servicos.AddSingleton(new PoliticaDeRetentativa(2, [TimeSpan.FromMilliseconds(100), TimeSpan.FromMilliseconds(200)]));
         servicos.AddScoped<ProcessarDoacao>();
+        servicos.AddSingleton(_coleta);
         servicos.AddMassTransitTestHarness(registro =>
         {
             ConfiguracaoMassTransit.ConfigurarOutbox(registro);
             registro.AddConsumer<WorkerApp::Arrecadacao.Worker.Consumidores.DoacaoRecebidaConsumer, WorkerApp::Arrecadacao.Worker.Consumidores.DoacaoRecebidaConsumerDefinition>();
+            registro.AddConsumer<ColetorDeProcessadas>();
             registro.UsingInMemory((contexto, bus) =>
             {
                 bus.UseDelayedMessageScheduler();

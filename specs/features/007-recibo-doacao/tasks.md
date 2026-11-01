@@ -34,7 +34,7 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md).
 
 ## Fase 4 — Aceitação
 
-- [ ] T009 [H09] Cenário Gherkin do recibo (captura de log no ambiente de teste) — `tests/e2e/ConexaoSolidaria.Bdd/Features/007-recibo-doacao.feature`
+- [X] T009 [H09] Cenário Gherkin do recibo (captura de log no ambiente de teste) — `tests/e2e/ConexaoSolidaria.Bdd/Features/007-recibo-doacao.feature`
   Commit: `✅ test(bdd): adiciona cenário de recibo de doação`
 
 ## Fase 5 — Fechamento
