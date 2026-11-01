@@ -71,6 +71,8 @@ if ($ExecutarTestes) {
 
     $argumentos = @(
         'test', 'ConexaoSolidaria.slnx', '-c', 'Release', '--no-build',
+        # Um projeto de teste por vez: cada um sobe containers (PostgreSQL, Redis, MongoDB, Elasticsearch) e, juntos, esgotam a memória do Docker.
+        '-m:1',
         '--settings', 'coverlet.runsettings',
         '--collect', 'XPlat Code Coverage',
         '--logger', 'trx',
