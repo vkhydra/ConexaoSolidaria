@@ -580,7 +580,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Commit: `🧱 build: adiciona docker-compose com toda a stack`
 - [X] **R172** · Script `scripts/seed-demo.ps1` (dados de demonstração pela API)
   Commit: `🌱 chore: adiciona script de dados de demonstração`
-- [ ] **R173** · *[manual]* Validar com `/run`: subir a stack, rodar o seed e fazer uma doação de ponta a ponta
+- [X] **R173** · *[manual]* Validar com `/run`: subir a stack, rodar o seed e fazer uma doação de ponta a ponta
 
 <a id="fase-10"></a>
 ## Fase 10 — Kubernetes local
