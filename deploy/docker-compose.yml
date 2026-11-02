@@ -1,0 +1,271 @@
+# Stack completa sem Kubernetes.
+#   pwsh ./scripts/gerar-env.ps1
+#   docker compose -f deploy/docker-compose.yml --env-file deploy/.env up -d --build
+name: conexao-solidaria
+
+x-saude-dotnet: &env-comum
+  OTEL_EXPORTER_OTLP_ENDPOINT: http://jaeger:4317
+
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: ${POSTGRES_USUARIO}
+      POSTGRES_PASSWORD: ${POSTGRES_SENHA}
+    volumes:
+      - postgres-dados:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    networks: [conexao]
+
+  mongodb:
+    image: mongo:8
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USUARIO}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_SENHA}
+    volumes:
+      - mongo-dados:/data/db
+    ports:
+      - "27017:27017"
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks: [conexao]
+
+  redis:
+    image: redis:8
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    networks: [conexao]
+
+  rabbitmq:
+    image: rabbitmq:4-management
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USUARIO}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_SENHA}
+    volumes:
+      - rabbitmq-dados:/var/lib/rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+    networks: [conexao]
+
+  # Cria exchanges, filas e DLQs (inclusive a fila do gatilho da função, que precisa existir antes do host) e encerra.
+  rabbitmq-definicoes:
+    image: curlimages/curl:8.11.1
+    entrypoint: ["curl", "-fsS", "--retry", "20", "--retry-delay", "3", "--retry-connrefused", "-u", "${RABBITMQ_USUARIO}:${RABBITMQ_SENHA}", "-H", "content-type: application/json", "-X", "POST", "http://rabbitmq:15672/api/definitions", "-d", "@/definitions.json"]
+    volumes:
+      - ./rabbitmq/definitions.json:/definitions.json:ro
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    restart: "no"
+    networks: [conexao]
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:9.2.0
+    environment:
+      discovery.type: single-node
+      # Só para desenvolvimento local: sem TLS nem usuário. No Kubernetes e no CI a segurança fica ligada.
+      xpack.security.enabled: "false"
+      ES_JAVA_OPTS: -Xms512m -Xmx512m
+    volumes:
+      - elasticsearch-dados:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fs http://localhost:9200/_cluster/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+    networks: [conexao]
+
+  azurite:
+    image: mcr.microsoft.com/azure-storage/azurite
+    command: azurite-blob --blobHost 0.0.0.0 --skipApiVersionCheck
+    networks: [conexao]
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.76.0
+    environment:
+      COLLECTOR_OTLP_ENABLED: "true"
+    ports:
+      - "16686:16686"
+      - "4317:4317"
+    networks: [conexao]
+
+  migrator-identity:
+    build:
+      context: ..
+      dockerfile: src/Services/Identity/Identity.Api/Dockerfile
+      target: migrator
+    image: conexao/migrator-identity:local
+    environment:
+      ConnectionStrings__Identity: Host=postgres;Database=identity_db;Username=${POSTGRES_USUARIO};Password=${POSTGRES_SENHA}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+    networks: [conexao]
+
+  migrator-campanhas:
+    build:
+      context: ..
+      dockerfile: src/Services/Campanhas/Campanhas.Api/Dockerfile
+      target: migrator
+    image: conexao/migrator-campanhas:local
+    environment:
+      ConnectionStrings__Campanhas: Host=postgres;Database=campanhas_db;Username=${POSTGRES_USUARIO};Password=${POSTGRES_SENHA}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+    networks: [conexao]
+
+  identity-api:
+    build:
+      context: ..
+      dockerfile: src/Services/Identity/Identity.Api/Dockerfile
+    image: conexao/identity-api:local
+    environment:
+      <<: *env-comum
+      ConnectionStrings__Identity: Host=postgres;Database=identity_db;Username=${POSTGRES_USUARIO};Password=${POSTGRES_SENHA}
+      Autenticacao__ChaveHashEmail: ${AUTENTICACAO_CHAVE_HASH_EMAIL}
+      Cpf__ChaveCifra: ${CPF_CHAVE_CIFRA}
+      Cpf__ChaveHash: ${CPF_CHAVE_HASH}
+      Cpf__VersaoChave: ${CPF_VERSAO_CHAVE}
+      Jwt__ChavePrivadaPem: ${JWT_CHAVE_PRIVADA_PEM}
+      Jwt__ChavePublicaPem: ${JWT_CHAVE_PUBLICA_PEM}
+      Jwt__Issuer: ${JWT_ISSUER}
+      Jwt__Audience: ${JWT_AUDIENCE}
+      Lgpd__VersaoPolitica: ${LGPD_VERSAO_POLITICA}
+      Seed__GestorEmail: ${SEED_GESTOR_EMAIL}
+      Seed__GestorSenha: ${SEED_GESTOR_SENHA}
+    depends_on:
+      migrator-identity:
+        condition: service_completed_successfully
+    ports:
+      - "${PORTA_IDENTITY}:8080"
+    networks: [conexao]
+
+  campanhas-api:
+    build:
+      context: ..
+      dockerfile: src/Services/Campanhas/Campanhas.Api/Dockerfile
+    image: conexao/campanhas-api:local
+    environment:
+      <<: *env-comum
+      ConnectionStrings__Campanhas: Host=postgres;Database=campanhas_db;Username=${POSTGRES_USUARIO};Password=${POSTGRES_SENHA}
+      ConnectionStrings__Mongo: mongodb://${MONGO_USUARIO}:${MONGO_SENHA}@mongodb:27017/?authSource=admin
+      ConnectionStrings__Redis: redis:6379
+      RabbitMq__Host: rabbitmq
+      RabbitMq__Usuario: ${RABBITMQ_USUARIO}
+      RabbitMq__Senha: ${RABBITMQ_SENHA}
+      Elasticsearch__Endereco: http://elasticsearch:9200
+      Jwt__ChavePublicaPem: ${JWT_CHAVE_PUBLICA_PEM}
+      Jwt__Issuer: ${JWT_ISSUER}
+      Jwt__Audience: ${JWT_AUDIENCE}
+    depends_on:
+      migrator-campanhas:
+        condition: service_completed_successfully
+      mongodb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+    ports:
+      - "${PORTA_CAMPANHAS}:8080"
+    networks: [conexao]
+
+  arrecadacao-worker:
+    build:
+      context: ..
+      dockerfile: src/Services/Campanhas/Arrecadacao.Worker/Dockerfile
+    image: conexao/arrecadacao-worker:local
+    environment:
+      <<: *env-comum
+      ConnectionStrings__Campanhas: Host=postgres;Database=campanhas_db;Username=${POSTGRES_USUARIO};Password=${POSTGRES_SENHA}
+      ConnectionStrings__Mongo: mongodb://${MONGO_USUARIO}:${MONGO_SENHA}@mongodb:27017/?authSource=admin
+      ConnectionStrings__Redis: redis:6379
+      RabbitMq__Host: rabbitmq
+      RabbitMq__Usuario: ${RABBITMQ_USUARIO}
+      RabbitMq__Senha: ${RABBITMQ_SENHA}
+    depends_on:
+      migrator-campanhas:
+        condition: service_completed_successfully
+      mongodb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    ports:
+      - "9090:9090"
+    networks: [conexao]
+
+  notificacoes-function:
+    build:
+      context: ..
+      dockerfile: src/Functions/Notificacoes.Function/Dockerfile
+    image: conexao/notificacoes-function:local
+    environment:
+      <<: *env-comum
+      AzureWebJobsStorage: DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://azurite:10000/devstoreaccount1;
+      RabbitMqConnection: amqp://${RABBITMQ_USUARIO}:${RABBITMQ_SENHA}@rabbitmq:5672
+      ConnectionStrings__Redis: redis:6379
+    depends_on:
+      rabbitmq-definicoes:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+      azurite:
+        condition: service_started
+    networks: [conexao]
+
+  web:
+    build:
+      context: ..
+      dockerfile: src/Web/ConexaoSolidaria.Web/Dockerfile
+    image: conexao/web:local
+    environment:
+      <<: *env-comum
+      Api__Identity: http://identity-api:8080/
+      Api__Campanhas: http://campanhas-api:8080/
+    depends_on:
+      identity-api:
+        condition: service_healthy
+      campanhas-api:
+        condition: service_healthy
+    ports:
+      - "${PORTA_WEB}:8080"
+    networks: [conexao]
+
+networks:
+  conexao:
+    name: conexao
+
+volumes:
+  postgres-dados:
+  mongo-dados:
+  rabbitmq-dados:
+  elasticsearch-dados:

@@ -576,7 +576,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Depende de: R142 (`007/T005`)
 - [X] **R170** · Modelo de variáveis de ambiente `deploy/.env.example`
   Commit: `🔐 chore: adiciona modelo de variáveis de ambiente`
-- [ ] **R171** · `deploy/docker-compose.yml` com bancos, RabbitMQ, Jaeger, migrators e serviços
+- [X] **R171** · `deploy/docker-compose.yml` com bancos, RabbitMQ, Jaeger, migrators e serviços
   Commit: `🧱 build: adiciona docker-compose com toda a stack`
 - [ ] **R172** · Script `scripts/seed-demo.ps1` (dados de demonstração pela API)
   Commit: `🌱 chore: adiciona script de dados de demonstração`
