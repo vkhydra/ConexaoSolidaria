@@ -21,7 +21,7 @@ RUN dotnet publish src/Services/Campanhas/Arrecadacao.Worker/Arrecadacao.Worker.
 FROM mcr.microsoft.com/dotnet/aspnet:${DOTNET_VERSION} AS final
 WORKDIR /app
 # O Worker serve só as sondas de saúde e as métricas, na porta 9090.
-ENV ASPNETCORE_URLS=http://+:9090 DOTNET_EnableDiagnostics=0
+ENV ASPNETCORE_HTTP_PORTS=9090 DOTNET_EnableDiagnostics=0
 EXPOSE 9090
 COPY --from=build /app/publish .
 USER app
