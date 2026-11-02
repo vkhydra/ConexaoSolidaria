@@ -578,7 +578,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Commit: `🔐 chore: adiciona modelo de variáveis de ambiente`
 - [X] **R171** · `deploy/docker-compose.yml` com bancos, RabbitMQ, Jaeger, migrators e serviços
   Commit: `🧱 build: adiciona docker-compose com toda a stack`
-- [ ] **R172** · Script `scripts/seed-demo.ps1` (dados de demonstração pela API)
+- [X] **R172** · Script `scripts/seed-demo.ps1` (dados de demonstração pela API)
   Commit: `🌱 chore: adiciona script de dados de demonstração`
 - [ ] **R173** · *[manual]* Validar com `/run`: subir a stack, rodar o seed e fazer uma doação de ponta a ponta
 
