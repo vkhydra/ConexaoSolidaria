@@ -6,7 +6,7 @@
 
 A API escolhida é a **Conexão Solidária**, plataforma de doações para a ONG Esperança Solidária, que aplica o conteúdo das 5 fases do curso.
 
-> **Status:** especificação concluída; implementação feature a feature conforme o [plano de execução](docs/plano-de-execucao.md).
+> **Status:** as 8 funcionalidades, os testes unitários e a pipeline de CI estão implementados; a stack completa sobe com `docker compose`. Kubernetes, gateway e observabilidade avançada (Fases 10 a 14 do [roadmap](specs/roadmap.md)) ficaram fora desta entrega.
 
 ## Testes e cobertura (requisito avaliado)
 
@@ -35,13 +35,13 @@ A API escolhida é a **Conexão Solidária**, plataforma de doações para a ONG
 
 - **Microsserviços:** `Identity.Api`, `Campanhas.Api`, `Arrecadacao.Worker` e a função serverless `Notificacoes.Function`.
 - **Mensageria:** a doação publica `DoacaoRecebidaEvent` no RabbitMQ (MassTransit com Outbox). O Worker consome o evento e atualiza o total arrecadado.
-- **Dados:** PostgreSQL, MongoDB, Redis e Elasticsearch, cada um com uma justificativa documentada.
-- **Infra:** Docker, Kubernetes (Minikube) e Kong como API Gateway.
-- **Observabilidade:** OpenTelemetry, Prometheus, Grafana e Jaeger.
-- **CI/CD:** GitHub Actions faz build, testes, cobertura e a imagem Docker a cada push na `main`.
+- **Dados:** PostgreSQL, MongoDB, Redis e Elasticsearch, cada um com uma [justificativa](docs/justificativa-bancos.md).
+- **Infra:** Docker e docker-compose (Kubernetes e Kong estão especificados, mas não fazem parte desta entrega).
+- **Observabilidade:** OpenTelemetry com traces no Jaeger, health checks e métricas `/metrics`.
+- **CI:** GitHub Actions faz build, testes, cobertura e publica o relatório.
 - **Frontend:** Blazor.
 
-Detalhes, diagramas e decisões: [specs/product/arquitetura.md](specs/product/arquitetura.md) e [docs/adr/](docs/adr/README.md).
+Diagrama: [`docs/arquitetura/arquitetura.mmd`](docs/arquitetura/arquitetura.mmd) (Mermaid). Detalhes e decisões: [specs/product/arquitetura.md](specs/product/arquitetura.md) e [docs/adr/](docs/adr/README.md).
 
 ## Como o projeto é desenvolvido
 
@@ -76,9 +76,39 @@ O projeto usa **Spec-Driven Development** com o Claude Code ([ADR 0017](docs/adr
 
 ## Como executar
 
-1. Instale os [pré-requisitos](docs/pre-requisitos.md) (Windows, macOS ou Linux).
-2. Siga o [manual de implementação](docs/manual-de-implementacao.md): docker-compose (rápido) ou Kubernetes local (completo).
-3. Use a plataforma pelo [manual do usuário](docs/manual-do-usuario.md).
+### Rodar os testes (não precisa de Docker)
+
+```bash
+dotnet tool restore
+dotnet restore ConexaoSolidaria.slnx --locked-mode
+dotnet test ConexaoSolidaria.slnx -c Release --filter Category=Unit
+pwsh ./scripts/verificar-cobertura.ps1 -Minimo 90 -ExecutarTestes   # cobertura e relatório em coverage/index.html
+```
+
+Pré-requisitos: .NET 10 SDK e PowerShell 7 (`pwsh`). Os testes de integração e BDD (`dotnet test ConexaoSolidaria.slnx -c Release`) também exigem Docker, com pelo menos 4 GB de memória livres.
+
+### Subir a plataforma completa (Docker)
+
+```bash
+pwsh ./scripts/gerar-env.ps1                                                     # cria deploy/.env com segredos aleatórios
+docker compose -f deploy/docker-compose.yml --env-file deploy/.env up -d --build # sobe tudo (a primeira vez leva alguns minutos)
+pwsh ./scripts/seed-demo.ps1                                                     # cria campanhas, um doador e faz uma doação
+```
+
+| Serviço | URL |
+|---|---|
+| Web (Blazor) | http://localhost:8080 |
+| Identity.Api | http://localhost:8081 |
+| Campanhas.Api | http://localhost:8082 |
+| Worker (health e métricas) | http://localhost:9090/health/live |
+| RabbitMQ (painel) | http://localhost:15672 |
+| Jaeger | http://localhost:16686 |
+
+**Usuários de teste:** o gestor é criado na subida da Identity.Api com `SEED_GESTOR_EMAIL` e `SEED_GESTOR_SENHA` de `deploy/.env`. O `seed-demo.ps1` cadastra o doador `doador.demo@exemplo.com` (senha `Doador@2026Demo`, dados fictícios) e confere a doação no painel de transparência.
+
+Para testar a API sem a interface, importe a [coleção Postman](docs/postman/README.md). Para parar: `docker compose -f deploy/docker-compose.yml --env-file deploy/.env down` (acrescente `-v` para apagar os dados).
+
+Mais detalhes: [pré-requisitos](docs/pre-requisitos.md), [manual de implementação](docs/manual-de-implementacao.md) e [manual do usuário](docs/manual-do-usuario.md).
 
 ## Convenção de commits
 
@@ -105,6 +135,8 @@ Exemplo: `✨ feat(campanhas): adiciona criação de campanha`. Todo commit deve
 | [Processo ágil](docs/processo-agil.md) | Scrum, Kanban, DoR, DoD e backlog |
 | [Claude Code no projeto](docs/claude-code.md) | Comandos, agentes, skills e MCP |
 | [Entrega e riscos](docs/entrega-e-riscos.md) | Checklist do enunciado do substitutivo e riscos |
+| [Justificativa dos bancos](docs/justificativa-bancos.md) | Persistência poliglota |
+| [Coleção Postman](docs/postman/README.md) | Chamadas da API prontas |
 | [Roteiro do vídeo](docs/ROTEIRO-VIDEO.md) | Vídeo de entrega: API, testes, pipeline e cobertura |
 
 ## Equipe
