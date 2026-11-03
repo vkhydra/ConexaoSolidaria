@@ -778,7 +778,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 
 **Pronto quando:** Outra pessoa roda os testes e sobe a API do zero seguindo só o README.
 
-- [ ] **R235** · Exportar o diagrama de arquitetura para `docs/arquitetura/arquitetura.png`
+- [X] **R235** · Exportar o diagrama de arquitetura para `docs/arquitetura/arquitetura.png`
   Commit: `📝 docs: adiciona diagrama de arquitetura em png`
 - [X] **R236** · Escrever `docs/justificativa-bancos.md` (persistência poliglota)
   Commit: `📝 docs: adiciona justificativa dos bancos de dados`
