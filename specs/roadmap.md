@@ -780,11 +780,11 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 
 - [ ] **R235** · Exportar o diagrama de arquitetura para `docs/arquitetura/arquitetura.png`
   Commit: `📝 docs: adiciona diagrama de arquitetura em png`
-- [ ] **R236** · Escrever `docs/justificativa-bancos.md` (persistência poliglota)
+- [X] **R236** · Escrever `docs/justificativa-bancos.md` (persistência poliglota)
   Commit: `📝 docs: adiciona justificativa dos bancos de dados`
-- [ ] **R237** · Coleção e ambiente Postman em `docs/postman/`, apontando para o gateway
+- [X] **R237** · Coleção e ambiente Postman em `docs/postman/`, apontando para o gateway
   Commit: `📝 docs: adiciona coleção postman`
-- [ ] **R238** · README final: testes e cobertura, passo a passo, URLs e usuários de teste
+- [X] **R238** · README final: testes e cobertura, passo a passo, URLs e usuários de teste
   Commit: `📝 docs: atualiza README com passo a passo completo`
 - [ ] **R239** · *[manual]* Testar o README em um clone novo, em outra máquina
 
