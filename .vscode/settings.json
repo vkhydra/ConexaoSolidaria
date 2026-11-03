@@ -1,13 +1,13 @@
 {
   "dotnet.defaultSolution": "ConexaoSolidaria.slnx",
-
   "editor.formatOnSave": true,
-  "editor.rulers": [120],
+  "editor.rulers": [
+    120
+  ],
   "files.eol": "\n",
   "files.encoding": "utf8",
   "files.insertFinalNewline": true,
   "files.trimTrailingWhitespace": true,
-
   "[csharp]": {
     "editor.defaultFormatter": "ms-dotnettools.csharp",
     "editor.codeActionsOnSave": {
@@ -21,7 +21,6 @@
   "[powershell]": {
     "files.eol": "\r\n"
   },
-
   "files.exclude": {
     "**/bin": true,
     "**/obj": true
@@ -33,17 +32,17 @@
     "coverage": true,
     "**/node_modules": true
   },
-
   "yaml.schemas": {
     "kubernetes": "deploy/k8s/**/*.yaml"
   },
   "yaml.validate": true,
-
   "markdownlint.config": {
     "MD013": false,
-    "MD024": { "siblings_only": true },
+    "MD024": {
+      "siblings_only": true
+    },
     "MD033": false
   },
-
-  "powershell.codeFormatting.preset": "OTBS"
+  "powershell.codeFormatting.preset": "OTBS",
+  "python.terminal.useEnvFile": true
 }
