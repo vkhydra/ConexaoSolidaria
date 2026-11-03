@@ -1,0 +1,414 @@
+{
+  "info": {
+    "name": "Conexão Solidária",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Rode as pastas na ordem: 1 (login do gestor), 2 (campanhas), 3 (doador e doação), 4 (consultas públicas)."
+  },
+  "item": [
+    {
+      "name": "1 · Autenticação",
+      "item": [
+        {
+          "name": "Login do gestor",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{identityUrl}}/api/v1/auth/login"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{gestorEmail}}\",\n  \"senha\": \"{{gestorSenha}}\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200',()=>pm.response.to.have.status(200));",
+                  "pm.collectionVariables.set('tokenGestor', pm.response.json().accessToken);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login com senha errada (erro)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{identityUrl}}/api/v1/auth/login"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{gestorEmail}}\",\n  \"senha\": \"senha-errada\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('401',()=>pm.response.to.have.status(401));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "2 · Campanhas (gestor)",
+      "item": [
+        {
+          "name": "Criar campanha",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{campanhasUrl}}/api/v1/campanhas"
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenGestor}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Natal Solidário 2026\",\n  \"descricao\": \"Cestas de Natal para famílias atendidas.\",\n  \"dataInicio\": \"2026-11-01\",\n  \"dataFim\": \"2026-12-31\",\n  \"metaFinanceira\": 20000.0\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('201',()=>pm.response.to.have.status(201));",
+                  "pm.collectionVariables.set('idCampanha', pm.response.json().id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Criar campanha com meta inválida (erro)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{campanhasUrl}}/api/v1/campanhas"
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenGestor}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Inválida\",\n  \"descricao\": \"Meta zero.\",\n  \"dataInicio\": \"2026-11-01\",\n  \"dataFim\": \"2026-12-31\",\n  \"metaFinanceira\": 0\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('400 ou 422',()=>pm.expect([400,422]).to.include(pm.response.code));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Listar campanhas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{campanhasUrl}}/api/v1/campanhas?pageSize=50"
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenGestor}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Reindexar a busca",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{campanhasUrl}}/api/v1/admin/reindexar"
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenGestor}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('202',()=>pm.response.to.have.status(202));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "3 · Doador e doação",
+      "item": [
+        {
+          "name": "Cadastrar doador",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{identityUrl}}/api/v1/doadores"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nomeCompleto\": \"Doador Demonstração\",\n  \"email\": \"doador.demo@exemplo.com\",\n  \"cpf\": \"529.982.247-25\",\n  \"senha\": \"Doador@2026Demo\",\n  \"aceitePoliticaPrivacidade\": true\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('201 ou 409',()=>pm.expect([201,409]).to.include(pm.response.code));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login do doador",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{identityUrl}}/api/v1/auth/login"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"doador.demo@exemplo.com\",\n  \"senha\": \"Doador@2026Demo\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('tokenDoador', pm.response.json().accessToken);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Doar R$ 50",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{campanhasUrl}}/api/v1/doacoes"
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenDoador}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idCampanha\": \"{{idCampanha}}\",\n  \"valorDoacao\": 50.0\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('202',()=>pm.response.to.have.status(202));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Doar sem login (erro)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{$guid}}"
+              }
+            ],
+            "url": {
+              "raw": "{{campanhasUrl}}/api/v1/doacoes"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idCampanha\": \"{{idCampanha}}\",\n  \"valorDoacao\": 50.0\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('401',()=>pm.response.to.have.status(401));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Meus dados",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{identityUrl}}/api/v1/doadores/me"
+            },
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{tokenDoador}}",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4 · Consultas públicas",
+      "item": [
+        {
+          "name": "Painel de transparência",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{campanhasUrl}}/api/v1/transparencia/campanhas"
+            }
+          }
+        },
+        {
+          "name": "Busca com erro de digitação",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{campanhasUrl}}/api/v1/campanhas/busca?q=natl%20solidaro"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "tokenGestor",
+      "value": ""
+    },
+    {
+      "key": "tokenDoador",
+      "value": ""
+    },
+    {
+      "key": "idCampanha",
+      "value": ""
+    }
+  ]
+}
