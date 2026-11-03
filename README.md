@@ -41,7 +41,7 @@ A API escolhida é a **Conexão Solidária**, plataforma de doações para a ONG
 - **CI:** GitHub Actions faz build, testes, cobertura e publica o relatório.
 - **Frontend:** Blazor.
 
-Diagrama: [`docs/arquitetura/arquitetura.mmd`](docs/arquitetura/arquitetura.mmd) (Mermaid). Detalhes e decisões: [specs/product/arquitetura.md](specs/product/arquitetura.md) e [docs/adr/](docs/adr/README.md).
+Diagrama: ![Arquitetura](docs/arquitetura/arquitetura.png) (fonte Mermaid em [`arquitetura.mmd`](docs/arquitetura/arquitetura.mmd)). Detalhes e decisões: [specs/product/arquitetura.md](specs/product/arquitetura.md) e [docs/adr/](docs/adr/README.md).
 
 ## Como o projeto é desenvolvido
 
