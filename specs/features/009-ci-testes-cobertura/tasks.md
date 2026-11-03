@@ -28,8 +28,8 @@ Formato e regras: iguais às da [feature 001](../001-autenticacao/tasks.md). Est
 
 ## Fase 3 — Validação
 
-- [ ] T009 [H12] Verificar a falha da pipeline com um teste quebrado numa branch de teste (não vai para a `main`) e registrar o resultado no PR
-- [ ] T010 [H11] Executar a pipeline manualmente, baixar o artefato e conferir o relatório HTML
+- [X] T009 [H12] Verificar a falha da pipeline com um teste quebrado numa branch de teste (não vai para a `main`) e registrar o resultado no PR — Dispensado em definitivo por decisão do usuário (2026-11-03); a pipeline não será conferida por este item.
+- [X] T010 [H11] Executar a pipeline manualmente, baixar o artefato e conferir o relatório HTML — Dispensado em definitivo por decisão do usuário (2026-11-03); a pipeline não será conferida por este item.
 - [X] T011 Ao fim de cada feature 001–008: conferir que os testes novos aparecem no relatório e que há casos de sucesso e de erro
 
 ## Dependências
