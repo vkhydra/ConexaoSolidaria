@@ -1,0 +1,20 @@
+flowchart LR
+  user([Usuários]) --> web[ConexaoSolidaria.Web<br/>Blazor Web App]
+  web --> idapi[Identity.Api]
+  web --> campapi[Campanhas.Api]
+  user --> idapi
+  user --> campapi
+  idapi --> pgid[(PostgreSQL<br/>identity_db)]
+  campapi --> pgcamp[(PostgreSQL<br/>campanhas_db)]
+  campapi --> redis[(Redis<br/>cache do painel)]
+  campapi --> es[(Elasticsearch<br/>busca)]
+  campapi -- "Outbox: DoacaoRecebidaEvent<br/>CampanhaAlteradaEvent" --> mq{{RabbitMQ}}
+  mq -- CampanhaAlteradaEvent --> campapi
+  mq -- DoacaoRecebidaEvent --> worker[Arrecadacao.Worker]
+  worker --> pgcamp
+  worker --> mongo[(MongoDB<br/>livro de doações)]
+  worker -- invalida cache --> redis
+  worker -- "Outbox: DoacaoProcessadaEvent" --> mq
+  mq -- DoacaoProcessadaEvent --> fn[Notificacoes.Function<br/>recibo de doação]
+  fn -- deduplicação --> redis
+  idapi & campapi & worker & fn -. traces OTLP .-> jaeger[Jaeger]
