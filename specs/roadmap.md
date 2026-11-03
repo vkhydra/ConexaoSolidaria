@@ -814,7 +814,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 **Pronto quando:** Entrega registrada na plataforma da FIAP.
 
 - [ ] **R245** · *[manual]* Conferir o [checklist de entrega e riscos](../docs/entrega-e-riscos.md) 100%
-- [ ] **R246** · Atualizar a versão para 1.0.0
+- [X] **R246** · Atualizar a versão para 1.0.0
   Commit: `🔖 chore: versão 1.0.0`
 - [ ] **R247** · *[manual]* `git tag -a v1.0.0`, push da tag e `gh release create v1.0.0 --generate-notes`
 - [ ] **R248** · *[manual]* Garantir o acesso do avaliador ao repositório (tornar público ou conceder acesso)
