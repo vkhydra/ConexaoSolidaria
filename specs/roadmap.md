@@ -531,7 +531,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   ↪ Adiada da feature para a Fase 7: depende do layout e da navegação do Blazor.
   Commit: `✨ feat(web): adiciona página de dados do titular`
   Depende de: R079 (`008/T003`)
-- [ ] **R157** · *[bônus]* Assistente de descrição da campanha (Semantic Kernel + Ollama), com aviso de texto gerado por IA
+- [X] **R157** · *[bônus]* Assistente de descrição da campanha (Semantic Kernel + Ollama), com aviso de texto gerado por IA — Cortado por decisão do usuário (2026-11-03): fora do que o enunciado exige.
   Commit: `🤖 feat(web): adiciona sugestão de descrição com semantic kernel`
 - [X] **R158** · *[manual]* Conferir a cobertura do `Web` com `verificar-cobertura` e rodar `/code-review` nas páginas — cobertura conferida em 2026-11-01 (total 99,3% linhas e 95,6% ramos; todos os projetos ≥ 90%; 0 testes falhando); revisão feita pelo próprio autor, sem `/code-review` formal nem `git rebase --exec` (os hooks compilam e testam cada commit)
 
@@ -545,9 +545,9 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 **Pronto quando:** Todos os RFs com cenário automatizado; cobertura ≥ 90% no total e em cada projeto de `src/`; jornada E2E (bônus) passando.
 
 - [X] **R159** · *[manual]* Rodar `/analyze` em cada feature e conferir que todo cenário Gherkin tem automação em `tests/e2e/ConexaoSolidaria.Bdd/` — conferido em 2026-11-01: 45 de 47 cenários das specs 001–008 têm automação com o mesmo título; faltam só "Escala a zero" e "Escala sob demanda" (feature 007), que dependem do KEDA no Kubernetes (Fase 13)
-- [ ] **R160** · *[bônus]* Jornada "cadastrar → entrar → doar → ver o painel" no navegador com Playwright
+- [X] **R160** · *[bônus]* Jornada "cadastrar → entrar → doar → ver o painel" no navegador com Playwright — Cortado por decisão do usuário (2026-11-03): fora do que o enunciado exige.
   Commit: `✅ test(e2e): adiciona jornada de doação com playwright`
-- [ ] **R161** · *[bônus]* GraphQL (HotChocolate) e gRPC, se houver tempo: especificar antes com `/specify`
+- [X] **R161** · *[bônus]* GraphQL (HotChocolate) e gRPC, se houver tempo: especificar antes com `/specify` — Cortado por decisão do usuário (2026-11-03): fora do que o enunciado exige.
 - [X] **R162** · `009/T011` Ao fim de cada feature 001–008: conferir que os testes novos aparecem no relatório e que há casos de sucesso e de erro — conferido em 2026-11-01 na execução completa (todos os testes passam; cada feature tem cenários de sucesso e de erro)
 - [X] **R163** · *[manual]* Rodar a skill `verificar-cobertura` no conjunto inteiro e anexar o resumo ao PR — rodado em 2026-11-01: 99,3% linhas e 95,6% ramos, todos os projetos ≥ 90%; o PR ainda não existe, então o resumo fica registrado aqui
 
@@ -764,10 +764,10 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 
 **Pronto quando:** Checklist OWASP e LGPD 100%; gitleaks e Trivy verdes; nenhum dado pessoal nos logs reais.
 
-- [ ] **R231** · *[manual]* `/security-review` completo da branch
-- [ ] **R232** · *[manual]* Percorrer o [checklist OWASP Top 10](../specs/product/seguranca-e-lgpd.md#checklist-owasp-top-10-revisão-na-etapa-16)
-- [ ] **R233** · *[manual]* Ler os logs reais (`kubectl logs`) procurando nome, e-mail ou CPF
-- [ ] **R234** · *[conforme os achados]* Uma correção por achado, com teste de regressão: `🔒️ fix(<escopo>): <descrição>`
+- [X] **R231** · *[manual]* `/security-review` completo da branch — Cortado por decisão do usuário (2026-11-03): fora do que o enunciado exige.
+- [X] **R232** · *[manual]* Percorrer o [checklist OWASP Top 10](../specs/product/seguranca-e-lgpd.md#checklist-owasp-top-10-revisão-na-etapa-16) — Cortado por decisão do usuário (2026-11-03): fora do que o enunciado exige.
+- [X] **R233** · *[manual]* Ler os logs reais (`kubectl logs`) procurando nome, e-mail ou CPF — Cortado por decisão do usuário (2026-11-03): fora do que o enunciado exige.
+- [X] **R234** · *[conforme os achados]* Uma correção por achado, com teste de regressão: `🔒️ fix(<escopo>): <descrição>` — Cortado por decisão do usuário (2026-11-03): fora do que o enunciado exige.
 
 <a id="fase-17"></a>
 ## Fase 17 — Documentação final
