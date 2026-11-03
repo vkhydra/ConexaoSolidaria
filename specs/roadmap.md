@@ -84,11 +84,11 @@ O enunciado da [Atividade Substitutiva da Fase 3](../docs/adr/0018-escopo-trabal
 |---|---|---|---|
 | 1 | Uma API .NET com funcionalidades testáveis (métodos, serviços ou controladores) | Fases 3 a 6 (Identity.Api, Campanhas.Api, Worker e função) | Feito |
 | 2 | Testes unitários em xUnit, com **casos de sucesso e cenários de erro** | Fases 2 a 8 (TDD em cada tarefa), R162 | Feito: todos os projetos ≥ 90% de linhas e ramos (total 99,3% / 95,6%) |
-| 3 | Pipeline de CI (GitHub Actions) que **roda os testes unitários** | Fase 2 (R015 a R047) | Workflow pronto e commitado; falta **R046** e **R047** (conferir a execução no GitHub) |
-| 4 | Pipeline que **retorna a cobertura**, com download do relatório | Fase 2 (artefato `cobertura-testes-unitarios`) | Pronto no workflow; confirmar pelo **R047** |
+| 3 | Pipeline de CI (GitHub Actions) que **roda os testes unitários** | Fase 2 (R015 a R047) | Workflow pronto e commitado; **R046** e **R047** dispensados por decisão do usuário |
+| 4 | Pipeline que **retorna a cobertura**, com download do relatório | Fase 2 (artefato `cobertura-testes-unitarios`) | Pronto no workflow (resumo da execução e artefato); sem conferência no GitHub (R047 dispensado) |
 | 5 | **Vídeo** mostrando os passos funcionando, com mais de um teste | Fase 18 (R240 a R244) e Fase 19 (R245 a R251) | Pendente |
 
-**Caminho mínimo para a entrega:** Fases 1 a 8 (feitas), **R046 e R047**, e depois Fases 17, 18 e 19. As Fases 9 a 15 (containers, Kubernetes, gateway, carga, observabilidade, CI/CD complementar e nuvem) aplicam o conteúdo das outras fases do curso por escolha do grupo e **não são exigidas pelo enunciado**; a Fase 16 (segurança e LGPD) é conferência final.
+**Caminho mínimo para a entrega:** Fases 1 a 8 (feitas), R046 e R047 (dispensados), e depois Fases 17, 18 e 19. As Fases 9 a 15 (containers, Kubernetes, gateway, carga, observabilidade, CI/CD complementar e nuvem) aplicam o conteúdo das outras fases do curso por escolha do grupo e **não são exigidas pelo enunciado**; a Fase 16 (segurança e LGPD) é conferência final.
 
 Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e riscos](../docs/entrega-e-riscos.md#ordem-de-corte-se-faltar-tempo). **As Fases 1, 2 e as fases de features (3 a 6) nunca são cortadas**: elas entregam o requisito avaliado.
 
@@ -200,9 +200,9 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
   Commit: `📝 docs: atualiza CLAUDE.md com os comandos reais da solução`
 - [X] **R045** · Script `scripts/verificar-pre-requisitos.ps1`
   Commit: `🔧 chore: adiciona script de verificação de pré-requisitos`
-- [ ] **R046** · `009/T009` [H12] Verificar a falha da pipeline com um teste quebrado numa branch de teste (não vai para a `main`) e registrar o resultado no PR
+- [X] **R046** · `009/T009` [H12] Verificar a falha da pipeline com um teste quebrado numa branch de teste (não vai para a `main`) e registrar o resultado no PR — Dispensado em definitivo por decisão do usuário (2026-11-03); a pipeline não será conferida por este item.
   Depende de: R043 (`009/T008`)
-- [ ] **R047** · `009/T010` [H11] Executar a pipeline manualmente, baixar o artefato e conferir o relatório HTML
+- [X] **R047** · `009/T010` [H11] Executar a pipeline manualmente, baixar o artefato e conferir o relatório HTML — Dispensado em definitivo por decisão do usuário (2026-11-03); a pipeline não será conferida por este item.
   Depende de: R046 (`009/T009`)
 
 <a id="fase-3"></a>
