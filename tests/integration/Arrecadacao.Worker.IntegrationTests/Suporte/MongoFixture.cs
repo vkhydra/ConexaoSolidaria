@@ -12,7 +12,7 @@ public sealed class MongoFixture : IAsyncLifetime
     /// <summary>
     /// Container do MongoDB.
     /// </summary>
-    private readonly MongoDbContainer _container = new MongoDbBuilder("mongo:8").Build();
+    private readonly MongoDbContainer _container = new MongoDbBuilder("mongo:7.0").Build();
 
     /// <summary>
     /// Obtém a string de conexão do MongoDB do container.

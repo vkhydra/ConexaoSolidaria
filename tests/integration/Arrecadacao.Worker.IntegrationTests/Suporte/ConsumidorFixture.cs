@@ -34,7 +34,7 @@ public sealed class ConsumidorFixture : IAsyncLifetime
     /// <summary>
     /// Container do MongoDB.
     /// </summary>
-    private readonly MongoDbContainer _mongo = new MongoDbBuilder("mongo:8").Build();
+    private readonly MongoDbContainer _mongo = new MongoDbBuilder("mongo:7.0").Build();
 
     /// <summary>
     /// Banco do MongoDB usado pelos testes, com nome único por fixture.

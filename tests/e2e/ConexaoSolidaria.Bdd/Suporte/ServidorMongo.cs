@@ -27,7 +27,7 @@ public static class ServidorMongo
     [BeforeTestRun]
     public static async Task IniciarAsync()
     {
-        _container = new MongoDbBuilder("mongo:8").Build();
+        _container = new MongoDbBuilder("mongo:7.0").Build();
         await _container.StartAsync();
     }
 
