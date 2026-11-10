@@ -21,11 +21,14 @@ RUN dotnet publish src/Services/Campanhas/Campanhas.Api/Campanhas.Api.csproj \
 
 # Gera o executável de migrations (efbundle) a partir das migrations do EF Core
 FROM build AS bundle
-RUN dotnet tool restore \
+# TARGETARCH vem do Docker (amd64 ou arm64): gera o efbundle para a arquitetura da máquina
+ARG TARGETARCH
+RUN RID=$([ "$TARGETARCH" = "arm64" ] && echo linux-arm64 || echo linux-x64) \
+    && dotnet tool restore \
     && dotnet ef migrations bundle \
         --project src/Services/Campanhas/Campanhas.Infrastructure/Campanhas.Infrastructure.csproj \
         --startup-project src/Services/Campanhas/Campanhas.Api/Campanhas.Api.csproj \
-        --configuration Release --self-contained --target-runtime linux-x64 \
+        --configuration Release --self-contained --target-runtime "$RID" \
         --output /out/efbundle --force
 
 # Estágio `migrator`: roda as migrations e encerra. A conexão vem de ConnectionStrings__Campanhas.

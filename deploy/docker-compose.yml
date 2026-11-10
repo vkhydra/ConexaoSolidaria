@@ -224,6 +224,7 @@ services:
     networks: [conexao]
 
   notificacoes-function:
+    platform: linux/amd64
     build:
       context: ..
       dockerfile: src/Functions/Notificacoes.Function/Dockerfile
