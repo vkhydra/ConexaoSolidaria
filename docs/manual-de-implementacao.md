@@ -24,7 +24,7 @@ Todos os comandos rodam em **PowerShell 7 (`pwsh`)**, igual nos três sistemas. 
 ## Obter o código
 
 ```powershell
-git clone https://github.com/Kulessa/Trabalho.git
+git clone https://github.com/vkhydra/ConexaoSolidaria.git
 cd Trabalho
 dotnet tool restore                          # dotnet-ef, husky, reportgenerator
 pwsh ./scripts/verificar-pre-requisitos.ps1  # deve terminar sem pendências
@@ -157,7 +157,7 @@ Cria os `Secret` de cada serviço a partir do `.env` (modelos sem valores em `de
 
 | Opção | Comando | Quando usar |
 |---|---|---|
-| Imagens do GHCR (padrão) | O overlay `local` aponta para `ghcr.io/kulessa/trabalho/<servico>:sha-<commit>`. Com o repositório privado, criar antes o Secret de acesso: `kubectl create secret docker-registry ghcr -n conexao --docker-server=ghcr.io --docker-username=<usuário> --docker-password=<token com read:packages>` | Demonstração |
+| Imagens do GHCR (padrão) | O overlay `local` aponta para `ghcr.io/vkhydra/conexaosolidaria/<servico>:sha-<commit>`. Com o repositório privado, criar antes o Secret de acesso: `kubectl create secret docker-registry ghcr -n conexao --docker-server=ghcr.io --docker-username=<usuário> --docker-password=<token com read:packages>` | Demonstração |
 | Build local | `minikube image build -t conexao/<servico>:dev -f <caminho>/Dockerfile .` para cada serviço e `kustomize edit set image` no overlay `local` | Testar mudança ainda não publicada |
 
 ### Passo 7 — Aplicação
@@ -270,7 +270,7 @@ Os testes de integração precisam do Docker ligado (Testcontainers). Detalhes e
 
 ```powershell
 cd deploy/k8s/overlays/local
-kustomize edit set image ghcr.io/kulessa/trabalho/campanhas-api=ghcr.io/kulessa/trabalho/campanhas-api:sha-<novo>
+kustomize edit set image ghcr.io/vkhydra/conexaosolidaria/campanhas-api=ghcr.io/vkhydra/conexaosolidaria/campanhas-api:sha-<novo>
 cd ../../../..
 kubectl apply -k deploy/k8s/overlays/local
 kubectl rollout status deploy/campanhas-api -n conexao

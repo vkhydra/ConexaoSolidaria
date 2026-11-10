@@ -1,6 +1,6 @@
 # Conexão Solidária
 
-[![CI](https://github.com/Kulessa/Trabalho/actions/workflows/ci.yml/badge.svg)](https://github.com/Kulessa/Trabalho/actions/workflows/ci.yml)
+[![CI](https://github.com/vkhydra/ConexaoSolidaria/actions/workflows/ci.yml/badge.svg)](https://github.com/vkhydra/ConexaoSolidaria/actions/workflows/ci.yml)
 
 **Atividade Substitutiva da Fase 3** da PósTech FIAP — Arquitetura de Sistemas .NET com Azure: assegurar a qualidade de software de uma API .NET com **testes unitários** (casos de sucesso e de erro) e uma **pipeline de CI que executa os testes e retorna a cobertura** ([feature 009](specs/features/009-ci-testes-cobertura/spec.md)).
 

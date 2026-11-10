@@ -64,7 +64,7 @@ Depende de `testes-unitarios`. Mesmos passos de preparação, mais:
 | Labels OCI | `org.opencontainers.image.source`, `revision`, `version` |
 | Scan | Trivy na imagem carregada localmente (`severity: CRITICAL`, `ignore-unfixed: true`, `exit-code: 1`); SARIF enviado para a aba Security |
 | Push | Só se `github.event_name == 'push'` (na `main` ou tag); em PR a imagem é construída e escaneada, mas não publicada |
-| Registry | `ghcr.io/kulessa/trabalho/<servico>` (nome do GHCR sempre em minúsculas); login com `GITHUB_TOKEN`; pacotes herdam a visibilidade do repositório |
+| Registry | `ghcr.io/vkhydra/conexaosolidaria/<servico>` (nome do GHCR sempre em minúsculas); login com `GITHUB_TOKEN`; pacotes herdam a visibilidade do repositório |
 
 ### Modelo de `ci.yml` (trecho)
 ```yaml

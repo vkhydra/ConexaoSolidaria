@@ -8,7 +8,7 @@ Passos que precisam aparecer (enunciado): API .NET escolhida → testes unitári
 
 ## Preparação (antes de gravar)
 
-- [ ] `main` com a pipeline verde e pelo menos uma execução concluída (plano B). O workflow dispara em `push` na `main`, em `pull_request` para a `main` e em **Run workflow**; confira o resultado em `https://github.com/Kulessa/Trabalho/actions`.
+- [ ] `main` com a pipeline verde e pelo menos uma execução concluída (plano B). O workflow dispara em `push` na `main`, em `pull_request` para a `main` e em **Run workflow**; confira o resultado em `https://github.com/vkhydra/ConexaoSolidaria/actions`.
 - [ ] Clone limpo aberto no VS Code; `dotnet build` e `dotnet test --filter Category=Unit` já executados uma vez (para não esperar o restore na gravação).
 - [ ] Para o bloco 4, basta o botão **Run workflow** (ou o último push na `main`). O teste quebrado com PR (R046) foi dispensado e não entra no vídeo.
 - [ ] Não afirme no vídeo que a `main` é protegida ou que o merge exige a pipeline verde: isso não foi verificado.

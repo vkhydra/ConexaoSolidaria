@@ -226,7 +226,7 @@ Fim de linha: o `.gitattributes` do repositório (Etapa 3) define LF para todo o
 
 | Conta | Uso | Observação |
 |---|---|---|
-| GitHub | Repositório `Kulessa/Trabalho`, Actions, GHCR, Projects | Todos os integrantes como colaboradores |
+| GitHub | Repositório `vkhydra/ConexaoSolidaria`, Actions, GHCR, Projects | Todos os integrantes como colaboradores |
 | Discord | Comunicação do grupo | Opcional |
 | Miro | Event Storming e Domain Storytelling | Plano gratuito basta |
 | YouTube ou Google Drive | Publicação do vídeo | Link não listado ou acesso por link |

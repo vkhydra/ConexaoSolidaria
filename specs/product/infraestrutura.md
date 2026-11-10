@@ -143,7 +143,7 @@ spec:
             labelSelector: { matchLabels: { app.kubernetes.io/name: campanhas-api } } }
       containers:
         - name: campanhas-api
-          image: ghcr.io/kulessa/trabalho/campanhas-api:sha-<commit>
+          image: ghcr.io/vkhydra/conexaosolidaria/campanhas-api:sha-<commit>
           ports: [{ name: http, containerPort: 8080 }]
           envFrom:
             - configMapRef: { name: campanhas-api-config }

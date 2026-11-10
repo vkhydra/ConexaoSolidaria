@@ -102,7 +102,7 @@ Se faltar tempo, o que pode ser cortado e em que ordem está em [entrega e risco
 **Pronto quando:** Pré-requisitos verificados; colaboradores e proteção de segredos ligados; Project, issues, DoR/DoD e modelos criados; specs revisadas com `/analyze` sem achados críticos.
 
 - [ ] **R001** · *[manual]* Rodar os comandos de verificação dos [pré-requisitos](../docs/pre-requisitos.md) e conferir o Minikube com o nó `Ready`
-- [ ] **R002** · *[manual]* Adicionar os integrantes como colaboradores do repositório `Kulessa/Trabalho`
+- [ ] **R002** · *[manual]* Adicionar os integrantes como colaboradores do repositório `vkhydra/ConexaoSolidaria`
 - [ ] **R003** · *[manual]* Ligar secret scanning e push protection (Settings → Code security)
 - [ ] **R004** · *[manual]* Criar o GitHub Project com colunas, campos e labels do [processo ágil](../docs/processo-agil.md)
 - [ ] **R005** · *[manual]* Criar uma issue por feature (001 a 009) e por tarefa técnica (T01–T04), com link para a `spec.md`; estimar com Planning Poker

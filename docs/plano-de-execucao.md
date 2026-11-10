@@ -47,7 +47,7 @@ As funcionalidades (Etapas 4 a 8) seguem o fluxo de Spec-Driven Development: as 
 1. ✅ `git init`, branch `main`.
 2. ✅ `.gitignore`, `README.md`, `CLAUDE.md`, `.mcp.json`, `.claude/` (settings, comandos, agentes, skills), `.vscode/`.
 3. ✅ `specs/` (constituição, produto, 8 features), `docs/` (ADRs, runbooks, glossário, guias, manuais, roteiro do vídeo), guias de `tests/` e `scripts/`.
-4. ✅ Repositório criado e enviado: `https://github.com/Kulessa/Trabalho` (o enunciado não exige que seja público).
+4. ✅ Repositório criado e enviado: `https://github.com/vkhydra/ConexaoSolidaria` (o enunciado não exige que seja público).
 5. Adicionar os integrantes como colaboradores.
 6. Ligar secret scanning e push protection (Settings → Code security).
 
